@@ -5,10 +5,10 @@ import org.xml.sax.InputSource;
 
 import java.io.File;
 
-public interface DocumentDAO {
+public abstract class DocumentDAO {
     
-    File getFile(String path) throws DAOException;
+    public abstract File getFile(String path) throws DAOException;
     
-    InputSource getInputSource(String path);
+    public abstract InputSource getInputSource(String path);
     
 }

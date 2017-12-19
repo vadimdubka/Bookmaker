@@ -13,7 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class DocumentDAOImpl implements DocumentDAO {
+public class DocumentDAOImpl extends DocumentDAO {
     private static final Logger logger = LogManager.getLogger(DocumentDAOImpl.class);
     
     @Override
@@ -38,6 +38,7 @@ public class DocumentDAOImpl implements DocumentDAO {
         return file;
     }
     
+    @Override
     public InputSource getInputSource(String path) {
         InputStream inputStream = DocumentDAOImpl.class.getClassLoader().getResourceAsStream(path);
         InputSource inputSource = new InputSource(inputStream);
