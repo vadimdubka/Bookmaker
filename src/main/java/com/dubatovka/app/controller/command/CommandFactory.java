@@ -2,6 +2,7 @@ package com.dubatovka.app.controller.command;
 
 import com.dubatovka.app.controller.command.impl.ChangeLocaleCommand;
 import com.dubatovka.app.controller.command.impl.GotoIndexCommand;
+import com.dubatovka.app.controller.command.impl.GotoMain;
 import com.dubatovka.app.controller.command.impl.GotoManagePlayersCommand;
 import com.dubatovka.app.controller.command.impl.authorization.LoginCommand;
 import com.dubatovka.app.controller.command.impl.authorization.LogoutCommand;
@@ -33,13 +34,14 @@ public final class CommandFactory {
     
     static {
         commonCommands.put(CommandType.GOTO_INDEX, new GotoIndexCommand());
-        commonCommands.put(CommandType.CHANGE_LOCALE, new ChangeLocaleCommand());
-        commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
+        commonCommands.put(CommandType.GOTO_MAIN, new GotoMain());
         commonCommands.put(CommandType.GOTO_REGISTER, new GotoRegisterCommand());
+        commonCommands.put(CommandType.CHANGE_LOCALE, new ChangeLocaleCommand());
+        commonCommands.put(CommandType.REGISTER, new RegisterCommand());
+        commonCommands.put(CommandType.LOGIN, new LoginCommand());
+        commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
         
         guestCommands.putAll(commonCommands);
-        guestCommands.put(CommandType.REGISTER, new RegisterCommand());
-        guestCommands.put(CommandType.LOGIN, new LoginCommand());
         
         playerCommands.putAll(commonCommands);
         
@@ -56,9 +58,10 @@ public final class CommandFactory {
         
         CHANGE_LOCALE,
         
+        GOTO_MAIN,
         GOTO_INDEX,
         GOTO_REGISTER,
-    
+        
         GOTO_MANAGE_PLAYERS,
         GOTO_PAGINATION
     }

@@ -9,6 +9,6 @@ public interface CategoryService {
     /**
      * Get list of sport categories.
      */
-    public List<Category> getSportCategories();
+    List<Category> getSportCategories();
     
 }

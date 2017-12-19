@@ -25,12 +25,12 @@ body {
 .layout-positioner {
     width: 1000px;
     margin: auto;
-    /*border: 1px dashed #db1e2c;*/
+    border: 1px dashed #db1e2c;
 }
 
-/*.layout-border {
+.layout-border {
     border: 1px dashed yellow;
-}*/
+}
 
 .clearfix:after,
 .layout-positioner:after {
@@ -150,9 +150,18 @@ footer p a {
 
 .events-category {
     float: left;
+    color: black;
+    margin: 5px;
+}
+
+.events-category-header {
+    background-color: #FDC001;
     padding: 5px;
-    border: 1px solid black;
-    /*background-color: #ff8585;*/
+}
+
+.events-category-content {
+    background-color: white;
+    padding: 5px;
 }
 
 .events {

@@ -4,13 +4,13 @@ package com.dubatovka.app.controller.command.impl.authorization;
 import com.dubatovka.app.controller.command.Command;
 import com.dubatovka.app.controller.command.PageNavigator;
 import com.dubatovka.app.manager.MessageManager;
-import com.dubatovka.app.service.PlayerService;
+import com.dubatovka.app.service.impl.PlayerServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
-import static com.dubatovka.app.service.ValidatorService.*;
+import static com.dubatovka.app.service.impl.ValidatorServiceImpl.*;
 
 public class RegisterCommand implements Command {
     
@@ -21,7 +21,7 @@ public class RegisterCommand implements Command {
         String errorMessage = validateRequestParams(request);
         
         if (errorMessage.isEmpty()) {
-            PlayerService playerService = new PlayerService();
+            PlayerServiceImpl playerService = new PlayerServiceImpl();
             String email = request.getParameter(PARAM_EMAIL);
             String password = request.getParameter(PARAM_PASSWORD);
             String fName = request.getParameter(PARAM_FNAME);

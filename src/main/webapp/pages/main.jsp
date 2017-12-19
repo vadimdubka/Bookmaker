@@ -2,13 +2,14 @@
 <main>
     <div class="layout-positioner">
         <section class="events-category layout-border">
-            <p>Виды спорта</p>
-            <ul>
-                <li>Футбол</li>
-                <li>Баскетбол</li>
-                <li>Хоккей</li>
-                <li>Волейбол</li>
-            </ul>
+            <div class="events-category-header">Виды спорта</div>
+            <div class="events-category-content">
+                <ul>
+                    <c:forEach var="sport" items="${sessionScope.sport_list}">
+                        <li>${sport.name}</li>
+                    </c:forEach>
+                </ul>
+            </div>
         </section>
         <section class="events layout-border">
             <table>

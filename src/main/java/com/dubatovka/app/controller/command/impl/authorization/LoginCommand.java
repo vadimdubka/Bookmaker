@@ -7,8 +7,8 @@ import com.dubatovka.app.entity.Analyst;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
-import com.dubatovka.app.service.UserService;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.impl.UserServiceImpl;
+import com.dubatovka.app.service.impl.ValidatorServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,7 +32,7 @@ public class LoginCommand implements Command {
         
         boolean isValid = isValidData(email, password);
         if (isValid) {
-            UserService userService = new UserService();
+            UserServiceImpl userService = new UserServiceImpl();
             User user = userService.authorizeUser(email, password);
             if (user != null) {
                 setUserToSession(user);
@@ -52,11 +52,11 @@ public class LoginCommand implements Command {
     private boolean isValidData(String email, String password) {
         boolean valid = true;
         
-        if (!ValidatorService.validateEmail(email)) {
+        if (!ValidatorServiceImpl.validateEmail(email)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
             valid = false;
         }
-        if (!ValidatorService.validatePassword(password)) {
+        if (!ValidatorServiceImpl.validatePassword(password)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
             valid = false;
         }

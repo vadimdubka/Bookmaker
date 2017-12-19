@@ -56,6 +56,7 @@ public final class ConfigConstant {
     public static final String ATTR_LOCALE = "locale";
     public static final String ATTR_PREV_QUERY = "prevQuery";
     public static final String ATTR_ERROR_MESSAGE = "errorMessage";
+    public static final String ATTR_SPORT_LIST = "sport_list";
     
     /**
      * Attribute names.
@@ -134,7 +135,7 @@ public final class ConfigConstant {
      * Common JSP pages paths
      */
     public static final String PAGE_INDEX = "/index.jsp";
-    public static final String PAGE_PLAYER_MAIN = "/pages/main.jsp";
+    public static final String PAGE_MAIN = "/pages/main.jsp";
     public static final String PAGE_REGISTER = "/pages/register.jsp";
     public static final String PAGE_SUPPORT = "/pages/support.jsp";
     public static final String PAGE_PROFILE = "/pages/profile.jsp";
@@ -150,9 +151,9 @@ public final class ConfigConstant {
      * Common navigation queries
      */
     public static final String GOTO_INDEX = "/controller?command_type=goto_index";
+    public static final String GOTO_MAIN = "/controller?command_type=goto_main";
     public static final String GOTO_PAGINATION = "/controller?command_type=goto_pagination";
     public static final String GOTO_REGISTER = "/controller?command_type=goto_register";
-    public static final String GOTO_PLAYER_MAIN = "/controller?command_type=goto_player_main";
     public static final String GOTO_SUPPORT = "/controller?command=goto_support";
     public static final String GOTO_PROFILE = "/controller?command=goto_player_profile";
     public static final String GOTO_VERIFICATION = "/controller?command=goto_verification";
