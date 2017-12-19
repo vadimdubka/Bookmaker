@@ -1,0 +1,90 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://bookmaker.com/functions" prefix="j" %>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'default'}"/>
+<fmt:setBundle basename="prop.pagecontent"/>
+<!DOCTYPE html>
+<html lang="<fmt:message key="header.html.lang"/>">
+<head>
+    <title>Bookmaker Online</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="<fmt:message key="header.head.description"/>Bookmaker">
+    <meta name="keywords" content="<fmt:message key="header.head.keywords"/>">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
+</head>
+<body>
+<header>
+    <div class="layout-positioner">
+        <section class="header-top-block layout-border">
+            <a href="${pageContext.request.contextPath}/controller?command=goto_index">
+                <img class="logo-img" src="${pageContext.request.contextPath}/resources/img/logo.png"
+                     alt="Bookmaker-logo"
+                     title="Bookmaker Online">
+            </a><a href="${pageContext.request.contextPath}/controller?command=goto_index">
+            <h1>Bookmaker Online</h1>
+        </a>
+        </section>
+        <section class="header-lang-block layout-border">
+            <a class="rus" href="${pageContext.request.contextPath}/controller?command_type=change_locale&locale=ru_RU"
+               title="RU">rus</a>
+            <a class="eng" href="${pageContext.request.contextPath}/controller?command_type=change_locale&locale=en_US"
+               title="EN">eng</a>
+        </section>
+        <section class="header-user-block layout-border">
+            <c:choose>
+                <c:when test="${sessionScope.user == null}">
+                    <%@include file="../../pages/jspf/user-login.jsp" %>
+                </c:when>
+                <c:otherwise>
+                    <%@include file="../../pages/jspf/user-info.jsp" %>
+                </c:otherwise>
+            </c:choose>
+        </section>
+    </div>
+</header>
+<nav>
+    <div class="layout-positioner">
+        <ul class="nav-horizontal">
+            <li><a href="${pageContext.request.contextPath}/controller?command=goto_main">
+                <fmt:message key="header.topmenu.main"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=goto_rules">
+                <fmt:message key="header.topmenu.rules"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=goto_support">
+                <fmt:message key="header.topmenu.support"/></a></li>
+            <li><a href="#">Результаты</a></li>
+            <li><a href="#">Акции</a></li>
+            <li><a href="#">О нас</a></li>
+        </ul>
+    </div>
+</nav>
+<nav class="employee-nav">
+    <div class="layout-positioner">
+        <c:choose>
+            <c:when test="${sessionScope.admin!=null}">
+                <ul class="nav-horizontal">
+                    <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_players">
+                        <fmt:message key="leftmenu.admin.players"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_verification">
+                        <fmt:message key="leftmenu.admin.verification"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_support">
+                        <fmt:message key="leftmenu.admin.support"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_transactions">
+                        <fmt:message key="leftmenu.admin.transactions"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/controller?command=goto_stats_report">
+                        <fmt:message key="leftmenu.admin.stats"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_news">
+                        <fmt:message key="leftmenu.admin.news"/></a></li>
+                </ul>
+            </c:when>
+            <c:when test="${sessionScope.analyst!=null}">
+                <ul class="nav-horizontal">
+                    <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_events">
+                        Управление событиями</a></li>
+                </ul>
+            </c:when>
+        </c:choose>
+    </div>
+</nav>
