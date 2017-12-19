@@ -7,6 +7,11 @@
                 <ul>
                     <c:forEach var="sport" items="${sessionScope.sport_list}">
                         <li>${sport.name}</li>
+                        <ul>
+                            <c:forEach var="category" items="${sport.childCategorySet}">
+                                <li><i>${category.name}</i></li>
+                            </c:forEach>
+                        </ul>
                     </c:forEach>
                 </ul>
             </div>

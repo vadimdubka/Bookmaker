@@ -1,9 +1,12 @@
 package com.dubatovka.app.entity;
 
+import java.util.Set;
+
 public class Category {
     private int id;
     private String name;
     private int parentId;
+    private Set<Category> childCategorySet;
     
     public int getId() {
         return id;
@@ -29,6 +32,14 @@ public class Category {
         this.parentId = parentId;
     }
     
+    public Set<Category> getChildCategorySet() {
+        return childCategorySet;
+    }
+    
+    public void setChildCategorySet(Set<Category> childCategorySet) {
+        this.childCategorySet = childCategorySet;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,8 +49,9 @@ public class Category {
         
         if (id != category.id) return false;
         if (parentId != category.parentId) return false;
-        return name != null ? name.equals(category.name) : category.name == null;
-    
+        if (name != null ? !name.equals(category.name) : category.name != null) return false;
+        return childCategorySet != null ? childCategorySet.equals(category.childCategorySet) : category.childCategorySet == null;
+        
     }
     
     @Override
@@ -47,6 +59,7 @@ public class Category {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + parentId;
+        result = 31 * result + (childCategorySet != null ? childCategorySet.hashCode() : 0);
         return result;
     }
     
@@ -56,6 +69,7 @@ public class Category {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", parentId=" + parentId +
+                ", childCategorySet=" + childCategorySet +
                 '}';
     }
 }

@@ -7,19 +7,17 @@ import com.dubatovka.app.entity.Category;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CategoryDAOImpl extends AbstractDBDAO implements CategoryDAO {
-    private static final String SQL_SELECT_SPORT_CATEGORIES = "SELECT id, name, parent_id " +
+    private static final String SQL_SELECT_ALL_CATEGORIES = "SELECT id, name, parent_id " +
             "FROM category " +
-            "WHERE parent_id IS NULL " +
             "ORDER BY id";
     
     @Override
-    public List<Category> getSportCategories() throws DAOException {
-        
-        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_SPORT_CATEGORIES)) {
+    public Set<Category> getAllCategories() throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_CATEGORIES)) {
             ResultSet resultSet = statement.executeQuery();
             return buildCategory(resultSet);
         } catch (SQLException e) {
@@ -27,19 +25,15 @@ public class CategoryDAOImpl extends AbstractDBDAO implements CategoryDAO {
         }
     }
     
-    private List<Category> buildCategory(ResultSet resultSet) throws SQLException {
-        List<Category> categoryList = new ArrayList<>();
+    private Set<Category> buildCategory(ResultSet resultSet) throws SQLException {
+        Set<Category> categorySet = new HashSet<>();
         while (resultSet.next()) {
             Category category = new Category();
             category.setId(resultSet.getInt(ID));
             category.setName(resultSet.getString(NAME));
             category.setParentId(resultSet.getInt(PARENT_ID));
-            categoryList.add(category);
+            categorySet.add(category);
         }
-        return categoryList;
+        return categorySet;
     }
-    
-    
-    
-    
 }

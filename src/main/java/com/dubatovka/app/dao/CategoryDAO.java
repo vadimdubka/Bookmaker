@@ -3,7 +3,7 @@ package com.dubatovka.app.dao;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Category;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CategoryDAO {
     /**
@@ -13,5 +13,5 @@ public interface CategoryDAO {
     String NAME = "name";
     String PARENT_ID = "parent_id";
     
-    List<Category> getSportCategories() throws DAOException;
+    Set<Category> getAllCategories() throws DAOException;
 }
