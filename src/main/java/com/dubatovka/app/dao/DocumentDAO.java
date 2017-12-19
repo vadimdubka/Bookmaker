@@ -5,7 +5,7 @@ import org.xml.sax.InputSource;
 
 import java.io.File;
 
-public abstract class DocumentDAO {
+public interface DocumentDAO {
     
     public abstract File getFile(String path) throws DAOException;
     

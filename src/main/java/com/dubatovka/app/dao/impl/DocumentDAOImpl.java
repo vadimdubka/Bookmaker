@@ -13,7 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class DocumentDAOImpl extends DocumentDAO {
+public class DocumentDAOImpl implements DocumentDAO {
     private static final Logger logger = LogManager.getLogger(DocumentDAOImpl.class);
     
     @Override

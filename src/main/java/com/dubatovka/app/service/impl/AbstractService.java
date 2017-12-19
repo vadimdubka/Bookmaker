@@ -1,4 +1,4 @@
-package com.dubatovka.app.service;
+package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.DAOFactory;
 

@@ -7,24 +7,21 @@ import com.dubatovka.app.entity.PlayerProfile;
 
 import java.util.List;
 
-public abstract class PlayerDAO extends AbstractDBDAO {
+public interface PlayerDAO {
     
-    protected static final String ID = "id";
-    protected static final String FIRST_NAME = "fname";
-    protected static final String MIDDLE_NAME = "mname";
-    protected static final String LAST_NAME = "lname";
-    protected static final String EMAIL = "email";
+    String ID = "id";
+    String FIRST_NAME = "fname";
+    String MIDDLE_NAME = "mname";
+    String LAST_NAME = "lname";
+    String EMAIL = "email";
     
-    protected PlayerDAO() {
-    }
+    String defineEmailById(int id) throws DAOException;
     
-    public abstract String defineEmailById(int id) throws DAOException;
+    PlayerProfile takeProfile(int id) throws DAOException;
     
-    public abstract PlayerProfile takeProfile(int id) throws DAOException;
+    int insertUserPlayer(String email, String password) throws DAOException;
     
-    public abstract int insertUserPlayer(String email, String password) throws DAOException;
+    boolean insertPlayer(int id, String fName, String mName, String lName) throws DAOException;
     
-    public abstract boolean insertPlayer(int id, String fName, String mName, String lName) throws DAOException;
-    
-    public abstract List<Player> readPlayers() throws DAOException;
+    List<Player> readPlayers() throws DAOException;
 }

@@ -1,4 +1,6 @@
-package com.dubatovka.app.dao;
+package com.dubatovka.app.dao.impl;
+
+import com.dubatovka.app.dao.DBConnection;
 
 import java.sql.Connection;
 

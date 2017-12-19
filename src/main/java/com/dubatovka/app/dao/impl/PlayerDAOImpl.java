@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerDAOImpl extends PlayerDAO {
+public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     private static final String SQL_SELECT_ALL_PLAYERS = "SELECT * FROM player ORDER BY fname";
     
     private static final String SQL_DEFINE_EMAIL_BY_ID = "SELECT email FROM user WHERE id=?";

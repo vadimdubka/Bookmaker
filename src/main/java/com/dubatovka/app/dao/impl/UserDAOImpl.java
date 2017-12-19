@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class UserDAOImpl extends UserDAO {
+public class UserDAOImpl extends AbstractDBDAO implements UserDAO {
     private static final String SQL_AUTH = "SELECT id, email, role, registration_date " +
             "FROM user " +
             "WHERE email=? AND password=?";
