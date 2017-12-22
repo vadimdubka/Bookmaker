@@ -7,6 +7,8 @@ import com.dubatovka.app.entity.Analyst;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.service.ServiceFactory;
+import com.dubatovka.app.service.ValidatorService;
 import com.dubatovka.app.service.impl.UserServiceImpl;
 import com.dubatovka.app.service.impl.ValidatorServiceImpl;
 
@@ -19,6 +21,7 @@ public class LoginCommand implements Command {
     private HttpSession session;
     private MessageManager messageManager;
     private StringBuilder errorMessage;
+    private static ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
@@ -52,11 +55,11 @@ public class LoginCommand implements Command {
     private boolean isValidData(String email, String password) {
         boolean valid = true;
         
-        if (!ValidatorServiceImpl.validateEmail(email)) {
+        if (!validatorService.validateEmail(email)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
             valid = false;
         }
-        if (!ValidatorServiceImpl.validatePassword(password)) {
+        if (!validatorService.validatePassword(password)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
             valid = false;
         }

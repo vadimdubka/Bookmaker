@@ -7,17 +7,19 @@ import com.dubatovka.app.entity.Analyst;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.Encryptor;
+import com.dubatovka.app.service.UserService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UserServiceImpl extends AbstractService {
+public class UserServiceImpl extends AbstractService implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private final UserDAO userDAO = daoFactory.getUserDAO();
     
     /**
      * Provides authorisation operation for user. Calls DAO layer to init {@link User} object due to given parameters.
      */
+    @Override
     public User authorizeUser(String email, String password) {
         email = email.toLowerCase().trim();
         password = Encryptor.encryptMD5(password);

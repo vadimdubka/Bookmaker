@@ -9,23 +9,19 @@
 <head>
     <title>Bookmaker Online</title>
     <meta charset="UTF-8">
-    <meta name="description" content="<fmt:message key="header.head.description"/>Bookmaker">
+    <meta name="description" content="<fmt:message key="header.head.description"/>">
     <meta name="keywords" content="<fmt:message key="header.head.keywords"/>">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body>
 <header>
     <div class="layout-positioner">
         <section class="header-top-block border-test">
-            <a href="${pageContext.request.contextPath}/controller?command=goto_index">
+            <a href="${pageContext.request.contextPath}/controller?command_type=goto_index">
                 <img class="logo-img" src="${pageContext.request.contextPath}/resources/img/logo.png"
-                     alt="Bookmaker-logo"
-                     title="Bookmaker Online">
-            </a><a href="${pageContext.request.contextPath}/controller?command=goto_index">
-            <h1>Bookmaker Online</h1>
-        </a>
+                     alt="Bookmaker-logo" title="Bookmaker Online"></a>
+            <a href="${pageContext.request.contextPath}/controller?command_type=goto_index">
+                <h1><fmt:message key="header.sitename"/></h1></a>
         </section>
         <section class="header-lang-block border-test">
             <a class="rus" href="${pageContext.request.contextPath}/controller?command_type=change_locale&locale=ru_RU"

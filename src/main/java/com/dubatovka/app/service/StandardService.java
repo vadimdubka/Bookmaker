@@ -2,6 +2,7 @@ package com.dubatovka.app.service;
 
 import java.util.Set;
 
-public interface OutcomeService {
+//TODO удалить по завершению проекта
+public interface StandardService {
     Set<Object> mockMethod(String id);
 }

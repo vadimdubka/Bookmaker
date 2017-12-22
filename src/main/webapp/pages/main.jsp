@@ -5,13 +5,15 @@
             <div class="block-header">Виды спорта</div>
             <div class="block-content">
                 <ul>
-                    <c:forEach var="sport" items="${sessionScope.sport_list}">
+                    <c:forEach var="sport" items="${requestScope.sport_set}">
                         <li>
                             <div class="sport-name">${sport.name}</div>
                             <ul>
                                 <c:forEach var="category" items="${sport.childCategorySet}">
                                     <li>
-                                        <div class="category-name">${category.name}</div>
+                                        <div class="category-name">
+                                            <a href="${pageContext.servletContext.contextPath}/controller?command_type=goto_main&category_id=${category.id}">${category.name}
+                                            </a></div>
                                     </li>
                                 </c:forEach>
                             </ul>

@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
  * Create database connection
  */
 
-public class DBConnection {
+public final class DBConnection {
     private static final Logger logger = LogManager.getLogger(DBConnection.class);
     
     private static final String DB_PROPERTIES = "database";

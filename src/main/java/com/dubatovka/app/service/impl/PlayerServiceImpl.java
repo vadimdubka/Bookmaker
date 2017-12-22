@@ -5,16 +5,18 @@ import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.PlayerProfile;
 import com.dubatovka.app.manager.Encryptor;
+import com.dubatovka.app.service.PlayerService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class PlayerServiceImpl extends AbstractService {
+public class PlayerServiceImpl extends AbstractService implements PlayerService{
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
     private final PlayerDAO playerDAO = daoFactory.getPlayerDAO();
     
+    @Override
     public List<Player> getAllPlayers() {
         List<Player> playerList = null;
         try {
@@ -27,6 +29,7 @@ public class PlayerServiceImpl extends AbstractService {
     }
     
     //TODO разбить на 2 метда, который проверяет, есть ли игрок или нет
+    @Override
     public boolean registerPlayer(String email, String password, String fName, String mName, String lName) {
         email = email.trim().toLowerCase();
         password = Encryptor.encryptMD5(password);
@@ -55,6 +58,7 @@ public class PlayerServiceImpl extends AbstractService {
     }
     
     //TODO разбить на 2 метда, который проверяет, есть ли игрок или нет
+    @Override
     public boolean updateProfileInfo(Player player) {
         int id = player.getId();
         try {

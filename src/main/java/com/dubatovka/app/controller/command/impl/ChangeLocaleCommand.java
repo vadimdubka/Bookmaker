@@ -14,7 +14,7 @@ public class ChangeLocaleCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Object locale  = request.getParameter(PARAM_LOCALE);
+        String locale  = request.getParameter(PARAM_LOCALE);
         if (locale != null) {
             session.setAttribute(ATTR_LOCALE, locale);
         } else {

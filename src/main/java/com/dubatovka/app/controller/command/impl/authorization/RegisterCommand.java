@@ -4,15 +4,17 @@ package com.dubatovka.app.controller.command.impl.authorization;
 import com.dubatovka.app.controller.command.Command;
 import com.dubatovka.app.controller.command.PageNavigator;
 import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.service.ServiceFactory;
+import com.dubatovka.app.service.ValidatorService;
 import com.dubatovka.app.service.impl.PlayerServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
-import static com.dubatovka.app.service.impl.ValidatorServiceImpl.*;
 
 public class RegisterCommand implements Command {
+    private static ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
@@ -52,28 +54,28 @@ public class RegisterCommand implements Command {
         String mName = request.getParameter(PARAM_MNAME);
         String lName = request.getParameter(PARAM_LNAME);
         
-        if (validateEmail(email)) {
+        if (validatorService.validateEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
         }
         
-        if (!validatePassword(password, passwordAgain)) {
+        if (!validatorService.validatePassword(password, passwordAgain)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(WHITESPACE)
                     .append(messageManager.getMessage(MESSAGE_PASSWORD_MISMATCH)).append(MESSAGE_SEPARATOR);
         }
         
-        if (validateName(fName)) {
+        if (validatorService.validateName(fName)) {
             request.setAttribute(ATTR_FNAME_INPUT, fName);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_NAME)).append(MESSAGE_SEPARATOR);
         }
-        if (validateName(mName)) {
+        if (validatorService.validateName(mName)) {
             request.setAttribute(ATTR_MNAME_INPUT, mName);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_NAME)).append(MESSAGE_SEPARATOR);
         }
-        if (validateName(lName)) {
+        if (validatorService.validateName(lName)) {
             request.setAttribute(ATTR_LNAME_INPUT, lName);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_NAME)).append(MESSAGE_SEPARATOR);
