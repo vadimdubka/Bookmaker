@@ -18,7 +18,7 @@
 <body>
 <header>
     <div class="layout-positioner">
-        <section class="header-top-block layout-border">
+        <section class="header-top-block border-test">
             <a href="${pageContext.request.contextPath}/controller?command=goto_index">
                 <img class="logo-img" src="${pageContext.request.contextPath}/resources/img/logo.png"
                      alt="Bookmaker-logo"
@@ -27,13 +27,13 @@
             <h1>Bookmaker Online</h1>
         </a>
         </section>
-        <section class="header-lang-block layout-border">
+        <section class="header-lang-block border-test">
             <a class="rus" href="${pageContext.request.contextPath}/controller?command_type=change_locale&locale=ru_RU"
                title="RU">rus</a>
             <a class="eng" href="${pageContext.request.contextPath}/controller?command_type=change_locale&locale=en_US"
                title="EN">eng</a>
         </section>
-        <section class="header-user-block layout-border">
+        <section class="header-user-block border-test">
             <c:choose>
                 <c:when test="${sessionScope.user == null}">
                     <%@include file="user-login.jsp" %>

@@ -21,17 +21,36 @@ body {
     background: #14181B;
 }
 
-/*Для разметки основных блоков страницы*/
+/*Для разметки главных блоков страницы*/
 .layout-positioner {
     width: 1000px;
     margin: auto;
     border: 1px dashed #db1e2c;
 }
 
-.layout-border {
+/*Блоки внутри layout-positioner, чаще всего в пределах тега section*/
+.block-float {
+    float: left;
+    color: black;
+    padding: 2.5px;
+}
+
+.block-header {
+    background-color: #FDC001;
+    padding: 5px;
+}
+
+.block-content {
+    background-color: white;
+    padding: 5px;
+}
+
+/*Отрисовка сетки с целью тесрирования*/
+.border-test {
     border: 1px dashed yellow;
 }
 
+/*Распорка, чтобы последующие блоки учитывали верхние плавающие блоки*/
 .clearfix:after,
 .layout-positioner:after {
     content: '';
@@ -129,11 +148,6 @@ footer p a {
     float: left;
     min-width: 200px;
     min-height: 50px;
-    border: 1px solid black;
-}
-
-.main-right-block {
-    float: right;
 }
 
 .login input:focus {
@@ -148,27 +162,31 @@ footer p a {
     background-color: #9de6e9;
 }
 
-.events-category {
-    float: left;
-    color: black;
-    margin: 5px;
+main .category {
+    min-width: 200px;
 }
 
-.events-category-header {
-    background-color: #FDC001;
-    padding: 5px;
+main .events {
+    min-width: 500px;
 }
 
-.events-category-content {
-    background-color: white;
-    padding: 5px;
+main .player {
+
 }
 
-.events {
-    float: left;
-    /*background-color: #ff8585;*/
-    padding: 5px;
-    border: 1px solid black;
+.block-content li ul {
+    display: none;
+}
+
+.block-content li {;
+}
+
+.block-content > ul > li:hover {
+    background-color: lightgrey;
+}
+
+.block-content li:hover ul {
+    display: block;
 }
 
 table {
@@ -233,7 +251,6 @@ th {
 }
 
 /*Styles sastny*/
-
 input,
 button {
     outline: none;
@@ -253,7 +270,7 @@ img {
 
 a {
     text-decoration: none;
-    color: white;
+    color: red;
 }
 
 ul {
