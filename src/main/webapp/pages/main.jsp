@@ -42,17 +42,11 @@
                     </tr>
                 </table>
             </div>
-
         </section>
-        <section class="block-float border-test player ">
-            <div class="block-header">Аккаунт игрока</div>
-            <div class="block-content">
-                <c:choose>
-                    <c:when test="${sessionScope.player != null}">
-                        <%@include file="jspf/player-menu.jsp" %>
-                    </c:when>
-                </c:choose>
-            </div>
-        </section>
+        <c:choose>
+            <c:when test="${sessionScope.player != null}">
+                <%@include file="jspf/player-menu.jsp" %>
+            </c:when>
+        </c:choose>
     </div>
 </main>

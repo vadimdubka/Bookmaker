@@ -11,7 +11,7 @@
                 <input id="email-input" type="email" name="email" value=""
                        pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
                        title="<fmt:message key="register.email.title"/>"
-                       maxlength="320" required autofocus/><br/>
+                       maxlength="320" required/><br/>
             </div>
             <div class="input-block">
                 <label class="required" for="password-input"><fmt:message key="register.password"/></label>

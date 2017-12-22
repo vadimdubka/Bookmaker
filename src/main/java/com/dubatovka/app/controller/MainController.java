@@ -3,6 +3,7 @@ package com.dubatovka.app.controller;
 import com.dubatovka.app.controller.command.Command;
 import com.dubatovka.app.controller.command.CommandFactory;
 import com.dubatovka.app.controller.command.PageNavigator;
+import com.dubatovka.app.manager.QueryManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -44,6 +45,9 @@ public class MainController extends HttpServlet {
     
     private void processNavigator(HttpServletRequest request, HttpServletResponse response, PageNavigator navigator) throws ServletException, IOException {
         String query = navigator.getQuery();
+        if (PREV_QUERY.equals(query)) {
+            query = QueryManager.takePreviousQuery(request);
+        }
         String responseType = navigator.getResponseType();
         switch (responseType) {
             case FORWARD:

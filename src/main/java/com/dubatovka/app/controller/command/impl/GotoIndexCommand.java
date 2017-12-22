@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class GotoIndexCommand implements Command {
     
+    @Override
     public PageNavigator execute(HttpServletRequest request) {
         return PageNavigator.REDIRECT_PAGE_INDEX;
     }

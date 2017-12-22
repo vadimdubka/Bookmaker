@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Set;
 
-import static com.dubatovka.app.controller.command.PageNavigator.FORWARD_PAGE_MAIN;
 import static com.dubatovka.app.manager.ConfigConstant.ATTR_SPORT_LIST;
 
 public class GotoMain implements Command {
@@ -26,6 +25,6 @@ public class GotoMain implements Command {
         
         //TODO убрать ниже
         QueryManager.saveQueryToSession(request);
-        return FORWARD_PAGE_MAIN;
+        return PageNavigator.FORWARD_PAGE_MAIN;
     }
 }
