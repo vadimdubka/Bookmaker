@@ -14,9 +14,6 @@ public class UserDAOImpl extends AbstractDBDAO implements UserDAO {
             "FROM user " +
             "WHERE email=? AND password=?";
     
-    public UserDAOImpl() {
-    }
-    
     @Override
     public User authorizeUser(String email, String password) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_AUTH)) {

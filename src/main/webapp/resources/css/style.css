@@ -162,6 +162,7 @@ footer p a {
     background-color: #9de6e9;
 }
 
+/*Main page*/
 main .category {
     min-width: 250px;
 }
@@ -189,18 +190,17 @@ main .player {
     display: block;
 }
 
+/*Table*/
 table {
     border-collapse: collapse;
-    border: 2px solid dimgrey;
+    border: 1px solid dimgrey;
 }
 
 td {
-    /*border-bottom: 1px solid lightgray;*/
     border: 1px solid dimgrey;
     padding: 5px;
     text-align: center;
     color: black;
-    /*background-color: white;*/
 }
 
 tr:nth-child(2n) {
@@ -212,8 +212,8 @@ tr:nth-child(2n+1) {
 }
 
 th {
-    padding: 10px;
-    border: 2px solid dimgrey;
+    padding: 5px;
+    border: 1px solid dimgrey;
     background-color: lightgray;
     color: black;
 }
@@ -221,8 +221,7 @@ th {
 .events caption {
     text-align: left;
 }
-
-/**/
+/***************************/
 
 .promo {
     background: #c0392b;

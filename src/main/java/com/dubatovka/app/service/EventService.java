@@ -6,4 +6,6 @@ import java.util.Set;
 
 public interface EventService {
     Set<Event> getActualEventsByCategoryId(String categoryId);
+    
+    Set<Event> getAllEventsByCategoryId(String categoryId);
 }

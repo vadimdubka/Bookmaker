@@ -1,13 +1,13 @@
 package com.dubatovka.app.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Event {
     private int id;
     private int categoryId;
-    private Date date;
+    private LocalDate date;
     private String participant1;
-    private String getParticipant2;
+    private String participant2;
     private int result1;
     private int result2;
     
@@ -27,11 +27,11 @@ public class Event {
         this.categoryId = categoryId;
     }
     
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
     
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
     
@@ -43,12 +43,12 @@ public class Event {
         this.participant1 = participant1;
     }
     
-    public String getGetParticipant2() {
-        return getParticipant2;
+    public String getParticipant2() {
+        return participant2;
     }
     
-    public void setGetParticipant2(String getParticipant2) {
-        this.getParticipant2 = getParticipant2;
+    public void setParticipant2(String participant2) {
+        this.participant2 = participant2;
     }
     
     public int getResult1() {
@@ -80,7 +80,7 @@ public class Event {
         if (result2 != event.result2) return false;
         if (date != null ? !date.equals(event.date) : event.date != null) return false;
         if (participant1 != null ? !participant1.equals(event.participant1) : event.participant1 != null) return false;
-        return getParticipant2 != null ? getParticipant2.equals(event.getParticipant2) : event.getParticipant2 == null;
+        return participant2 != null ? participant2.equals(event.participant2) : event.participant2 == null;
         
     }
     
@@ -90,7 +90,9 @@ public class Event {
         result = 31 * result + categoryId;
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (participant1 != null ? participant1.hashCode() : 0);
-        result = 31 * result + (getParticipant2 != null ? getParticipant2.hashCode() : 0);
+        result = 31 * result + (participant2 != null ? participant2.hashCode() : 0);
+        result = 31 * result + result1;
+        result = 31 * result + result2;
         return result;
     }
     
@@ -101,7 +103,7 @@ public class Event {
                 ", categoryId=" + categoryId +
                 ", date=" + date +
                 ", participant1='" + participant1 + '\'' +
-                ", getParticipant2='" + getParticipant2 + '\'' +
+                ", participant2='" + participant2 + '\'' +
                 ", result1=" + result1 +
                 ", result2=" + result2 +
                 '}';
