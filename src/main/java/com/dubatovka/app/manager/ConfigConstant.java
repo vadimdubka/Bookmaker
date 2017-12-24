@@ -205,6 +205,15 @@ public final class ConfigConstant {
     public static final String MAIN_CONTROLLER = "MainController";
     public static final String MAIN_CONTROLLER_URL = "/controller";
     
+    //TODO Перенести private static final String в файл с констрантами
+    /**
+     * Otcomes types for events
+     * */
+    public static final String OUTCOME_TYPE_NAME_KEY = "name";
+    public static final String OUTCOME_TYPE_1 = "1";
+    public static final String OUTCOME_TYPE_X = "X";
+    public static final String OUTCOME_TYPE_2 = "2";
+    
     private ConfigConstant() {
     }
 }

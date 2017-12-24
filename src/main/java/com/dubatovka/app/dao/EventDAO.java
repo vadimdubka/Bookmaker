@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface EventDAO {
     /**
-     * Column names of database table 'x'.
+     * Column names of database table 'event'.
      */
     String ID = "id";
     String CATEGORY_ID = "category_id";

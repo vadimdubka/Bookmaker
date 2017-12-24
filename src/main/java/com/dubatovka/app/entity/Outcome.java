@@ -2,7 +2,7 @@ package com.dubatovka.app.entity;
 
 public class Outcome {
     private int eventId;
-    private OutcomeType type;
+    private String type;
     private double coefficient;
     
     public int getEventId() {
@@ -13,11 +13,11 @@ public class Outcome {
         this.eventId = eventId;
     }
     
-    public OutcomeType getType() {
+    public String getType() {
         return type;
     }
     
-    public void setType(OutcomeType type) {
+    public void setType(String type) {
         this.type = type;
     }
     
@@ -57,7 +57,7 @@ public class Outcome {
     public String toString() {
         return "Outcome{" +
                 "eventId=" + eventId +
-                ", type=" + type +
+                ", type='" + type + '\'' +
                 ", coefficient=" + coefficient +
                 '}';
     }

@@ -21,18 +21,18 @@ public class CategoryServiceImpl extends AbstractService implements CategoryServ
         if ((sportCategories == null) || isCategoriesModified) {
             try {
                 Set<Category> categorySet = categoryDAO.getAllCategories();
-                isCategoriesModified = false;
                 sportCategories = buildCategoryHierarchy(categorySet);
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());
             }
         }
+        isCategoriesModified = false;
         return sportCategories;
     }
     
     private Set<Category> buildCategoryHierarchy(Collection<Category> categorySet) {
         Map<Integer, Category> sportCategoriesMap = pickOutSportCategories(categorySet);
-        fillSportWithCategories (sportCategoriesMap, categorySet);
+        fillSportWithCategories(sportCategoriesMap, categorySet);
         
         Set<Category> sportCategoriesSet = new HashSet<>(sportCategoriesMap.values());
         return sportCategoriesSet;

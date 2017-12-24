@@ -33,18 +33,19 @@
                                 <th>№</th>
                                 <th>Дата</th>
                                 <th>Событие</th>
-                                <th>1</th>
-                                <th>X</th>
-                                <th>2</th>
+                                <th>${requestScope.type_1_map.name}</th>
+                                <th>${requestScope.type_x_map.name}</th>
+                                <th>${requestScope.type_2_map.name}</th>
                             </tr>
                             <c:forEach var="event" items="${requestScope.event_set}">
+                                <c:set var="event_id">${event.id}</c:set>
                                 <tr>
                                     <td>${event.id}</td>
                                     <td>${event.date}</td>
                                     <td>${event.participant1} - ${event.participant2}</td>
-                                    <td>1.36</td>
-                                    <td>4.4</td>
-                                    <td>11.5</td>
+                                    <td>${requestScope.type_1_map[event_id]}</td>
+                                    <td>${requestScope.type_x_map[event_id]}</td>
+                                    <td>${requestScope.type_2_map[event_id]}</td>
                                 </tr>
                             </c:forEach>
                         </table>

@@ -10,37 +10,52 @@ import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_SPORT_SET;
+import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class GotoMain implements Command {
+    public static final String PARAM_CATEGORY_ID = "category_id";
+    public static final String ATTR_EVENT_SET = "event_set";
+    public static final String ATTR_TYPE_1_MAP = "type_1_map";
+    public static final String ATTR_TYPE_X_MAP = "type_x_map";
+    public static final String ATTR_TYPE_2_MAP = "type_2_map";
     
-    //TODO перенести в Constants
-    private static final String PARAM_CATEGORY_ID = "category_id";
-    private static final String ATTR_EVENT_SET = "event_set";
+    private static final ServiceFactory serviceFactoryInstance = ServiceFactory.getInstance();
+    private final CategoryService categoryService = serviceFactoryInstance.getCategoryService();
+    private final EventService eventService = serviceFactoryInstance.getEventService();
+    
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        
-        ServiceFactory serviceFactoryInstance = ServiceFactory.getInstance();
-        CategoryService categoryService = serviceFactoryInstance.getCategoryService();
-        EventService eventService = serviceFactoryInstance.getEventService();
+        Set<Category> sportSet = categoryService.getSportCategories();
+        request.setAttribute(ATTR_SPORT_SET, sportSet);
         
         String categoryId = request.getParameter(PARAM_CATEGORY_ID);
-        
-        Set<Category> sportSet = categoryService.getSportCategories();
-        Set<Event> eventSet;
-        if (categoryId != null) {
-            eventSet = eventService.getActualEventsByCategoryId(categoryId);
-        } else {
-            eventSet = null;
-        }
-        
-        request.setAttribute(ATTR_SPORT_SET, sportSet);
-        request.setAttribute(ATTR_EVENT_SET, eventSet);
+        extractEvents(request, categoryId);
         
         QueryManager.saveQueryToSession(request);
         return PageNavigator.FORWARD_PAGE_MAIN;
+    }
+    
+    private void extractEvents(HttpServletRequest request, String categoryId) {
+        Set<Event> eventSet = null;
+        if (categoryId != null) {
+            eventSet = eventService.getActualEventsByCategoryId(categoryId);
+            extractOutcomes(request, eventSet);
+        }
+        request.setAttribute(ATTR_EVENT_SET, eventSet);
+    }
+    
+    private void extractOutcomes(HttpServletRequest request, Set<Event> eventSet) {
+        Map<String, Map<String, String>> coeffColumnMaps = eventService.getCoeffColumnMaps(eventSet);
+        Map<String, String> type1Map = coeffColumnMaps.get(OUTCOME_TYPE_1);
+        Map<String, String> typeXMap = coeffColumnMaps.get(OUTCOME_TYPE_X);
+        Map<String, String> type2Map = coeffColumnMaps.get(OUTCOME_TYPE_2);
+        
+        request.setAttribute(ATTR_TYPE_1_MAP, type1Map);
+        request.setAttribute(ATTR_TYPE_X_MAP, typeXMap);
+        request.setAttribute(ATTR_TYPE_2_MAP, type2Map);
     }
 }

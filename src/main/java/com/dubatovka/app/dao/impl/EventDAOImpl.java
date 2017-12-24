@@ -22,18 +22,18 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     
     @Override
     public Set<Event> getAllEventsByCategoryId(String categoryId) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_EVENTS_BY_ID)) {
-            statement.setString(1, categoryId);
-            ResultSet resultSet = statement.executeQuery();
-            return buildEvent(resultSet);
-        } catch (SQLException e) {
-            throw new DAOException("Database connection error while getting sport event. " + e);
-        }
+        Set<Event> eventSet = getEventsByCategoryId(categoryId, SQL_SELECT_ALL_EVENTS_BY_ID);
+        return eventSet;
     }
     
     @Override
     public Set<Event> getActualEventsByCategoryId(String categoryId) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ACTUAL_EVENTS_BY_ID)) {
+        Set<Event> eventSet = getEventsByCategoryId(categoryId, SQL_SELECT_ACTUAL_EVENTS_BY_ID);
+        return eventSet;
+    }
+    
+    private Set<Event> getEventsByCategoryId(String categoryId, String sqlQuery) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setString(1, categoryId);
             ResultSet resultSet = statement.executeQuery();
             return buildEvent(resultSet);
