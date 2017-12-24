@@ -10,5 +10,5 @@ public interface EventService {
     
     Set<Event> getAllEventsByCategoryId(String categoryId);
     
-    Map<String, Map<String, String>> getCoeffColumnMaps(Set<Event> eventSet);
+    Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet);
 }

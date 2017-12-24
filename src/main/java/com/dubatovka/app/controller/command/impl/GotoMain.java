@@ -33,23 +33,23 @@ public class GotoMain implements Command {
         request.setAttribute(ATTR_SPORT_SET, sportSet);
         
         String categoryId = request.getParameter(PARAM_CATEGORY_ID);
-        extractEvents(request, categoryId);
+        extractActualEvents(request, categoryId);
         
         QueryManager.saveQueryToSession(request);
         return PageNavigator.FORWARD_PAGE_MAIN;
     }
     
-    private void extractEvents(HttpServletRequest request, String categoryId) {
+    private void extractActualEvents(HttpServletRequest request, String categoryId) {
         Set<Event> eventSet = null;
         if (categoryId != null) {
             eventSet = eventService.getActualEventsByCategoryId(categoryId);
-            extractOutcomes(request, eventSet);
+            extractOutcomesForEvents(request, eventSet);
         }
         request.setAttribute(ATTR_EVENT_SET, eventSet);
     }
     
-    private void extractOutcomes(HttpServletRequest request, Set<Event> eventSet) {
-        Map<String, Map<String, String>> coeffColumnMaps = eventService.getCoeffColumnMaps(eventSet);
+    private void extractOutcomesForEvents(HttpServletRequest request, Set<Event> eventSet) {
+        Map<String, Map<String, String>> coeffColumnMaps = eventService.getOutcomeColumnMaps(eventSet);
         Map<String, String> type1Map = coeffColumnMaps.get(OUTCOME_TYPE_1);
         Map<String, String> typeXMap = coeffColumnMaps.get(OUTCOME_TYPE_X);
         Map<String, String> type2Map = coeffColumnMaps.get(OUTCOME_TYPE_2);
