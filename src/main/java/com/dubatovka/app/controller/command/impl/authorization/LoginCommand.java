@@ -8,9 +8,9 @@ import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.ServiceFactory;
+import com.dubatovka.app.service.UserService;
 import com.dubatovka.app.service.ValidatorService;
 import com.dubatovka.app.service.impl.UserServiceImpl;
-import com.dubatovka.app.service.impl.ValidatorServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,27 +18,23 @@ import javax.servlet.http.HttpSession;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class LoginCommand implements Command {
-    private HttpSession session;
-    private MessageManager messageManager;
-    private StringBuilder errorMessage;
-    private static ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        session = request.getSession();
+        HttpSession session = request.getSession();
         String locale = (String) session.getAttribute(ATTR_LOCALE);
-        messageManager = MessageManager.getMessageManager(locale);
-        errorMessage = new StringBuilder();
+        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        StringBuilder errorMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
         
-        boolean isValid = isValidData(email, password);
+        boolean isValid = isValidData(email, password, errorMessage, messageManager);
         if (isValid) {
-            UserServiceImpl userService = new UserServiceImpl();
+            UserService userService = new UserServiceImpl();
             User user = userService.authorizeUser(email, password);
             if (user != null) {
-                setUserToSession(user);
+                setUserToSession(user, session);
             } else {
                 errorMessage.append(messageManager.getMessage(MESSAGE_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
                 request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString().trim());
@@ -52,7 +48,8 @@ public class LoginCommand implements Command {
         return navigator;
     }
     
-    private boolean isValidData(String email, String password) {
+    private boolean isValidData(String email, String password, StringBuilder errorMessage, MessageManager messageManager) {
+        ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
         boolean valid = true;
         
         if (!validatorService.validateEmail(email)) {
@@ -66,7 +63,7 @@ public class LoginCommand implements Command {
         return valid;
     }
     
-    private void setUserToSession(User user) {
+    private void setUserToSession(User user, HttpSession session) {
         session.setAttribute(ATTR_USER, user);
         session.setAttribute(ATTR_ROLE, user.getRole());
         Class userClass = user.getClass();

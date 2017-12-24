@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class RegisterCommand implements Command {
-    private static ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
@@ -41,7 +40,8 @@ public class RegisterCommand implements Command {
         return navigator;
     }
     
-    private static String validateRequestParams(HttpServletRequest request) {
+    private String validateRequestParams(HttpServletRequest request) {
+        ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
         HttpSession session = request.getSession();
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);

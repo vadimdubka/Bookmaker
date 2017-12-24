@@ -23,12 +23,11 @@ public class GotoMain implements Command {
     public static final String ATTR_TYPE_2_MAP = "type_2_map";
     
     private static final ServiceFactory serviceFactoryInstance = ServiceFactory.getInstance();
-    private final CategoryService categoryService = serviceFactoryInstance.getCategoryService();
-    private final EventService eventService = serviceFactoryInstance.getEventService();
-    
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
+        CategoryService categoryService = serviceFactoryInstance.getCategoryService();
+        
         Set<Category> sportSet = categoryService.getSportCategories();
         request.setAttribute(ATTR_SPORT_SET, sportSet);
         
@@ -40,15 +39,16 @@ public class GotoMain implements Command {
     }
     
     private void extractActualEvents(HttpServletRequest request, String categoryId) {
+        EventService eventService = serviceFactoryInstance.getEventService();
         Set<Event> eventSet = null;
         if (categoryId != null) {
             eventSet = eventService.getActualEventsByCategoryId(categoryId);
-            extractOutcomesForEvents(request, eventSet);
+            extractOutcomesForEvents(request, eventSet, eventService);
         }
         request.setAttribute(ATTR_EVENT_SET, eventSet);
     }
     
-    private void extractOutcomesForEvents(HttpServletRequest request, Set<Event> eventSet) {
+    private void extractOutcomesForEvents(HttpServletRequest request, Set<Event> eventSet, EventService eventService) {
         Map<String, Map<String, String>> coeffColumnMaps = eventService.getOutcomeColumnMaps(eventSet);
         Map<String, String> type1Map = coeffColumnMaps.get(OUTCOME_TYPE_1);
         Map<String, String> typeXMap = coeffColumnMaps.get(OUTCOME_TYPE_X);
