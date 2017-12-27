@@ -1,13 +1,13 @@
-package com.dubatovka.app.controller.command;
+package com.dubatovka.app.controller;
 
-import com.dubatovka.app.controller.command.impl.ChangeLocaleCommand;
-import com.dubatovka.app.controller.command.impl.GotoIndexCommand;
-import com.dubatovka.app.controller.command.impl.GotoMain;
-import com.dubatovka.app.controller.command.impl.GotoManagePlayersCommand;
-import com.dubatovka.app.controller.command.impl.authorization.LoginCommand;
-import com.dubatovka.app.controller.command.impl.authorization.LogoutCommand;
-import com.dubatovka.app.controller.command.impl.authorization.RegisterCommand;
-import com.dubatovka.app.controller.command.navigation.GotoRegisterCommand;
+import com.dubatovka.app.controller.command_impl.ChangeLocaleCommand;
+import com.dubatovka.app.controller.command_impl.navigation.GotoIndexCommand;
+import com.dubatovka.app.controller.command_impl.navigation.GotoMain;
+import com.dubatovka.app.controller.command_impl.navigation.GotoManagePlayersCommand;
+import com.dubatovka.app.controller.command_impl.authorization.LoginCommand;
+import com.dubatovka.app.controller.command_impl.authorization.LogoutCommand;
+import com.dubatovka.app.controller.command_impl.authorization.RegisterCommand;
+import com.dubatovka.app.controller.command_impl.navigation.GotoRegisterCommand;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.ConfigConstant;
 import org.apache.logging.log4j.Level;
@@ -51,21 +51,6 @@ public final class CommandFactory {
         analystCommands.putAll(commonCommands);
     }
     
-    private enum CommandType {
-        REGISTER,
-        LOGIN,
-        LOGOUT,
-        
-        CHANGE_LOCALE,
-        
-        GOTO_MAIN,
-        GOTO_INDEX,
-        GOTO_REGISTER,
-        
-        GOTO_MANAGE_PLAYERS,
-        GOTO_PAGINATION
-    }
-    
     private CommandFactory() {
     }
     
@@ -101,7 +86,6 @@ public final class CommandFactory {
             }
         } else {
             logger.log(Level.ERROR, String.format(LOG_FOR_COMMAND_TYPE, commandTypeName, request.getHeader(REFERER)));
-            
             command = new GotoIndexCommand();
         }
         
@@ -118,5 +102,20 @@ public final class CommandFactory {
             }
         }
         return false;
+    }
+    
+    private enum CommandType {
+        REGISTER,
+        LOGIN,
+        LOGOUT,
+        
+        CHANGE_LOCALE,
+        
+        GOTO_MAIN,
+        GOTO_INDEX,
+        GOTO_REGISTER,
+        
+        GOTO_MANAGE_PLAYERS,
+        GOTO_PAGINATION
     }
 }

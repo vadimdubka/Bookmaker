@@ -1,4 +1,4 @@
-package com.dubatovka.app.controller.command;
+package com.dubatovka.app.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

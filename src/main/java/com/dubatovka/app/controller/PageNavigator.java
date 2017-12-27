@@ -1,4 +1,4 @@
-package com.dubatovka.app.controller.command;
+package com.dubatovka.app.controller;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 

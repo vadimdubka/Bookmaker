@@ -1,7 +1,7 @@
-package com.dubatovka.app.controller.command.navigation;
+package com.dubatovka.app.controller.command_impl.navigation;
 
-import com.dubatovka.app.controller.command.Command;
-import com.dubatovka.app.controller.command.PageNavigator;
+import com.dubatovka.app.controller.Command;
+import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.manager.QueryManager;
 
 import javax.servlet.http.HttpServletRequest;

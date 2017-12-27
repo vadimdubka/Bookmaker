@@ -1,8 +1,5 @@
 package com.dubatovka.app.controller;
 
-import com.dubatovka.app.controller.command.Command;
-import com.dubatovka.app.controller.command.CommandFactory;
-import com.dubatovka.app.controller.command.PageNavigator;
 import com.dubatovka.app.manager.QueryManager;
 
 import javax.servlet.RequestDispatcher;

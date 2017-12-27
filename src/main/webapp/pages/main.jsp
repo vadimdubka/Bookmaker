@@ -13,7 +13,7 @@
                                 <c:forEach var="category" items="${sport.childCategorySet}">
                                     <li>
                                         <div class="category-name">
-                                            <a href="${pageContext.servletContext.contextPath}/controller?command_type=goto_main&category_id=${category.id}">${category.name}
+                                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_main&category_id=${category.id}">${category.name}
                                             </a></div>
                                     </li>
                                 </c:forEach>

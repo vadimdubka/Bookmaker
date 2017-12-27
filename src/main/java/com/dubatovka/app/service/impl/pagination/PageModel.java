@@ -1,4 +1,4 @@
-package com.dubatovka.app.controller.pagination;
+package com.dubatovka.app.service.impl.pagination;
 
 import java.util.List;
 

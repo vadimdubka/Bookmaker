@@ -1,4 +1,4 @@
-package com.dubatovka.app.controller.pagination;
+package com.dubatovka.app.service.impl.pagination;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

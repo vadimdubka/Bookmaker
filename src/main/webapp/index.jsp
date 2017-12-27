@@ -11,7 +11,7 @@
         <jsp:forward page="${pageContext.request.contextPath}/employee/main.jsp"/>
     </c:when>
     <c:otherwise>
-        <jsp:forward page="${pageContext.servletContext.contextPath}/controller?command_type=goto_main"/>
+        <jsp:forward page="${pageContext.request.contextPath}/controller?command_type=goto_main"/>
     </c:otherwise>
 </c:choose>
 </body>

@@ -1,7 +1,7 @@
-package com.dubatovka.app.controller.command.impl;
+package com.dubatovka.app.controller.command_impl.navigation;
 
-import com.dubatovka.app.controller.command.Command;
-import com.dubatovka.app.controller.command.PageNavigator;
+import com.dubatovka.app.controller.Command;
+import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.service.PlayerService;
 import com.dubatovka.app.service.ServiceFactory;
