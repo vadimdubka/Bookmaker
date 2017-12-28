@@ -41,13 +41,6 @@
             <include-prelude>/pages/jspf/header.jspf</include-prelude>
             <include-coda>/pages/jspf/footer.jspf</include-coda>
         </jsp-property-group>
-        <jsp-property-group>
-            <description>header and footer employee settings</description>
-            <url-pattern>/employee/*</url-pattern>
-            <include-prelude>/employee/jspf/header.jspf</include-prelude>
-            <include-coda>/pages/jspf/footer.jspf</include-coda>
-        </jsp-property-group>
-
         <taglib>
             <taglib-uri>http://bookmaker.com/functions</taglib-uri>
             <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>

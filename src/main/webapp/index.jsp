@@ -6,13 +6,6 @@
     <title>Index</title>
 </head>
 <body>
-<c:choose>
-    <c:when test="${sessionScope.admin!=null || sessionScope.analyst!=null}">
-        <jsp:forward page="${pageContext.request.contextPath}/employee/main.jsp"/>
-    </c:when>
-    <c:otherwise>
-        <jsp:forward page="${pageContext.request.contextPath}/controller?command_type=goto_main"/>
-    </c:otherwise>
-</c:choose>
+<jsp:forward page="${pageContext.request.contextPath}/controller?command_type=goto_main"/>
 </body>
 </html>

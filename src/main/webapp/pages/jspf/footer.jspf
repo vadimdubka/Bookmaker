@@ -1,14 +1,13 @@
 <footer>
     <div class="layout-positioner">
-        <div class="footer-logo">
-            <img src="statics/img/logo-footer.png" width="5" height="5" alt="logo-footer">
-        </div>
-        <div class="copyright"><p><fmt:message key="footer.rights"/></p></div>
+        <div><p><a href="mailto:vadimdubka@gmail.com"><fmt:message key="footer.mailto"/></a></p></div>
         <div class="footer-social">
             <a href="#" class="social-button social-button-git">GitHub</a>
             <a href="#" class="social-button social-button-linkedin">LinkedIn</a>
         </div>
-        <div><p><a href="mailto:vadimdubka@gmail.com"><fmt:message key="footer.mailto"/></a></p></div>
+        <div class="copyright"><p><fmt:message key="footer.rights"/></p></div>
+
+
     </div>
 </footer>
 <script>

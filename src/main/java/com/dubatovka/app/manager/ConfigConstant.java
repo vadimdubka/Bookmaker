@@ -170,14 +170,13 @@ public final class ConfigConstant {
     /**
      * Admin JSP pages paths
      */
-    public static final String PAGE_ADMIN_MAIN = "/employee/main.jsp";
-    public static final String PAGE_MANAGE_PLAYERS = "/employee/manage_players.jsp";
-    public static final String PAGE_MANAGE_PLAYER = "/employee/manage_player.jsp";
-    public static final String PAGE_MANAGE_SUPPORT = "/employee/manage_support.jsp";
-    public static final String PAGE_ANSWER_SUPPORT = "/employee/answer_support.jsp";
-    public static final String PAGE_MANAGE_VERIFICATION = "/employee/manage_verification.jsp";
-    public static final String PAGE_MANAGE_TRANSACTIONS = "/employee/manage_transactions.jsp";
-    public static final String PAGE_STATS_REPORT = "/employee/stats_report.jsp";
+    public static final String PAGE_MANAGE_PLAYERS = "/pages/manage_players.jsp";
+    public static final String PAGE_MANAGE_PLAYER = "/pages/manage_player.jsp";
+    public static final String PAGE_MANAGE_SUPPORT = "/pages/manage_support.jsp";
+    public static final String PAGE_ANSWER_SUPPORT = "/pages/answer_support.jsp";
+    public static final String PAGE_MANAGE_VERIFICATION = "/pages/manage_verification.jsp";
+    public static final String PAGE_MANAGE_TRANSACTIONS = "/pages/manage_transactions.jsp";
+    public static final String PAGE_STATS_REPORT = "/pages/stats_report.jsp";
     /**
      * Admin navigation queries
      */
@@ -193,7 +192,7 @@ public final class ConfigConstant {
     /**
      * Analyst JSP pages paths
      */
-    public static final String PAGE_ANALYST_MAIN = "/employee/main.jsp";
+    public static final String PAGE_ANALYST_MAIN = "/pages/main.jsp";
     /**
      * Analyst navigation queries
      */

@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 @WebFilter(
         filterName = "PageRedirectFilter",
-        urlPatterns = {"/pages/*", "/employee/*"},
+        urlPatterns = {"/pages/*"},
         initParams = {@WebInitParam(name = "PAGE_INDEX", value = ConfigConstant.PAGE_INDEX)}
 )
 public class PageRedirectSecurityFilter implements Filter {

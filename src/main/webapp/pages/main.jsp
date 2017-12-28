@@ -43,9 +43,9 @@
                                     <td>${event.id}</td>
                                     <td>${event.date}</td>
                                     <td>${event.participant1} - ${event.participant2}</td>
-                                    <td>${requestScope.type_1_map[event_id]}</td>
-                                    <td>${requestScope.type_x_map[event_id]}</td>
-                                    <td>${requestScope.type_2_map[event_id]}</td>
+                                    <td>${requestScope.type_1_map[pageScope.event_id]}</td>
+                                    <td>${requestScope.type_x_map[pageScope.event_id]}</td>
+                                    <td>${requestScope.type_2_map[pageScope.event_id]}</td>
                                 </tr>
                             </c:forEach>
                         </table>
@@ -54,17 +54,24 @@
             </c:when>
             <c:otherwise>
                 <section class="block-float border-test">
-                    <div class="block-header">Новостной или рекламный блок</div>
-                    <div class="block-content">
-                        Новость или реклама
+                    <div class="block-header">Выбери свой спорт!</div>
+                        <%--<div class="block-content">--%>
+                    <div>
+                        <img class="img-choose-sport" src="${pageContext.request.contextPath}/resources/img/choose-sport.jpg"
+                             alt="Choose-sport-logo" title="Choose your sport">
                     </div>
                 </section>
             </c:otherwise>
         </c:choose>
-        <c:choose>
-            <c:when test="${sessionScope.player != null}">
-                <%@include file="jspf/player-menu.jsp" %>
-            </c:when>
-        </c:choose>
+        <section class="header-user-block border-test">
+            <c:choose>
+                <c:when test="${sessionScope.user == null}">
+                    <%@include file="jspf/user-login.jsp" %>
+                </c:when>
+                <c:otherwise>
+                    <%@include file="jspf/user-menu.jsp" %>
+                </c:otherwise>
+            </c:choose>
+        </section>
     </div>
 </main>
