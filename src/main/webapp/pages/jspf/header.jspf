@@ -28,7 +28,7 @@
                      alt="Bookmaker-logo" title="Bookmaker Main Page">
             </a>
         </div>
-        <div class="header-lang-block border-test">
+        <div class="lang-block border-test">
             <a class="rus" href="${pageContext.request.contextPath}/controller?command_type=change_locale&locale=ru_RU"
                title="RU">rus</a>
             <a class="eng" href="${pageContext.request.contextPath}/controller?command_type=change_locale&locale=en_US"

@@ -63,7 +63,7 @@
                 </section>
             </c:otherwise>
         </c:choose>
-        <section class="header-user-block border-test">
+        <section class="block-user border-test">
             <c:choose>
                 <c:when test="${sessionScope.user == null}">
                     <%@include file="jspf/user-login.jsp" %>

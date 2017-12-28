@@ -2,7 +2,7 @@
 <section class="block-float border-test">
     <div class="block-header">Войдите в систему</div>
     <div class="block-content">
-        <form class="login" name="loginForm" action="controller" method="post">
+        <form class="login-form" name="loginForm" action="controller" method="post">
             <input type="hidden" name="command_type" value="login"/>
             <input type="email" name="email" value=""
                    placeholder="<fmt:message key="login.email_holder"/>"
