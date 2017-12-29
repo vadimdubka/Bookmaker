@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://bookmaker.com/functions" prefix="j" %>
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'default'}"/>
-<fmt:setBundle basename="prop.pagecontent"/>
+<fmt:setBundle basename="textcontent.pagecontent"/>
 <!DOCTYPE html>
 <html lang="<fmt:message key="header.html.lang"/>">
 <head>
@@ -42,10 +42,14 @@
                     <fmt:message key="header.topmenu.rules"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_support">
                     <fmt:message key="header.topmenu.support"/></a></li>
-                <li><a href="#">Результаты</a></li>
-                <li><a href="#">Акции</a></li>
-                <li><a href="#">Новости</a></li>
-                <li><a href="#">О нас</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_results">
+                    <fmt:message key="header.topmenu.results"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_actions">
+                    <fmt:message key="header.topmenu.actions"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_news">
+                    <fmt:message key="header.topmenu.news"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_aboutus">
+                    <fmt:message key="header.topmenu.aboutus"/></a></li>
             </ul>
         </div>
     </div>

@@ -24,7 +24,7 @@
             </div>
         </section>
         <c:choose>
-            <c:when test="${requestScope.event_set!=null ||requestScope.event_set!=null}">
+            <c:when test="${requestScope.event_set!=null}">
                 <section class="block-float border-test events">
                     <div class="block-header">Спортивные события</div>
                     <div class="block-content">
@@ -53,9 +53,8 @@
                 </section>
             </c:when>
             <c:otherwise>
-                <section class="block-float border-test">
+                <section class="block-float border-test promo">
                     <div class="block-header">Выбери свой спорт!</div>
-                        <%--<div class="block-content">--%>
                     <div>
                         <img class="img-choose-sport" src="${pageContext.request.contextPath}/resources/img/choose-sport.jpg"
                              alt="Choose-sport-logo" title="Choose your sport">
