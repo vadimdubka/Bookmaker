@@ -14,9 +14,6 @@ public class DateFormatter {
      */
     private static final String NOT_AVAILABLE = "-";
     
-    /**
-     * Outer forbidding to create this class instances.
-     */
     private DateFormatter() {
     }
     
