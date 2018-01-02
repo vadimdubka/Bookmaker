@@ -1,9 +1,14 @@
-/*
-    Используемые цвета:
-    #34495e - мокрый асфальт
-    #c0392b - красный
-    #3498DB - синий
-*/
+
+/*.colors {
+
+    color: #34495e;-мокрый асфальт
+    color: #c0392b; -красный
+    color: #3498DB; -синий
+    color: #569ECC;
+    color: #B8E5FF;
+    color: #509999; - зеленый
+    color: #FFD685; -золотой
+}*/
 
 * {
     margin: 0;
@@ -38,16 +43,18 @@ body {
 .block-header {
     background-color: #FDC001;
     padding: 5px;
+    color: black;
 }
 
 .block-content {
     background-color: white;
     padding: 5px;
+    color: black;
 }
 
 /*Отрисовка сетки с целью тесрирования*/
 .border-test {
-    /*border: 1px dashed yellow;*/
+    border: 1px dashed yellow;
 }
 
 /*Распорка, чтобы последующие блоки учитывали верхние плавающие блоки*/
@@ -120,8 +127,7 @@ input[type="submit"] {
     flex-flow: column nowrap;
     align-items: stretch;
     justify-content: flex-start;
-    margin: 0 0 1em;
-    /*color: #fff;*/
+    margin: 0 0 0;
     text-align: center;
 }
 
@@ -149,7 +155,7 @@ input[type="submit"] {
     text-align: center;
 }
 
-.custom-link a{
+.custom-link a {
     text-align: center;
 }
 
@@ -158,7 +164,7 @@ input[type="submit"] {
     text-align: center;
 }
 
-.custom-button a{
+.custom-button a {
     font-size: 1em;
     font-weight: bold;
     color: black;
@@ -326,7 +332,6 @@ textarea {
 
 /*Header*/
 header {
-    padding-top: 1px;
     /*background: #34495e;*/
     /*background: -webkit-linear-gradient(bottom, #34495e, #121b9b);*/
     /*background: linear-gradient(0deg, #34495e, #121b9b);*/
@@ -404,4 +409,8 @@ footer p a {
 
 .img-choose-sport {
     width: 500px;
+}
+
+.err-msg {
+    color: #b11826;
 }
