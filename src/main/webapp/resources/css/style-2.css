@@ -44,6 +44,17 @@ textarea {
     resize: none;
 }
 
+button {
+    border-radius: .5em;
+    background-color: #CCCCCC;
+    color: black;
+    cursor: pointer;
+    margin-left: .3em;
+    margin-right: .3em;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+
 /*****************/
 
 /*Header*/
@@ -95,7 +106,7 @@ nav ul.nav-horizontal li a:hover {
     color: black;
 }
 
-.section-header h2{
+.section-header h2 {
     font-weight: normal;
 }
 
@@ -215,9 +226,19 @@ input[type="submit"] {
     text-align: center;
 }
 
+.input-block-inner {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin: 0 0 0;
+    text-align: center;
+}
+
 .register-form label,
 .register-form input {
     display: block;
+    width: 100%;
 }
 
 .register-form label {
@@ -232,10 +253,16 @@ input[type="submit"] {
 
 .register-form input[type="submit"] {
     font-size: 1em;
-    margin: 0.5em 20% 0;
+    margin: 0.5em auto auto;
+    width: 50%;
 }
 
-/*Buttons и Links*/
+/*Сообщения об ошибке*/
+.err-msg {
+    color: #b11826;
+}
+
+/*Custom buttons и Links*/
 .custom-link {
     text-align: center;
 }

@@ -124,22 +124,74 @@ function validateRegister() {
         result = false;
     }
 
+    var emailInput2 = document.getElementById("email-input2");
+
+    if (emailInput2) {
+        var errEmail2 = document.getElementById("err-email2");
+        var email2 = form.email2.value;
+        errEmail2.innerHTML = "";
+        if (!email2) {
+            errEmail2.innerHTML = ERR_EMPTY_FIELD;
+            result = false;
+        }
+        if (email2 && !(~email2.indexOf(".") && ~email2.indexOf("@"))) {
+            errEmail2.innerHTML = ERR_EMAIL_PATTERN;
+            result = false;
+        }
+    }
     return result;
 }
 
-function addEmail() {
-    document.getElementById("demo").innerHTML = "Hello World";
+function addEmail(a) {
+    var buttonAddEmail = a;
+    var emailBlockInner1 = buttonAddEmail.parentNode;
+    emailBlockInner1.removeChild(buttonAddEmail);
+
+    var label = document.createElement("label");
+    label.innerHTML = "Дополнительный E-mail";
+    label.setAttribute("for", "email-input2");
+    label.setAttribute("class", "required");
+
+    var span = document.createElement("span");
+    span.setAttribute("id", "err-email2");
+    span.setAttribute("class", "err-msg");
+
+    var input = document.createElement("input");
+    input.setAttribute("id", "email-input2");
+    input.setAttribute("name", "email2");
+    input.setAttribute("maxlength", "320");
+    input.setAttribute("type", "email");
+    input.setAttribute("required", "");
+
+    var button = document.createElement("button");
+    button.innerHTML = "Удалить";
+    button.setAttribute("onclick", "return deleteEmail(this)");
+
+    var emailBlockInner2 = document.createElement("div");
+    emailBlockInner2.setAttribute("id", "email-block-inner2");
+    emailBlockInner2.setAttribute("class", "input-block-inner");
+    emailBlockInner2.appendChild(input);
+    emailBlockInner2.appendChild(button);
+
+    var emailBlock = document.getElementById("email-block");
+    emailBlock.appendChild(label);
+    emailBlock.appendChild(span);
+    emailBlock.appendChild(emailBlockInner2);
 }
 
-var items=1;
-function AddItem() {
-    div=document.getElementById("items");
-    button=document.getElementById("add");
-    items++;
-    newitem="<strong>Поле " + items + ": </strong>";
-    newitem+="<input type=\"text\" name=\"item" + items;
-    newitem+="\" size=\"45\"><br>";
-    newnode=document.createElement("span");
-    newnode.innerHTML=newitem;
-    div.insertBefore(newnode,button);
+function deleteEmail(a) {
+    var button = document.createElement("button");
+    button.innerHTML = "Добавить Email";
+    button.setAttribute("onclick", "return addEmail(this)");
+
+    var emailBlockInner1 = document.getElementById("email-block-inner1");
+    emailBlockInner1.appendChild(button);
+
+    var emailBlockInner2 = a.parentNode;
+    var span = emailBlockInner2.previousSibling;
+    var label = span.previousSibling;
+    var emailBlock = emailBlockInner2.parentNode;
+    emailBlock.removeChild(emailBlockInner2);
+    emailBlock.removeChild(span);
+    emailBlock.removeChild(label);
 }

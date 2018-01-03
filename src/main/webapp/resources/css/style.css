@@ -1,6 +1,5 @@
 
 /*.colors {
-
     color: #34495e;-мокрый асфальт
     color: #c0392b; -красный
     color: #3498DB; -синий
@@ -31,8 +30,6 @@
     margin: 0 auto;
 }
 
-
-
 /***************************/
 
 input,
@@ -46,11 +43,6 @@ button {
     margin: 0 auto;
     color: #fff;
 }
-
-.err-msg {
-    color: #b11826;
-}
-
 
 .lang-block {
     float: right;
