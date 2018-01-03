@@ -2,18 +2,18 @@
 <main>
     <div class="layout-positioner">
         <section class="block-float border-test category">
-            <div class="block-header">Виды спорта</div>
-            <div class="block-content">
+            <div class="section-header">Виды спорта</div>
+            <div class="section-content">
                 <ul>
                     <%--TODO сделать через js and onclick, чтобы открывались категории по нажатию, а не по наведению--%>
                     <c:forEach var="sport" items="${requestScope.sport_set}">
                         <li>
                             <div class="sport-name">${sport.name}</div>
                             <ul>
-                                <c:forEach var="category" items="${sport.childCategorySet}">
+                                <c:forEach var="section-category" items="${sport.childCategorySet}">
                                     <li>
                                         <div class="category-name">
-                                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_main&category_id=${category.id}">${category.name}
+                                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_main&category_id=${ section-category .id}">${ section-category .name}
                                             </a></div>
                                     </li>
                                 </c:forEach>
@@ -26,8 +26,8 @@
         <c:choose>
             <c:when test="${requestScope.event_set!=null}">
                 <section class="block-float border-test events">
-                    <div class="block-header">Спортивные события</div>
-                    <div class="block-content">
+                    <div class="section-header">Спортивные события</div>
+                    <div class="section-content">
                         <table>
                             <tr>
                                 <th>№</th>
@@ -54,7 +54,7 @@
             </c:when>
             <c:otherwise>
                 <section class="block-float border-test promo">
-                    <div class="block-header">Выбери свой спорт!</div>
+                    <div class="section-header">Выбери свой спорт!</div>
                     <div>
                         <img class="img-choose-sport" src="${pageContext.request.contextPath}/resources/img/choose-sport.jpg"
                              alt="Choose-sport-logo" title="Choose your sport">

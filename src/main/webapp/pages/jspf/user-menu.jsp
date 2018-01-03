@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <section class="block-float border-test player">
-    <div class="block-header">Аккаунт пользователя</div>
-    <div class="block-content">
+    <div class="section-header">Аккаунт пользователя</div>
+    <div class="section-content">
         <p>${sessionScope.user.role} ${sessionScope.user.email}</p>
         <c:choose>
             <c:when test="${sessionScope.user.role.role=='player'}">

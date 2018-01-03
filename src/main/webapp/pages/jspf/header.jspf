@@ -11,7 +11,9 @@
     <meta charset="UTF-8">
     <meta name="description" content="<fmt:message key="header.head.description"/>">
     <meta name="keywords" content="<fmt:message key="header.head.keywords"/>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
+    <link rel="shortcut icon" href="resources/img/favicon.png" type="image/png">
 </head>
 <body>
 <header>
@@ -20,6 +22,7 @@
             <h1><fmt:message key="header.sitename"/></h1></a>
     </div>
 </header>
+<%--TODO выделить навигацию в отдельный блок--%>
 <nav>
     <div class="layout-positioner">
         <div class="logo-block">

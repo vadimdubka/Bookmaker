@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <section class="block-float border-test">
-    <div class="block-header">Войдите в систему</div>
-    <div class="block-content">
+    <div class="section-header">Войдите в систему</div>
+    <div class="section-content">
         <form class="login-form" name="loginForm" action="controller" method="post">
             <input type="hidden" name="command_type" value="login"/>
             <input type="email" name="email" value=""

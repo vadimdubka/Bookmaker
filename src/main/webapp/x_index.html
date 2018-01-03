@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <title>Bookmaker Online</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="resources/img/favicon.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="resources/css/style-2.css">
+  </head>
+  <body>
+    <header>
+      <a href="#">
+        <h1>Делай ставки на спорт Онлайн!</h1></a>
+    </header>
+    <nav>
+      <ul class="nav-horizontal">
+        <li><a href="#">Главная</a></li>
+        <li><a href="#">Правила</a></li>
+        <li><a href="#">Поддержка</a></li>
+        <li><a href="#">Результаты</a></li>
+        <li><a href="#">Акции</a></li>
+        <li><a href="#">Новости</a></li>
+        <li><a href="#">О нас</a></li>
+      </ul>
+    </nav>
+    <main class="row container">
+      <section class="section-user col-s-5 col-3 col-float-right">
+        <div class="section-header"><h2>Войдите в систему</h2></div>
+        <div class="section-content">
+          <form class="login-form" name="loginForm" action="controller" method="post">
+            <input name="command_type" value="login" type="hidden">
+            <input name="email" placeholder="Е-mail"
+                   title="Введите корректный e-mail (прим.: 'ivanov.ivan@gmail.com')"
+                   pattern="^[\w!#$%&amp;'*+/=?`{|}~^-]+(?:\.[\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
+                   maxlength="320" required="" type="email"><br>
+            <input name="password" value="" placeholder="Пароль"
+                   title="Пароль должен состоять только из латинских букв и цифр, знаков '_', '-', содержать не менее 8 символов, в т.ч. 1 заглавную букву, 1 строчную букву, 1 цифру"
+                   pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[\w_-]{8,}$"
+                   required="" type="password"><br>
+            <input class="button-login" value="Войти" type="submit">
+          </form>
+          <div class="custom-link">
+            <a href="x_registration.html">
+              Зарегистрироваться</a>
+          </div>
+        </div>
+      </section>
+      <section class="section-category col-s-7 col-3">
+        <div class="section-header"><h2>Виды спорта</h2></div>
+        <div class="section-content">
+          <ul>
+            <li>
+              <div class="sport-name">Гандбол</div>
+              <ul>
+                <li>
+                  <div class="category-name"><a href="#">Чемпионат Европы 2018</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="sport-name">Хокей</div>
+              <ul>
+                <li>
+                  <div class="category-name"><a href="#">NXL</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">КХЛ</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="sport-name">Теннис</div>
+              <ul>
+                <li>
+                  <div class="category-name"><a href="#">ITF</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">Australian Open 2018</a></div>
+                </li>
+
+              </ul>
+            </li>
+            <li>
+              <div class="sport-name">Регби</div>
+              <ul>
+                <li>
+                  <div class="category-name"><a href="#">Кубок Европейских Чемпионов </a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="sport-name">Футбол</div>
+              <ul>
+                <li>
+                  <div class="category-name"><a href="#">Лига чемпионов УЕФА</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">Чемпионат Беларуси</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">Россия. Премьер-лига</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">Чемпионат мира 2018</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">Англия. Премьер-лига</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="sport-name">Баскетбол</div>
+              <ul>
+                <li>
+                  <div class="category-name"><a href="#">NBA</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">Евролига</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="sport-name">Волейбол</div>
+              <ul>
+                <li>
+                  <div class="category-name"><a href="#">Лига чемпионов</a></div>
+                </li>
+                <li>
+                  <div class="category-name"><a href="#">Чемпионат Европы 2018 </a></div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section class="section-promo col-s-12 col-6 col-float-right">
+        <div class="section-header"><h2>Выбери свой спорт!</h2></div>
+        <div class="section-content">
+          <img class="img-choose-sport"
+               src="resources/img/choose-sport.jpg"
+               alt="Choose-sport-logo"
+               title="Choose your sport">
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer-social">
+        <a href="mailto:vadimdubka@gmail.com" target="_blank">
+          <img class="img-logo" src="resources/img/email.png"
+               alt="Email-logo" title="Задавайте разработчику вопросы по email">
+        </a>
+        <a href="https://github.com/vadimdubka/Bookmaker" target="_blank">
+          <img class="img-logo" src="resources/img/github.png"
+               alt="GitHub-logo" title="Cсылка на проект на github">
+        </a>
+        <a href="https://www.linkedin.com/in/dubatovka-vadim" target="_blank">
+          <img class="img-logo" src="resources/img/linkedin.png"
+               alt="LinkedIn-logo" title="Ссылка на профиль разработчика">
+        </a>
+      </div>
+      <div class="copyright">Все права защищены.</div>
+    </footer>
+  </body>
+</html>

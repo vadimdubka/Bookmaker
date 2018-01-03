@@ -1,0 +1,463 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Стандартные элементы*/
+html {
+    font-size: 14px;
+}
+
+body {
+    font-family: RobotoCondensed, Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    color: white;
+    background: #14181B;
+}
+
+h1, h2, h3 {
+    font-weight: bold;
+    text-align: center;
+    /*margin: .5em 0;*/
+    /*padding: 0 .7em;*/
+}
+
+a {
+    text-decoration: none;
+    color: red;
+}
+
+a:hover {
+    color: #1ecc4a;
+}
+
+img {
+    display: block;
+    margin: 0 auto; /*выравнивает текст по середине*/
+    max-width: 100%;
+    height: auto;
+}
+
+textarea {
+    resize: none;
+}
+
+/*****************/
+
+/*Header*/
+header {
+    padding: .5em;
+}
+
+header h1 {
+    color: #FDC001;
+    font-size: 2.5em;
+}
+
+header a h1:hover {
+    color: #FDC001;
+    text-decoration: underline;
+}
+
+header a h1 {
+    content: "Твои любимые спортивные события!";
+}
+
+/*Navigator*/
+nav ul.nav-horizontal {
+    margin: 0;
+    padding: 15px;
+    list-style-type: none;
+    text-align: center;
+}
+
+nav ul.nav-horizontal li {
+    border: 1px solid #14181B;
+    background-color: #FDC001;
+    padding: 5px;
+    font-size: 1.5em;
+}
+
+nav ul.nav-horizontal li a {
+    color: #14181B;
+}
+
+nav ul.nav-horizontal li a:hover {
+    text-decoration: underline;
+}
+
+/*Sections*/
+.section-header {
+    background-color: #FDC001;
+    padding: 5px;
+    color: black;
+}
+
+.section-header h2{
+    font-weight: normal;
+}
+
+.section-content {
+    background-color: white;
+    padding: 5px;
+    color: black;
+}
+
+/*Section Category*/
+.section-category .section-content ul {
+    text-align: center;
+}
+
+.section-category .section-content li ul {
+    display: none;
+}
+
+.section-category .section-content > ul > li {
+    border-bottom: 1px solid #14181B;
+}
+
+.section-category .section-content > ul > li:hover {
+    background-color: lightgrey;
+}
+
+.section-category .section-content li:hover ul {
+    display: block;
+}
+
+.section-category .sport-name {
+    font-size: 1.5em;
+}
+
+.section-category .category-name {
+    font-size: 1.25em;
+}
+
+.section-category .category-name a {
+    color: #2A2A2A;
+    /*font-style: italic;*/
+}
+
+.section-category .category-name a:hover {
+    color: #0c4dcc;
+    /*font-style: italic;*/
+}
+
+/*Section section-user*/
+.section-user .section-header h2 {
+    position: relative;
+    animation: move-header 0.2s;
+    animation-name: move-header;
+    animation-iteration-count: 12;
+}
+
+@keyframes move-header {
+    0% {
+        left: 0px;
+    }
+    50% {
+        left: 2px;
+    }
+    100% {
+        left: -2px;
+    }
+}
+
+/*Form */
+input {
+    padding: .5em;
+    background-color: #ccc;
+}
+
+input[required] {
+    background-color: #c4dcde;
+}
+
+input:hover,
+input:focus {
+    background-color: #deffbc;
+}
+
+input[type="submit"] {
+    font-size: .85em;
+    font-weight: bold;
+    padding: .3em;
+    border-radius: .5em;
+    cursor: pointer;
+}
+
+/*Login-form */
+.login-form {
+    padding: 0 1em;
+}
+
+.login-form input {
+    width: 100%;
+    margin: 1em 0 0;
+}
+
+.login-form input[name="email"] {
+    margin: 0;
+}
+
+/*Registration-form*/
+.register-form {
+    padding: 0 1em;
+}
+
+.input-block {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin: 0 0 0;
+    text-align: center;
+}
+
+.register-form label,
+.register-form input {
+    display: block;
+}
+
+.register-form label {
+    color: #5a6868;
+}
+
+.register-form label.required::after {
+    content: "*";
+    color: #ccc;
+    display: inline;
+}
+
+.register-form input[type="submit"] {
+    font-size: 1em;
+    margin: 0.5em 20% 0;
+}
+
+/*Buttons и Links*/
+.custom-link {
+    text-align: center;
+}
+
+.custom-link a {
+    font-size: 0.85em;
+}
+
+.custom-button {
+    margin: .5em 20%;
+    text-align: center;
+}
+
+.custom-button a {
+    font-size: 1em;
+    font-weight: bold;
+    color: black;
+    padding: .3em;
+    background-color: #CCCCCC;
+    border-radius: .5em;
+    text-align: center;
+    cursor: pointer;
+    margin: 0.5em 20% 0;
+}
+
+/*Footer*/
+footer {
+    padding: 0.5em;
+    text-align: center;
+    color: white;
+    background: #2A2A2A;
+}
+
+footer img {
+    display: inline;
+    width: 30px;
+    transition: width 1s;
+}
+
+footer img:hover {
+    width: 50px;
+}
+
+/*********************/
+
+/*Отрисовка сетки с целью тесрирования*/
+.border-test {
+    border: 1px dashed yellow;
+}
+
+/*Распорка, чтобы последующие блоки учитывали верхние плавающие блоки*/
+.clearfix:after,
+.row:after,
+.layout-positioner:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.row {
+    /*border: 1px dashed red;*/
+}
+
+[class*="col-"] {
+    float: left;
+    padding: 5px;
+    width: 100%;
+    /*border: 1px dashed green;*/
+}
+
+/*tablets and big landscape mobiles*/
+@media only screen and (min-width: 600px) {
+    .col-s-1 {
+        width: 8.33%;
+    }
+
+    .col-s-2 {
+        width: 16.66%;
+    }
+
+    .col-s-3 {
+        width: 25%;
+    }
+
+    .col-s-4 {
+        width: 33.33%;
+    }
+
+    .col-s-5 {
+        width: 41.66%;
+    }
+
+    .col-s-6 {
+        width: 50%;
+    }
+
+    .col-s-7 {
+        width: 58.33%;
+    }
+
+    .col-s-8 {
+        width: 66.66%;
+    }
+
+    .col-s-9 {
+        width: 75%;
+    }
+
+    .col-s-10 {
+        width: 83.33%;
+    }
+
+    .col-s-11 {
+        width: 91.66%;
+    }
+
+    .col-s-12 {
+        width: 100%;
+    }
+
+    .col-float-right {
+        float: right;
+    }
+
+    .section-registration.section-center {
+        width: 70%;
+        margin: 0 auto;
+    }
+}
+
+/*laptops and big landscape tablets*/
+@media only screen and (min-width: 769px) {
+    .col-1 {
+        width: 8.33%;
+    }
+
+    .col-2 {
+        width: 16.66%;
+    }
+
+    .col-3 {
+        width: 25%;
+    }
+
+    .col-4 {
+        width: 33.33%;
+    }
+
+    .col-5 {
+        width: 41.66%;
+    }
+
+    .col-6 {
+        width: 50%;
+    }
+
+    .col-7 {
+        width: 58.33%;
+    }
+
+    .col-8 {
+        width: 66.66%;
+    }
+
+    .col-9 {
+        width: 75%;
+    }
+
+    .col-10 {
+        width: 83.33%;
+    }
+
+    .col-11 {
+        width: 91.66%;
+    }
+
+    .col-12 {
+        width: 100%;
+    }
+
+    .col-float-right {
+        float: right;
+    }
+
+    .section-registration.section-center {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    /*Navigation*/
+    nav {
+        background: #FDC001;
+        min-height: 50px;
+        margin-bottom: 5px;
+    }
+
+    nav ul.nav-horizontal li {
+        margin-right: 5px;
+        display: inline; /*Отображать как строчный элемент*/
+        border: 1.5px solid #FDC001;
+        background-color: #14181B;
+        border: 1px solid #05080c;
+    }
+
+    nav ul.nav-horizontal li a {
+        color: #FDC001;
+    }
+}
+
+/*big screens*/
+@media only screen and (min-width: 1960px) {
+    .container {
+        width: 70%;
+    }
+}
+
+@font-face {
+    font-family: RobotoCondensed; /* имя шрифта для CSS правил */
+    src: url(../fonts/RobotoCondensed.ttf);
+}
