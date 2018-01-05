@@ -67,6 +67,7 @@ public final class ConfigConstant {
     public static final String ATTR_FNAME_INPUT = "fname_input";
     public static final String ATTR_LNAME_INPUT = "lname_input";
     public static final String ATTR_MNAME_INPUT = "mname_input";
+    public static final String ATTR_BIRTHDATE_INPUT = "birthdate_input";
     
     /**
      * {@link javax.servlet.http.HttpServletRequest} parameter names
@@ -119,6 +120,7 @@ public final class ConfigConstant {
     public static final String MESSAGE_INVALID_PASSWORD = "invalid.password";
     public static final String MESSAGE_LOGIN_MISMATCH = "login.mismatch";
     public static final String MESSAGE_PASSWORD_MISMATCH = "password.mismatch";
+    public static final String MESSAGE_INVALID_BIRTHDATE = "invalid.birthdate";
     
     /**
      * Navigation response types
@@ -207,7 +209,7 @@ public final class ConfigConstant {
     //TODO Перенести private static final String в файл с констрантами
     /**
      * Otcomes types for events
-     * */
+     */
     public static final String OUTCOME_TYPE_NAME_KEY = "name";
     public static final String OUTCOME_TYPE_1 = "1";
     public static final String OUTCOME_TYPE_X = "X";

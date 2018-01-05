@@ -19,8 +19,8 @@ public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     private static final String SQL_INSERT_USER = "INSERT INTO user (email, password, role, registration_date) " +
             "VALUES (?, ?, 'player', NOW())";
     
-    private static final String SQL_INSERT_PLAYER = "INSERT INTO player (id, fname, mname, lname) " +
-            "VALUES (?, ?, ?, ?)";
+    private static final String SQL_INSERT_PLAYER = "INSERT INTO player (id, fname, mname, lname, birthday) " +
+            "VALUES (?, ?, ?, ?, ?)";
     
     
     public PlayerDAOImpl() {
@@ -50,7 +50,7 @@ public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     
     
     @Override
-    public int insertUserPlayer(String email, String password) throws DAOException {
+    public int insertUser(String email, String password) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, email);
             statement.setString(2, password);
@@ -63,12 +63,13 @@ public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     }
     
     @Override
-    public boolean insertPlayer(int id, String fName, String mName, String lName) throws DAOException {
+    public boolean insertPlayer(int id, String fName, String mName, String lName, String birthDate) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_PLAYER)) {
             statement.setInt(1, id);
             statement.setString(2, fName);
             statement.setString(3, mName);
             statement.setString(4, lName);
+            statement.setString(5, birthDate);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DAOException("Database connection error while inserting player. " + e);

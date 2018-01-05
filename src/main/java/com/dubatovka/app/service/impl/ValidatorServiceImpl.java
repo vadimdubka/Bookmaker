@@ -2,6 +2,8 @@ package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.service.ValidatorService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +53,21 @@ public class ValidatorServiceImpl implements ValidatorService {
     @Override
     public boolean validateName(String name) {
         return name == null || name.trim().isEmpty() || matchPattern(name, NAME_REGEX);
+    }
+    
+    public boolean validateBirthdate(String birthdate) {
+        if (birthdate == null || birthdate.trim().isEmpty()) {
+            return false;
+        }
+        
+        LocalDate date;
+        try {
+            date = LocalDate.parse(birthdate);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+        LocalDate now = LocalDate.now();
+        return date.plusYears(18).isBefore(now) || date.plusYears(18).isEqual(now);
     }
     
     @Override

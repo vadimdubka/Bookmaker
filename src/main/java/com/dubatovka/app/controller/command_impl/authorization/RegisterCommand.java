@@ -28,7 +28,8 @@ public class RegisterCommand implements Command {
             String fName = request.getParameter(PARAM_FNAME);
             String mName = request.getParameter(PARAM_MNAME);
             String lName = request.getParameter(PARAM_LNAME);
-            if (playerService.registerPlayer(email, password, fName, mName, lName)) {
+            String birthDate = request.getParameter(PARAM_BIRTHDATE);
+            if (playerService.registerPlayer(email, password, fName, mName, lName, birthDate)) {
                 navigator = PageNavigator.REDIRECT_GOTO_INDEX;
             } else {
                 navigator = PageNavigator.FORWARD_PAGE_REGISTER;
@@ -53,6 +54,7 @@ public class RegisterCommand implements Command {
         String fName = request.getParameter(PARAM_FNAME);
         String mName = request.getParameter(PARAM_MNAME);
         String lName = request.getParameter(PARAM_LNAME);
+        String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
         if (validatorService.validateEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);
@@ -79,6 +81,11 @@ public class RegisterCommand implements Command {
             request.setAttribute(ATTR_LNAME_INPUT, lName);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_NAME)).append(MESSAGE_SEPARATOR);
+        }
+        if (validatorService.validateBirthdate(birthDate)) {
+            request.setAttribute(ATTR_BIRTHDATE_INPUT, birthDate);
+        } else {
+            errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_BIRTHDATE)).append(MESSAGE_SEPARATOR);
         }
         
         return errorMessage.toString().trim();

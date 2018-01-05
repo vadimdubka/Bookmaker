@@ -10,4 +10,6 @@ public interface ValidatorService {
     boolean validateName(String name);
     
     boolean matchPattern(String string, String regex);
+    
+    boolean validateBirthdate(String birthDate);
 }

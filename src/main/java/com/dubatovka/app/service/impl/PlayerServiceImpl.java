@@ -30,7 +30,7 @@ public class PlayerServiceImpl extends AbstractService implements PlayerService{
     
     //TODO разбить на 2 метда, который проверяет, есть ли игрок или нет
     @Override
-    public boolean registerPlayer(String email, String password, String fName, String mName, String lName) {
+    public boolean registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate) {
         email = email.trim().toLowerCase();
         password = Encryptor.encryptMD5(password);
         if (fName != null) {
@@ -43,8 +43,8 @@ public class PlayerServiceImpl extends AbstractService implements PlayerService{
             lName = lName.trim().toUpperCase();
         }
         try {
-            int id = playerDAO.insertUserPlayer(email, password);
-            if ((id != 0) && playerDAO.insertPlayer(id, fName, mName, lName)) {
+            int id = playerDAO.insertUser(email, password);
+            if ((id != 0) && playerDAO.insertPlayer(id, fName, mName, lName, birthDate)) {
                 return true;
             }
         } catch (DAOException e) {
