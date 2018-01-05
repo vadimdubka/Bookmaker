@@ -1,16 +1,29 @@
 function validateRegister() {
-    var result = true;
-
-    var PATTERN_PASSWORD = "^(?=\\w*[0-9])(?=\\w*[a-z])(?=\\w*[A-Z])(?=\\S+$)\\w{6,}$",
-        PATTERN_NAME = "^[A-Za-z]\\w{4,70}$";
 
     var ERR_EMPTY_FIELD = "Заполните поле",
         ERR_EMAIL_PATTERN = "Email должен содержать . и @, например: 'ivanov.ivan@gmail.com'",
         ERR_PASSWORD_NOT_MATCH = "Пароли не совпадают",
-        ERR_PASSWORD_PATTERN = "Пароль должен состоять только из латинских букв и цифр, содержать не менее 6 символов, в т.ч. 1 заглавную букву, 1 строчную букву, 1 цифру",
+        ERR_PASSWORD_PATTERN = "Пароль должен состоять только из латинских букв и цифр, знаков '_', '-', содержать не менее 8 символов, в т.ч. 1 заглавную букву, 1 строчную букву, 1 цифру",
         ERR_BDATE_MORE = "Максимальный возраст - 120 лет",
         ERR_BDATE_LESS = "Вам нет 18 лет",
-        ERR_NAME_PATTERN = "Поле должно состоять только из латинских букв, цифр и _ , начинаться с буквы, содержать не менее 5 символов";
+        ERR_NAME_PATTERN = "Поле должно состоять только из латинских букв";
+
+    var htmlEl = document.documentElement;
+    var locale = htmlEl.getAttribute("lang");
+    if (locale == "en") {
+        ERR_EMPTY_FIELD = "Fill the field";
+        ERR_EMAIL_PATTERN = "Email must contain . and @, eg: 'ivanov.ivan@gmail.com'";
+        ERR_PASSWORD_NOT_MATCH = "Passwords do not match";
+        ERR_PASSWORD_PATTERN = "Password should contain only latin letters and digits, symbols '_', '-', contain not less than 8 symbols, including 1 uppercase letter, 1 lowercase letter, 1 digit";
+        ERR_BDATE_MORE = "The maximum age is 120 years";
+        ERR_BDATE_LESS = "You are under 18 years old";
+        ERR_NAME_PATTERN = "The field must consist only of Latin letters";
+    }
+
+    var result = true;
+
+    var PATTERN_PASSWORD = "^(?=\\w*[0-9])(?=\\w*[a-z])(?=\\w*[A-Z])(?=\\S+$)[\\w_-]{8,}$",
+        PATTERN_NAME = "^[A-Za-z]{1,70}$";
 
     var errEmail = document.getElementById("err-email"),
         errPwd1 = document.getElementById("err-pwd1"),
@@ -83,7 +96,6 @@ function validateRegister() {
             delMonth = curMonth - month,
             delDay = curDay - day;
 
-        /*Ограничение по возрасту увеличено с 7 до 18 лет, т.к. этого требует бизнес-логика приложения.*/
         if (!(delYear > 18
             || delYear == 18 && delMonth > 0
             || delYear == 18 && delMonth == 0 && delDay >= 0)) {
@@ -124,74 +136,5 @@ function validateRegister() {
         result = false;
     }
 
-    var emailInput2 = document.getElementById("email-input2");
-
-    if (emailInput2) {
-        var errEmail2 = document.getElementById("err-email2");
-        var email2 = form.email2.value;
-        errEmail2.innerHTML = "";
-        if (!email2) {
-            errEmail2.innerHTML = ERR_EMPTY_FIELD;
-            result = false;
-        }
-        if (email2 && !(~email2.indexOf(".") && ~email2.indexOf("@"))) {
-            errEmail2.innerHTML = ERR_EMAIL_PATTERN;
-            result = false;
-        }
-    }
     return result;
-}
-
-function addEmail(a) {
-    var buttonAddEmail = a;
-    var emailBlockInner1 = buttonAddEmail.parentNode;
-    emailBlockInner1.removeChild(buttonAddEmail);
-
-    var label = document.createElement("label");
-    label.innerHTML = "Дополнительный E-mail";
-    label.setAttribute("for", "email-input2");
-    label.setAttribute("class", "required");
-
-    var span = document.createElement("span");
-    span.setAttribute("id", "err-email2");
-    span.setAttribute("class", "err-msg");
-
-    var input = document.createElement("input");
-    input.setAttribute("id", "email-input2");
-    input.setAttribute("name", "email2");
-    input.setAttribute("maxlength", "320");
-    input.setAttribute("type", "email");
-    input.setAttribute("required", "");
-
-    var button = document.createElement("button");
-    button.innerHTML = "Удалить";
-    button.setAttribute("onclick", "return deleteEmail(this)");
-
-    var emailBlockInner2 = document.createElement("div");
-    emailBlockInner2.setAttribute("id", "email-block-inner2");
-    emailBlockInner2.setAttribute("class", "input-block-inner");
-    emailBlockInner2.appendChild(input);
-    emailBlockInner2.appendChild(button);
-
-    var emailBlock = document.getElementById("email-block");
-    emailBlock.appendChild(label);
-    emailBlock.appendChild(span);
-    emailBlock.appendChild(emailBlockInner2);
-}
-
-function deleteEmail(a) {
-    var button = document.createElement("button");
-    button.innerHTML = "Добавить Email";
-    button.setAttribute("onclick", "return addEmail(this)");
-
-    var emailBlockInner1 = document.getElementById("email-block-inner1");
-    emailBlockInner1.appendChild(button);
-
-    var emailBlockInner2 = a.parentNode;
-    var span = emailBlockInner2.previousSibling;
-    var label = span.previousSibling;
-    var emailBlock = emailBlockInner2.parentNode;
-    emailBlock.removeChild(emailBlockInner2);
-    emailBlock.removeChild(span);
-    emailBlock.removeChild(label);
 }

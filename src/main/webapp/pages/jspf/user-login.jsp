@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<section class="block-float border-test">
-    <div class="section-header">Войдите в систему</div>
+<div class="wrapper">
+    <div class="section-header"><h2>Войдите в систему</h2></div>
     <div class="section-content">
         <form class="login-form" name="loginForm" action="controller" method="post">
             <input type="hidden" name="command_type" value="login"/>
@@ -22,4 +22,4 @@
                 <fmt:message key="login.register"/></a>
         </div>
     </div>
-</section>
+</div>

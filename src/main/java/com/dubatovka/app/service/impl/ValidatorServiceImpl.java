@@ -18,7 +18,7 @@ public class ValidatorServiceImpl implements ValidatorService {
             "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*" +
             "@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
     private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[\\w_-]{8,}$";
-    private static final String NAME_REGEX = "[A-Za-z ]{1,70}";
+    private static final String NAME_REGEX = "[A-Za-z]{1,70}";
     
     @Override
     public boolean validateEmail(String email) {

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-
-<section class="block-float border-test player">
-    <div class="section-header">Аккаунт пользователя</div>
+<div class="wrapper">
+    <div class="section-header"><h2>Аккаунт пользователя</h2></div>
     <div class="section-content">
         <p>${sessionScope.user.role} ${sessionScope.user.email}</p>
         <c:choose>
@@ -21,4 +20,4 @@
         <a href="${pageContext.request.contextPath}/controller?command_type=logout">
             <fmt:message key="user.logout"/></a>
     </div>
-</section>
+</div>

@@ -1,17 +1,22 @@
 <footer>
-    <div class="layout-positioner">
-        <div><p><a href="mailto:vadimdubka@gmail.com"><fmt:message key="footer.mailto"/></a></p></div>
-        <div class="footer-social">
-            <a href="#" class="social-button social-button-git">GitHub</a>
-            <a href="#" class="social-button social-button-linkedin">LinkedIn</a>
-        </div>
-        <div class="copyright"><p><fmt:message key="footer.rights"/></p></div>
-
-
+    <div class="footer-social">
+        <a href="mailto:vadimdubka@gmail.com" target="_blank">
+            <img class="img-logo" src="${pageContext.request.contextPath}/resources/img/email.png"
+                 alt="Email-logo" title="Задавайте разработчику вопросы по email">
+        </a>
+        <a href="https://github.com/vadimdubka/Bookmaker" target="_blank">
+            <img class="img-logo" src="${pageContext.request.contextPath}/resources/img/github.png"
+                 alt="GitHub-logo" title="Cсылка на проект на github">
+        </a>
+        <a href="https://www.linkedin.com/in/dubatovka-vadim" target="_blank">
+            <img class="img-logo" src="${pageContext.request.contextPath}/resources/img/linkedin.png"
+                 alt="LinkedIn-logo" title="Ссылка на профиль разработчика">
+        </a>
     </div>
+    <div class="copyright"><p><fmt:message key="footer.rights"/></p></div>
 </footer>
 <script>
-    var locale = "${sessionScope.locale}", errorMessage = "${errorMessage}";
+    var locale = "${sessionScope.locale}", errorMessage = "${requestScope.errorMessage}";
     if (errorMessage) {
         alert(errorMessage);
     }
