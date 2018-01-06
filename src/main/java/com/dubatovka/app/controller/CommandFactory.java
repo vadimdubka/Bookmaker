@@ -1,13 +1,10 @@
 package com.dubatovka.app.controller;
 
 import com.dubatovka.app.controller.command_impl.ChangeLocaleCommand;
-import com.dubatovka.app.controller.command_impl.navigation.GotoIndexCommand;
-import com.dubatovka.app.controller.command_impl.navigation.GotoMain;
-import com.dubatovka.app.controller.command_impl.navigation.GotoManagePlayersCommand;
+import com.dubatovka.app.controller.command_impl.navigation.*;
 import com.dubatovka.app.controller.command_impl.authorization.LoginCommand;
 import com.dubatovka.app.controller.command_impl.authorization.LogoutCommand;
 import com.dubatovka.app.controller.command_impl.authorization.RegisterCommand;
-import com.dubatovka.app.controller.command_impl.navigation.GotoRegisterCommand;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.ConfigConstant;
 import org.apache.logging.log4j.Level;
@@ -40,6 +37,7 @@ public final class CommandFactory {
         commonCommands.put(CommandType.REGISTER, new RegisterCommand());
         commonCommands.put(CommandType.LOGIN, new LoginCommand());
         commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
+        commonCommands.put(CommandType.GOTO_MAKE_BET, new GotoMakeBet());
         
         guestCommands.putAll(commonCommands);
         
@@ -116,6 +114,8 @@ public final class CommandFactory {
         GOTO_REGISTER,
         
         GOTO_MANAGE_PLAYERS,
+        GOTO_MAKE_BET,
+        
         GOTO_PAGINATION
     }
 }

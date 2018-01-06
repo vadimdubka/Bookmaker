@@ -22,7 +22,9 @@ public enum PageNavigator {
     REDIRECT_GOTO_MAIN(GOTO_MAIN, REDIRECT),
     
     FORWARD_PREV_QUERY(PREV_QUERY, FORWARD),
-    REDIRECT_PREV_QUERY(PREV_QUERY, REDIRECT);
+    REDIRECT_PREV_QUERY(PREV_QUERY, REDIRECT),
+    
+    FORWARD_PAGE_MAKE_BET(PAGE_MAKE_BET, FORWARD);
     
     private final String query;
     private final String responseType;

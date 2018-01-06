@@ -13,5 +13,7 @@ public interface CategoryDAO {
     String NAME = "name";
     String PARENT_ID = "parent_id";
     
-    Set<Category> getAllCategories() throws DAOException;
+    Set<Category> readAllCategories() throws DAOException;
+    
+    Category readCategoryById(int id) throws DAOException;
 }

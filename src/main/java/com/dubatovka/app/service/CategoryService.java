@@ -11,4 +11,6 @@ public interface CategoryService {
      */
     Set<Category> getSportCategories();
     
+    
+    Category getCategoryById(int id);
 }

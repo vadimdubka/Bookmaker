@@ -185,6 +185,7 @@ input[type="submit"] {
     padding: .3em;
     border-radius: .5em;
     cursor: pointer;
+    background-color: #FDC001;
 }
 
 /*Login-form */
@@ -245,6 +246,17 @@ input[type="submit"] {
     margin: 0.5em auto auto;
     width: 50%;
 }
+
+/*Make bet form*/
+form.make-bet-form {
+    padding: 0.5em 1em;
+}
+
+form.make-bet-form input{
+    margin: 0.33em;
+}
+
+
 
 /*Сообщения об ошибке*/
 .err-msg {
@@ -353,6 +365,11 @@ footer img:hover {
 /*Отрисовка сетки с целью тесрирования*/
 .border-test {
     border: 1px dashed yellow;
+}
+
+/*Для центрирования содержимого блока*/
+.div-align-center {
+    text-align: center;
 }
 
 /*Распорка, чтобы последующие блоки учитывали верхние плавающие блоки*/

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,8 +38,20 @@ public class EventServiceImpl extends AbstractService implements EventService {
         type1.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_1);
         typeX.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_X);
         type2.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_2);
-        
-        
+    }
+    
+    @Override
+    public Event getEventById(String eventId) {
+        Event event = null;
+        try {
+            event = eventDAO.getEventById(eventId);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        setOutcomesForEvent(event);
+        return event;
     }
     
     @Override
@@ -67,15 +80,17 @@ public class EventServiceImpl extends AbstractService implements EventService {
     }
     
     private void setOutcomesForEvents(Iterable<Event> eventSet) {
-        eventSet.forEach(event -> {
-            int id = event.getId();
-            try {
-                Set<Outcome> outcomeSet = outcomeDAO.getOutcomesByEventId(id);
-                event.setOutcomeSet(outcomeSet);
-            } catch (DAOException e) {
-                logger.log(Level.ERROR, e.getMessage());
-            }
-        });
+        eventSet.forEach(this::setOutcomesForEvent);
+    }
+    
+    private void setOutcomesForEvent(Event event) {
+        int id = event.getId();
+        try {
+            Set<Outcome> outcomeSet = outcomeDAO.getOutcomesByEventId(id);
+            event.setOutcomeSet(outcomeSet);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        }
     }
     
     private void removeEventsWithoutOutcomes(Iterable<Event> eventSet) {
@@ -97,6 +112,8 @@ public class EventServiceImpl extends AbstractService implements EventService {
         
         return coeffColumnMaps;
     }
+    
+    
     
     private void fillOutcomeColumnMaps(int id, Iterable<Outcome> outcomeSet) {
         for (Outcome outcome : outcomeSet) {

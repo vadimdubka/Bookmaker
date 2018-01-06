@@ -141,6 +141,7 @@ public final class ConfigConstant {
     public static final String PAGE_INDEX = "/index.jsp";
     public static final String PAGE_MAIN = "/pages/main.jsp";
     public static final String PAGE_REGISTER = "/pages/register.jsp";
+    public static final String PAGE_MAKE_BET = "/pages/make_bet.jsp";
     public static final String PAGE_SUPPORT = "/pages/support.jsp";
     public static final String PAGE_PROFILE = "/pages/profile.jsp";
     public static final String PAGE_VERIFICATION = "/pages/verification.jsp";

@@ -53,9 +53,19 @@
                                 <td>${event.id}</td>
                                 <td>${event.date}</td>
                                 <td>${event.participant1} - ${event.participant2}</td>
-                                <td>${requestScope.type_1_map[pageScope.event_id]}</td>
-                                <td>${requestScope.type_x_map[pageScope.event_id]}</td>
-                                <td>${requestScope.type_2_map[pageScope.event_id]}</td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/controller?command_type=goto_make_bet&event_id=${event.id}&type=${requestScope.type_1_map.name}">
+                                            ${requestScope.type_1_map[pageScope.event_id]}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/controller?command_type=goto_make_bet&event_id=${event.id}&type=${requestScope.type_x_map.name}">
+                                            ${requestScope.type_x_map[pageScope.event_id]}
+                                    </a>
+                                <td>
+                                <a href="${pageContext.request.contextPath}/controller?command_type=goto_make_bet&event_id=${event.id}&type=${requestScope.type_2_map.name}">
+                                        ${requestScope.type_2_map[pageScope.event_id]}
+                                </a>
                             </tr>
                         </c:forEach>
                     </table>

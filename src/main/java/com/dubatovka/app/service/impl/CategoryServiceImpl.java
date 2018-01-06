@@ -16,18 +16,31 @@ public class CategoryServiceImpl extends AbstractService implements CategoryServ
     private static boolean isCategoriesModified = false; //TODO менять значение переменной при любой модификации списка категорий
     private final CategoryDAO categoryDAO = daoFactory.getCategoryDAO();
     
+    //TODO метод синхронизовать
     @Override
     public Set<Category> getSportCategories() {
         if ((sportCategories == null) || isCategoriesModified) {
             try {
-                Set<Category> categorySet = categoryDAO.getAllCategories();
+                Set<Category> categorySet = categoryDAO.readAllCategories();
                 sportCategories = buildCategoryHierarchy(categorySet);
             } catch (DAOException e) {
-                logger.log(Level.ERROR, e.getMessage());
+                
             }
         }
         isCategoriesModified = false;
         return sportCategories;
+    }
+    
+    @Override
+    public Category getCategoryById(int id) {
+        Category categoryResult = null;
+        try {
+            categoryResult = categoryDAO.readCategoryById(id);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        }
+    
+        return categoryResult;
     }
     
     private Set<Category> buildCategoryHierarchy(Collection<Category> categorySet) {

@@ -145,3 +145,5 @@ WHERE
         WHERE
             `outcome`.`event_id` = `event`.`id`)
 ORDER BY `category_id`;
+
+SELECT id, date, category_id, participant1, participant2, result1, result2 FROM event WHERE id =33;

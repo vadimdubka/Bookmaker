@@ -121,4 +121,14 @@ public class Event {
                 ", outcomeSet=" + outcomeSet +
                 '}';
     }
+    
+    public Outcome getOutcomeByType(String outcomeType) {
+        Outcome result = null;
+        for (Outcome outcome : outcomeSet) {
+            if (outcome.getType().equalsIgnoreCase(outcomeType)) {
+                result = outcome;
+            }
+        }
+        return result;
+    }
 }
