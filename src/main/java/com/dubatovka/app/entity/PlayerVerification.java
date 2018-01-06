@@ -1,5 +1,7 @@
 package com.dubatovka.app.entity;
 
+import com.dubatovka.app.manager.ConfigConstant;
+
 public class PlayerVerification {
     
     /**
@@ -17,7 +19,17 @@ public class PlayerVerification {
     private String passport;
     
     public enum VerificationStatus {
-        UNVERIFIED, REQUEST, VERIFIED,
+        UNVERIFIED(ConfigConstant.UNVERIFIED), REQUEST(ConfigConstant.REQUEST), VERIFIED(ConfigConstant.VERIFIED);
+        
+        private final String status;
+    
+        VerificationStatus(String status) {
+            this.status = status;
+        }
+        
+        public String getStatus() {
+            return status;
+        }
     }
     
     public String getCountry() {

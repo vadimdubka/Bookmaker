@@ -1,9 +1,9 @@
 package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.PlayerDAO;
+import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Player;
-import com.dubatovka.app.entity.PlayerProfile;
 import com.dubatovka.app.manager.Encryptor;
 import com.dubatovka.app.service.PlayerService;
 import org.apache.logging.log4j.Level;
@@ -12,15 +12,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class PlayerServiceImpl extends AbstractService implements PlayerService{
+/**
+ * The type Player service.
+ */
+public class PlayerServiceImpl extends AbstractService implements PlayerService {
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
+    private final UserDAO userDAO = daoFactory.getUserDAO();
     private final PlayerDAO playerDAO = daoFactory.getPlayerDAO();
     
     @Override
     public List<Player> getAllPlayers() {
         List<Player> playerList = null;
         try {
-            playerList = playerDAO.readPlayers();
+            playerList = playerDAO.readAllPlayers();
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
@@ -28,7 +32,6 @@ public class PlayerServiceImpl extends AbstractService implements PlayerService{
         return playerList;
     }
     
-    //TODO разбить на 2 метда, который проверяет, есть ли игрок или нет
     @Override
     public boolean registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate) {
         email = email.trim().toLowerCase();
@@ -42,34 +45,30 @@ public class PlayerServiceImpl extends AbstractService implements PlayerService{
         if (lName != null) {
             lName = lName.trim().toUpperCase();
         }
+        boolean result = false;
         try {
-            int id = playerDAO.insertUser(email, password);
-            if ((id != 0) && playerDAO.insertPlayer(id, fName, mName, lName, birthDate)) {
-                return true;
+            int id = userDAO.insertUser(email, password);
+            int insertedRows = playerDAO.insertPlayer(id, fName, mName, lName, birthDate);
+            if ((id != 0) && (insertedRows == 1)) {
+                result = true;
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
-        return false;
+        return result;
     }
     
-    boolean initPlayerInfo(Player player) {
-        return updateProfileInfo(player);
-    }
     
-    //TODO разбить на 2 метда, который проверяет, есть ли игрок или нет
     @Override
-    public boolean updateProfileInfo(Player player) {
+    public void updatePlayerInfo(Player player) {
         int id = player.getId();
         try {
-            PlayerProfile profile = playerDAO.takeProfile(player.getId());
-            String email = playerDAO.defineEmailById(id);
-            player.setProfile(profile);
-            player.setEmail(email);
-            return true;
+            Player playerWithLastInfo = playerDAO.readPlayerById(id);
+            player.setProfile(playerWithLastInfo.getProfile());
+            player.setAccount(playerWithLastInfo.getAccount());
+            player.setVerification(playerWithLastInfo.getVerification());
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
-        return false;
     }
 }

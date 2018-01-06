@@ -18,6 +18,8 @@ public final class ConfigConstant {
     public static final String BASIC = "basic";
     public static final String VIP = "vip";
     public static final String BAN = "ban";
+    public static final String REQUEST = "request";
+    public static final String VERIFIED = "verified";
     
     /**
      * Locale strings

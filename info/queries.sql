@@ -145,3 +145,6 @@ WHERE
         WHERE
             `outcome`.`event_id` = `event`.`id`)
 ORDER BY `category_id`;
+
+
+SELECT fname, mname, lname, birthday, status, balance, bet_limit, withdrawal_limit, IFNULL((SELECT ABS(SUM(amount)) FROM transaction WHERE player.id=player_id AND amount < 0 AND MONTH(date)=MONTH(NOW()) AND YEAR(date)=YEAR(NOW())), 0) AS month_withdrawal, verification_status, passport FROM player LEFT JOIN player_status ON player.player_status=player_status.status WHERE player.id=7;

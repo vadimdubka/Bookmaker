@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<div class="wrapper">
+<section class="section-user-login col-s-5 col-3 col-float-right">
     <div class="section-header"><h2>Войдите в систему</h2></div>
     <div class="section-content">
         <form class="login-form" name="loginForm" action="controller" method="post">
@@ -22,4 +22,4 @@
                 <fmt:message key="login.register"/></a>
         </div>
     </div>
-</div>
+</section>

@@ -164,26 +164,6 @@ nav.employee-nav {
     /*font-style: italic;*/
 }
 
-/*Section section-user*/
-.section-user .section-header h2 {
-    position: relative;
-    animation: move-header 0.2s;
-    animation-name: move-header;
-    animation-iteration-count: 12;
-}
-
-@keyframes move-header {
-    0% {
-        left: 0px;
-    }
-    50% {
-        left: 2px;
-    }
-    100% {
-        left: -2px;
-    }
-}
-
 /*Form */
 input {
     padding: .5em;

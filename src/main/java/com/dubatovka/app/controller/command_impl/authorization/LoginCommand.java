@@ -7,6 +7,7 @@ import com.dubatovka.app.entity.Analyst;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.service.PlayerService;
 import com.dubatovka.app.service.ServiceFactory;
 import com.dubatovka.app.service.UserService;
 import com.dubatovka.app.service.ValidatorService;
@@ -69,6 +70,8 @@ public class LoginCommand implements Command {
         Class userClass = user.getClass();
         if (userClass == Player.class) {
             Player player = (Player) user;
+            PlayerService playerService = ServiceFactory.getInstance().getPlayerService();
+            playerService.updatePlayerInfo(player);
             session.setAttribute(ATTR_PLAYER, player);
         } else if (userClass == Admin.class) {
             Admin admin = (Admin) user;

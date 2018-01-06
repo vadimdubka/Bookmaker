@@ -16,6 +16,8 @@ public interface UserDAO {
     String ROLE = "role";
     String REGISTRATION_DATE = "registration_date";
     
-    public abstract User authorizeUser(String email, String password) throws DAOException;
+    int insertUser(String email, String password) throws DAOException;
+    
+    User authorizeUser(String email, String password) throws DAOException;
     
 }

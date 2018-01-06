@@ -3,7 +3,7 @@ package com.dubatovka.app.entity;
 import java.math.BigDecimal;
 
 public class PlayerAccount {
-
+    
     /**
      * Object which contains player status data.
      */
@@ -15,28 +15,28 @@ public class PlayerAccount {
     /**
      * Player current month withdrawal value.
      */
-    private BigDecimal   thisMonthWithdrawal;
+    private BigDecimal thisMonthWithdrawal;
     
     public PlayerStatus getStatus() {
         return status;
     }
-
+    
     public void setStatus(PlayerStatus status) {
         this.status = status;
     }
-
+    
     public BigDecimal getBalance() {
         return balance;
     }
-
+    
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
-
+    
     public BigDecimal getThisMonthWithdrawal() {
         return thisMonthWithdrawal;
     }
-
+    
     public void setThisMonthWithdrawal(BigDecimal thisMonthWithdrawal) {
         this.thisMonthWithdrawal = thisMonthWithdrawal;
     }
@@ -51,7 +51,7 @@ public class PlayerAccount {
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
         return thisMonthWithdrawal != null ? thisMonthWithdrawal.equals(that.thisMonthWithdrawal) : that.thisMonthWithdrawal == null;
-    
+        
     }
     
     @Override

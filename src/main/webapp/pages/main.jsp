@@ -1,15 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <main class="row container">
-    <section class="section-user col-s-5 col-3 col-float-right">
-        <c:choose>
-            <c:when test="${sessionScope.user == null}">
-                <%@include file="jspf/user-login.jsp" %>
-            </c:when>
-            <c:otherwise>
-                <%@include file="jspf/user-menu.jsp" %>
-            </c:otherwise>
-        </c:choose>
-    </section>
+
+    <c:choose>
+        <c:when test="${sessionScope.user == null}">
+            <%@include file="jspf/user-login.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@include file="jspf/user-menu.jsp" %>
+        </c:otherwise>
+    </c:choose>
 
     <%--TODO сделать через js and onclick, чтобы открывались категории по нажатию, а не по наведению--%>
     <section class="section-category col-s-7 col-3">
@@ -66,10 +65,10 @@
         <c:otherwise>
             <section class="section-promo col-s-12 col-6 col-float-right">
                 <div class="section-header"><h2>Выбери свой спорт!</h2></div>
-                    <img class="img-choose-sport"
-                         src="${pageContext.request.contextPath}/resources/img/choose-sport.jpg"
-                         alt="Choose-sport-logo"
-                         title="Choose your sport">
+                <img class="img-choose-sport"
+                     src="${pageContext.request.contextPath}/resources/img/choose-sport.jpg"
+                     alt="Choose-sport-logo"
+                     title="Choose your sport">
             </section>
         </c:otherwise>
     </c:choose>

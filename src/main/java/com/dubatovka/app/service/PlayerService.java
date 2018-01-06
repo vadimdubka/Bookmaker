@@ -10,5 +10,5 @@ public interface PlayerService {
     
     boolean registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate);
     
-    boolean updateProfileInfo(Player player);
+    void updatePlayerInfo(Player player);
 }
