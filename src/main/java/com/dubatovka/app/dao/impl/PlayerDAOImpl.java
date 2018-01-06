@@ -12,7 +12,9 @@ public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     private static final String SQL_INSERT_PLAYER = "INSERT INTO player (id, fname, mname, lname, birthday) " +
             "VALUES (?, ?, ?, ?, ?)";
     
-    private static final String SQL_SELECT_PLAYER_BY_ID = "SELECT fname, mname, lname, birthday, status, balance, bet_limit, withdrawal_limit, IFNULL((SELECT ABS(SUM(amount)) FROM transaction WHERE player.id=player_id AND amount < 0 AND MONTH(date)=MONTH(NOW()) AND YEAR(date)=YEAR(NOW())), 0) AS month_withdrawal, verification_status, passport FROM player LEFT JOIN player_status ON player.player_status=player_status.status WHERE player.id=?;";
+    private static final String SQL_SELECT_PLAYER_BY_ID = "SELECT fname, mname, lname, birthday, status, balance, bet_limit, withdrawal_limit, " +
+            "IFNULL((SELECT ABS(SUM(amount)) FROM transaction WHERE player.id=player_id AND amount < 0 AND MONTH(date)=MONTH(NOW()) AND YEAR(date)=YEAR(NOW())), 0) AS month_withdrawal, verification_status, passport " +
+            "FROM player LEFT JOIN player_status ON player.player_status=player_status.status WHERE player.id=?;";
     
     private static final String SQL_SELECT_ALL_PLAYERS = "SELECT fname, mname, lname, birthday, player_status, balance, month_withdrawal, verification_status FROM player ORDER BY fname";
     

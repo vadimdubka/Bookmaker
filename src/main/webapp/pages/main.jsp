@@ -38,7 +38,7 @@
             <section class="events col-s-12 col-6 col-float-right">
                 <div class="section-header"><h2>Спортивные события</h2></div>
                 <div class="section-content">
-                    <table>
+                    <table class="events">
                         <tr>
                             <th>№</th>
                             <th>Дата</th>

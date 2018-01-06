@@ -294,31 +294,41 @@ table {
     border: 1px solid dimgrey;
 }
 
-td {
+/*Table events*/
+table.events td {
     border: 1px solid dimgrey;
     padding: 5px;
     text-align: center;
     color: black;
 }
 
-tr:nth-child(2n) {
+table.events tr:nth-child(2n) {
     background-color: white;
 }
 
-tr:nth-child(2n+1) {
+table.events tr:nth-child(2n+1) {
     background-color: #eeeeee;
 }
 
-th {
+table.events th {
     padding: 5px;
     border: 1px solid dimgrey;
     background-color: lightgray;
     color: black;
 }
 
-.events caption {
-    text-align: left;
+/*Table user-menu*/
+table.user-menu {
+    border: none;
 }
+table.user-menu td.name{
+    padding-right: 5px;
+}
+
+table.user-menu td.info{
+    font-weight: bold;
+}
+
 
 /*Footer*/
 footer {
