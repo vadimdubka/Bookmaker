@@ -256,7 +256,16 @@ form.make-bet-form input{
     margin: 0.33em;
 }
 
+/*error pages*/
+ul.error-paragraph {
+    margin: 0 auto;
+    max-width: 80%;
+    color: #fff;
+}
 
+ul.error-paragraph li {
+    word-wrap: break-word;
+}
 
 /*Сообщения об ошибке*/
 .err-msg {

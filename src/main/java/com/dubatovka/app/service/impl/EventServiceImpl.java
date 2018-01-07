@@ -47,8 +47,6 @@ public class EventServiceImpl extends AbstractService implements EventService {
             event = eventDAO.getEventById(eventId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         setOutcomesForEvent(event);
         return event;

@@ -1,6 +1,7 @@
 package com.dubatovka.app.controller;
 
 import com.dubatovka.app.controller.command_impl.ChangeLocaleCommand;
+import com.dubatovka.app.controller.command_impl.MakeBetCommand;
 import com.dubatovka.app.controller.command_impl.navigation.*;
 import com.dubatovka.app.controller.command_impl.authorization.LoginCommand;
 import com.dubatovka.app.controller.command_impl.authorization.LogoutCommand;
@@ -20,7 +21,7 @@ import static com.dubatovka.app.manager.ConfigConstant.ATTR_ROLE;
 public final class CommandFactory {
     private static final Logger logger = LogManager.getLogger(CommandFactory.class);
     private static final String LOG_FOR_COMMAND = "Command implementation is not defined for command type: %s. Check class: %s.";
-    private static final String LOG_FOR_COMMAND_TYPE = "Request doesn't have command_type parameter or defined command_type parameter is invalid: %s. Check web page: %s.";
+    private static final String LOG_FOR_COMMAND_TYPE = "Request doesn't have command_type parameter or defined command_type parameter is invalid: %s. Check page after request: %s.";
     private static final String REFERER = "referer";
     
     private static final Map<CommandType, Command> commonCommands = new EnumMap<>(CommandType.class);
@@ -38,6 +39,7 @@ public final class CommandFactory {
         commonCommands.put(CommandType.LOGIN, new LoginCommand());
         commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
         commonCommands.put(CommandType.GOTO_MAKE_BET, new GotoMakeBet());
+        commonCommands.put(CommandType.MAKE_BET, new MakeBetCommand());
         
         guestCommands.putAll(commonCommands);
         
@@ -115,7 +117,7 @@ public final class CommandFactory {
         
         GOTO_MANAGE_PLAYERS,
         GOTO_MAKE_BET,
-        
-        GOTO_PAGINATION
+    
+        MAKE_BET, GOTO_PAGINATION
     }
 }

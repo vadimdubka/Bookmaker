@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class GotoMakeBet implements Command {
     public static final String PARAM_EVENT_ID = "event_id";
-    public static final String PARAM_OUTCOME_TYPE = "type";
+    public static final String PARAM_OUTCOME_TYPE = "outcome_type";
     
     public static final String ATTR_CATEGORY = "category";
     public static final String ATTR_SPORT_CATEGORY = "sportCategory";

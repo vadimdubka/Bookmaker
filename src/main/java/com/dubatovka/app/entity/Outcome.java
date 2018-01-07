@@ -1,9 +1,11 @@
 package com.dubatovka.app.entity;
 
+import java.math.BigDecimal;
+
 public class Outcome {
     private int eventId;
     private String type;
-    private double coefficient;
+    private BigDecimal coefficient;
     
     public int getEventId() {
         return eventId;
@@ -21,11 +23,11 @@ public class Outcome {
         this.type = type;
     }
     
-    public double getCoefficient() {
+    public BigDecimal getCoefficient() {
         return coefficient;
     }
     
-    public void setCoefficient(double coefficient) {
+    public void setCoefficient(BigDecimal coefficient) {
         this.coefficient = coefficient;
     }
     
@@ -37,19 +39,16 @@ public class Outcome {
         Outcome outcome = (Outcome) o;
         
         if (eventId != outcome.eventId) return false;
-        if (Double.compare(outcome.coefficient, coefficient) != 0) return false;
-        return type != null ? type.equals(outcome.type) : outcome.type == null;
-        
+        if (type != null ? !type.equals(outcome.type) : outcome.type != null) return false;
+        return coefficient != null ? coefficient.equals(outcome.coefficient) : outcome.coefficient == null;
+    
     }
     
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = eventId;
+        int result = eventId;
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        temp = Double.doubleToLongBits(coefficient);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (coefficient != null ? coefficient.hashCode() : 0);
         return result;
     }
     

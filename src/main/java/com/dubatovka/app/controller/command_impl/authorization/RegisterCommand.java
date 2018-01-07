@@ -57,33 +57,33 @@ public class RegisterCommand implements Command {
         String lName = request.getParameter(PARAM_LNAME);
         String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
-        if (validatorService.validateEmail(email)) {
+        if (validatorService.isValidEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
         }
         
-        if (!validatorService.validatePassword(password, passwordAgain)) {
+        if (!validatorService.isValidPassword(password, passwordAgain)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(WHITESPACE)
                     .append(messageManager.getMessage(MESSAGE_PASSWORD_MISMATCH)).append(MESSAGE_SEPARATOR);
         }
         
-        if (validatorService.validateName(fName)) {
+        if (validatorService.isValidName(fName)) {
             request.setAttribute(ATTR_FNAME_INPUT, fName);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_NAME)).append(MESSAGE_SEPARATOR);
         }
-        if (validatorService.validateName(mName)) {
+        if (validatorService.isValidName(mName)) {
             request.setAttribute(ATTR_MNAME_INPUT, mName);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_NAME)).append(MESSAGE_SEPARATOR);
         }
-        if (validatorService.validateName(lName)) {
+        if (validatorService.isValidName(lName)) {
             request.setAttribute(ATTR_LNAME_INPUT, lName);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_NAME)).append(MESSAGE_SEPARATOR);
         }
-        if (validatorService.validateBirthdate(birthDate)) {
+        if (validatorService.isValidBirthdate(birthDate)) {
             request.setAttribute(ATTR_BIRTHDATE_INPUT, birthDate);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_BIRTHDATE)).append(MESSAGE_SEPARATOR);

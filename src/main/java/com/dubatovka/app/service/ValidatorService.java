@@ -1,15 +1,25 @@
 package com.dubatovka.app.service;
 
+import com.dubatovka.app.entity.Event;
+
+import java.time.LocalDateTime;
+
 public interface ValidatorService {
-    boolean validateEmail(String email);
+    boolean isValidEmail(String email);
     
-    boolean validatePassword(String password);
+    boolean isValidPassword(String password);
     
-    boolean validatePassword(String password, String passwordAgain);
+    boolean isValidPassword(String password, String passwordAgain);
     
-    boolean validateName(String name);
+    boolean isValidName(String name);
     
-    boolean matchPattern(String string, String regex);
+    boolean isMatchPattern(String string, String regex);
     
-    boolean validateBirthdate(String birthDate);
+    boolean isValidBirthdate(String birthDate);
+    
+    boolean isValidBetAmount(String betAmount);
+    
+    boolean isValidOutcomeCoeffOnPage(String outcomeCoeffOnPage, Event event, String outcomeType);
+    
+    boolean isValidBetTime(LocalDateTime betDateTime, Event event);
 }

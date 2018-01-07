@@ -53,11 +53,11 @@ public class LoginCommand implements Command {
         ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
         boolean valid = true;
         
-        if (!validatorService.validateEmail(email)) {
+        if (!validatorService.isValidEmail(email)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
             valid = false;
         }
-        if (!validatorService.validatePassword(password)) {
+        if (!validatorService.isValidPassword(password)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
             valid = false;
         }

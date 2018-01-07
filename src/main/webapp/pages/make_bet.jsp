@@ -23,13 +23,14 @@
                 </tr>
             </table>
             <div class="div-align-center">
-                <form class="make-bet-form" name="make-bet-form" action="controller" method="post">
+                <form class="make-bet-form" action="controller" method="post">
                     <input type="hidden" name="command_type" value="make_bet"/>
-                    <input type="hidden" name="player_id" value="${sessionScope.user.id}"/>
-                    <input type="number" name="amount" value=""
+                    <input type="hidden" name="event_id" value="${requestScope.event.id}"/>
+                    <input type="hidden" name="outcome_type" value="${requestScope.outcome.type}"/>
+                    <input type="hidden" name="outcome_coefficient" value="${requestScope.outcome.coefficient}"/>
+                    <input type="number" name="bet_amount" value=""
                            title="Введите сумму ставки"
-                           min="0.01" max="99999" step="0.01"
-                           required/><br>
+                           min="0.01" max="999.99" step="0.01" required/><br>
                     <input type="submit" value="Сделать ставку"/>
                 </form>
             </div>

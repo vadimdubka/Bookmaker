@@ -2,7 +2,7 @@
 <%@ page isErrorPage="true" %>
 
 <main class="container">
-    <section class="error-section cols col-12">
+    <section class="col-s-10 col-12">
         <ul class="error-paragraph">
             <li>Request from <c:out value="${pageContext.errorData.requestURI}" default="N/A"/> is failed</li>
             <li>Servlet name or type: <c:out value="${pageContext.errorData.servletName}" default="N/A"/></li>

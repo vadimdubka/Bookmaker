@@ -86,7 +86,7 @@ FROM
 WHERE
     YEAR(`date`) = 2017
 GROUP BY `month`
-ORDER BY `date`; 
+ORDER BY `date`;
 -- 4.3 Вывести игроков, которые выигрывают у букмекера денег больше, чем ставят на ставки.
 SELECT 
     `player`.`id`, 
@@ -106,7 +106,7 @@ SELECT
 FROM
     `transaction`
 WHERE
-    YEAR(`date`) = 2017 AND `amount` < 0 
+    YEAR(`date`) = 2017 AND `amount` < 0
 UNION SELECT 
     '2017 expenses', 
     SUM(`amount`) * (- 1) AS `total`

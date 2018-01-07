@@ -1,12 +1,12 @@
 package com.dubatovka.app.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class Event {
     private int id;
     private int categoryId;
-    private LocalDate date;
+    private LocalDateTime date;
     private String participant1;
     private String participant2;
     private int result1;
@@ -29,11 +29,11 @@ public class Event {
         this.categoryId = categoryId;
     }
     
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
     
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
     

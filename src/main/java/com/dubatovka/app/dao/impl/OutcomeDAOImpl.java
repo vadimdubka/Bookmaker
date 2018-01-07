@@ -37,7 +37,7 @@ public class OutcomeDAOImpl extends AbstractDBDAO implements OutcomeDAO {
         while (resultSet.next()) {
             Outcome outcome = new Outcome();
             outcome.setEventId(resultSet.getInt(EVENT_ID));
-            outcome.setCoefficient(resultSet.getDouble(COEFFICIENT));
+            outcome.setCoefficient(resultSet.getBigDecimal(COEFFICIENT));
             outcome.setType(resultSet.getString(TYPE));
             outcomeSet.add(outcome);
         }
