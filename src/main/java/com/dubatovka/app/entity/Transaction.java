@@ -21,6 +21,12 @@ public class Transaction {
      */
     private BigDecimal amount;
     
+    private TransactionType type;
+    
+    public enum TransactionType {
+        REPLENISH, WITHDRAW
+    }
+    
     public int getId() {
         return id;
     }
@@ -53,6 +59,14 @@ public class Transaction {
         this.amount = amount;
     }
     
+    public TransactionType getType() {
+        return type;
+    }
+    
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,8 +77,9 @@ public class Transaction {
         if (id != that.id) return false;
         if (playerId != that.playerId) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        return amount != null ? amount.equals(that.amount) : that.amount == null;
-        
+        if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
+        return type == that.type;
+    
     }
     
     @Override
@@ -73,6 +88,7 @@ public class Transaction {
         result = 31 * result + playerId;
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (amount != null ? amount.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
     
