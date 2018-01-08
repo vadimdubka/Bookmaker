@@ -1,6 +1,7 @@
 package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.OutcomeDAO;
+import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.service.OutcomeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,10 @@ public class OutcomeServiceImpl extends OutcomeService {
     private final OutcomeDAO standardDAO = daoHelper.getOutcomeDAO();
     
     OutcomeServiceImpl() {
+    }
+    
+    OutcomeServiceImpl(DAOHelper daoHelper) {
+        super(daoHelper);
     }
     
     @Override

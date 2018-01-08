@@ -2,6 +2,7 @@ package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.CategoryDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Category;
 import com.dubatovka.app.service.CategoryService;
 import org.apache.logging.log4j.Level;
@@ -17,6 +18,10 @@ public class CategoryServiceImpl extends CategoryService {
     private final CategoryDAO categoryDAO = daoHelper.getCategoryDAO();
     
     CategoryServiceImpl() {
+    }
+    
+    CategoryServiceImpl(DAOHelper daoHelper) {
+        super(daoHelper);
     }
     
     //TODO метод синхронизовать
@@ -42,7 +47,7 @@ public class CategoryServiceImpl extends CategoryService {
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
-    
+        
         return categoryResult;
     }
     

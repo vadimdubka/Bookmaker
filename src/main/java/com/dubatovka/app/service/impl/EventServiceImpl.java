@@ -3,6 +3,7 @@ package com.dubatovka.app.service.impl;
 import com.dubatovka.app.dao.EventDAO;
 import com.dubatovka.app.dao.OutcomeDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
 import com.dubatovka.app.service.EventService;
@@ -24,12 +25,11 @@ public class EventServiceImpl extends EventService {
     private final OutcomeDAO outcomeDAO = daoHelper.getOutcomeDAO();
     
     private final Map<String, Map<String, String>> coeffColumnMaps = new HashMap<>();
+    private final Map<String, String> type1 = new HashMap<>();
+    private final Map<String, String> typeX = new HashMap<>();
+    private final Map<String, String> type2 = new HashMap<>();
     
-    EventServiceImpl() {
-        Map<String, String> type1 = new HashMap<>();
-        Map<String, String> typeX = new HashMap<>();
-        Map<String, String> type2 = new HashMap<>();
-        
+    {
         coeffColumnMaps.put(OUTCOME_TYPE_1, type1);
         coeffColumnMaps.put(OUTCOME_TYPE_X, typeX);
         coeffColumnMaps.put(OUTCOME_TYPE_2, type2);
@@ -37,6 +37,14 @@ public class EventServiceImpl extends EventService {
         type1.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_1);
         typeX.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_X);
         type2.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_2);
+    }
+    
+    EventServiceImpl() {
+        
+    }
+    
+    EventServiceImpl(DAOHelper daoHelper) {
+        super(daoHelper);
     }
     
     @Override

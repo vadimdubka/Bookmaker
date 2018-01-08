@@ -1,6 +1,7 @@
 package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.BetDAO;
+import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.service.BetService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,10 @@ public class BetServiceImpl extends BetService {
     private final BetDAO standardDAO = daoHelper.getBetDAO();
     
     BetServiceImpl() {
+    }
+    
+    BetServiceImpl(DAOHelper daoHelper) {
+        super(daoHelper);
     }
     
     @Override

@@ -4,6 +4,7 @@ import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.Transaction;
 import com.dubatovka.app.manager.Encryptor;
@@ -24,6 +25,10 @@ public class PlayerServiceImpl extends PlayerService {
     private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
     
     PlayerServiceImpl() {
+    }
+    
+    PlayerServiceImpl(DAOHelper daoHelper) {
+        super(daoHelper);
     }
     
     @Override

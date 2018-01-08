@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidatorServiceImpl extends ValidatorService {
+public class ValidatorServiceImpl implements ValidatorService {
     
     private static final int MAX_EMAIL_LENGTH = 320;
     private static final int MAX_EMAIL_NAME_LENGTH = 64;
@@ -102,9 +102,9 @@ public class ValidatorServiceImpl extends ValidatorService {
     }
     
     @Override
-    public boolean isMatchPattern(String string, String regex) {
+    public boolean isMatchPattern(String s, String regex) {
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(string);
+        Matcher matcher = pattern.matcher(s);
         return matcher.matches();
     }
 }

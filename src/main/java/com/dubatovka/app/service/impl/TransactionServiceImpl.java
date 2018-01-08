@@ -2,6 +2,7 @@ package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Transaction;
 import com.dubatovka.app.service.TransactionService;
 import org.apache.logging.log4j.Level;
@@ -22,6 +23,10 @@ public class TransactionServiceImpl extends TransactionService {
     private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
     
     TransactionServiceImpl() {
+    }
+    
+    TransactionServiceImpl(DAOHelper daoHelper) {
+        super(daoHelper);
     }
     
     @Override
