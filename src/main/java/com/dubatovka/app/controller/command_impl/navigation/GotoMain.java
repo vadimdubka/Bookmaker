@@ -7,7 +7,7 @@ import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.manager.QueryManager;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
-import com.dubatovka.app.service.ServiceFactory;
+import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -22,15 +22,14 @@ public class GotoMain implements Command {
     public static final String ATTR_TYPE_X_MAP = "type_x_map";
     public static final String ATTR_TYPE_2_MAP = "type_2_map";
     
-    private static final ServiceFactory serviceFactoryInstance = ServiceFactory.getInstance();
-    
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        CategoryService categoryService = serviceFactoryInstance.getCategoryService();
-        
-        Set<Category> sportSet = categoryService.getSportCategories();
+        Set<Category> sportSet;
+        try (CategoryService categoryService = ServiceFactory.getCategoryService()) {
+            sportSet = categoryService.getSportCategories();
+        }
         request.setAttribute(ATTR_SPORT_SET, sportSet);
-        
+    
         String categoryId = request.getParameter(PARAM_CATEGORY_ID);
         extractActualEvents(request, categoryId);
         
@@ -39,13 +38,14 @@ public class GotoMain implements Command {
     }
     
     private void extractActualEvents(HttpServletRequest request, String categoryId) {
-        EventService eventService = serviceFactoryInstance.getEventService();
-        Set<Event> eventSet = null;
-        if (categoryId != null) {
-            eventSet = eventService.getActualEventsByCategoryId(categoryId);
-            extractOutcomesForEvents(request, eventSet, eventService);
+        try(EventService eventService = ServiceFactory.getEventService()){
+            Set<Event> eventSet = null;
+            if (categoryId != null) {
+                eventSet = eventService.getActualEventsByCategoryId(categoryId);
+                extractOutcomesForEvents(request, eventSet, eventService);
+            }
+            request.setAttribute(ATTR_EVENT_SET, eventSet);
         }
-        request.setAttribute(ATTR_EVENT_SET, eventSet);
     }
     
     private void extractOutcomesForEvents(HttpServletRequest request, Set<Event> eventSet, EventService eventService) {

@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidatorServiceImpl implements ValidatorService {
+public class ValidatorServiceImpl extends ValidatorService {
     
     private static final int MAX_EMAIL_LENGTH = 320;
     private static final int MAX_EMAIL_NAME_LENGTH = 64;
@@ -29,6 +29,8 @@ public class ValidatorServiceImpl implements ValidatorService {
     public static final double MIN_BET_AMOUNT = 0;
     public static final double MAX_BET_AMOUNT = 999.99;
     
+    ValidatorServiceImpl() {
+    }
     
     @Override
     public boolean isValidEmail(String email) {

@@ -2,6 +2,7 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.CategoryDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.Category;
 
 import java.sql.PreparedStatement;
@@ -18,6 +19,13 @@ public class CategoryDAOImpl extends AbstractDBDAO implements CategoryDAO {
     private static final String SQL_SELECT_ALL_CATEGORIES = "SELECT id, name, parent_id " +
             "FROM category " +
             "ORDER BY id";
+    
+    CategoryDAOImpl() {
+    }
+    
+    CategoryDAOImpl(WrappedConnection connection) {
+        super(connection);
+    }
     
     @Override
     public Category readCategoryById(int id) throws DAOException {

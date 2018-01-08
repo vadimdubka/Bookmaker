@@ -2,9 +2,14 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.*;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +23,32 @@ public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     
     private static final String SQL_SELECT_ALL_PLAYERS = "SELECT fname, mname, lname, birthday, player_status, balance, month_withdrawal, verification_status FROM player ORDER BY fname";
     
+    /**
+     * Updates definite player balance by adding definite value to it.
+     */
+    private static final String SQL_UPDATE_ACCOUNT_BALANCE = "UPDATE player " +
+            "SET balance=balance+? " +
+            "WHERE id=?";
+    
+    PlayerDAOImpl() {
+    }
+    
+    PlayerDAOImpl(WrappedConnection connection) {
+        super(connection);
+    }
+    
+    /**
+     * Inserts {@link Player} data into 'player' table on registration.
+     *
+     * @param id        id of {@link Player} whose data is inserting
+     * @param fName     first name of {@link Player} whose data is inserting
+     * @param mName     middle name of {@link Player} whose data is inserting
+     * @param lName     last name of {@link Player} whose data is inserting
+     * @param birthDate birthdate of {@link Player} whose data is inserting
+     * @return true if insertion proceeded successfully
+     * @throws DAOException if {@link SQLException} occurred while working with database
+     * @see PreparedStatement
+     */
     @Override
     public int insertPlayer(int id, String fName, String mName, String lName, String birthDate) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_PLAYER)) {
@@ -53,6 +84,35 @@ public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
             throw new DAOException("Database connection error while read users. " + e);
         }
         return playerList;
+    }
+    
+    /**
+     * Updates definite {@link Player} balance by adding/subtracting definite value to it.
+     *
+     * @param id     id of {@link Player} whose data is updating
+     * @param amount amount of money to add/subtract to current balance value
+     * @param type   type of balance changing
+     * @return true if update proceeded successfully
+     * @throws DAOException if {@link SQLException} occurred while working with database
+     * @see Transaction.TransactionType
+     * @see PreparedStatement
+     */
+    @Override
+    public boolean changeBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException {
+        if (type == Transaction.TransactionType.WITHDRAW) {
+            amount = amount.negate();
+        }
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ACCOUNT_BALANCE)) {
+            statement.setBigDecimal(1, amount);
+            statement.setInt(2, id);
+            if (statement.executeUpdate() == 1) {
+                return true;
+            } else {
+                throw new DAOException("No or more than 1 player associated with given id: '" + id + "'. Check database.");
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while changing balance. " + e);
+        }
     }
     
     private static List<Player> createUserList(ResultSet resultSet) throws SQLException {

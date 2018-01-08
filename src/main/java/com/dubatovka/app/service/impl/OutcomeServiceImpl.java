@@ -7,10 +7,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Set;
 
-public class OutcomeServiceImpl extends AbstractService implements OutcomeService {
+public class OutcomeServiceImpl extends OutcomeService {
     private static final Logger logger = LogManager.getLogger(OutcomeServiceImpl.class);
-    private final OutcomeDAO standardDAO = daoFactory.getOutcomeDAO();
+    private final OutcomeDAO standardDAO = daoHelper.getOutcomeDAO();
     
+    OutcomeServiceImpl() {
+    }
     
     @Override
     public Set<Object> mockMethod(String id) {

@@ -2,6 +2,6 @@ package com.dubatovka.app.service;
 
 import java.util.Set;
 
-public interface TransactionService {
-    Set<Object> mockMethod(String id);
+public abstract class TransactionService extends AbstractService {
+    public abstract Set<Object> mockMethod(String id);
 }

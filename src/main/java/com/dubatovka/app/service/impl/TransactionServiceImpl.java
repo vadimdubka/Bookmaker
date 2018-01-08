@@ -15,13 +15,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import static com.dubatovka.app.manager.ConfigConstant.ALL;
-import static com.dubatovka.app.manager.ConfigConstant.EMPTY_STRING;
-import static com.dubatovka.app.manager.ConfigConstant.PERCENT;
+import static com.dubatovka.app.manager.ConfigConstant.*;
 
-public class TransactionServiceImpl extends AbstractService implements TransactionService {
+public class TransactionServiceImpl extends TransactionService {
     private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
-    private final TransactionDAO transactionDAO = daoFactory.getTransactionDAO();
+    private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
+    
+    TransactionServiceImpl() {
+    }
     
     @Override
     public Set<Object> mockMethod(String id) {

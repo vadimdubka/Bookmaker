@@ -12,9 +12,12 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UserServiceImpl extends AbstractService implements UserService {
+public class UserServiceImpl extends UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private final UserDAO userDAO = daoFactory.getUserDAO();
+    private final UserDAO userDAO = daoHelper.getUserDAO();
+    
+    UserServiceImpl() {
+    }
     
     /**
      * Provides authorisation operation for user. Calls DAO layer to init {@link User} object due to given parameters.

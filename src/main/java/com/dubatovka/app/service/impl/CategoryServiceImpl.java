@@ -10,11 +10,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-public class CategoryServiceImpl extends AbstractService implements CategoryService {
+public class CategoryServiceImpl extends CategoryService {
     private static final Logger logger = LogManager.getLogger(CategoryServiceImpl.class);
     private static Set<Category> sportCategories;
     private static boolean isCategoriesModified = false; //TODO менять значение переменной при любой модификации списка категорий
-    private final CategoryDAO categoryDAO = daoFactory.getCategoryDAO();
+    private final CategoryDAO categoryDAO = daoHelper.getCategoryDAO();
+    
+    CategoryServiceImpl() {
+    }
     
     //TODO метод синхронизовать
     @Override

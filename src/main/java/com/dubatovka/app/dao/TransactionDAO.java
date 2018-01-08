@@ -6,7 +6,6 @@ import com.dubatovka.app.entity.Transaction;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 public interface TransactionDAO {
     /**
@@ -16,8 +15,6 @@ public interface TransactionDAO {
     String PLAYER_ID = "player_id";
     String DATE = "date";
     String AMOUNT = "amount";
-    
-    Set<Object> mockMethod() throws DAOException;
     
     /**
      * Takes {@link List} filled by definite player {@link Transaction} objects.

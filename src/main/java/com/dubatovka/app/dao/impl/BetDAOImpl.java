@@ -2,6 +2,7 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.BetDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.Category;
 
 import java.sql.PreparedStatement;
@@ -12,6 +13,13 @@ import java.util.Set;
 
 public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     private static final String SQL_SELECT_X = "SELECT X";
+    
+    BetDAOImpl() {
+    }
+    
+    BetDAOImpl(WrappedConnection connection) {
+        super(connection);
+    }
     
     @Override
     public Set<Object> mockMethod() throws DAOException {

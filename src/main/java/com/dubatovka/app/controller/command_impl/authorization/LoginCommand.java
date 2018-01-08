@@ -8,10 +8,9 @@ import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.PlayerService;
-import com.dubatovka.app.service.ServiceFactory;
 import com.dubatovka.app.service.UserService;
 import com.dubatovka.app.service.ValidatorService;
-import com.dubatovka.app.service.impl.UserServiceImpl;
+import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,8 +31,10 @@ public class LoginCommand implements Command {
         
         boolean isValid = isValidData(email, password, errorMessage, messageManager);
         if (isValid) {
-            UserService userService = new UserServiceImpl();
-            User user = userService.authorizeUser(email, password);
+            User user;
+            try (UserService userService = ServiceFactory.getUserService()) {
+                user = userService.authorizeUser(email, password);
+            }
             if (user != null) {
                 setUserToSession(user, session);
             } else {
@@ -50,8 +51,9 @@ public class LoginCommand implements Command {
     }
     
     private boolean isValidData(String email, String password, StringBuilder errorMessage, MessageManager messageManager) {
-        ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
-        boolean valid = true;
+        boolean valid;
+        ValidatorService validatorService = ServiceFactory.getValidatorService();
+        valid = true;
         
         if (!validatorService.isValidEmail(email)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
@@ -70,8 +72,9 @@ public class LoginCommand implements Command {
         Class userClass = user.getClass();
         if (userClass == Player.class) {
             Player player = (Player) user;
-            PlayerService playerService = ServiceFactory.getInstance().getPlayerService();
-            playerService.updatePlayerInfo(player);
+            try (PlayerService playerService = ServiceFactory.getPlayerService()) {
+                playerService.updatePlayerInfo(player);
+            }
             session.setAttribute(ATTR_PLAYER, player);
         } else if (userClass == Admin.class) {
             Admin admin = (Admin) user;

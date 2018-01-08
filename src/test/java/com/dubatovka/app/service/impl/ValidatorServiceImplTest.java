@@ -1,6 +1,5 @@
 package com.dubatovka.app.service.impl;
 
-import com.dubatovka.app.service.ServiceFactory;
 import com.dubatovka.app.service.ValidatorService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class ValidatorServiceImplTest {
-    ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
+    ValidatorService validatorService = ServiceFactory.getValidatorService();
     @Before
     public void setUp() {
     }

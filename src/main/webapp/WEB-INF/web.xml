@@ -16,7 +16,6 @@
         <session-timeout>30</session-timeout>
     </session-config>
 
-    <!--TODO сделать загрузку конфигурации БД из контекста-->
     <context-param>
         <param-name>db.props</param-name>
         <param-value>database</param-value>

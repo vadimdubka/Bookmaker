@@ -2,6 +2,7 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.User;
 
 import java.sql.PreparedStatement;
@@ -17,6 +18,14 @@ public class UserDAOImpl extends AbstractDBDAO implements UserDAO {
     private static final String SQL_AUTH = "SELECT id, email, role, registration_date " +
             "FROM user " +
             "WHERE email=? AND password=?";
+    
+    
+    UserDAOImpl() {
+    }
+    
+    UserDAOImpl(WrappedConnection connection) {
+        super(connection);
+    }
     
     @Override
     public int insertUser(String email, String password) throws DAOException {

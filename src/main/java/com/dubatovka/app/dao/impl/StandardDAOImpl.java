@@ -2,6 +2,7 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.StandardDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.Category;
 
 import java.sql.PreparedStatement;
@@ -13,6 +14,13 @@ import java.util.Set;
 //TODO удалить по завершению проекта
 public class StandardDAOImpl extends AbstractDBDAO implements StandardDAO {
     private static final String SQL_SELECT_X = "SELECT X";
+    
+    StandardDAOImpl() {
+    }
+    
+    StandardDAOImpl(WrappedConnection connection) {
+        super(connection);
+    }
     
     @Override
     public Set<Object> mockMethod() throws DAOException {

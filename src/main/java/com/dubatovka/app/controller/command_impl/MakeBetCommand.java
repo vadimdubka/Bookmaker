@@ -7,7 +7,7 @@ import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.EventService;
-import com.dubatovka.app.service.ServiceFactory;
+import com.dubatovka.app.service.impl.ServiceFactory;
 import com.dubatovka.app.service.ValidatorService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,22 +71,26 @@ public class MakeBetCommand implements Command {
     }
     
     private String validateRequestParams(HttpServletRequest request) {
-        ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
-        EventService eventService = ServiceFactory.getInstance().getEventService();
-        
-        HttpSession session = request.getSession();
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
-        
-        LocalDateTime betDateTime = LocalDateTime.now();
-        String betAmount = request.getParameter(PARAM_BET_AMOUNT);
-        String eventId = request.getParameter(PARAM_EVENT_ID);
-        Event event = eventService.getEventById(eventId);
+        StringBuilder errorMessage;
+        LocalDateTime betDateTime;
+        String betAmount;
+        Event event;
+        try (EventService eventService = ServiceFactory.getEventService()) {
+            HttpSession session = request.getSession();
+            String locale = (String) session.getAttribute(ATTR_LOCALE);
+            MessageManager messageManager = MessageManager.getMessageManager(locale);
+            errorMessage = new StringBuilder();
+            
+            betDateTime = LocalDateTime.now();
+            betAmount = request.getParameter(PARAM_BET_AMOUNT);
+            String eventId = request.getParameter(PARAM_EVENT_ID);
+            event = eventService.getEventById(eventId);
+        }
         String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
         String outcomeCoeffOnPage = request.getParameter(PARAM_OUTCOME_COEFFICIENT);
         
         //TODO можно сделать валидацию через паттерн chainresponsibility?
+        ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (!validatorService.isValidBetAmount(betAmount)) {
             errorMessage.append(MESSAGE_ERROR_BET_AMOUNT).append(MESSAGE_SEPARATOR);
         }

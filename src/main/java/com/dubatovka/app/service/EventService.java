@@ -5,12 +5,12 @@ import com.dubatovka.app.entity.Event;
 import java.util.Map;
 import java.util.Set;
 
-public interface EventService {
-    Set<Event> getActualEventsByCategoryId(String categoryId);
+public abstract class EventService extends AbstractService{
+    public abstract Set<Event> getActualEventsByCategoryId(String categoryId);
     
-    Set<Event> getAllEventsByCategoryId(String categoryId);
+    public abstract  Set<Event> getAllEventsByCategoryId(String categoryId);
     
-    Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet);
+    public abstract Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet);
     
-    Event getEventById(String eventId);
+    public abstract  Event getEventById(String eventId);
 }

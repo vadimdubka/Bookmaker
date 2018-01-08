@@ -4,13 +4,13 @@ import com.dubatovka.app.entity.Category;
 
 import java.util.Set;
 
-public interface CategoryService {
+public abstract class CategoryService extends AbstractService {
     
     /**
      * Get list of sport categories.
      */
-    Set<Category> getSportCategories();
+    public abstract Set<Category> getSportCategories();
     
     
-    Category getCategoryById(int id);
+    public abstract Category getCategoryById(int id);
 }

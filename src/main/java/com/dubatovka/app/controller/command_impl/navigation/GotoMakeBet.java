@@ -8,7 +8,7 @@ import com.dubatovka.app.entity.Outcome;
 import com.dubatovka.app.manager.QueryManager;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
-import com.dubatovka.app.service.ServiceFactory;
+import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,19 +21,21 @@ public class GotoMakeBet implements Command {
     public static final String ATTR_EVENT = "event";
     public static final String ATTR_OUTCOME = "outcome";
     
-    private static final ServiceFactory serviceFactoryInstance = ServiceFactory.getInstance();
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        CategoryService categoryService = serviceFactoryInstance.getCategoryService();
-        EventService eventService = serviceFactoryInstance.getEventService();
-    
-        String eventId = request.getParameter(PARAM_EVENT_ID);
-        Event event = eventService.getEventById(eventId);
-        String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
-        Outcome outcome = event.getOutcomeByType(outcomeType);
-        Category category = categoryService.getCategoryById(event.getCategoryId());
-        Category parentCategory = categoryService.getCategoryById(category.getParentId());
+        Event event;
+        Outcome outcome;
+        Category category;
+        Category parentCategory;
+        try (EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService()) {
+            String eventId = request.getParameter(PARAM_EVENT_ID);
+            event = eventService.getEventById(eventId);
+            String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
+            outcome = event.getOutcomeByType(outcomeType);
+            category = categoryService.getCategoryById(event.getCategoryId());
+            parentCategory = categoryService.getCategoryById(category.getParentId());
+        }
         
         request.setAttribute(ATTR_CATEGORY, category);
         request.setAttribute(ATTR_SPORT_CATEGORY, parentCategory);

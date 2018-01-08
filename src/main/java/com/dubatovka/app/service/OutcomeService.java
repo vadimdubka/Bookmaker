@@ -2,6 +2,6 @@ package com.dubatovka.app.service;
 
 import java.util.Set;
 
-public interface OutcomeService {
-    Set<Object> mockMethod(String id);
+public abstract class OutcomeService extends AbstractService {
+    public abstract  Set<Object> mockMethod(String id);
 }

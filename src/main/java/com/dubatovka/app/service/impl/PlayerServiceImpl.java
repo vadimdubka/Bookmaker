@@ -1,24 +1,30 @@
 package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.PlayerDAO;
+import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Player;
+import com.dubatovka.app.entity.Transaction;
 import com.dubatovka.app.manager.Encryptor;
 import com.dubatovka.app.service.PlayerService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
-/**
- * The type Player service.
- */
-public class PlayerServiceImpl extends AbstractService implements PlayerService {
+
+public class PlayerServiceImpl extends PlayerService {
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
-    private final UserDAO userDAO = daoFactory.getUserDAO();
-    private final PlayerDAO playerDAO = daoFactory.getPlayerDAO();
+    private final UserDAO userDAO = daoHelper.getUserDAO();
+    private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();
+    private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
+    
+    PlayerServiceImpl() {
+    }
     
     @Override
     public List<Player> getAllPlayers() {
@@ -70,5 +76,32 @@ public class PlayerServiceImpl extends AbstractService implements PlayerService 
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
+    }
+    
+    /**
+     * Calls DAO layer to make an account transaction of definite
+     * {@link Transaction.TransactionType}.
+     *
+     * @param player player who processes transaction
+     * @param amount amount of money player transacts
+     * @param type   type of transaction
+     * @return true if transaction proceeded successfully
+     * @see TransactionDAO#insertTransaction(int, BigDecimal, Transaction.TransactionType)
+     * @see PlayerDAO#changeBalance(int, BigDecimal, Transaction.TransactionType)
+     */
+    public boolean makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType type) {
+        int id = player.getId();
+        try {
+            daoHelper.beginTransaction();
+            if ((transactionDAO.insertTransaction(id, amount, type) != 0) && playerDAO.changeBalance(id, amount, type)) {
+                daoHelper.commit();
+                return true;
+            }
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Database connection error while doing sql transaction. " + e);
+        }
+        return false;
     }
 }

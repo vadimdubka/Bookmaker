@@ -5,9 +5,8 @@ import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.PlayerService;
-import com.dubatovka.app.service.ServiceFactory;
 import com.dubatovka.app.service.ValidatorService;
-import com.dubatovka.app.service.impl.PlayerServiceImpl;
+import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,17 +22,18 @@ public class RegisterCommand implements Command {
         String errorMessage = validateRequestParams(request);
         
         if (errorMessage.isEmpty()) {
-            PlayerService playerService = new PlayerServiceImpl();
-            String email = request.getParameter(PARAM_EMAIL);
-            String password = request.getParameter(PARAM_PASSWORD);
-            String fName = request.getParameter(PARAM_FNAME);
-            String mName = request.getParameter(PARAM_MNAME);
-            String lName = request.getParameter(PARAM_LNAME);
-            String birthDate = request.getParameter(PARAM_BIRTHDATE);
-            if (playerService.registerPlayer(email, password, fName, mName, lName, birthDate)) {
-                navigator = PageNavigator.REDIRECT_GOTO_INDEX;
-            } else {
-                navigator = PageNavigator.FORWARD_PAGE_REGISTER;
+            try (PlayerService playerService = ServiceFactory.getPlayerService()) {
+                String email = request.getParameter(PARAM_EMAIL);
+                String password = request.getParameter(PARAM_PASSWORD);
+                String fName = request.getParameter(PARAM_FNAME);
+                String mName = request.getParameter(PARAM_MNAME);
+                String lName = request.getParameter(PARAM_LNAME);
+                String birthDate = request.getParameter(PARAM_BIRTHDATE);
+                if (playerService.registerPlayer(email, password, fName, mName, lName, birthDate)) {
+                    navigator = PageNavigator.REDIRECT_GOTO_INDEX;
+                } else {
+                    navigator = PageNavigator.FORWARD_PAGE_REGISTER;
+                }
             }
         } else {
             request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage);
@@ -43,11 +43,12 @@ public class RegisterCommand implements Command {
     }
     
     private String validateRequestParams(HttpServletRequest request) {
-        ValidatorService validatorService = ServiceFactory.getInstance().getValidatorService();
+        StringBuilder errorMessage;
+        ValidatorService validatorService = ServiceFactory.getValidatorService();
         HttpSession session = request.getSession();
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
+        errorMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);

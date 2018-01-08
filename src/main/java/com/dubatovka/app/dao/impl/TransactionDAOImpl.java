@@ -2,6 +2,7 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.Category;
 import com.dubatovka.app.entity.Transaction;
 import com.mysql.jdbc.Statement;
@@ -20,32 +21,6 @@ import java.util.Set;
  * The type Transaction dao.
  */
 public class TransactionDAOImpl extends AbstractDBDAO implements TransactionDAO {
-    private static final String SQL_SELECT_X = "SELECT X";
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Object> mockMethod() throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_X)) {
-            ResultSet resultSet = statement.executeQuery();
-            return buildX(resultSet);
-        } catch (SQLException e) {
-            throw new DAOException("Database connection error while getting sport categories. " + e);
-        }
-    }
-    
-    private Set<Object> buildX(ResultSet resultSet) throws SQLException {
-        Set<Object> xSet = new HashSet<>();
-        while (resultSet.next()) {
-            Category category = new Category();
-            category.setId(resultSet.getInt(ID));
-            xSet.add(category);
-        }
-        return xSet;
-    }
-    
-    
     /**
      * Selects definite player transactions and orders them by date in descending order.
      */
@@ -74,6 +49,12 @@ public class TransactionDAOImpl extends AbstractDBDAO implements TransactionDAO 
     private static final String SQL_TRANSACTION_INSERT = "INSERT INTO transaction (player_id, date, amount) " +
             "VALUES (?, NOW(), ?)";
     
+    TransactionDAOImpl() {
+    }
+    
+    TransactionDAOImpl(WrappedConnection connection) {
+        super(connection);
+    }
     
     /**
      * Takes {@link List} filled by definite player {@link Transaction} objects.
@@ -211,5 +192,15 @@ public class TransactionDAOImpl extends AbstractDBDAO implements TransactionDAO 
             }
         } while (transaction != null);
         return !transactionList.isEmpty() ? transactionList : null;
+    }
+    
+    private Set<Object> buildX(ResultSet resultSet) throws SQLException {
+        Set<Object> xSet = new HashSet<>();
+        while (resultSet.next()) {
+            Category category = new Category();
+            category.setId(resultSet.getInt(ID));
+            xSet.add(category);
+        }
+        return xSet;
     }
 }

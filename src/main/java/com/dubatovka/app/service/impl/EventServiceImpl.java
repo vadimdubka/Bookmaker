@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,15 +17,15 @@ import java.util.Set;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
-public class EventServiceImpl extends AbstractService implements EventService {
+public class EventServiceImpl extends EventService {
     private static final Logger logger = LogManager.getLogger(EventServiceImpl.class);
     
-    private final EventDAO eventDAO = daoFactory.getEventDAO();
-    private final OutcomeDAO outcomeDAO = daoFactory.getOutcomeDAO();
+    private final EventDAO eventDAO = daoHelper.getEventDAO();
+    private final OutcomeDAO outcomeDAO = daoHelper.getOutcomeDAO();
     
     private final Map<String, Map<String, String>> coeffColumnMaps = new HashMap<>();
     
-    public EventServiceImpl() {
+    EventServiceImpl() {
         Map<String, String> type1 = new HashMap<>();
         Map<String, String> typeX = new HashMap<>();
         Map<String, String> type2 = new HashMap<>();
@@ -110,7 +109,6 @@ public class EventServiceImpl extends AbstractService implements EventService {
         
         return coeffColumnMaps;
     }
-    
     
     
     private void fillOutcomeColumnMaps(int id, Iterable<Outcome> outcomeSet) {

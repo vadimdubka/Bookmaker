@@ -2,6 +2,7 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.EventDAO;
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.Event;
 
 import java.sql.PreparedStatement;
@@ -23,6 +24,13 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event " +
                     "WHERE category_id =? AND (date - NOW()) > 0";
+    
+    EventDAOImpl() {
+    }
+    
+    EventDAOImpl(WrappedConnection connection) {
+        super(connection);
+    }
     
     @Override
     public Event getEventById(String eventId) throws DAOException {

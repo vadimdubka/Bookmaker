@@ -8,10 +8,12 @@ import org.apache.logging.log4j.Logger;
 import java.util.Set;
 
 //TODO удалить по завершению проекта
-public class StandardServiceImpl extends AbstractService implements StandardService {
+public class StandardServiceImpl extends StandardService {
     private static final Logger logger = LogManager.getLogger(StandardServiceImpl.class);
-    private final StandardDAO standardDAO = daoFactory.getStandardDAO();
+    private final StandardDAO standardDAO = daoHelper.getStandardDAO();
     
+    StandardServiceImpl() {
+    }
     
     @Override
     public Set<Object> mockMethod(String id) {
