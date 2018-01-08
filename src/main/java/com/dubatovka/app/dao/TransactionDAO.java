@@ -23,7 +23,7 @@ public interface TransactionDAO {
      * @return {@link List} filled by definite player {@link Transaction} objects
      * @throws DAOException if {@link SQLException} occurred while working with database
      */
-    public abstract List<Transaction> takePlayerTransactions(int playerId) throws DAOException;
+    List<Transaction> takePlayerTransactions(int playerId) throws DAOException;
     
     /**
      * Takes {@link List} filled by definite player {@link Transaction} objects due to definite transaction date
@@ -34,7 +34,7 @@ public interface TransactionDAO {
      * @return {@link List} filled by definite player {@link Transaction} objects
      * @throws DAOException if {@link SQLException} occurred while working with database
      */
-    public abstract List<Transaction> takePlayerTransactions(int playerId, String monthPattern) throws DAOException;
+    List<Transaction> takePlayerTransactions(int playerId, String monthPattern) throws DAOException;
     
     /**
      * Takes {@link List} filled by {@link Transaction} objects due to definite transaction date pattern.
@@ -43,7 +43,7 @@ public interface TransactionDAO {
      * @return {@link List} filled by {@link Transaction} objects
      * @throws DAOException if {@link SQLException} occurred while working with database
      */
-    public abstract List<Transaction> takeTransactionList(String monthPattern) throws DAOException;
+    List<Transaction> takeTransactionList(String monthPattern) throws DAOException;
     
     /**
      * Inserts {@link Transaction} to database.
@@ -54,6 +54,6 @@ public interface TransactionDAO {
      * @return int value of inserted transaction generated id
      * @throws DAOException if {@link SQLException} occurred while working with database
      */
-    public abstract int insertTransaction(int playerId, BigDecimal amount, Transaction.TransactionType type) throws DAOException;
+    int insertTransaction(int playerId, BigDecimal amount, Transaction.TransactionType type) throws DAOException;
     
 }

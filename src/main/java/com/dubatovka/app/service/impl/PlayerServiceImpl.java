@@ -94,11 +94,14 @@ public class PlayerServiceImpl extends PlayerService {
      * @see TransactionDAO#insertTransaction(int, BigDecimal, Transaction.TransactionType)
      * @see PlayerDAO#changeBalance(int, BigDecimal, Transaction.TransactionType)
      */
+    @Override
     public boolean makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType type) {
         int id = player.getId();
         try {
             daoHelper.beginTransaction();
-            if ((transactionDAO.insertTransaction(id, amount, type) != 0) && playerDAO.changeBalance(id, amount, type)) {
+            int insTransactId = transactionDAO.insertTransaction(id, amount, type);
+            boolean isChanged = playerDAO.changeBalance(id, amount, type);
+            if ((insTransactId != 0) && isChanged) {
                 daoHelper.commit();
                 return true;
             }

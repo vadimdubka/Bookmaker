@@ -52,5 +52,5 @@ public interface PlayerDAO {
      * @throws DAOException if {@link SQLException} occurred while working with database
      * @see by.sasnouskikh.jcasino.entity.bean.Transaction.TransactionType
      */
-    public abstract boolean changeBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException;
+    boolean changeBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException;
 }
