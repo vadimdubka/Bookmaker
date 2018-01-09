@@ -51,7 +51,7 @@
                             <c:set var="event_id">${event.id}</c:set>
                             <tr>
                                 <td>${event.id}</td>
-                                <td>${event.date}</td>
+                                <td>${j:formatDateTime(event.date, "dd.MM.yyyy HH:mm")}</td>
                                 <td>${event.participant1} - ${event.participant2}</td>
                                 <td>
                                     <a href="${pageContext.request.contextPath}/controller?command_type=goto_make_bet&event_id=${event.id}&outcome_type=${requestScope.type_1_map.name}">
@@ -63,9 +63,9 @@
                                             ${requestScope.type_x_map[pageScope.event_id]}
                                     </a>
                                 <td>
-                                <a href="${pageContext.request.contextPath}/controller?command_type=goto_make_bet&event_id=${event.id}&outcome_type=${requestScope.type_2_map.name}">
-                                        ${requestScope.type_2_map[pageScope.event_id]}
-                                </a>
+                                    <a href="${pageContext.request.contextPath}/controller?command_type=goto_make_bet&event_id=${event.id}&outcome_type=${requestScope.type_2_map.name}">
+                                            ${requestScope.type_2_map[pageScope.event_id]}
+                                    </a>
                             </tr>
                         </c:forEach>
                     </table>

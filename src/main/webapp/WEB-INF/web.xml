@@ -33,6 +33,7 @@
     <error-page>
         <location>/pages/error/error.jsp</location>
     </error-page>
+
     <jsp-config>
         <jsp-property-group>
             <description>header and footer player settings</description>

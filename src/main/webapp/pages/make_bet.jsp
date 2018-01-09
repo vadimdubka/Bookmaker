@@ -16,7 +16,8 @@
                 <tr>
                     <td>${requestScope.sportCategory.name} - ${requestScope.category.name}</td>
                     <td>${requestScope.event.id}</td>
-                    <td>${requestScope.event.date}</td>
+                    <jsp:useBean id="event" scope="request" class="com.dubatovka.app.entity.Event" />
+                    <td>${j:formatDateTime(event.date, "dd.MM.yyyy HH:mm")}</td>
                     <td>${requestScope.event.participant1} - ${requestScope.event.participant2}</td>
                     <td>${requestScope.outcome.type}</td>
                     <td>${requestScope.outcome.coefficient}</td>

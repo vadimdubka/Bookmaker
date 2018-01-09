@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * The class provides custom function to use on JSP pages which provides easier date and time formatting.
  */
-public class DateFormatter {
+public final class DateFormatter {
     
     /**
      * Prints if given to method date or time parameter is null.
