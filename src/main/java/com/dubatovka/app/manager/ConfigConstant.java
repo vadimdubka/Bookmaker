@@ -143,6 +143,7 @@ public final class ConfigConstant {
     public static final String PAGE_MAIN = "/pages/main.jsp";
     public static final String PAGE_REGISTER = "/pages/register.jsp";
     public static final String PAGE_MAKE_BET = "/pages/make_bet.jsp";
+    public static final String PAGE_PLAYER_STATE = "/pages/player_state.jsp";
     public static final String PAGE_SUPPORT = "/pages/support.jsp";
     public static final String PAGE_PROFILE = "/pages/profile.jsp";
     public static final String PAGE_VERIFICATION = "/pages/verification.jsp";
@@ -160,6 +161,7 @@ public final class ConfigConstant {
     public static final String GOTO_MAIN = "/controller?command_type=goto_main";
     public static final String GOTO_PAGINATION = "/controller?command_type=goto_pagination";
     public static final String GOTO_REGISTER = "/controller?command_type=goto_register";
+    public static final String GOTO_PLAYER_STATE = "/controller?command_type=goto_player_state";
     public static final String GOTO_SUPPORT = "/controller?command=goto_support";
     public static final String GOTO_PROFILE = "/controller?command=goto_player_profile";
     public static final String GOTO_VERIFICATION = "/controller?command=goto_verification";

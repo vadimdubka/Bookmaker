@@ -23,5 +23,5 @@ public abstract class PlayerService extends AbstractService {
     
     public abstract int makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType transactionType);
     
-    public abstract void makeBet(int playerId, int eventId, String outcomeType, BigDecimal betAmount, Transaction.TransactionType transactionType, StringBuilder errorMessage);
+    public abstract void makeBet(int playerId, int eventId, String outcomeType, BigDecimal coefficient, BigDecimal betAmount, Transaction.TransactionType transactionType, StringBuilder errorMessage);
 }

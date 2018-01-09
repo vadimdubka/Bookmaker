@@ -117,10 +117,10 @@ public class PlayerServiceImpl extends PlayerService {
     }
     
     @Override
-    public void makeBet(int playerId, int eventId, String outcomeType, BigDecimal betAmount, Transaction.TransactionType transactionType, StringBuilder errorMessage) {
+    public void makeBet(int playerId, int eventId, String outcomeType, BigDecimal coefficient, BigDecimal betAmount, Transaction.TransactionType transactionType, StringBuilder errorMessage) {
         try {
             daoHelper.beginTransaction();
-            betDAO.insertBet(playerId, eventId, outcomeType, betAmount);
+            betDAO.insertBet(playerId, eventId, outcomeType, coefficient, betAmount);
             playerDAO.changeBalance(playerId, betAmount, transactionType);
             daoHelper.commit();
         } catch (DAOException e) {

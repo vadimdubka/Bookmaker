@@ -35,7 +35,8 @@
                 </div>
                 <div>
                     <ul>
-                        <li><a href="#">История аккаунта</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_player_state">История
+                            ставок и платежей</a></li>
                         <li><a href="#">Настройки аккаунта</a></li>
                     </ul>
                 </div>

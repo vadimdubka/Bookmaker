@@ -12,8 +12,9 @@ public interface BetDAO {
     String EVENT_ID = "event_id";
     String OUTCOME_TYPE = "type";
     String DATE = "date";
+    String COEFFICIENT = "coefficient";
     String AMOUNT = "amount";
     String STATUS = "status";
     
-    void insertBet(int playerId, int eventId, String outcomeType, BigDecimal betAmount) throws DAOException;
+    void insertBet(int playerId, int eventId, String outcomeType, BigDecimal coefficient, BigDecimal betAmount) throws DAOException;
 }

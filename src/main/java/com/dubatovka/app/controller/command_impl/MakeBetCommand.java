@@ -51,13 +51,19 @@ public class MakeBetCommand implements Command {
         String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
         String outcomeCoeffOnPage = request.getParameter(PARAM_OUTCOME_COEFFICIENT);
         
-        validateParams(role, player, betAmountStr, eventIdStr, outcomeType, outcomeCoeffOnPage, errorMessage);
+        Event event;
+        try (EventService eventService = ServiceFactory.getEventService()) {
+            event = eventService.getEventById(eventIdStr);
+        }
+        
+        validateParams(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
                 int playerId = player.getId();
-                int eventId = Integer.valueOf(eventIdStr);
+                int eventId = event.getId();
+                BigDecimal amount = event.getOutcomeByType(outcomeType).getCoefficient();
                 BigDecimal betAmount = new BigDecimal(betAmountStr);
-                playerService.makeBet(playerId, eventId, outcomeType, betAmount, Transaction.TransactionType.WITHDRAW, errorMessage);
+                playerService.makeBet(playerId, eventId, outcomeType, amount, betAmount, Transaction.TransactionType.WITHDRAW, errorMessage);
                 if (errorMessage.toString().trim().isEmpty()) {
                     playerService.updatePlayerInfo(player);
                     session.setAttribute(ATTR_PLAYER, player);
@@ -76,10 +82,10 @@ public class MakeBetCommand implements Command {
         return navigator;
     }
     
-    private String validateParams(User.UserRole role, Player player, String betAmountStr, String eventId, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
+    private String validateParams(User.UserRole role, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
         validateUserRole(role, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
-            validateMakeBetParams(errorMessage, player, betAmountStr, eventId, outcomeType, outcomeCoeffOnPage);
+            validateMakeBetParams(errorMessage, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage);
         }
         
         return errorMessage.toString().trim();
@@ -93,13 +99,9 @@ public class MakeBetCommand implements Command {
         }
     }
     
-    private void validateMakeBetParams(StringBuilder errorMessage, Player player, String betAmountStr, String eventId, String outcomeType, String outcomeCoeffOnPage) {
-        Event event;
+    private void validateMakeBetParams(StringBuilder errorMessage, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage) {
         LocalDateTime betDateTime = LocalDateTime.now();
         ValidatorService validatorService = ServiceFactory.getValidatorService();
-        try (EventService eventService = ServiceFactory.getEventService()) {
-            event = eventService.getEventById(eventId);
-        }
         
         if (!validatorService.isValidBetTime(betDateTime, event)) {
             errorMessage.append(MESSAGE_ERROR_BET_TIME).append(MESSAGE_SEPARATOR);
