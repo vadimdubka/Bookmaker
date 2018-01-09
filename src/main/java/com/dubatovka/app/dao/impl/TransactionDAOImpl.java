@@ -43,7 +43,7 @@ public class TransactionDAOImpl extends AbstractDBDAO implements TransactionDAO 
     /**
      * Inserts transaction to database.
      */
-    private static final String SQL_TRANSACTION_INSERT = "INSERT INTO transaction (player_id, date, amount) " +
+    private static final String SQL_INSERT_TRANSACTION = "INSERT INTO transaction (player_id, date, amount) " +
             "VALUES (?, NOW(), ?)";
     
     TransactionDAOImpl() {
@@ -135,7 +135,7 @@ public class TransactionDAOImpl extends AbstractDBDAO implements TransactionDAO 
         if (type == Transaction.TransactionType.WITHDRAW) {
             amount = amount.negate();
         }
-        try (PreparedStatement statement = connection.prepareStatement(SQL_TRANSACTION_INSERT, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_TRANSACTION, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, playerId);
             statement.setBigDecimal(2, amount);
             statement.executeUpdate();

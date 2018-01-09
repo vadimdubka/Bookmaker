@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface CategoryDAO {
     /**
-     * Column names of database table 'user'.
+     * Column names of database table 'category'.
      */
     String ID = "id";
     String NAME = "name";

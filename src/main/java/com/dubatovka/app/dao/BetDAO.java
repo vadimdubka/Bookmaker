@@ -2,14 +2,18 @@ package com.dubatovka.app.dao;
 
 import com.dubatovka.app.dao.exception.DAOException;
 
-import java.util.Set;
+import java.math.BigDecimal;
 
 public interface BetDAO {
     /**
-     * Column names of database table 'x'.
+     * Column names of database table 'bet'.
      */
-    String ID = "id";
+    String PLAYER_ID = "player_id";
+    String EVENT_ID = "event_id";
+    String OUTCOME_TYPE = "type";
+    String DATE = "date";
+    String AMOUNT = "amount";
+    String STATUS = "status";
     
-    Set<Object> mockMethod() throws DAOException;
-    
+    void insertBet(int playerId, int eventId, String outcomeType, BigDecimal betAmount) throws DAOException;
 }

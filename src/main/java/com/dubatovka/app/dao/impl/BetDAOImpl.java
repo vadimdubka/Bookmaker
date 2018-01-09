@@ -5,6 +5,7 @@ import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.db.WrappedConnection;
 import com.dubatovka.app.entity.Category;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
-    private static final String SQL_SELECT_X = "SELECT X";
+    private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, amount, status) VALUES (?, ?, ?, NOW(), ?, 'new')";
     
     BetDAOImpl() {
     }
@@ -22,12 +23,15 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     }
     
     @Override
-    public Set<Object> mockMethod() throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_X)) {
-            ResultSet resultSet = statement.executeQuery();
-            return buildX(resultSet);
+    public void insertBet(int playerId, int eventId, String outcomeType, BigDecimal betAmount) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_BET)) {
+            statement.setInt(1, playerId);
+            statement.setInt(2, eventId);
+            statement.setString(3, outcomeType);
+            statement.setBigDecimal(4, betAmount);
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Database connection error while getting sport categories. " + e);
+            throw new DAOException("Database connection error while inserting bet. " + e);
         }
     }
     
@@ -35,7 +39,7 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
         Set<Object> xSet = new HashSet<>();
         while (resultSet.next()) {
             Category category = new Category();
-            category.setId(resultSet.getInt(ID));
+            category.setId(resultSet.getInt(1));
             xSet.add(category);
         }
         return xSet;

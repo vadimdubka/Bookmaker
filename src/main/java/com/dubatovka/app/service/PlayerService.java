@@ -16,10 +16,12 @@ public abstract class PlayerService extends AbstractService {
     }
     
     public abstract List<Player> getAllPlayers();
-    
+    //TODO уточнить как именовать метод, если основное значение это зарегитрировать пользователя, а не посмотретть, зарегистрирован ли он
     public abstract boolean registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate);
     
     public abstract void updatePlayerInfo(Player player);
     
-    public abstract boolean makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType type);
+    public abstract int makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType transactionType);
+    
+    public abstract void makeBet(int playerId, int eventId, String outcomeType, BigDecimal betAmount, Transaction.TransactionType transactionType, StringBuilder errorMessage);
 }

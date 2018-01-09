@@ -1,5 +1,6 @@
 package com.dubatovka.app.service.impl;
 
+import com.dubatovka.app.dao.BetDAO;
 import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.UserDAO;
@@ -23,6 +24,7 @@ public class PlayerServiceImpl extends PlayerService {
     private final UserDAO userDAO = daoHelper.getUserDAO();
     private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();
     private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
+    private final BetDAO betDAO = daoHelper.getBetDAO();
     
     PlayerServiceImpl() {
     }
@@ -87,29 +89,46 @@ public class PlayerServiceImpl extends PlayerService {
      * Calls DAO layer to make an account transaction of definite
      * {@link Transaction.TransactionType}.
      *
-     * @param player player who processes transaction
-     * @param amount amount of money player transacts
-     * @param type   type of transaction
+     * @param player          player who processes transaction
+     * @param amount          amount of money player transacts
+     * @param transactionType type of transaction
      * @return true if transaction proceeded successfully
      * @see TransactionDAO#insertTransaction(int, BigDecimal, Transaction.TransactionType)
      * @see PlayerDAO#changeBalance(int, BigDecimal, Transaction.TransactionType)
      */
     @Override
-    public boolean makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType type) {
-        int id = player.getId();
+    public int makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType transactionType) {
+        int playerId = player.getId();
+        int result = 0;
         try {
             daoHelper.beginTransaction();
-            int insTransactId = transactionDAO.insertTransaction(id, amount, type);
-            boolean isChanged = playerDAO.changeBalance(id, amount, type);
+            int insTransactId = transactionDAO.insertTransaction(playerId, amount, transactionType);
+            boolean isChanged = playerDAO.changeBalance(playerId, amount, transactionType);
             if ((insTransactId != 0) && isChanged) {
                 daoHelper.commit();
-                return true;
+                result = insTransactId;
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         } catch (SQLException e) {
             logger.log(Level.ERROR, "Database connection error while doing sql transaction. " + e);
         }
-        return false;
+        return result;
+    }
+    
+    @Override
+    public void makeBet(int playerId, int eventId, String outcomeType, BigDecimal betAmount, Transaction.TransactionType transactionType, StringBuilder errorMessage) {
+        try {
+            daoHelper.beginTransaction();
+            betDAO.insertBet(playerId, eventId, outcomeType, betAmount);
+            playerDAO.changeBalance(playerId, betAmount, transactionType);
+            daoHelper.commit();
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+            errorMessage.append("Database connection error while doing sql transaction.");
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "Database connection error while doing sql transaction. " + e);
+            errorMessage.append("Database connection error while doing sql transaction.");
+        }
     }
 }

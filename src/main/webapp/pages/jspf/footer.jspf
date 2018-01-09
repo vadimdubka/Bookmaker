@@ -16,9 +16,14 @@
     <div class="copyright"><p><fmt:message key="footer.rights"/></p></div>
 </footer>
 <script>
-    var locale = "${sessionScope.locale}", errorMessage = "${requestScope.errorMessage}";
+    var locale = "${sessionScope.locale}";
+    var errorMessage = "${requestScope.errorMessage}";
+    var infoMessage = "${requestScope.infoMessage}";
     if (errorMessage) {
         alert(errorMessage);
+    }
+    if (infoMessage) {
+        alert(infoMessage);
     }
 </script>
 </body>

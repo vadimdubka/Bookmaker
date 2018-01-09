@@ -10,7 +10,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PlayerDAO {
-    
+    /**
+     * Column names of database table 'player'.
+     */
     String ID = "id";
     String EMAIL = "email";
     String FIRST_NAME = "fname";

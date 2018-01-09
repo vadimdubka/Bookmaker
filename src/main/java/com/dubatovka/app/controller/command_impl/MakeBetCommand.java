@@ -31,65 +31,84 @@ public class MakeBetCommand implements Command {
     public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BALANCE = "Введенная сумма ставки превышает баланс на счету игрока. Сделайте ставку меньше.";
     public static final String MESSAGE_ERROR_OUTCOME_COEFF = "Коэффициет исхода по выбранному событию изменился с тех пор, как вы решили сделать ставку. Проверьте выбранный коэффициент еще раз.";
     public static final String MESSAGE_ERROR_BET_TIME = "Время, отведенное на ставку, истекло.";
-    public static final String MESSAGE_ERROR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления.";
+    public static final String MESSAGE_ERROR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления. Вероятно, уже сделана ставка на аналогичный исход события.";
+    public static final String MESSAGE_INFO_BET_IS_DONE = "Ставка сделана!";
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator;
-        String errorMessage = validateRequestParams(request);
-        if (errorMessage.isEmpty()) {
-            HttpSession session = request.getSession();
-            BigDecimal betAmount = new BigDecimal(request.getParameter(PARAM_BET_AMOUNT));
-            Player player = (Player) session.getAttribute(PLAYER);
+        HttpSession session = request.getSession();
+        
+        String locale = (String) session.getAttribute(ATTR_LOCALE);
+        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        StringBuilder errorMessage = new StringBuilder();
+        
+        Player player = (Player) session.getAttribute(PLAYER);
+        User.UserRole role = (User.UserRole) session.getAttribute(ATTR_ROLE);
+        
+        String betAmountStr = request.getParameter(PARAM_BET_AMOUNT);
+        String eventIdStr = request.getParameter(PARAM_EVENT_ID);
+        String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
+        String outcomeCoeffOnPage = request.getParameter(PARAM_OUTCOME_COEFFICIENT);
+        
+        validateParams(role, player, betAmountStr, eventIdStr, outcomeType, outcomeCoeffOnPage, errorMessage);
+        if (errorMessage.toString().trim().isEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
-                //TODO !!!!!! поменять на makeBet !!!!
-                if (playerService.makeTransaction(player, betAmount, Transaction.TransactionType.WITHDRAW)) {
+                int playerId = player.getId();
+                int eventId = Integer.valueOf(eventIdStr);
+                BigDecimal betAmount = new BigDecimal(betAmountStr);
+                playerService.makeBet(playerId, eventId, outcomeType, betAmount, Transaction.TransactionType.WITHDRAW, errorMessage);
+                if (errorMessage.toString().trim().isEmpty()) {
                     playerService.updatePlayerInfo(player);
                     session.setAttribute(ATTR_PLAYER, player);
-                    navigator = PageNavigator.REDIRECT_GOTO_MAIN;
+                    request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_BET_IS_DONE);
+                    navigator = PageNavigator.FORWARD_GOTO_MAIN;
                 } else {
                     request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_BETTING_INTERRUPTED);
                     navigator = PageNavigator.FORWARD_PREV_QUERY;
                 }
             }
         } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.trim());
+            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString().trim());
             navigator = PageNavigator.FORWARD_PREV_QUERY;
         }
         
         return navigator;
     }
     
-    private String validateRequestParams(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        StringBuilder errorMessage = new StringBuilder();
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
-        
-        User.UserRole role = (User.UserRole) session.getAttribute(ATTR_ROLE);
-        if (role == User.UserRole.PLAYER) {
-            Player player = (Player) session.getAttribute(PLAYER);
-            String betAmountStr = request.getParameter(PARAM_BET_AMOUNT);
-            String eventId = request.getParameter(PARAM_EVENT_ID);
-            String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
-            String outcomeCoeffOnPage = request.getParameter(PARAM_OUTCOME_COEFFICIENT);
-            validatePlayerMakeBetParams(errorMessage, player, betAmountStr, eventId, outcomeType, outcomeCoeffOnPage);
-        } else if (role == User.UserRole.GUEST) {
-            errorMessage.append(MESSAGE_ERROR_BET_GOTO_REGISTRATION).append(MESSAGE_SEPARATOR);
-        } else {
-            errorMessage.append(MESSAGE_ERROR_BET_FOR_EMPLOYEE).append(MESSAGE_SEPARATOR);
+    private String validateParams(User.UserRole role, Player player, String betAmountStr, String eventId, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
+        validateUserRole(role, errorMessage);
+        if (errorMessage.toString().trim().isEmpty()) {
+            validateMakeBetParams(errorMessage, player, betAmountStr, eventId, outcomeType, outcomeCoeffOnPage);
         }
         
         return errorMessage.toString().trim();
     }
     
-    private void validatePlayerMakeBetParams(StringBuilder errorMessage, Player player, String betAmountStr, String eventId, String outcomeType, String outcomeCoeffOnPage) {
+    private void validateUserRole(User.UserRole role, StringBuilder errorMessage) {
+        if (role == User.UserRole.GUEST) {
+            errorMessage.append(MESSAGE_ERROR_BET_GOTO_REGISTRATION).append(MESSAGE_SEPARATOR);
+        } else if ((role == User.UserRole.ADMIN) || (role == User.UserRole.ANALYST)) {
+            errorMessage.append(MESSAGE_ERROR_BET_FOR_EMPLOYEE).append(MESSAGE_SEPARATOR);
+        }
+    }
+    
+    private void validateMakeBetParams(StringBuilder errorMessage, Player player, String betAmountStr, String eventId, String outcomeType, String outcomeCoeffOnPage) {
         Event event;
+        LocalDateTime betDateTime = LocalDateTime.now();
+        ValidatorService validatorService = ServiceFactory.getValidatorService();
         try (EventService eventService = ServiceFactory.getEventService()) {
             event = eventService.getEventById(eventId);
         }
-        LocalDateTime betDateTime = LocalDateTime.now();
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
+        
+        if (!validatorService.isValidBetTime(betDateTime, event)) {
+            errorMessage.append(MESSAGE_ERROR_BET_TIME).append(MESSAGE_SEPARATOR);
+        }
+        
+        if (!validatorService.isValidOutcomeCoeffOnPage(outcomeCoeffOnPage, event, outcomeType)) {
+            errorMessage.append(MESSAGE_ERROR_OUTCOME_COEFF).append(MESSAGE_SEPARATOR);
+        }
+        
         if (validatorService.isValidBetAmount(betAmountStr)) {
             BigDecimal betAmount = new BigDecimal(betAmountStr);
             BigDecimal balance = player.getAccount().getBalance();
@@ -98,14 +117,6 @@ public class MakeBetCommand implements Command {
             }
         } else {
             errorMessage.append(MESSAGE_ERROR_BET_AMOUNT_INVALID).append(MESSAGE_SEPARATOR);
-        }
-        
-        if (!validatorService.isValidOutcomeCoeffOnPage(outcomeCoeffOnPage, event, outcomeType)) {
-            errorMessage.append(MESSAGE_ERROR_OUTCOME_COEFF).append(MESSAGE_SEPARATOR);
-        }
-        
-        if (!validatorService.isValidBetTime(betDateTime, event)) {
-            errorMessage.append(MESSAGE_ERROR_BET_TIME).append(MESSAGE_SEPARATOR);
         }
     }
 }
