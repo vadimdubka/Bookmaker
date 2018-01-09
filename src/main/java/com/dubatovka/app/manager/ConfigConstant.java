@@ -22,6 +22,14 @@ public final class ConfigConstant {
     public static final String VERIFIED = "verified";
     
     /**
+     * Bet Status
+     */
+    public static final String NEW = "new";
+    public static final String LOOSING = "loosing";
+    public static final String WIN = "win";
+    public static final String PAID = "paid";
+    
+    /**
      * Locale strings
      */
     public static final String PATH_TO_MESSAGES_BUNDLE = "textcontent/messages";

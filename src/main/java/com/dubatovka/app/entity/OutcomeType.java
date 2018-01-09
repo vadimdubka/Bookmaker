@@ -1,5 +1,6 @@
 package com.dubatovka.app.entity;
 
+//TODO может пока вообще в проекте не нужен
 public class OutcomeType {
     private String type;
     private String description;

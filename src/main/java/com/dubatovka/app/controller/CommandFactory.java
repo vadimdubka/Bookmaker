@@ -32,18 +32,19 @@ public final class CommandFactory {
     
     static {
         commonCommands.put(CommandType.GOTO_INDEX, new GotoIndexCommand());
-        commonCommands.put(CommandType.GOTO_MAIN, new GotoMain());
+        commonCommands.put(CommandType.GOTO_MAIN, new GotoMainCommand());
         commonCommands.put(CommandType.GOTO_REGISTER, new GotoRegisterCommand());
         commonCommands.put(CommandType.CHANGE_LOCALE, new ChangeLocaleCommand());
         commonCommands.put(CommandType.REGISTER, new RegisterCommand());
         commonCommands.put(CommandType.LOGIN, new LoginCommand());
         commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
-        commonCommands.put(CommandType.GOTO_MAKE_BET, new GotoMakeBet());
+        commonCommands.put(CommandType.GOTO_MAKE_BET, new GotoMakeBetCommand());
         commonCommands.put(CommandType.MAKE_BET, new MakeBetCommand());
         
         guestCommands.putAll(commonCommands);
         
         playerCommands.putAll(commonCommands);
+        playerCommands.put(CommandType.GOTO_PLAYER_STATE, new GotoPlayerStateCommand());
         
         adminCommands.putAll(commonCommands);
         adminCommands.put(CommandType.GOTO_MANAGE_PLAYERS, new GotoManagePlayersCommand());
@@ -105,11 +106,13 @@ public final class CommandFactory {
     }
     
     private enum CommandType {
+        CHANGE_LOCALE,
+        
         REGISTER,
         LOGIN,
         LOGOUT,
         
-        CHANGE_LOCALE,
+        MAKE_BET,
         
         GOTO_MAIN,
         GOTO_INDEX,
@@ -117,7 +120,7 @@ public final class CommandFactory {
         
         GOTO_MANAGE_PLAYERS,
         GOTO_MAKE_BET,
-    
-        MAKE_BET, GOTO_PAGINATION
+        
+        GOTO_PLAYER_STATE, GOTO_PAGINATION
     }
 }

@@ -1,8 +1,10 @@
 package com.dubatovka.app.dao;
 
 import com.dubatovka.app.dao.exception.DAOException;
+import com.dubatovka.app.entity.Bet;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface BetDAO {
     /**
@@ -17,4 +19,6 @@ public interface BetDAO {
     String STATUS = "status";
     
     void insertBet(int playerId, int eventId, String outcomeType, BigDecimal coefficient, BigDecimal betAmount) throws DAOException;
+    
+    List<Bet> readBetListForPlayer(int playerId) throws DAOException;
 }

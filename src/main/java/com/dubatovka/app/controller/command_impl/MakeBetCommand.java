@@ -53,7 +53,7 @@ public class MakeBetCommand implements Command {
         
         Event event;
         try (EventService eventService = ServiceFactory.getEventService()) {
-            event = eventService.getEventById(eventIdStr);
+            event = eventService.getEventById(Integer.parseInt(eventIdStr));
         }
         
         validateParams(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
@@ -68,7 +68,7 @@ public class MakeBetCommand implements Command {
                     playerService.updatePlayerInfo(player);
                     session.setAttribute(ATTR_PLAYER, player);
                     request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_BET_IS_DONE);
-                    navigator = PageNavigator.FORWARD_GOTO_MAIN;
+                    navigator = PageNavigator.FORWARD_GOTO_PLAYER_STATE;
                 } else {
                     request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_BETTING_INTERRUPTED);
                     navigator = PageNavigator.FORWARD_PREV_QUERY;

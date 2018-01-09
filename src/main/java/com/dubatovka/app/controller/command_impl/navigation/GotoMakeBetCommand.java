@@ -12,7 +12,7 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class GotoMakeBet implements Command {
+public class GotoMakeBetCommand implements Command {
     public static final String PARAM_EVENT_ID = "event_id";
     public static final String PARAM_OUTCOME_TYPE = "outcome_type";
     
@@ -30,7 +30,7 @@ public class GotoMakeBet implements Command {
         Category parentCategory;
         try (EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService()) {
             String eventId = request.getParameter(PARAM_EVENT_ID);
-            event = eventService.getEventById(eventId);
+            event = eventService.getEventById(Integer.parseInt(eventId));
             String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
             outcome = event.getOutcomeByType(outcomeType);
             category = categoryService.getCategoryById(event.getCategoryId());

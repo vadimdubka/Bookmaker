@@ -26,21 +26,18 @@ public class OutcomeDAOImpl extends AbstractDBDAO implements OutcomeDAO {
         super(connection);
     }
     
-    private static Set<OutcomeType> outcomeTypes = new HashSet<>();
-    private static boolean isOutcomeTypesModified = false;
-    
     @Override
     public Set<Outcome> getOutcomesByEventId(int id) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_OUTCOMES_BY_EVENT_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            return buildOutcome(resultSet);
+            return buildOutcomeSet(resultSet);
         } catch (SQLException e) {
             throw new DAOException("Database connection error while getting outcome. " + e);
         }
     }
     
-    private Set<Outcome> buildOutcome(ResultSet resultSet) throws SQLException {
+    private Set<Outcome> buildOutcomeSet(ResultSet resultSet) throws SQLException {
         Set<Outcome> outcomeSet = new HashSet<>();
         while (resultSet.next()) {
             Outcome outcome = new Outcome();
@@ -52,6 +49,10 @@ public class OutcomeDAOImpl extends AbstractDBDAO implements OutcomeDAO {
         return outcomeSet;
     }
     
+    
+    //TODO Удалить, если не понадобиться
+    private static Set<OutcomeType> outcomeTypes = new HashSet<>();
+    private static boolean isOutcomeTypesModified = false;
     //TODO Удалить, если не понадобиться
     private void getAllOutcomeTypes() throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_OUTCOME_TYPES)) {
@@ -63,6 +64,7 @@ public class OutcomeDAOImpl extends AbstractDBDAO implements OutcomeDAO {
         isOutcomeTypesModified = false;
     }
     
+    //TODO Удалить, если не понадобиться
     private Set<OutcomeType> buildOutcomeType(ResultSet resultSet) throws SQLException {
         Set<OutcomeType> outcomeTypes = new HashSet<>();
         while (resultSet.next()) {

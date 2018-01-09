@@ -48,7 +48,7 @@ public class EventServiceImpl extends EventService {
     }
     
     @Override
-    public Event getEventById(String eventId) {
+    public Event getEventById(int eventId) {
         Event event = null;
         try {
             event = eventDAO.getEventById(eventId);
@@ -84,6 +84,16 @@ public class EventServiceImpl extends EventService {
         return eventSet;
     }
     
+    @Override
+    public Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet) {
+        eventSet.forEach(event -> {
+            int id = event.getId();
+            fillOutcomeColumnMaps(id, event.getOutcomeSet());
+        });
+        
+        return coeffColumnMaps;
+    }
+    
     private void setOutcomesForEvents(Iterable<Event> eventSet) {
         eventSet.forEach(this::setOutcomesForEvent);
     }
@@ -107,17 +117,6 @@ public class EventServiceImpl extends EventService {
             }
         }
     }
-    
-    @Override
-    public Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet) {
-        eventSet.forEach(event -> {
-            int id = event.getId();
-            fillOutcomeColumnMaps(id, event.getOutcomeSet());
-        });
-        
-        return coeffColumnMaps;
-    }
-    
     
     private void fillOutcomeColumnMaps(int id, Iterable<Outcome> outcomeSet) {
         for (Outcome outcome : outcomeSet) {

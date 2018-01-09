@@ -33,9 +33,9 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     }
     
     @Override
-    public Event getEventById(String eventId) throws DAOException {
+    public Event getEventById(int eventId) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_EVENT_BY_EVENT_ID)) {
-            statement.setString(1, eventId);
+            statement.setInt(1, eventId);
             ResultSet resultSet = statement.executeQuery();
             Event event = null;
             if (resultSet.next()) {

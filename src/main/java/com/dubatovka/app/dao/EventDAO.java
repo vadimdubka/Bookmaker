@@ -17,7 +17,7 @@ public interface EventDAO {
     String RESULT1 = "result1";
     String RESULT2 = "result2";
     
-    Event getEventById(String eventId) throws DAOException;
+    Event getEventById(int eventId) throws DAOException;
     
     Set<Event> getAllEventsByCategoryId(String categoryId) throws DAOException;
     

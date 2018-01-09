@@ -15,7 +15,7 @@ import java.util.Set;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
-public class GotoMain implements Command {
+public class GotoMainCommand implements Command {
     public static final String PARAM_CATEGORY_ID = "category_id";
     public static final String ATTR_EVENT_SET = "event_set";
     public static final String ATTR_TYPE_1_MAP = "type_1_map";

@@ -21,5 +21,5 @@ public abstract class EventService extends AbstractService{
     
     public abstract Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet);
     
-    public abstract  Event getEventById(String eventId);
+    public abstract  Event getEventById(int eventId);
 }
