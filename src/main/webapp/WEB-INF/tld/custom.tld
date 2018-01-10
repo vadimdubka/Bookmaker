@@ -17,6 +17,13 @@
         </function-signature>
     </function>
     <function>
+        <name>formatDateTimeFromString</name>
+        <function-class>com.dubatovka.app.tag.DateFormatter</function-class>
+        <function-signature>
+            java.lang.String formatLocalDateTime(java.lang.String, java.lang.String)
+        </function-signature>
+    </function>
+    <function>
         <name>formatDate</name>
         <function-class>com.dubatovka.app.tag.DateFormatter</function-class>
         <function-signature>

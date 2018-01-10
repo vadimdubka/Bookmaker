@@ -52,7 +52,7 @@
                 <c:forEach var="bet" items="${requestScope.bet_list}">
                     <tr>
                         <td rowspan="3">${bet.status.status}</td>
-                        <td rowspan="3">${j:formatDateTime(bet.date, "yyyy MM.dd HH:mm")}</td>
+                        <td rowspan="3">${j:formatDateTime(bet.date, "MM.dd.yyyy HH:mm")}</td>
                         <td rowspan="3">${bet.amount}</td>
                         <td rowspan="3">${bet.coefficient}</td>
                         <td rowspan="3">${bet.outcomeType}</td>
@@ -67,7 +67,9 @@
                     <tr>
                         <td>${requestScope.event_map[bet].result1}
                             - ${requestScope.event_map[bet].result2}</td>
-                        <td>${requestScope.event_map[bet].date}</td>
+                        <c:set var="date" value="${requestScope.event_map[bet].date}"/>
+                        <%--<td>${requestScope.event_map[bet].date}</td>--%>
+                        <td>${j:formatDateTimeFromString(date, "MM.dd.yyyy HH:mm")}</td>
                         <td>${requestScope.event_map[bet].id}</td>
                     </tr>
                 </c:forEach>
