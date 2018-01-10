@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <main class="row container">
-    <section class="section-center">
+    <section class="section-center col-s-10">
         <div class="section-header"><h2>Введите сумму ставки</h2></div>
         <div class="section-content">
             <table class="events">
@@ -11,7 +11,7 @@
                     <th>Дата</th>
                     <th>Событие</th>
                     <th>Тип исхода</th>
-                    <th>Коэффициент</th>
+                    <th>Коэфф.</th>
                 </tr>
                 <tr>
                     <td>${requestScope.sportCategory.name} - ${requestScope.category.name}</td>

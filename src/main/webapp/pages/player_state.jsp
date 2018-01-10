@@ -1,36 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <main class="row container">
-    <section class="section-center">
+    <section class="section-center col-s-10">
         <div class="section-header"><h2>Состояние и история аккаунта</h2></div>
         <div class="section-content">
             <p><b>${sessionScope.user.role} ${sessionScope.user.email}</b></p>
-            <table class="user-menu">
-                <tr>
-                    <td class="name">Статус верификации:</td>
-                    <td class="info">${sessionScope.player.verification.verificationStatus.status}</td>
-                </tr>
-                <tr>
-                    <td class="name">Статус игрока:</td>
-                    <td class="info">${sessionScope.player.account.status.status.status}</td>
-                </tr>
-                <tr>
-                    <td class="name">Лимит по ставкам:</td>
-                    <td class="info">${sessionScope.player.account.status.betLimit}</td>
-                </tr>
-                <tr>
-                    <td class="name">Лимит на вывод в месяц:</td>
-                    <td class="info">${sessionScope.player.account.status.withdrawalLimit}</td>
-                </tr>
-                <tr>
-                    <td class="name">Снято в этом месяце:</td>
-                    <td class="info">${sessionScope.player.account.thisMonthWithdrawal}</td>
-                </tr>
-                <tr>
-                    <td class="name">Баланс:</td>
-                    <td class="info">${sessionScope.player.account.balance}</td>
-                </tr>
-            </table>
+            <div class="col-s-8 col-4">
+                <table class="user-menu">
+                    <tr>
+                        <td class="name">Статус верификации:</td>
+                        <td class="info">${sessionScope.player.verification.verificationStatus.status}</td>
+                    </tr>
+                    <tr>
+                        <td class="name">Статус игрока:</td>
+                        <td class="info">${sessionScope.player.account.status.status.status}</td>
+                    </tr>
+                    <tr>
+                        <td class="name">Лимит по ставкам:</td>
+                        <td class="info">${sessionScope.player.account.status.betLimit}</td>
+                    </tr>
+                    <tr>
+                        <td class="name">Лимит на вывод в месяц:</td>
+                        <td class="info">${sessionScope.player.account.status.withdrawalLimit}</td>
+                    </tr>
+                    <tr>
+                        <td class="name">Снято в этом месяце:</td>
+                        <td class="info">${sessionScope.player.account.thisMonthWithdrawal}</td>
+                    </tr>
+                    <tr>
+                        <td class="name">Баланс:</td>
+                        <td class="info">${sessionScope.player.account.balance}</td>
+                    </tr>
+                </table>
+            </div>
+
             <table class="bets">
                 <tr>
                     <th colspan="5">Cтавка</th>

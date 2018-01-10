@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <main class="row container">
-    <section class="section-center">
+    <section class="section-center col-s-10 col-6">
         <div class="section-header"><h2><fmt:message key="register.header"/></h2></div>
         <div class="section-content">
             <noscript><p class="error-message">${requestScope.errorMessage}</p></noscript>

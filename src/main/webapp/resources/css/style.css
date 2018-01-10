@@ -313,10 +313,11 @@ ul.error-paragraph li {
 table {
     border-collapse: collapse;
     border: 1px solid dimgrey;
+    width: 100%;
 }
 
 /*Table events*/
-table.events td {
+table.events td, table.bets td {
     border: 1px solid dimgrey;
     padding: 5px;
     text-align: center;
@@ -331,7 +332,7 @@ table.events tr:nth-child(2n+1) {
     background-color: #eeeeee;
 }
 
-table.events th {
+table.events th, table.bets th {
     padding: 5px;
     border: 1px solid dimgrey;
     background-color: lightgray;
@@ -351,7 +352,9 @@ table.user-menu td.info{
 }
 
 /*Table bets*/
-
+table.bets {
+ /*font-size: 1em;*/
+}
 
 /*Footer*/
 footer {
@@ -375,7 +378,7 @@ footer img:hover {
 
 /*Отрисовка сетки с целью тесрирования*/
 .border-test {
-    border: 1px dashed yellow;
+    /*border: 1px dashed yellow;*/
 }
 
 /*Для центрирования содержимого блока*/
@@ -461,11 +464,6 @@ footer img:hover {
     .col-float-right {
         float: right;
     }
-
-    .section-center {
-        width: 70%;
-        margin: 0 auto;
-    }
 }
 
 /*laptops and big landscape tablets*/
@@ -522,11 +520,6 @@ footer img:hover {
         float: right;
     }
 
-    .section-center {
-        width: 50%;
-        margin: 0 auto;
-    }
-
     /*Navigation*/
     nav {
         background: #FDC001;
@@ -537,7 +530,6 @@ footer img:hover {
     nav ul.nav-horizontal li {
         margin-right: 5px;
         display: inline; /*Отображать как строчный элемент*/
-        border: 1.5px solid #FDC001;
         background-color: #14181B;
         border: 1px solid #05080c;
     }
@@ -545,6 +537,11 @@ footer img:hover {
     nav ul.nav-horizontal li a {
         color: #FDC001;
     }
+}
+
+.section-center {
+    float: none;
+    margin: 0 auto;
 }
 
 /*big screens*/
