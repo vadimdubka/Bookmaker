@@ -1,0 +1,413 @@
+
+/*.colors {
+
+    color: #34495e;-мокрый асфальт
+    color: #c0392b; -красный
+    color: #3498DB; -синий
+    color: #569ECC;
+    color: #B8E5FF;
+    color: #509999; - зеленый
+    color: #FFD685; -золотой
+}*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 14px;
+}
+
+body {
+    font: 100%/1.5em Arial, Helvetica, sans-serif;
+    color: white;
+    background: #14181B;
+}
+
+/*Для разметки главных блоков страницы*/
+.layout-positioner {
+    width: 1000px;
+    margin: auto;
+    /*border: 1px dashed #db1e2c;*/
+}
+
+/*Блоки внутри layout-positioner, чаще всего в пределах тега section*/
+.block-float {
+    float: left;
+    color: black;
+    padding: 2.5px;
+}
+
+.block-header {
+    background-color: #FDC001;
+    padding: 5px;
+    color: black;
+}
+
+.block-content {
+    background-color: white;
+    padding: 5px;
+    color: black;
+}
+
+/*Отрисовка сетки с целью тесрирования*/
+.border-test {
+    border: 1px dashed yellow;
+}
+
+/*Распорка, чтобы последующие блоки учитывали верхние плавающие блоки*/
+.clearfix:after,
+.layout-positioner:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+/*fluid grid*/
+.container, .wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
+}
+
+main {
+    /*background: #34495e;*/
+    /*margin-bottom: 10px;*/
+}
+
+/*Form */
+input {
+    padding: .5em;
+    background-color: #ccc;
+}
+
+input[required] {
+    background-color: #c4dcde;
+}
+
+input:hover,
+input:focus {
+    background-color: #deffbc;
+}
+
+input[type="submit"] {
+    font-size: .85em;
+    font-weight: bold;
+    padding: .3em;
+    border-radius: .5em;
+    cursor: pointer;
+}
+
+/*Login-form */
+.login-form {
+    padding: 0 1em;
+}
+
+.login-form input {
+    width: 100%;
+    margin: 1em 0 0;
+}
+
+.login-form input[name="email"] {
+    margin: 0;
+}
+
+/*Registration-form*/
+.register-form {
+    padding: 0 1em;
+}
+
+.input-block {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin: 0 0 0;
+    text-align: center;
+}
+
+.register-form label,
+.register-form input {
+    display: block;
+}
+
+.register-form label {
+    color: #5a6868;
+}
+
+.register-form label.required::after {
+    content: "*";
+    color: #ccc;
+    display: inline;
+}
+
+.register-form input[type="submit"] {
+    font-size: 1em;
+    margin: 0.5em 20% 0;
+}
+
+.custom-link {
+    text-align: center;
+}
+
+.custom-link a {
+    text-align: center;
+}
+
+.custom-button {
+    margin: .5em 20%;
+    text-align: center;
+}
+
+.custom-button a {
+    font-size: 1em;
+    font-weight: bold;
+    color: black;
+    padding: .3em;
+    background-color: #CCCCCC;
+    border-radius: .5em;
+    text-align: center;
+    cursor: pointer;
+    margin: 0.5em 20% 0;
+}
+
+/*Main page*/
+main .category {
+    min-width: 250px;
+}
+
+main .events {
+    max-width: 600px;
+}
+
+main .player {
+
+}
+
+.block-content li ul {
+    display: none;
+}
+
+.block-content li {;
+}
+
+.block-content > ul > li:hover {
+    background-color: lightgrey;
+}
+
+.block-content li:hover ul {
+    display: block;
+}
+
+.block-user {
+    float: left;
+}
+
+/*Table*/
+table {
+    border-collapse: collapse;
+    border: 1px solid dimgrey;
+}
+
+td {
+    border: 1px solid dimgrey;
+    padding: 5px;
+    text-align: center;
+    color: black;
+}
+
+tr:nth-child(2n) {
+    background-color: white;
+}
+
+tr:nth-child(2n+1) {
+    background-color: #eeeeee;
+}
+
+th {
+    padding: 5px;
+    border: 1px solid dimgrey;
+    background-color: lightgray;
+    color: black;
+}
+
+.events caption {
+    text-align: left;
+}
+
+/***************************/
+
+input,
+button {
+    outline: none;
+    border: none;
+}
+
+h1, h2, h3 {
+    text-align: center;
+    margin: .5em 0;
+    padding: 0 .7em;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+    color: red;
+}
+
+a:hover {
+    color: #1ecc4a;
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+}
+
+textarea {
+    resize: none;
+}
+
+.error-message {
+    width: 80%;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.content ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+.content ul li {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 18em;
+    flex: 1 1 18em;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+}
+
+.content ul li:hover {
+    background: #910101;
+}
+
+.content ul li p.news-text {
+    padding: 0 .7em;
+    text-align: justify;
+    text-indent: 1em;
+}
+
+.content h3 {
+    font-size: 1.5em;
+}
+
+.content img {
+    height: 15em;
+}
+
+.content details a {
+    color: #999;
+}
+
+.content details a:hover {
+    color: #bbb;
+    text-decoration: underline;
+}
+
+/*Header*/
+header {
+    color: white;
+    padding: .5em;
+}
+
+header h1 {
+    font-weight: bold;
+    color: #FDC001;
+    font-size: 3em;
+}
+
+/*Navigator*/
+nav {
+    background: #FDC001;
+    min-height: 50px;
+}
+
+nav.employee-nav {
+    background: white;
+    /*background: #3498DB;*/
+    /*background: #db1e2c;*/
+}
+
+ul.nav-horizontal {
+    margin: 0;
+    padding: 15px;
+}
+
+ul.nav-horizontal li {
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+    border: 1px solid #05080c; /* Рамка вокруг текста */
+    padding: 5px; /* Поля вокруг текста */
+    background-color: #14181B;
+    font-size: 20px;
+}
+
+ul.nav-horizontal li a {
+    color: #FDC001;
+}
+
+.lang-block {
+    float: right;
+}
+
+.logo-block {
+    float: left;
+    padding: 7px 15px 5px 5px;
+}
+
+/*Footer*/
+footer {
+    padding: 0.5em;
+    text-align: center;
+    color: white;
+    background: #2A2A2A;
+}
+
+footer p a {
+    font-size: 16px;
+    color: #fff;
+}
+
+.img-logo {
+    width: 36px;
+    /*height: 100px;*/
+}
+
+.img-top {
+    width: 500px;
+    /*height: 100px;*/
+}
+
+.img-choose-sport {
+    width: 500px;
+}
+
+.err-msg {
+    color: #b11826;
+}
