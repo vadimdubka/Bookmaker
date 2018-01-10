@@ -1,8 +1,8 @@
 package com.dubatovka.app.dao.impl;
 
-import com.dubatovka.app.db.ConnectionPool;
-import com.dubatovka.app.db.ConnectionPoolException;
-import com.dubatovka.app.db.WrappedConnection;
+import com.dubatovka.app.dao.db.ConnectionPool;
+import com.dubatovka.app.dao.db.ConnectionPoolException;
+import com.dubatovka.app.dao.db.WrappedConnection;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

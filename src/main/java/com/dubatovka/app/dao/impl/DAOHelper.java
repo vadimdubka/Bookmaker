@@ -1,9 +1,17 @@
 package com.dubatovka.app.dao.impl;
 
-import com.dubatovka.app.dao.*;
-import com.dubatovka.app.db.ConnectionPool;
-import com.dubatovka.app.db.ConnectionPoolException;
-import com.dubatovka.app.db.WrappedConnection;
+import com.dubatovka.app.dao.BetDAO;
+import com.dubatovka.app.dao.CategoryDAO;
+import com.dubatovka.app.dao.DocumentDAO;
+import com.dubatovka.app.dao.EventDAO;
+import com.dubatovka.app.dao.OutcomeDAO;
+import com.dubatovka.app.dao.PlayerDAO;
+import com.dubatovka.app.dao.StandardDAO;
+import com.dubatovka.app.dao.TransactionDAO;
+import com.dubatovka.app.dao.UserDAO;
+import com.dubatovka.app.dao.db.ConnectionPool;
+import com.dubatovka.app.dao.db.ConnectionPoolException;
+import com.dubatovka.app.dao.db.WrappedConnection;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

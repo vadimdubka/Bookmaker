@@ -2,7 +2,7 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.StandardDAO;
 import com.dubatovka.app.dao.exception.DAOException;
-import com.dubatovka.app.db.WrappedConnection;
+import com.dubatovka.app.dao.db.WrappedConnection;
 import com.dubatovka.app.entity.Category;
 
 import java.sql.PreparedStatement;

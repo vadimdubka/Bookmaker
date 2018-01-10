@@ -1,4 +1,4 @@
-package com.dubatovka.app.db;
+package com.dubatovka.app.dao.db;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -33,12 +33,11 @@ public final class ConnectionPool {
     private static final String DB_URL = "url";
     private static final String POOL_SIZE = "poolsize";
     
+    /**
+     * Seconds for checking if connection is valid
+     */
     private static final int VALIDATION_TIMEOUT = 1;
     
-    /**
-     * Class singleton instance.
-     */
-    private static ConnectionPool instance;
     /**
      * Marker to check if {@link #instance} is created.
      */
@@ -47,16 +46,25 @@ public final class ConnectionPool {
      * Class lock for {@link #getInstance()} method.
      */
     private static final Lock lock = new ReentrantLock();//TODO Lock с большой или маленькой
+    
+    /**
+     * Class singleton instance.
+     */
+    private static ConnectionPool instance;
+    
     /**
      * Size of {@link #connections} to initialize and destroy pool.
      */
-    private static int poolSize;
+    private int poolSize;
     
+    /**
+     * Database property-file values.
+     */
     private String driver;
     private String url;
     private String user;
     private String password;
-    private String poolsize;
+    private String poolSizeStr;
     
     /**
      * Collection of {@link java.sql.Connection} objects.
@@ -68,7 +76,6 @@ public final class ConnectionPool {
      *
      * @throws RuntimeException if {@link SQLException} occurred during registering driver
      * @see DriverManager#registerDriver(Driver)
-     * @see com.mysql.cj.jdbc.Driver
      */
     private ConnectionPool() {
         try {
@@ -114,15 +121,15 @@ public final class ConnectionPool {
             resourceBundle = ResourceBundle.getBundle(properties);
         } catch (MissingResourceException e) {
             logger.log(Level.ERROR, "Invalid resource path to database *.properties file");
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
         driver = resourceBundle.getString(DB_DRIVER);
         user = resourceBundle.getString(DB_USER);
         password = resourceBundle.getString(DB_PASSWORD);
         url = resourceBundle.getString(DB_URL);
-        poolsize = resourceBundle.getString(POOL_SIZE);
-    
-        poolSize = Integer.parseInt(poolsize);
+        poolSizeStr = resourceBundle.getString(POOL_SIZE);
+        
+        poolSize = Integer.parseInt(poolSizeStr);
         connections = new ArrayBlockingQueue<>(poolSize);
         for (int i = 0; i < poolSize; i++) {
             try {
@@ -139,8 +146,7 @@ public final class ConnectionPool {
      * Takes {@link WrappedConnection} from {@link #connections} collection.
      *
      * @return taken {@link WrappedConnection}
-     * @throws ConnectionPoolException if {@link InterruptedException} occurred while taking {@link WrappedConnection}
-     *                                 from {@link #connections}
+     * @throws ConnectionPoolException if {@link InterruptedException} occurred while taking {@link WrappedConnection} from {@link #connections}
      */
     public WrappedConnection takeConnection() throws ConnectionPoolException {
         WrappedConnection connection;
@@ -148,10 +154,10 @@ public final class ConnectionPool {
             connection = connections.take();
             for (int i = 0; i < poolSize; i++) {
                 if (connection.isNull() || connection.isClosed() || !connection.isValid(VALIDATION_TIMEOUT)) {
-                    returnInvalidConnection(connection);
+                    replaceInvalidConnection(connection);
                     connection = connections.take();
                 } else {
-                    break;
+                    return connection;
                 }
             }
             if (connection.isNull() || connection.isClosed() || !connection.isValid(VALIDATION_TIMEOUT)) {
@@ -165,7 +171,7 @@ public final class ConnectionPool {
     }
     
     /**
-     * Returns {@link WrappedConnection} to {@link #connections} collection. Rollbacks any transaction and sets
+     * Returns {@link WrappedConnection} to connections collection. Rollbacks any transaction and sets
      * auto-commit of connection to true.
      *
      * @param connection {@link WrappedConnection} to return
@@ -177,7 +183,7 @@ public final class ConnectionPool {
                 return;
             }
             if (connection.isNull() || connection.isClosed() || !connection.isValid(VALIDATION_TIMEOUT)) {
-                returnInvalidConnection(connection);
+                replaceInvalidConnection(connection);
                 return;
             }
             try {
@@ -185,8 +191,8 @@ public final class ConnectionPool {
                     connection.rollback();
                     connection.setAutoCommit(true);
                 }
-                connections.put(connection);
                 logger.log(Level.DEBUG, "Connection was returned to pool. Current pool size: " + connections.size());
+                connections.put(connection);
             } catch (SQLException e) {
                 logger.log(Level.ERROR, "Exception while setting autoCommit to connection. " + e.getMessage());
             }
@@ -236,30 +242,28 @@ public final class ConnectionPool {
     }
     
     /**
-     * Restores damaged connection.
+     * Tries to replace damaged connection.
      *
-     * @return true if processed successfully
      * @see WrappedConnection
      */
-    private boolean restoreConnection() throws InterruptedException {
-        boolean success;
+    private void replaceInvalidConnection(WrappedConnection connection) throws InterruptedException {
+        WrappedConnection createdConnection = createWrappedConnection();
+        if (createdConnection != null) {
+            connections.put(createdConnection);
+            logger.log(Level.ERROR, "Connection was lost while returning but replaced by a new one.");
+        } else {
+            connections.put(connection);
+            logger.log(Level.ERROR, "Connection was damaged and can't be replaced by a new one, database denies access.");
+        }
+    }
+    
+    private WrappedConnection createWrappedConnection() {
         WrappedConnection createdConnection = null;
         try {
             createdConnection = new WrappedConnection(url, user, password);
         } catch (ConnectionPoolException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
-        if (success = createdConnection != null) {
-            connections.put(createdConnection);
-            logger.log(Level.ERROR, "Connection was lost while returning but replaced by a new one.");
-        }
-        return success;
-    }
-    
-    private void returnInvalidConnection(WrappedConnection connection) throws InterruptedException {
-        if (!restoreConnection()) {
-            connections.put(connection);
-            logger.log(Level.ERROR, "Connection was damaged and can't be replaced by a new one, database denies access.");
-        }
+        return createdConnection;
     }
 }

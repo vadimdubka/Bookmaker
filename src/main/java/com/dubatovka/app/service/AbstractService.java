@@ -1,7 +1,7 @@
 package com.dubatovka.app.service;
 
 import com.dubatovka.app.dao.impl.DAOHelper;
-import com.dubatovka.app.db.ConnectionPool;
+import com.dubatovka.app.dao.db.ConnectionPool;
 
 abstract class AbstractService implements AutoCloseable {
     

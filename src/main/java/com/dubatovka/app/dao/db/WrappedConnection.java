@@ -1,4 +1,4 @@
-package com.dubatovka.app.db;
+package com.dubatovka.app.dao.db;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

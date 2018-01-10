@@ -1,7 +1,7 @@
 package com.dubatovka.app.listener;
 
-import com.dubatovka.app.db.ConnectionPool;
-import com.dubatovka.app.db.ConnectionPoolException;
+import com.dubatovka.app.dao.db.ConnectionPool;
+import com.dubatovka.app.dao.db.ConnectionPoolException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

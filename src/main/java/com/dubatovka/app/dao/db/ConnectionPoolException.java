@@ -1,4 +1,4 @@
-package com.dubatovka.app.db;
+package com.dubatovka.app.dao.db;
 
 import java.security.PrivilegedActionException;
 
