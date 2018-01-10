@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <main class="row container">
     <section class="section-center">
-        <div class="section-header"><h2>Введите сумму ставки</h2></div>
+        <div class="section-header"><h2>Состояние и история аккаунта</h2></div>
         <div class="section-content">
+            <p><b>${sessionScope.user.role} ${sessionScope.user.email}</b></p>
             <table class="user-menu">
                 <tr>
                     <td class="name">Статус верификации:</td>
@@ -30,37 +31,41 @@
                     <td class="info">${sessionScope.player.account.balance}</td>
                 </tr>
             </table>
-            <table class="events">
+            <table class="bets">
                 <tr>
-                    <th>Дата ставки</th>
-                    <th>Статус ставки</th>
-                    <th>Сумма ставки</th>
+                    <th colspan="5">Cтавка</th>
+                    <th colspan="3">Событие</th>
+                </tr>
+                <tr>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th>Сумма</th>
                     <th>Коэфф.</th>
-
-                    <th>Категория события</th>
-                    <th>Событие</th>
                     <th>Тип</th>
+                    <th>Результ</th>
                     <th>Дата</th>
                     <th>№</th>
                 </tr>
-                <c:forEach var="bet_info_entry" items="${requestScope.bet_info_map}">
+                <c:forEach var="bet" items="${requestScope.bet_list}">
                     <tr>
+                        <td rowspan="3">${bet.status.status}</td>
+                        <td rowspan="3">${j:formatDateTime(bet.date, "yyyy MM.dd HH:mm")}</td>
+                        <td rowspan="3">${bet.amount}</td>
+                        <td rowspan="3">${bet.coefficient}</td>
+                        <td rowspan="3">${bet.outcomeType}</td>
 
-                        <td>${bet_info_entry.key.date}</td>
-                        <td>${bet_info_entry.key.status.status}</td>
-                        <td>${bet_info_entry.key.amount}</td>
-                        <td>${bet_info_entry.key.coefficient}</td>
-
-                        <td>${bet_info_entry.value["sportCategory"].name}
-                            - ${bet_info_entry.value["category"].name}</td>
-                        <td>${bet_info_entry.value["event"].participant1}
-                            - ${bet_info_entry.value["event"].participant2}</td>
-                        <td>${bet_info_entry.key.outcomeType}</td>
-                            <%--<jsp:useBean id="event" scope="request" class="com.dubatovka.app.entity.Event"/>--%>
-                            <%--<td>${j:formatDateTime(event.date, "dd.MM.yyyy HH:mm")}</td>--%>
-                        <td>${bet_info_entry.value["event"].date}</td>
-                        <td>${bet_info_entry.value["event"].id}</td>
-
+                        <td colspan="3">${requestScope.sport_map[bet].name}
+                            - ${requestScope.category_map[bet].name}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">${requestScope.event_map[bet].participant1}
+                            - ${requestScope.event_map[bet].participant2}</td>
+                    </tr>
+                    <tr>
+                        <td>${requestScope.event_map[bet].result1}
+                            - ${requestScope.event_map[bet].result2}</td>
+                        <td>${requestScope.event_map[bet].date}</td>
+                        <td>${requestScope.event_map[bet].id}</td>
                     </tr>
                 </c:forEach>
             </table>

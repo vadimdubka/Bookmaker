@@ -85,8 +85,8 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
         event.setDate(resultSet.getTimestamp(DATE).toLocalDateTime());
         event.setParticipant1(resultSet.getString(PARTICIPANT1));
         event.setParticipant2(resultSet.getString(PARTICIPANT2));
-        event.setResult1(resultSet.getInt(RESULT1));
-        event.setResult2(resultSet.getInt(RESULT2));
+        event.setResult1(resultSet.getString(RESULT1));
+        event.setResult2(resultSet.getString(RESULT2));
         return event;
     }
 }

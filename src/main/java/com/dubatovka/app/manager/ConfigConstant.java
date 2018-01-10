@@ -25,7 +25,7 @@ public final class ConfigConstant {
      * Bet Status
      */
     public static final String NEW = "new";
-    public static final String LOOSING = "loosing";
+    public static final String LOSING = "losing";
     public static final String WIN = "win";
     public static final String PAID = "paid";
     

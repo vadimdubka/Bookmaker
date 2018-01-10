@@ -14,17 +14,16 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class GotoPlayerStateCommand implements Command {
     public static final String MESSAGE_ERROR_PLAYER_NOT_DEFINED = "Невозможно перейти на страницу, т.к. игрок не определен.";
     public static final String ATTR_BET_LIST = "bet_list";
-    public static final String ATTR_BET_INFO_MAP = "bet_info_map";
+    public static final String ATTR_EVENT_MAP = "event_map";
+    public static final String ATTR_CATEGORY_MAP = "category_map";
+    public static final String ATTR_SPORT_MAP = "sport_map";
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
@@ -41,19 +40,21 @@ public class GotoPlayerStateCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             try (BetService betService = ServiceFactory.getBetService(); EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService()) {
                 List<Bet> betList = betService.getBetList(player.getId());
-                Map<Bet, Map<String, Object>> betInfoMap = new LinkedHashMap<>(betList.size());
+                Map<Bet, Event> eventMap = new HashMap<>(betList.size());
+                Map<Bet, Category> categoryMap = new HashMap<>(betList.size());
+                Map<Bet, Category> sportMap = new HashMap<>(betList.size());
                 betList.forEach(bet -> {
                     Event event = eventService.getEventById(bet.getEventId());
                     Category category = categoryService.getCategoryById(event.getCategoryId());
                     Category parentCategory = categoryService.getCategoryById(category.getParentId());
-                    Map<String, Object> betInfo = new HashMap<>();
-                    betInfo.put("event", event);
-                    betInfo.put("category", category);
-                    betInfo.put("sportCategory", parentCategory);
-                    betInfoMap.put(bet, betInfo);
+                    eventMap.put(bet, event);
+                    categoryMap.put(bet, category);
+                    sportMap.put(bet, parentCategory);
                 });
                 request.setAttribute(ATTR_BET_LIST, betList);
-                request.setAttribute(ATTR_BET_INFO_MAP, betInfoMap);
+                request.setAttribute(ATTR_EVENT_MAP, eventMap);
+                request.setAttribute(ATTR_CATEGORY_MAP, categoryMap);
+                request.setAttribute(ATTR_SPORT_MAP, sportMap);
                 navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
             }
         } else {

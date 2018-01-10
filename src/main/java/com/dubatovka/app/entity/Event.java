@@ -9,8 +9,8 @@ public class Event {
     private LocalDateTime date;
     private String participant1;
     private String participant2;
-    private int result1;
-    private int result2;
+    private String result1;
+    private String result2;
     private Set<Outcome> outcomeSet;
     
     public int getId() {
@@ -53,19 +53,19 @@ public class Event {
         this.participant2 = participant2;
     }
     
-    public int getResult1() {
+    public String getResult1() {
         return result1;
     }
     
-    public void setResult1(int result1) {
+    public void setResult1(String result1) {
         this.result1 = result1;
     }
     
-    public int getResult2() {
+    public String getResult2() {
         return result2;
     }
     
-    public void setResult2(int result2) {
+    public void setResult2(String result2) {
         this.result2 = result2;
     }
     
@@ -86,11 +86,11 @@ public class Event {
         
         if (id != event.id) return false;
         if (categoryId != event.categoryId) return false;
-        if (result1 != event.result1) return false;
-        if (result2 != event.result2) return false;
         if (date != null ? !date.equals(event.date) : event.date != null) return false;
         if (participant1 != null ? !participant1.equals(event.participant1) : event.participant1 != null) return false;
         if (participant2 != null ? !participant2.equals(event.participant2) : event.participant2 != null) return false;
+        if (result1 != null ? !result1.equals(event.result1) : event.result1 != null) return false;
+        if (result2 != null ? !result2.equals(event.result2) : event.result2 != null) return false;
         return outcomeSet != null ? outcomeSet.equals(event.outcomeSet) : event.outcomeSet == null;
         
     }
@@ -102,8 +102,8 @@ public class Event {
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (participant1 != null ? participant1.hashCode() : 0);
         result = 31 * result + (participant2 != null ? participant2.hashCode() : 0);
-        result = 31 * result + result1;
-        result = 31 * result + result2;
+        result = 31 * result + (result1 != null ? result1.hashCode() : 0);
+        result = 31 * result + (result2 != null ? result2.hashCode() : 0);
         result = 31 * result + (outcomeSet != null ? outcomeSet.hashCode() : 0);
         return result;
     }
@@ -116,8 +116,8 @@ public class Event {
                 ", date=" + date +
                 ", participant1='" + participant1 + '\'' +
                 ", participant2='" + participant2 + '\'' +
-                ", result1=" + result1 +
-                ", result2=" + result2 +
+                ", result1='" + result1 + '\'' +
+                ", result2='" + result2 + '\'' +
                 ", outcomeSet=" + outcomeSet +
                 '}';
     }

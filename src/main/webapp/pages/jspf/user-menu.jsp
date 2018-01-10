@@ -35,9 +35,8 @@
                 </div>
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_player_state">История
-                            ставок и платежей</a></li>
-                        <li><a href="#">Настройки аккаунта</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_player_state">Состояние и история аккаунта</a></li>
+                        <li><a href="#">Настройки аккаунта</a></li><%--TODO убрать с главной страницы--%>
                     </ul>
                 </div>
             </c:when>

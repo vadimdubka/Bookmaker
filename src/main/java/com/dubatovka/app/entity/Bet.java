@@ -16,7 +16,7 @@ public class Bet {
     
     public enum Status {
         NEW(ConfigConstant.NEW),
-        LOOSING(ConfigConstant.LOOSING),
+        LOSING(ConfigConstant.LOSING),
         WIN(ConfigConstant.WIN),
         PAID(ConfigConstant.PAID);
         
