@@ -52,7 +52,7 @@ public interface PlayerDAO {
      * @param type   type of balance changing
      * @return true if update proceeded successfully
      * @throws DAOException if {@link SQLException} occurred while working with database
-     * @see by.sasnouskikh.jcasino.entity.bean.Transaction.TransactionType
+     * @see com.dubatovka.app.entity.Transaction.TransactionType
      */
     boolean changeBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException;
 }
