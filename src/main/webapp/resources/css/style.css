@@ -75,14 +75,13 @@ header {
     padding: .5em;
 }
 
-header h1 {
+header h1 a{
     color: #FDC001;
-    font-size: 2.5em;
+    font-size: 1.25em;
 }
 
-header a h1:hover {
-    color: #FDC001;
-    text-decoration: underline;
+header h1 a:hover {
+    color: red;
 }
 
 /*Navigator*/

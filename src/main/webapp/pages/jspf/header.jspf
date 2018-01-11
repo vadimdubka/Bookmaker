@@ -18,8 +18,9 @@
 <body>
 
 <header>
-    <a href="${pageContext.request.contextPath}/controller?command_type=goto_index">
-        <h1><fmt:message key="header.sitename"/></h1></a>
+    <h1>
+        <a href="${pageContext.request.contextPath}/controller?command_type=goto_index"><fmt:message key="header.sitename"/></a>
+    </h1>
 </header>
 
 <div class="lang-block border-test">
