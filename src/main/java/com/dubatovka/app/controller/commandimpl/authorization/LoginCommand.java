@@ -1,4 +1,4 @@
-package com.dubatovka.app.controller.command_impl.authorization;
+package com.dubatovka.app.controller.commandimpl.authorization;
 
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;

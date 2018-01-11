@@ -1,11 +1,11 @@
 package com.dubatovka.app.controller;
 
-import com.dubatovka.app.controller.command_impl.ChangeLocaleCommand;
-import com.dubatovka.app.controller.command_impl.MakeBetCommand;
-import com.dubatovka.app.controller.command_impl.navigation.*;
-import com.dubatovka.app.controller.command_impl.authorization.LoginCommand;
-import com.dubatovka.app.controller.command_impl.authorization.LogoutCommand;
-import com.dubatovka.app.controller.command_impl.authorization.RegisterCommand;
+import com.dubatovka.app.controller.commandimpl.ChangeLocaleCommand;
+import com.dubatovka.app.controller.commandimpl.MakeBetCommand;
+import com.dubatovka.app.controller.commandimpl.navigation.*;
+import com.dubatovka.app.controller.commandimpl.authorization.LoginCommand;
+import com.dubatovka.app.controller.commandimpl.authorization.LogoutCommand;
+import com.dubatovka.app.controller.commandimpl.authorization.RegisterCommand;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.ConfigConstant;
 import org.apache.logging.log4j.Level;

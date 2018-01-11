@@ -1,4 +1,4 @@
-package com.dubatovka.app.controller.command_impl;
+package com.dubatovka.app.controller.commandimpl;
 
 
 import com.dubatovka.app.controller.Command;
