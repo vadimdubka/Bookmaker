@@ -124,41 +124,41 @@ nav.employee-nav {
     color: black;
 }
 
-/*Section Category*/
-.section-category .section-content ul {
+/*Section Sport Category*/
+.section-sport-category .section-content ul {
     text-align: center;
 }
 
-.section-category .section-content li ul {
+.section-sport-category .section-content li ul {
     display: none;
 }
 
-.section-category .section-content > ul > li {
+.section-sport-category .section-content > ul > li {
     border-bottom: 1px solid #14181B;
 }
 
-.section-category .section-content > ul > li:hover {
+.section-sport-category .section-content > ul > li:hover {
     background-color: lightgrey;
 }
 
-.section-category .section-content li:hover ul {
+.section-sport-category .section-content li:hover ul {
     display: block;
 }
 
-.section-category .sport-name {
+.section-sport-category .sport-name {
     font-size: 1.5em;
 }
 
-.section-category .category-name {
+.section-sport-category .category-name {
     font-size: 1.25em;
 }
 
-.section-category .category-name a {
+.section-sport-category .category-name a {
     color: #2A2A2A;
     /*font-style: italic;*/
 }
 
-.section-category .category-name a:hover {
+.section-sport-category .category-name a:hover {
     color: #0c4dcc;
     /*font-style: italic;*/
 }
