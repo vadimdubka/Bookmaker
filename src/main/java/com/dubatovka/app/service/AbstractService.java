@@ -28,5 +28,4 @@ abstract class AbstractService implements AutoCloseable {
     public void close() {
         daoHelper.close();
     }
-    
 }

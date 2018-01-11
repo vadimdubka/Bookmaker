@@ -32,7 +32,7 @@ public class CategoryServiceImpl extends CategoryService {
                 Set<Category> categorySet = categoryDAO.readAllCategories();
                 sportCategories = buildCategoryHierarchy(categorySet);
             } catch (DAOException e) {
-                
+                logger.log(Level.ERROR, e.getMessage());
             }
         }
         isCategoriesModified = false;
@@ -70,7 +70,6 @@ public class CategoryServiceImpl extends CategoryService {
                 iterator.remove();
             }
         }
-        
         return sportCategoriesMap;
     }
     

@@ -60,6 +60,17 @@ public class EventServiceImpl extends EventService {
     }
     
     @Override
+    public Map<Integer, Integer> countActualEventsGroupByCategory() {
+        Map<Integer, Integer> eventCountMap = null;
+        try {
+            eventCountMap = eventDAO.countActualEventsGroupByCategory();
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        }
+        return eventCountMap;
+    }
+    
+    @Override
     public Set<Event> getAllEventsByCategoryId(String categoryId) {
         Set<Event> eventSet = null;
         try {

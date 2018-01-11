@@ -16,20 +16,25 @@ import java.util.Set;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class GotoMainCommand implements Command {
+    //TODO вынести все psf поля из команд
     public static final String PARAM_CATEGORY_ID = "category_id";
     public static final String ATTR_EVENT_SET = "event_set";
     public static final String ATTR_TYPE_1_MAP = "type_1_map";
     public static final String ATTR_TYPE_X_MAP = "type_x_map";
     public static final String ATTR_TYPE_2_MAP = "type_2_map";
+    public static final String ATTR_EVENT_COUNT_MAP = "event_count_map";
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        Set<Category> sportSet;
         try (CategoryService categoryService = ServiceFactory.getCategoryService()) {
-            sportSet = categoryService.getSportCategories();
+            Set<Category> sportSet = categoryService.getSportCategories();
+            request.setAttribute(ATTR_SPORT_SET, sportSet);
         }
-        request.setAttribute(ATTR_SPORT_SET, sportSet);
-    
+        try (EventService eventService = ServiceFactory.getEventService()) {
+            Map<Integer, Integer> eventCountMap = eventService.countActualEventsGroupByCategory();
+            request.setAttribute(ATTR_EVENT_COUNT_MAP, eventCountMap);
+        }
+        
         String categoryId = request.getParameter(PARAM_CATEGORY_ID);
         extractActualEvents(request, categoryId);
         
@@ -38,7 +43,7 @@ public class GotoMainCommand implements Command {
     }
     
     private void extractActualEvents(HttpServletRequest request, String categoryId) {
-        try(EventService eventService = ServiceFactory.getEventService()){
+        try (EventService eventService = ServiceFactory.getEventService()) {
             Set<Event> eventSet = null;
             if (categoryId != null) {
                 eventSet = eventService.getActualEventsByCategoryId(categoryId);

@@ -3,6 +3,7 @@ package com.dubatovka.app.dao;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Event;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface EventDAO {
@@ -16,6 +17,7 @@ public interface EventDAO {
     String PARTICIPANT2 = "participant2";
     String RESULT1 = "result1";
     String RESULT2 = "result2";
+    String COUNT = "count";
     
     Event getEventById(int eventId) throws DAOException;
     
@@ -23,5 +25,5 @@ public interface EventDAO {
     
     Set<Event> getActualEventsByCategoryId(String categoryId) throws DAOException;
     
-    
+    Map<Integer, Integer> countActualEventsGroupByCategory() throws DAOException;
 }
