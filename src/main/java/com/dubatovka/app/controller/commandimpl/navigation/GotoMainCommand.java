@@ -9,6 +9,7 @@ import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
@@ -42,18 +43,19 @@ public class GotoMainCommand implements Command {
         return PageNavigator.FORWARD_PAGE_MAIN;
     }
     
-    private void extractActualEvents(HttpServletRequest request, String categoryId) {
+    private void extractActualEvents(ServletRequest request, String categoryId) {
         try (EventService eventService = ServiceFactory.getEventService()) {
-            Set<Event> eventSet = null;
             if (categoryId != null) {
-                eventSet = eventService.getActualEventsByCategoryId(categoryId);
+                Set<Event> eventSet = eventService.getActualEventsByCategoryId(categoryId);
                 extractOutcomesForEvents(request, eventSet, eventService);
+                request.setAttribute(ATTR_EVENT_SET, eventSet);
+                System.out.println("event size: "+ eventSet.size());
+                System.out.println("category id: "+ categoryId);
             }
-            request.setAttribute(ATTR_EVENT_SET, eventSet);
         }
     }
     
-    private void extractOutcomesForEvents(HttpServletRequest request, Set<Event> eventSet, EventService eventService) {
+    private void extractOutcomesForEvents(ServletRequest request, Set<Event> eventSet, EventService eventService) {
         Map<String, Map<String, String>> coeffColumnMaps = eventService.getOutcomeColumnMaps(eventSet);
         Map<String, String> type1Map = coeffColumnMaps.get(OUTCOME_TYPE_1);
         Map<String, String> typeXMap = coeffColumnMaps.get(OUTCOME_TYPE_X);

@@ -23,19 +23,27 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event " +
                     "WHERE category_id =?";
+    //TODO добавить проверку на наличие исходов и убрать лишний метод на удаление событий без
     private static final String SQL_SELECT_ACTUAL_EVENTS_CATEGORY_BY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event " +
-                    "WHERE category_id =? AND (date - NOW()) > 0";
+                    "WHERE category_id =? " +
+                    "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                    "AND (date - NOW()) > 0 " +
+                    "AND result1 IS NULL";
     
     private static final String SQL_COUNT_ALL_EVENTS_GROUP_BY_CATEGORY_ID =
-            "SELECT category_id, COUNT(category_id) FROM bookmaker.event GROUP BY category_id";
+            "SELECT category_id, COUNT(category_id) FROM event GROUP BY category_id";
     
     private static final String SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID =
-            "SELECT category_id, COUNT(category_id) AS count FROM bookmaker.event WHERE (date - NOW()) > 0 GROUP BY category_id";
+            "SELECT category_id, COUNT(category_id) AS count FROM event " +
+                    "WHERE id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                        "AND (date - NOW()) > 0 " +
+                        "AND result1 IS NULL " +
+                    "GROUP BY category_id";
     
     private static final String SQL_COUNT_EVENTS_WITHOUT_RESULTS_GROUP_BY_CATEGORY_ID =
-            "SELECT category_id, COUNT(category_id) FROM bookmaker.event WHERE result1 IS NULL GROUP BY category_id";
+            "SELECT category_id, COUNT(category_id) FROM event WHERE result1 IS NULL GROUP BY category_id";
     
     EventDAOImpl() {
     }
