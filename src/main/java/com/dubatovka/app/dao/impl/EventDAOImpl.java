@@ -23,7 +23,6 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event " +
                     "WHERE category_id =?";
-    //TODO добавить проверку на наличие исходов и убрать лишний метод на удаление событий без
     private static final String SQL_SELECT_ACTUAL_EVENTS_CATEGORY_BY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event " +

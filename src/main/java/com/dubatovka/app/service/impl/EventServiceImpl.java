@@ -88,7 +88,7 @@ public class EventServiceImpl extends EventService {
         try {
             eventSet = eventDAO.getActualEventsByCategoryId(categoryId);
             setOutcomesForEvents(eventSet);
-            removeEventsWithoutOutcomes(eventSet);
+//            removeEventsWithoutOutcomes(eventSet);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }

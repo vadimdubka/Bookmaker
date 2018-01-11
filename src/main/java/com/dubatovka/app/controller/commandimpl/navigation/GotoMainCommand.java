@@ -49,8 +49,6 @@ public class GotoMainCommand implements Command {
                 Set<Event> eventSet = eventService.getActualEventsByCategoryId(categoryId);
                 extractOutcomesForEvents(request, eventSet, eventService);
                 request.setAttribute(ATTR_EVENT_SET, eventSet);
-                System.out.println("event size: "+ eventSet.size());
-                System.out.println("category id: "+ categoryId);
             }
         }
     }
