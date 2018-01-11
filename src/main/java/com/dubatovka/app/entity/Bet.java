@@ -14,6 +14,19 @@ public class Bet {
     private BigDecimal amount;
     private Status status;
     
+    public Bet() {
+    }
+    
+    public Bet(int playerId, int eventId, String outcomeType, LocalDateTime date, BigDecimal coefficient, BigDecimal amount, Status status) {
+        this.playerId = playerId;
+        this.eventId = eventId;
+        this.outcomeType = outcomeType;
+        this.date = date;
+        this.coefficient = coefficient;
+        this.amount = amount;
+        this.status = status;
+    }
+    
     public enum Status {
         NEW(ConfigConstant.NEW),
         LOSING(ConfigConstant.LOSING),

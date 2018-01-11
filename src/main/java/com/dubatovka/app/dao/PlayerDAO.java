@@ -54,5 +54,5 @@ public interface PlayerDAO {
      * @throws DAOException if {@link SQLException} occurred while working with database
      * @see com.dubatovka.app.entity.Transaction.TransactionType
      */
-    boolean changeBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException;
+    boolean updateBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException;
 }

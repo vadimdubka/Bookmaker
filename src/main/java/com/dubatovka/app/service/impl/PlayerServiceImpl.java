@@ -6,6 +6,7 @@ import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.entity.Bet;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.Transaction;
 import com.dubatovka.app.manager.Encryptor;
@@ -17,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
-
 
 public class PlayerServiceImpl extends PlayerService {
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
@@ -86,13 +86,16 @@ public class PlayerServiceImpl extends PlayerService {
     }
     
     @Override
-    public void makeBet(int playerId, int eventId, String outcomeType, BigDecimal coefficient, BigDecimal betAmount, Transaction.TransactionType transactionType, StringBuilder errorMessage) {
+    public void makeBet(Bet bet, StringBuilder errorMessage) {
         try {
-            //TODO проверить тразакцию на ACID, на согласованность
             daoHelper.beginTransaction();
-            betDAO.insertBet(playerId, eventId, outcomeType, coefficient, betAmount);
-            playerDAO.changeBalance(playerId, betAmount, transactionType);
-            daoHelper.commit();
+            boolean isBetIns = betDAO.insertBet(bet);
+            boolean isBalUpd = playerDAO.updateBalance(bet.getPlayerId(), bet.getAmount(), Transaction.TransactionType.WITHDRAW);
+            if (isBetIns && isBalUpd) {
+                daoHelper.commit();
+            } else {
+                daoHelper.rollback();
+            }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
             errorMessage.append("Database connection error while doing sql transaction.");
@@ -110,8 +113,6 @@ public class PlayerServiceImpl extends PlayerService {
      * @param amount          amount of money player transacts
      * @param transactionType type of transaction
      * @return true if transaction proceeded successfully
-     * @see TransactionDAO#insertTransaction(int, BigDecimal, Transaction.TransactionType)
-     * @see PlayerDAO#changeBalance(int, BigDecimal, Transaction.TransactionType)
      */
     @Override
     public int makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType transactionType) {
@@ -119,11 +120,11 @@ public class PlayerServiceImpl extends PlayerService {
         int result = 0;
         try {
             daoHelper.beginTransaction();
-            int insTransactId = transactionDAO.insertTransaction(playerId, amount, transactionType);
-            boolean isChanged = playerDAO.changeBalance(playerId, amount, transactionType);
-            if ((insTransactId != 0) && isChanged) {
+            int transactId = transactionDAO.insertTransaction(playerId, amount, transactionType);
+            boolean isBalUpd = playerDAO.updateBalance(playerId, amount, transactionType);
+            if ((transactId != 0) && isBalUpd) {
                 daoHelper.commit();
-                result = insTransactId;
+                result = transactId;
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());

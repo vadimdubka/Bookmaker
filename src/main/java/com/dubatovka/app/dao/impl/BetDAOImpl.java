@@ -1,19 +1,16 @@
 package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.BetDAO;
-import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.db.WrappedConnection;
+import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Bet;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
-    private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, coefficient, amount, status) VALUES (?, ?, ?, NOW(), ?, ?,'new')";
+    private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, coefficient, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
     private static final String SQL_SELECT_BET_BY_PLAYER_ID = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC";
     
@@ -25,14 +22,17 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     }
     
     @Override
-    public void insertBet(int playerId, int eventId, String outcomeType, BigDecimal coefficient, BigDecimal betAmount) throws DAOException {
+    public boolean insertBet(Bet bet) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_BET)) {
-            statement.setInt(1, playerId);
-            statement.setInt(2, eventId);
-            statement.setString(3, outcomeType);
-            statement.setBigDecimal(4, coefficient);
-            statement.setBigDecimal(5, betAmount);
-            statement.executeUpdate();
+            statement.setInt(1, bet.getPlayerId());
+            statement.setInt(2, bet.getEventId());
+            statement.setString(3, bet.getOutcomeType());
+            statement.setTimestamp(4, Timestamp.valueOf(bet.getDate()));
+            statement.setBigDecimal(5, bet.getCoefficient());
+            statement.setBigDecimal(6, bet.getAmount());
+            statement.setString(7, bet.getStatus().getStatus());
+            int rowUpd = statement.executeUpdate();
+            return rowUpd == 1;
         } catch (SQLException e) {
             throw new DAOException("Database connection error while inserting bet. " + e);
         }

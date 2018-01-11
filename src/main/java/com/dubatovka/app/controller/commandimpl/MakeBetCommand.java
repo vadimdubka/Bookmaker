@@ -2,10 +2,7 @@ package com.dubatovka.app.controller.commandimpl;
 
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
-import com.dubatovka.app.entity.Event;
-import com.dubatovka.app.entity.Player;
-import com.dubatovka.app.entity.Transaction;
-import com.dubatovka.app.entity.User;
+import com.dubatovka.app.entity.*;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.PlayerService;
@@ -61,9 +58,10 @@ public class MakeBetCommand implements Command {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
                 int playerId = player.getId();
                 int eventId = event.getId();
-                BigDecimal amount = event.getOutcomeByType(outcomeType).getCoefficient();
+                BigDecimal coefficient = event.getOutcomeByType(outcomeType).getCoefficient();
                 BigDecimal betAmount = new BigDecimal(betAmountStr);
-                playerService.makeBet(playerId, eventId, outcomeType, amount, betAmount, Transaction.TransactionType.WITHDRAW, errorMessage);
+                Bet bet = new Bet(playerId, eventId, outcomeType, LocalDateTime.now(), coefficient, betAmount, Bet.Status.NEW);
+                playerService.makeBet(bet, errorMessage);
                 if (errorMessage.toString().trim().isEmpty()) {
                     playerService.updatePlayerInfo(player);
                     session.setAttribute(ATTR_PLAYER, player);

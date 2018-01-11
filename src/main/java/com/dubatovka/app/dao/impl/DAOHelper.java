@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
-
+//TODO переименовать в DAOProvider
 /**
  * The class provides manager for DAO layer classes.
  *
@@ -160,6 +160,7 @@ public final class DAOHelper implements AutoCloseable {
      */
     public void rollback() throws SQLException {
         connection.rollback();
+        connection.setAutoCommit(true);
     }
     
     /**

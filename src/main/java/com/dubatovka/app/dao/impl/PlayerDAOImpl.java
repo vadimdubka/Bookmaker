@@ -98,18 +98,14 @@ public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
      * @see PreparedStatement
      */
     @Override
-    public boolean changeBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException {
+    public boolean updateBalance(int id, BigDecimal amount, Transaction.TransactionType type) throws DAOException {
         if (type == Transaction.TransactionType.WITHDRAW) {
             amount = amount.negate();
         }
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ACCOUNT_BALANCE)) {
             statement.setBigDecimal(1, amount);
             statement.setInt(2, id);
-            if (statement.executeUpdate() == 1) {
-                return true;
-            } else {
-                throw new DAOException("No or more than 1 player associated with given id: '" + id + "'. Check database.");
-            }
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DAOException("Database connection error while changing balance. " + e);
         }
