@@ -51,7 +51,7 @@ public class CategoryServiceImpl extends CategoryService {
         return categoryResult;
     }
     
-    private Set<Category> buildCategoryHierarchy(Collection<Category> categorySet) {
+    private Set<Category> buildCategoryHierarchy(Iterable<Category> categorySet) {
         Map<Integer, Category> sportCategoriesMap = pickOutSportCategories(categorySet);
         fillSportWithCategories(sportCategoriesMap, categorySet);
         
@@ -59,7 +59,7 @@ public class CategoryServiceImpl extends CategoryService {
         return sportCategoriesSet;
     }
     
-    private Map<Integer, Category> pickOutSportCategories(Collection<Category> categorySet) {
+    private Map<Integer, Category> pickOutSportCategories(Iterable<Category> categorySet) {
         Map<Integer, Category> sportCategoriesMap = new HashMap<>();
         Iterator<Category> iterator = categorySet.iterator();
         while (iterator.hasNext()) {
@@ -73,7 +73,7 @@ public class CategoryServiceImpl extends CategoryService {
         return sportCategoriesMap;
     }
     
-    private void fillSportWithCategories(Map<Integer, Category> sportCategoriesMap, Collection<Category> categorySet) {
+    private void fillSportWithCategories(Map<Integer, Category> sportCategoriesMap, Iterable<Category> categorySet) {
         categorySet.forEach(category -> {
             int parentId = category.getParentId();
             Category sport = sportCategoriesMap.get(parentId);

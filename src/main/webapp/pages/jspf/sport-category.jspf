@@ -12,7 +12,9 @@
                             <li>
                                 <div class="category-name">
                                     <a href="${pageContext.request.contextPath}/controller?command_type=goto_main&category_id=${category.id}">${category.name}
-                                    </a> [${requestScope.event_count_map[category.id]}]</div>
+                                    </a>
+                                    <span class="category-count">${requestScope.event_count_map[category.id]}</span>
+                                </div>
                             </li>
                         </c:forEach>
                     </ul>

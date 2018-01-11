@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -88,7 +87,6 @@ public class EventServiceImpl extends EventService {
         try {
             eventSet = eventDAO.getActualEventsByCategoryId(categoryId);
             setOutcomesForEvents(eventSet);
-//            removeEventsWithoutOutcomes(eventSet);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
@@ -116,16 +114,6 @@ public class EventServiceImpl extends EventService {
             event.setOutcomeSet(outcomeSet);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-        }
-    }
-    
-    private void removeEventsWithoutOutcomes(Iterable<Event> eventSet) {
-        Iterator<Event> eventIterator = eventSet.iterator();
-        while (eventIterator.hasNext()) {
-            Event event = eventIterator.next();
-            if (event.getOutcomeSet().isEmpty()) {
-                eventIterator.remove();
-            }
         }
     }
     
