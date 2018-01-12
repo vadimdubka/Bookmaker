@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static com.dubatovka.app.manager.ConfigConstant.*;
+
 public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     private static final String SQL_SELECT_EVENT_BY_EVENT_ID =
             "SELECT id, date, category_id, participant1, participant2, result1, result2 " +
@@ -73,7 +75,7 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     
     private static final String SQL_COUNT_NOT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID =
             "SELECT category_id, COUNT(category_id) AS count FROM event " +
-                    "AND (date - NOW()) > 0 " +
+                    "WHERE (date - NOW()) > 0 " +
                     "AND result1 IS NULL " +
                     "GROUP BY category_id";
     
@@ -124,22 +126,22 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     public Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException {
         Set<Event> eventSet;
         switch (eventQueryType) {
-            case NEW:
+            case EVENT_QUERY_TYPE_NEW:
                 eventSet = readEventsByQuery(categoryId, SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID);
                 break;
-            case ACTUAL:
+            case EVENT_QUERY_TYPE_ACTUAL:
                 eventSet = readEventsByQuery(categoryId, SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID);
                 break;
-            case NOT_STARTED:
+            case EVENT_QUERY_TYPE_NOT_STARTED:
                 eventSet = readEventsByQuery(categoryId, SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID);
                 break;
-            case STARTED:
+            case EVENT_QUERY_TYPE_STARTED:
                 eventSet = readEventsByQuery(categoryId, SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID);
                 break;
-            case FAILED:
+            case EVENT_QUERY_TYPE_FAILED:
                 eventSet = readEventsByQuery(categoryId, SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID);
                 break;
-            case CLOSED:
+            case EVENT_QUERY_TYPE_CLOSED:
                 eventSet = readEventsByQuery(categoryId, SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID);
                 break;
             default:
@@ -152,22 +154,22 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     public Map<Integer, Integer> countEvents(String eventQueryType) throws DAOException {
         Map<Integer, Integer> eventCountMap;
         switch (eventQueryType) {
-            case NEW:
+            case EVENT_QUERY_TYPE_NEW:
                 eventCountMap = countEventsByQuery(SQL_COUNT_NEW_EVENTS_GROUP_BY_CATEGORY_ID);
                 break;
-            case ACTUAL:
+            case EVENT_QUERY_TYPE_ACTUAL:
                 eventCountMap = countEventsByQuery(SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID);
                 break;
-            case NOT_STARTED:
+            case EVENT_QUERY_TYPE_NOT_STARTED:
                 eventCountMap = countEventsByQuery(SQL_COUNT_NOT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
                 break;
-            case STARTED:
+            case EVENT_QUERY_TYPE_STARTED:
                 eventCountMap = countEventsByQuery(SQL_COUNT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
                 break;
-            case FAILED:
+            case EVENT_QUERY_TYPE_FAILED:
                 eventCountMap = countEventsByQuery(SQL_COUNT_FAILED_EVENTS_GROUP_BY_CATEGORY_ID);
                 break;
-            case CLOSED:
+            case EVENT_QUERY_TYPE_CLOSED:
                 eventCountMap = countEventsByQuery(SQL_COUNT_CLOSED_EVENTS_GROUP_BY_CATEGORY_ID);
                 break;
             default:

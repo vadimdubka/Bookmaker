@@ -2,10 +2,11 @@ package com.dubatovka.app.controller;
 
 import com.dubatovka.app.controller.commandimpl.ChangeLocaleCommand;
 import com.dubatovka.app.controller.commandimpl.MakeBetCommand;
-import com.dubatovka.app.controller.commandimpl.navigation.*;
 import com.dubatovka.app.controller.commandimpl.authorization.LoginCommand;
 import com.dubatovka.app.controller.commandimpl.authorization.LogoutCommand;
 import com.dubatovka.app.controller.commandimpl.authorization.RegisterCommand;
+import com.dubatovka.app.controller.commandimpl.events.*;
+import com.dubatovka.app.controller.commandimpl.navigation.*;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.ConfigConstant;
 import org.apache.logging.log4j.Level;
@@ -40,16 +41,23 @@ public final class CommandFactory {
         commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
         commonCommands.put(CommandType.GOTO_MAKE_BET, new GotoMakeBetCommand());
         commonCommands.put(CommandType.MAKE_BET, new MakeBetCommand());
+        commonCommands.put(CommandType.SHOW_EVENTS_ACTUAL, new ShowActualEventsCommand());
+        commonCommands.put(CommandType.SHOW_EVENTS_CLOSED, new ShowClosedEventsCommand());
         
         guestCommands.putAll(commonCommands);
         
         playerCommands.putAll(commonCommands);
         playerCommands.put(CommandType.GOTO_PLAYER_STATE, new GotoPlayerStateCommand());
         
+        
         adminCommands.putAll(commonCommands);
         adminCommands.put(CommandType.GOTO_MANAGE_PLAYERS, new GotoManagePlayersCommand());
+        adminCommands.put(CommandType.SHOW_EVENTS_NOT_STARTED, new ShowNotStartedEventsCommand());
+        adminCommands.put(CommandType.SHOW_EVENTS_STARTED, new ShowStartedEventsCommand());
+        adminCommands.put(CommandType.SHOW_EVENTS_FAILED, new ShowFailedEventsCommand());
         
         analystCommands.putAll(commonCommands);
+        analystCommands.put(CommandType.SHOW_EVENTS_NEW, new ShowNewEventsCommand());
     }
     
     private CommandFactory() {
@@ -121,6 +129,13 @@ public final class CommandFactory {
         GOTO_MANAGE_PLAYERS,
         GOTO_MAKE_BET,
         
-        GOTO_PLAYER_STATE, GOTO_PAGINATION
+        GOTO_PLAYER_STATE, GOTO_PAGINATION,
+        
+        SHOW_EVENTS_NEW,
+        SHOW_EVENTS_ACTUAL,
+        SHOW_EVENTS_NOT_STARTED,
+        SHOW_EVENTS_STARTED,
+        SHOW_EVENTS_FAILED,
+        SHOW_EVENTS_CLOSED
     }
 }

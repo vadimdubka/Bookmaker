@@ -45,14 +45,15 @@
             <c:when test="${sessionScope.user.role.role=='admin'}">
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_create">
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=show_events_#">
                             Создать событие</a></li>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct">
-                            Корректировать события</a></li>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_result">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=show_events_not_started">
+                                Корректировать события</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=show_events_started">
                             Внести результаты событий</a></li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_delete_failed">
+                            <a href="${pageContext.request.contextPath}/controller?command_type=show_events_failed">
                                 Удалить невалидные события</a></li>
                     </ul>
                 </div>
@@ -60,9 +61,9 @@
             <c:when test="${sessionScope.user.role.role=='analyst'}">
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_сoeff_set">
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=show_events_new">
                             Назначить коэффициэнты на новые события</a></li>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_сoeff_correct">
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=show_events_actual">
                             Корректировать коэфиценты</a></li>
                     </ul>
                 </div>

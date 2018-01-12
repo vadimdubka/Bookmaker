@@ -229,6 +229,16 @@ public final class ConfigConstant {
     public static final String OUTCOME_TYPE_X = "X";
     public static final String OUTCOME_TYPE_2 = "2";
     
+    /**
+     * Event query types
+     */
+    public static final String EVENT_QUERY_TYPE_NEW = "new";
+    public static final String EVENT_QUERY_TYPE_ACTUAL = "actual";
+    public static final String EVENT_QUERY_TYPE_NOT_STARTED = "not_started";
+    public static final String EVENT_QUERY_TYPE_STARTED = "started";
+    public static final String EVENT_QUERY_TYPE_FAILED = "failed";
+    public static final String EVENT_QUERY_TYPE_CLOSED = "closed";
+    
     private ConfigConstant() {
     }
 }

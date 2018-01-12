@@ -19,16 +19,6 @@ public interface EventDAO {
     String RESULT2 = "result2";
     String COUNT = "count";
     
-    /**
-     * Event query types
-     */
-    String NEW = "new";
-    String ACTUAL = "actual";
-    String NOT_STARTED = "not_started";
-    String STARTED = "started";
-    String FAILED = "failed";
-    String CLOSED = "closed";
-    
     Event getEvent(int eventId) throws DAOException;
     
     Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException;

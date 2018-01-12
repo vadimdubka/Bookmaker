@@ -32,9 +32,9 @@
 
 <nav>
     <ul class="nav-horizontal">
-        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_main">
+        <li><a href="${pageContext.request.contextPath}/controller?command_type=show_events_actual">
             <fmt:message key="header.topmenu.main"/></a></li>
-        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_results">
+        <li><a href="${pageContext.request.contextPath}/controller?command_type=show_events_closed">
             <fmt:message key="header.topmenu.results"/></a></li>
         <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_rules">
             <fmt:message key="header.topmenu.rules"/></a></li>
