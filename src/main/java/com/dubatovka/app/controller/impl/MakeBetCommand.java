@@ -1,4 +1,4 @@
-package com.dubatovka.app.controller.commandimpl;
+package com.dubatovka.app.controller.impl;
 
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
