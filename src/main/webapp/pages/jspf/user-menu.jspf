@@ -35,8 +35,35 @@
                 </div>
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_player_state">Состояние и история аккаунта</a></li>
-                        <li><a href="#">Настройки аккаунта</a></li><%--TODO убрать с главной страницы--%>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_player_state">Состояние
+                            и история аккаунта</a></li>
+                        <li><a href="#">Настройки аккаунта</a></li>
+                            <%--TODO убрать с главной страницы--%>
+                    </ul>
+                </div>
+            </c:when>
+            <c:when test="${sessionScope.user.role.role=='admin'}">
+                <div>
+                    <ul>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_create">
+                            Создать событие</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct">
+                            Корректировать события</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_result">
+                            Внести результаты событий</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_delete_failed">
+                                Удалить невалидные события</a></li>
+                    </ul>
+                </div>
+            </c:when>
+            <c:when test="${sessionScope.user.role.role=='analyst'}">
+                <div>
+                    <ul>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_сoeff_set">
+                            Назначить коэффициэнты на новые события</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_сoeff_correct">
+                            Корректировать коэфиценты</a></li>
                     </ul>
                 </div>
             </c:when>

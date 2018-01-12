@@ -34,12 +34,12 @@
     <ul class="nav-horizontal">
         <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_main">
             <fmt:message key="header.topmenu.main"/></a></li>
+        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_results">
+            <fmt:message key="header.topmenu.results"/></a></li>
         <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_rules">
             <fmt:message key="header.topmenu.rules"/></a></li>
         <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_support">
             <fmt:message key="header.topmenu.support"/></a></li>
-        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_results">
-            <fmt:message key="header.topmenu.results"/></a></li>
         <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_actions">
             <fmt:message key="header.topmenu.actions"/></a></li>
         <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_news">
@@ -65,14 +65,6 @@
                     <fmt:message key="leftmenu.admin.stats"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_news">
                     <fmt:message key="leftmenu.admin.news"/></a></li>
-            </ul>
-        </nav>
-    </c:when>
-    <c:when test="${sessionScope.user.role.role == 'analyst'}">
-        <nav class="employee-nav">
-            <ul class="nav-horizontal">
-                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_events">
-                    Управление событиями</a></li>
             </ul>
         </nav>
     </c:when>
