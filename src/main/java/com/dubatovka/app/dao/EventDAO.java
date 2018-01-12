@@ -19,29 +19,19 @@ public interface EventDAO {
     String RESULT2 = "result2";
     String COUNT = "count";
     
-    Event getEventById(int eventId) throws DAOException;
+    /**
+     * Event query types
+     */
+    String NEW = "new";
+    String ACTUAL = "actual";
+    String NOT_STARTED = "not_started";
+    String STARTED = "started";
+    String FAILED = "failed";
+    String CLOSED = "closed";
     
-    Set<Event> readNewEventsByCategoryId(String categoryId) throws DAOException;
+    Event getEvent(int eventId) throws DAOException;
     
-    Set<Event> readActualEventsByCategoryId(String categoryId) throws DAOException;
+    Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException;
     
-    Set<Event> readNotStartedEventsByCategoryId(String categoryId) throws DAOException;
-    
-    Set<Event> readStartedEventsByCategoryId(String categoryId) throws DAOException;
-    
-    Set<Event> readFailedEventsByCategoryId(String categoryId) throws DAOException;
-    
-    Set<Event> readClosedEventsByCategoryId(String categoryId) throws DAOException;
-    
-    Map<Integer, Integer> countNewEventsByCategories() throws DAOException;
-    
-    Map<Integer, Integer> countActualEventsByCategories() throws DAOException;
-    
-    Map<Integer, Integer> countNotStartedEventsByCategories() throws DAOException;
-    
-    Map<Integer, Integer> countStartedEventsByCategories() throws DAOException;
-    
-    Map<Integer, Integer> countFailedEventsByCategories() throws DAOException;
-    
-    Map<Integer, Integer> countClosedEventsByCategories() throws DAOException;
+    Map<Integer, Integer> countEvents(String eventQueryType) throws DAOException;
 }

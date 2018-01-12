@@ -30,7 +30,7 @@ public class GotoMakeBetCommand implements Command {
         Category parentCategory;
         try (EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService()) {
             String eventId = request.getParameter(PARAM_EVENT_ID);
-            event = eventService.getEventById(Integer.parseInt(eventId));
+            event = eventService.getEvent(Integer.parseInt(eventId));
             String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
             outcome = event.getOutcomeByType(outcomeType);
             category = categoryService.getCategoryById(event.getCategoryId());

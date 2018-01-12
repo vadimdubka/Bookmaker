@@ -46,7 +46,7 @@ public class GotoPlayerStateCommand implements Command {
                 Map<Bet, Category> categoryMap = new HashMap<>(betList.size());
                 Map<Bet, Category> sportMap = new HashMap<>(betList.size());
                 betList.forEach(bet -> {
-                    Event event = eventService.getEventById(bet.getEventId());
+                    Event event = eventService.getEvent(bet.getEventId());
                     Category category = categoryService.getCategoryById(event.getCategoryId());
                     Category parentCategory = categoryService.getCategoryById(category.getParentId());
                     eventMap.put(bet, event);

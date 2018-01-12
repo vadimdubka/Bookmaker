@@ -106,7 +106,7 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     }
     
     @Override
-    public Event getEventById(int eventId) throws DAOException {
+    public Event getEvent(int eventId) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_EVENT_BY_EVENT_ID)) {
             statement.setInt(1, eventId);
             ResultSet resultSet = statement.executeQuery();
@@ -121,63 +121,59 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     }
     
     @Override
-    public Set<Event> readNewEventsByCategoryId(String categoryId) throws DAOException {
-        return readEventsByQuery(categoryId, SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID);
+    public Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException {
+        Set<Event> eventSet;
+        switch (eventQueryType) {
+            case NEW:
+                eventSet = readEventsByQuery(categoryId, SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID);
+                break;
+            case ACTUAL:
+                eventSet = readEventsByQuery(categoryId, SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID);
+                break;
+            case NOT_STARTED:
+                eventSet = readEventsByQuery(categoryId, SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID);
+                break;
+            case STARTED:
+                eventSet = readEventsByQuery(categoryId, SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID);
+                break;
+            case FAILED:
+                eventSet = readEventsByQuery(categoryId, SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID);
+                break;
+            case CLOSED:
+                eventSet = readEventsByQuery(categoryId, SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID);
+                break;
+            default:
+                eventSet = new HashSet<>();
+        }
+        return eventSet;
     }
     
     @Override
-    public Set<Event> readActualEventsByCategoryId(String categoryId) throws DAOException {
-        return readEventsByQuery(categoryId, SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Set<Event> readNotStartedEventsByCategoryId(String categoryId) throws DAOException {
-        return readEventsByQuery(categoryId, SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Set<Event> readStartedEventsByCategoryId(String categoryId) throws DAOException {
-        return readEventsByQuery(categoryId, SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Set<Event> readFailedEventsByCategoryId(String categoryId) throws DAOException {
-        return readEventsByQuery(categoryId, SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Set<Event> readClosedEventsByCategoryId(String categoryId) throws DAOException {
-        return readEventsByQuery(categoryId, SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Map<Integer, Integer> countNewEventsByCategories() throws DAOException {
-        return countEventsByQuery(SQL_COUNT_NEW_EVENTS_GROUP_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Map<Integer, Integer> countActualEventsByCategories() throws DAOException {
-        return countEventsByQuery(SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Map<Integer, Integer> countNotStartedEventsByCategories() throws DAOException {
-        return countEventsByQuery(SQL_COUNT_NOT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Map<Integer, Integer> countStartedEventsByCategories() throws DAOException {
-        return countEventsByQuery(SQL_COUNT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Map<Integer, Integer> countFailedEventsByCategories() throws DAOException {
-        return countEventsByQuery(SQL_COUNT_FAILED_EVENTS_GROUP_BY_CATEGORY_ID);
-    }
-    
-    @Override
-    public Map<Integer, Integer> countClosedEventsByCategories() throws DAOException {
-        return countEventsByQuery(SQL_COUNT_CLOSED_EVENTS_GROUP_BY_CATEGORY_ID);
+    public Map<Integer, Integer> countEvents(String eventQueryType) throws DAOException {
+        Map<Integer, Integer> eventCountMap;
+        switch (eventQueryType) {
+            case NEW:
+                eventCountMap = countEventsByQuery(SQL_COUNT_NEW_EVENTS_GROUP_BY_CATEGORY_ID);
+                break;
+            case ACTUAL:
+                eventCountMap = countEventsByQuery(SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID);
+                break;
+            case NOT_STARTED:
+                eventCountMap = countEventsByQuery(SQL_COUNT_NOT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
+                break;
+            case STARTED:
+                eventCountMap = countEventsByQuery(SQL_COUNT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
+                break;
+            case FAILED:
+                eventCountMap = countEventsByQuery(SQL_COUNT_FAILED_EVENTS_GROUP_BY_CATEGORY_ID);
+                break;
+            case CLOSED:
+                eventCountMap = countEventsByQuery(SQL_COUNT_CLOSED_EVENTS_GROUP_BY_CATEGORY_ID);
+                break;
+            default:
+                eventCountMap = new HashMap<>(0);
+        }
+        return eventCountMap;
     }
     
     private Set<Event> readEventsByQuery(String categoryId, String sqlQuery) throws DAOException {

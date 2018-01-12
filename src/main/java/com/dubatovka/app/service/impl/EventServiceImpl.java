@@ -47,10 +47,10 @@ public class EventServiceImpl extends EventService {
     }
     
     @Override
-    public Event getEventById(int eventId) {
+    public Event getEvent(int eventId) {
         Event event = null;
         try {
-            event = eventDAO.getEventById(eventId);
+            event = eventDAO.getEvent(eventId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
@@ -59,11 +59,13 @@ public class EventServiceImpl extends EventService {
     }
     
     @Override
-    public Set<Event> getNewEventsByCategoryId(String categoryId) {
+    public Set<Event> getEvents(String categoryId, String eventQueryType) {
         Set<Event> eventSet = null;
         try {
-            eventSet = eventDAO.readNewEventsByCategoryId(categoryId);
-            setOutcomesForEvents(eventSet);
+            if (eventQueryType != null) {
+                eventSet = eventDAO.readEvents(categoryId, eventQueryType);
+                setOutcomesForEvents(eventSet);
+            }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
@@ -71,125 +73,12 @@ public class EventServiceImpl extends EventService {
     }
     
     @Override
-    public Set<Event> getActualEventsByCategoryId(String categoryId) {
-        Set<Event> eventSet = null;
-        try {
-            eventSet = eventDAO.readActualEventsByCategoryId(categoryId);
-            setOutcomesForEvents(eventSet);
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventSet;
-    }
-    
-    @Override
-    public Set<Event> getNotStartedEventsByCategoryId(String categoryId) {
-        Set<Event> eventSet = null;
-        try {
-            eventSet = eventDAO.readNotStartedEventsByCategoryId(categoryId);
-            setOutcomesForEvents(eventSet);
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventSet;
-    }
-    
-    @Override
-    public Set<Event> getStartedEventsByCategoryId(String categoryId) {
-        Set<Event> eventSet = null;
-        try {
-            eventSet = eventDAO.readStartedEventsByCategoryId(categoryId);
-            setOutcomesForEvents(eventSet);
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventSet;
-    }
-    
-    @Override
-    public Set<Event> getFailedEventsByCategoryId(String categoryId) {
-        Set<Event> eventSet = null;
-        try {
-            eventSet = eventDAO.readFailedEventsByCategoryId(categoryId);
-            setOutcomesForEvents(eventSet);
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventSet;
-    }
-    
-    @Override
-    public Set<Event> getClosedEventsByCategoryId(String categoryId) {
-        Set<Event> eventSet = null;
-        try {
-            eventSet = eventDAO.readClosedEventsByCategoryId(categoryId);
-            setOutcomesForEvents(eventSet);
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventSet;
-    }
-    
-    @Override
-    public Map<Integer, Integer> countNewEventsByCategories() throws DAOException {
+    public Map<Integer, Integer> countEvents(String eventQueryType) {
         Map<Integer, Integer> eventCountMap = null;
         try {
-            eventCountMap = eventDAO.countNewEventsByCategories();
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventCountMap;
-    }
-    
-    @Override
-    public Map<Integer, Integer> countActualEventsGroupByCategory() {
-        Map<Integer, Integer> eventCountMap = null;
-        try {
-            eventCountMap = eventDAO.countActualEventsByCategories();
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventCountMap;
-    }
-    
-    @Override
-    public Map<Integer, Integer> countNotStartedEventsByCategories() throws DAOException {
-        Map<Integer, Integer> eventCountMap = null;
-        try {
-            eventCountMap = eventDAO.countNotStartedEventsByCategories();
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventCountMap;
-    }
-    
-    @Override
-    public Map<Integer, Integer> countStartedEventsByCategories() throws DAOException {
-        Map<Integer, Integer> eventCountMap = null;
-        try {
-            eventCountMap = eventDAO.countStartedEventsByCategories();
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventCountMap;
-    }
-    
-    @Override
-    public Map<Integer, Integer> countFailedEventsByCategories() throws DAOException {
-        Map<Integer, Integer> eventCountMap = null;
-        try {
-            eventCountMap = eventDAO.countFailedEventsByCategories();
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
-        }
-        return eventCountMap;
-    }
-    
-    @Override
-    public Map<Integer, Integer> countClosedEventsByCategories() throws DAOException {
-        Map<Integer, Integer> eventCountMap = null;
-        try {
-            eventCountMap = eventDAO.countClosedEventsByCategories();
+            if (eventQueryType != null) {
+                eventCountMap = eventDAO.countEvents(eventQueryType);
+            }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
@@ -198,11 +87,12 @@ public class EventServiceImpl extends EventService {
     
     @Override
     public Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet) {
-        eventSet.forEach(event -> {
-            int id = event.getId();
-            fillOutcomeColumnMaps(id, event.getOutcomeSet());
-        });
-        
+        if (eventSet != null) {
+            eventSet.forEach(event -> {
+                int id = event.getId();
+                fillOutcomeColumnMaps(id, event.getOutcomeSet());
+            });
+        }
         return coeffColumnMaps;
     }
     

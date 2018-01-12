@@ -50,7 +50,7 @@ public class MakeBetCommand implements Command {
         
         Event event;
         try (EventService eventService = ServiceFactory.getEventService()) {
-            event = eventService.getEventById(Integer.parseInt(eventIdStr));
+            event = eventService.getEvent(Integer.parseInt(eventIdStr));
         }
         
         validateParams(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
