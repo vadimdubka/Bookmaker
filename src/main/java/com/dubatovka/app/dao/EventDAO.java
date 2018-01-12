@@ -21,9 +21,27 @@ public interface EventDAO {
     
     Event getEventById(int eventId) throws DAOException;
     
-    Set<Event> getAllEventsByCategoryId(String categoryId) throws DAOException;
+    Set<Event> readNewEventsByCategoryId(String categoryId) throws DAOException;
     
-    Set<Event> getActualEventsByCategoryId(String categoryId) throws DAOException;
+    Set<Event> readActualEventsByCategoryId(String categoryId) throws DAOException;
     
-    Map<Integer, Integer> countActualEventsGroupByCategory() throws DAOException;
+    Set<Event> readNotStartedEventsByCategoryId(String categoryId) throws DAOException;
+    
+    Set<Event> readStartedEventsByCategoryId(String categoryId) throws DAOException;
+    
+    Set<Event> readFailedEventsByCategoryId(String categoryId) throws DAOException;
+    
+    Set<Event> readClosedEventsByCategoryId(String categoryId) throws DAOException;
+    
+    Map<Integer, Integer> countNewEventsByCategories() throws DAOException;
+    
+    Map<Integer, Integer> countActualEventsByCategories() throws DAOException;
+    
+    Map<Integer, Integer> countNotStartedEventsByCategories() throws DAOException;
+    
+    Map<Integer, Integer> countStartedEventsByCategories() throws DAOException;
+    
+    Map<Integer, Integer> countFailedEventsByCategories() throws DAOException;
+    
+    Map<Integer, Integer> countClosedEventsByCategories() throws DAOException;
 }

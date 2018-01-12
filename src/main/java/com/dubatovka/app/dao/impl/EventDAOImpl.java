@@ -19,26 +19,80 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
             "SELECT id, date, category_id, participant1, participant2, result1, result2 " +
                     "FROM event WHERE id =?";
     
-    private static final String SQL_SELECT_ALL_EVENTS_BY_CATEGORY_ID =
+    private static final String SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-                    "FROM event " +
-                    "WHERE category_id =?";
-    private static final String SQL_SELECT_ACTUAL_EVENTS_CATEGORY_BY_ID =
+                    "FROM event WHERE category_id =? " +
+                    "AND id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                    "AND (date - NOW()) > 0 " +
+                    "AND result1 IS NULL";
+    
+    private static final String SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-                    "FROM event " +
-                    "WHERE category_id =? " +
+                    "FROM event WHERE category_id =? " +
                     "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
                     "AND (date - NOW()) > 0 " +
                     "AND result1 IS NULL";
     
-    private static final String SQL_COUNT_ALL_EVENTS_GROUP_BY_CATEGORY_ID =
-            "SELECT category_id, COUNT(category_id) FROM event GROUP BY category_id";
+    private static final String SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID =
+            "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+                    "FROM event WHERE category_id =? " +
+                    "AND (date - NOW()) > 0 " +
+                    "AND result1 IS NULL";
+    
+    private static final String SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID =
+            "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+                    "FROM event WHERE category_id =? " +
+                    "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                    "AND (date - NOW()) <= 0 " +
+                    "AND result1 IS NULL";
+    
+    private static final String SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID =
+            "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+                    "FROM event WHERE category_id =? " +
+                    "AND id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                    "AND (date - NOW()) <= 0";
+    
+    private static final String SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID =
+            "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+                    "FROM event WHERE category_id =? " +
+                    "AND result1 IS NOT NULL";
+    
+    private static final String SQL_COUNT_NEW_EVENTS_GROUP_BY_CATEGORY_ID =
+            "SELECT category_id, COUNT(category_id) AS count FROM event " +
+                    "WHERE id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                    "AND (date - NOW()) > 0 " +
+                    "AND result1 IS NULL " +
+                    "GROUP BY category_id";
     
     private static final String SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID =
             "SELECT category_id, COUNT(category_id) AS count FROM event " +
                     "WHERE id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-                        "AND (date - NOW()) > 0 " +
-                        "AND result1 IS NULL " +
+                    "AND (date - NOW()) > 0 " +
+                    "AND result1 IS NULL " +
+                    "GROUP BY category_id";
+    
+    private static final String SQL_COUNT_NOT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID =
+            "SELECT category_id, COUNT(category_id) AS count FROM event " +
+                    "AND (date - NOW()) > 0 " +
+                    "AND result1 IS NULL " +
+                    "GROUP BY category_id";
+    
+    private static final String SQL_COUNT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID =
+            "SELECT category_id, COUNT(category_id) AS count FROM event " +
+                    "WHERE id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                    "AND (date - NOW()) <= 0 " +
+                    "AND result1 IS NULL " +
+                    "GROUP BY category_id";
+    
+    private static final String SQL_COUNT_FAILED_EVENTS_GROUP_BY_CATEGORY_ID =
+            "SELECT category_id, COUNT(category_id) AS count FROM event " +
+                    "WHERE id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+                    "AND (date - NOW()) <= 0 " +
+                    "GROUP BY category_id";
+    
+    private static final String SQL_COUNT_CLOSED_EVENTS_GROUP_BY_CATEGORY_ID =
+            "SELECT category_id, COUNT(category_id) AS count FROM event " +
+                    "WHERE result1 IS NOT NULL " +
                     "GROUP BY category_id";
     
     private static final String SQL_COUNT_EVENTS_WITHOUT_RESULTS_GROUP_BY_CATEGORY_ID =
@@ -67,21 +121,78 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     }
     
     @Override
-    public Set<Event> getAllEventsByCategoryId(String categoryId) throws DAOException {
-        Set<Event> eventSet = getEventsByCategoryId(categoryId, SQL_SELECT_ALL_EVENTS_BY_CATEGORY_ID);
-        return eventSet;
+    public Set<Event> readNewEventsByCategoryId(String categoryId) throws DAOException {
+        return readEventsByQuery(categoryId, SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID);
     }
     
     @Override
-    public Set<Event> getActualEventsByCategoryId(String categoryId) throws DAOException {
-        Set<Event> eventSet = getEventsByCategoryId(categoryId, SQL_SELECT_ACTUAL_EVENTS_CATEGORY_BY_ID);
-        return eventSet;
+    public Set<Event> readActualEventsByCategoryId(String categoryId) throws DAOException {
+        return readEventsByQuery(categoryId, SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID);
     }
     
     @Override
-    public Map<Integer, Integer> countActualEventsGroupByCategory() throws DAOException {
+    public Set<Event> readNotStartedEventsByCategoryId(String categoryId) throws DAOException {
+        return readEventsByQuery(categoryId, SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Set<Event> readStartedEventsByCategoryId(String categoryId) throws DAOException {
+        return readEventsByQuery(categoryId, SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Set<Event> readFailedEventsByCategoryId(String categoryId) throws DAOException {
+        return readEventsByQuery(categoryId, SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Set<Event> readClosedEventsByCategoryId(String categoryId) throws DAOException {
+        return readEventsByQuery(categoryId, SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Map<Integer, Integer> countNewEventsByCategories() throws DAOException {
+        return countEventsByQuery(SQL_COUNT_NEW_EVENTS_GROUP_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Map<Integer, Integer> countActualEventsByCategories() throws DAOException {
+        return countEventsByQuery(SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Map<Integer, Integer> countNotStartedEventsByCategories() throws DAOException {
+        return countEventsByQuery(SQL_COUNT_NOT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Map<Integer, Integer> countStartedEventsByCategories() throws DAOException {
+        return countEventsByQuery(SQL_COUNT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Map<Integer, Integer> countFailedEventsByCategories() throws DAOException {
+        return countEventsByQuery(SQL_COUNT_FAILED_EVENTS_GROUP_BY_CATEGORY_ID);
+    }
+    
+    @Override
+    public Map<Integer, Integer> countClosedEventsByCategories() throws DAOException {
+        return countEventsByQuery(SQL_COUNT_CLOSED_EVENTS_GROUP_BY_CATEGORY_ID);
+    }
+    
+    private Set<Event> readEventsByQuery(String categoryId, String sqlQuery) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+            statement.setString(1, categoryId);
+            ResultSet resultSet = statement.executeQuery();
+            return buildEventSet(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while getting sport event. " + e);
+        }
+    }
+    
+    private Map<Integer, Integer> countEventsByQuery(String sqlQuery) throws DAOException {
         try (Statement statement = connection.createStatement();) {
-            ResultSet resultSet = statement.executeQuery(SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID);
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
             Map<Integer, Integer> eventCountMap = new HashMap<>();
             while (resultSet.next()) {
                 int categoryId = resultSet.getInt(CATEGORY_ID);
@@ -89,16 +200,6 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
                 eventCountMap.put(categoryId, eventCount);
             }
             return eventCountMap;
-        } catch (SQLException e) {
-            throw new DAOException("Database connection error while getting sport event. " + e);
-        }
-    }
-    
-    private Set<Event> getEventsByCategoryId(String categoryId, String sqlQuery) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-            statement.setString(1, categoryId);
-            ResultSet resultSet = statement.executeQuery();
-            return buildEventSet(resultSet);
         } catch (SQLException e) {
             throw new DAOException("Database connection error while getting sport event. " + e);
         }
