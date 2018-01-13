@@ -248,13 +248,13 @@ public final class ConfigConstant {
     /**
      * Command types for managing events
      */
-    public static final Object EVENT_COMMAND_SHOW_ACTUAL = "show_actual";
-    public static final Object EVENT_COMMAND_MANAGE = "manage";
-    public static final Object EVENT_COMMAND_SET_COEFFICIENT = "set_coefficient";
-    public static final Object EVENT_COMMAND_CORRECT_COEFFICIENT = "correct_coefficient";
-    public static final Object EVENT_COMMAND_SET_RESULT = "set_result";
-    public static final Object EVENT_COMMAND_SHOW_RESULT = "show_result";
-    public static final Object EVENT_COMMAND_MANAGE_FAILED = "manage_failed";
+    public static final String EVENT_COMMAND_SHOW_ACTUAL = "show_actual";
+    public static final String EVENT_COMMAND_MANAGE = "manage";
+    public static final String EVENT_COMMAND_SET_COEFFICIENT = "set_coefficient";
+    public static final String EVENT_COMMAND_CORRECT_COEFFICIENT = "correct_coefficient";
+    public static final String EVENT_COMMAND_SET_RESULT = "set_result";
+    public static final String EVENT_COMMAND_SHOW_RESULT = "show_result";
+    public static final String EVENT_COMMAND_MANAGE_FAILED = "manage_failed";
     
     private ConfigConstant() {
     }

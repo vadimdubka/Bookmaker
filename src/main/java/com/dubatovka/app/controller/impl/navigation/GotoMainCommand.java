@@ -10,6 +10,7 @@ import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,9 +21,14 @@ public class GotoMainCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         String categoryId = request.getParameter(PARAM_CATEGORY_ID);
-        String eventQueryType = (String) request.getSession().getAttribute(ATTR_EVENT_QUERY_TYPE);
-        if (eventQueryType == null) {
+        HttpSession session = request.getSession();
+        String eventQueryType = (String) session.getAttribute(ATTR_EVENT_QUERY_TYPE);
+        String eventCommandType = (String) session.getAttribute(ATTR_EVENT_COMMAND_TYPE);
+        
+        if ((eventQueryType == null) || (eventCommandType == null)) {
             eventQueryType = EVENT_QUERY_TYPE_ACTUAL;
+            session.setAttribute(ATTR_EVENT_QUERY_TYPE, EVENT_QUERY_TYPE_ACTUAL);
+            session.setAttribute(ATTR_EVENT_COMMAND_TYPE, EVENT_COMMAND_SHOW_ACTUAL);
         }
         
         try (EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService()) {
