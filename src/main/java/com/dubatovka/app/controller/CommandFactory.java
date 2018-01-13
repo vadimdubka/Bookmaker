@@ -41,23 +41,24 @@ public final class CommandFactory {
         commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
         commonCommands.put(CommandType.GOTO_MAKE_BET, new GotoMakeBetCommand());
         commonCommands.put(CommandType.MAKE_BET, new MakeBetCommand());
-        commonCommands.put(CommandType.SHOW_EVENTS_ACTUAL, new ShowActualEventsCommand());
-        commonCommands.put(CommandType.SHOW_EVENTS_CLOSED, new ShowClosedEventsCommand());
+        commonCommands.put(CommandType.EVENT_SHOW_ACTUAL, new ShowActualEventsCommand());
+        commonCommands.put(CommandType.EVENT_SHOW_RESULT, new ShowEventResultCommand());
         
         guestCommands.putAll(commonCommands);
         
         playerCommands.putAll(commonCommands);
         playerCommands.put(CommandType.GOTO_PLAYER_STATE, new GotoPlayerStateCommand());
         
-        
         adminCommands.putAll(commonCommands);
         adminCommands.put(CommandType.GOTO_MANAGE_PLAYERS, new GotoManagePlayersCommand());
-        adminCommands.put(CommandType.SHOW_EVENTS_NOT_STARTED, new ShowNotStartedEventsCommand());
-        adminCommands.put(CommandType.SHOW_EVENTS_STARTED, new ShowStartedEventsCommand());
-        adminCommands.put(CommandType.SHOW_EVENTS_FAILED, new ShowFailedEventsCommand());
+        adminCommands.put(CommandType.EVENT_MANAGE, new ManageEventsCommand());
+        adminCommands.put(CommandType.EVENT_SET_RESULT, new SetEventResultCommand());
+        adminCommands.put(CommandType.EVENT_MANAGE_FAILED, new ManageFailedEventsCommand());
         
         analystCommands.putAll(commonCommands);
-        analystCommands.put(CommandType.SHOW_EVENTS_NEW, new ShowNewEventsCommand());
+        analystCommands.put(CommandType.EVENT_SET_COEFFICIENT, new SetCoefficientCommand());
+        analystCommands.put(CommandType.EVENT_SET_COEFFICIENT, new SetCoefficientCommand());
+        analystCommands.put(CommandType.EVENT_CORRECT_COEFFICIENT, new CorrectCoefficientCommand());
     }
     
     private CommandFactory() {
@@ -131,11 +132,12 @@ public final class CommandFactory {
         
         GOTO_PLAYER_STATE, GOTO_PAGINATION,
         
-        SHOW_EVENTS_NEW,
-        SHOW_EVENTS_ACTUAL,
-        SHOW_EVENTS_NOT_STARTED,
-        SHOW_EVENTS_STARTED,
-        SHOW_EVENTS_FAILED,
-        SHOW_EVENTS_CLOSED
+        EVENT_SHOW_ACTUAL,
+        EVENT_MANAGE,
+        EVENT_SET_COEFFICIENT,
+        EVENT_CORRECT_COEFFICIENT,
+        EVENT_SET_RESULT,
+        EVENT_SHOW_RESULT,
+        EVENT_MANAGE_FAILED
     }
 }

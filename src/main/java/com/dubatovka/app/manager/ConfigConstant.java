@@ -69,6 +69,8 @@ public final class ConfigConstant {
     public static final String ATTR_INFO_MESSAGE = "infoMessage";
     public static final String ATTR_SPORT_SET = "sport_set";
     
+    //TODO вынести все psf поля из команд
+    
     /**
      * Attribute names.
      */
@@ -79,6 +81,13 @@ public final class ConfigConstant {
     public static final String ATTR_LNAME_INPUT = "lname_input";
     public static final String ATTR_MNAME_INPUT = "mname_input";
     public static final String ATTR_BIRTHDATE_INPUT = "birthdate_input";
+    public static final String ATTR_EVENT_QUERY_TYPE = "event_query_type";
+    public static final String ATTR_EVENT_COMMAND_TYPE = "event_command_type";
+    public static final String ATTR_EVENT_SET = "event_set";
+    public static final String ATTR_EVENT_COUNT_MAP = "event_count_map";
+    public static final String ATTR_TYPE_1_MAP = "type_1_map";
+    public static final String ATTR_TYPE_X_MAP = "type_x_map";
+    public static final String ATTR_TYPE_2_MAP = "type_2_map";
     
     /**
      * {@link javax.servlet.http.HttpServletRequest} parameter names
@@ -91,9 +100,9 @@ public final class ConfigConstant {
     public static final String PARAM_LOCALE = "locale";
     public static final String PARAM_MNAME = "mname";
     public static final String PARAM_PASSWORD = "password";
+    public static final String PARAM_CATEGORY_ID = "category_id";
     public static final String PARAM_PASSWORD_AGAIN = "password_again";
     public static final String PARAM_PASSWORD_OLD = "old_password";
-    public static final String PARAM_SECRET_ANSWER = "secret_answer";
     /******/
     //TODO удалить лишние
     public static final String PARAM_AMOUNT = "amount";
@@ -106,9 +115,6 @@ public final class ConfigConstant {
     public static final String PARAM_HEADER = "header";
     public static final String PARAM_ID = "id";
     public static final String PARAM_MONTH = "month";
-    public static final String PARAM_MONTH_ACQUIRE = "month_acquire";
-    public static final String PARAM_MONTH_EXPIRE = "month_expire";
-    public static final String PARAM_NEWS_IMAGE = "news_image";
     public static final String PARAM_PASSPORT = "passport";
     public static final String PARAM_SCAN = "scan";
     public static final String PARAM_TARGET = "target";
@@ -238,6 +244,17 @@ public final class ConfigConstant {
     public static final String EVENT_QUERY_TYPE_STARTED = "started";
     public static final String EVENT_QUERY_TYPE_FAILED = "failed";
     public static final String EVENT_QUERY_TYPE_CLOSED = "closed";
+    
+    /**
+     * Command types for managing events
+     */
+    public static final Object EVENT_COMMAND_SHOW_ACTUAL = "show_actual";
+    public static final Object EVENT_COMMAND_MANAGE = "manage";
+    public static final Object EVENT_COMMAND_SET_COEFFICIENT = "set_coefficient";
+    public static final Object EVENT_COMMAND_CORRECT_COEFFICIENT = "correct_coefficient";
+    public static final Object EVENT_COMMAND_SET_RESULT = "set_result";
+    public static final Object EVENT_COMMAND_SHOW_RESULT = "show_result";
+    public static final Object EVENT_COMMAND_MANAGE_FAILED = "manage_failed";
     
     private ConfigConstant() {
     }

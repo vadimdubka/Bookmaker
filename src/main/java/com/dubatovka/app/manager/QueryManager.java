@@ -102,8 +102,7 @@ public final class QueryManager {
             String value = request.getParameter(key);
             if (key.equalsIgnoreCase(PARAM_PASSWORD) ||
                     key.equalsIgnoreCase(PARAM_PASSWORD_AGAIN) ||
-                    key.equalsIgnoreCase(PARAM_PASSWORD_OLD) ||
-                    key.equalsIgnoreCase(PARAM_SECRET_ANSWER)) {
+                    key.equalsIgnoreCase(PARAM_PASSWORD_OLD)) {
                 value = STUB;
             }
             query = query.append(PARAMETER_SEPARATOR).append(key).append(VALUE_SEPARATOR).append(value);
