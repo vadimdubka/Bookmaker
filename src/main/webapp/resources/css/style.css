@@ -164,7 +164,7 @@ nav.employee-nav {
 }
 
 .section-sport-category .category-count{
-    font-size: 0.85em;
+    /*font-size: 1em;*/
     font-style: italic;
     font-weight: bold;
     color: #0c4dcc;
