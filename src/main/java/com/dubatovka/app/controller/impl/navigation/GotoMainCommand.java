@@ -23,12 +23,12 @@ public class GotoMainCommand implements Command {
         String categoryId = request.getParameter(PARAM_CATEGORY_ID);
         HttpSession session = request.getSession();
         String eventQueryType = (String) session.getAttribute(ATTR_EVENT_QUERY_TYPE);
-        String eventCommandType = (String) session.getAttribute(ATTR_EVENT_COMMAND_TYPE);
+        String eventCommandType = (String) session.getAttribute(ATTR_EVENT_GOTO_TYPE);
         
         if ((eventQueryType == null) || (eventCommandType == null)) {
             eventQueryType = EVENT_QUERY_TYPE_ACTUAL;
             session.setAttribute(ATTR_EVENT_QUERY_TYPE, EVENT_QUERY_TYPE_ACTUAL);
-            session.setAttribute(ATTR_EVENT_COMMAND_TYPE, EVENT_COMMAND_SHOW_ACTUAL);
+            session.setAttribute(ATTR_EVENT_GOTO_TYPE, EVENT_GOTO_SHOW_ACTUAL);
         }
         
         try (EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService()) {

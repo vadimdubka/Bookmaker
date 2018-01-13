@@ -82,7 +82,7 @@ public final class ConfigConstant {
     public static final String ATTR_MNAME_INPUT = "mname_input";
     public static final String ATTR_BIRTHDATE_INPUT = "birthdate_input";
     public static final String ATTR_EVENT_QUERY_TYPE = "event_query_type";
-    public static final String ATTR_EVENT_COMMAND_TYPE = "event_command_type";
+    public static final String ATTR_EVENT_GOTO_TYPE = "event_goto_type";
     public static final String ATTR_EVENT_SET = "event_set";
     public static final String ATTR_EVENT_COUNT_MAP = "event_count_map";
     public static final String ATTR_TYPE_1_MAP = "type_1_map";
@@ -246,15 +246,15 @@ public final class ConfigConstant {
     public static final String EVENT_QUERY_TYPE_CLOSED = "closed";
     
     /**
-     * Command types for managing events
+     * Goto command types for managing events
      */
-    public static final String EVENT_COMMAND_SHOW_ACTUAL = "show_actual";
-    public static final String EVENT_COMMAND_MANAGE = "manage";
-    public static final String EVENT_COMMAND_SET_COEFFICIENT = "set_coefficient";
-    public static final String EVENT_COMMAND_CORRECT_COEFFICIENT = "correct_coefficient";
-    public static final String EVENT_COMMAND_SET_RESULT = "set_result";
-    public static final String EVENT_COMMAND_SHOW_RESULT = "show_result";
-    public static final String EVENT_COMMAND_MANAGE_FAILED = "manage_failed";
+    public static final String EVENT_GOTO_SHOW_ACTUAL = "show_actual";
+    public static final String EVENT_GOTO_MANAGE = "manage";
+    public static final String EVENT_GOTO_SET_COEFFICIENT = "set_coefficient";
+    public static final String EVENT_GOTO_CORRECT_COEFFICIENT = "correct_coefficient";
+    public static final String EVENT_GOTO_SET_RESULT = "set_result";
+    public static final String EVENT_GOTO_SHOW_RESULT = "show_result";
+    public static final String EVENT_GOTO_MANAGE_FAILED = "manage_failed";
     
     private ConfigConstant() {
     }

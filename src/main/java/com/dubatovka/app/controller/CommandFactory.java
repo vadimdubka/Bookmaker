@@ -5,7 +5,7 @@ import com.dubatovka.app.controller.impl.MakeBetCommand;
 import com.dubatovka.app.controller.impl.authorization.LoginCommand;
 import com.dubatovka.app.controller.impl.authorization.LogoutCommand;
 import com.dubatovka.app.controller.impl.authorization.RegisterCommand;
-import com.dubatovka.app.controller.impl.events.*;
+import com.dubatovka.app.controller.impl.navigation.events.*;
 import com.dubatovka.app.controller.impl.navigation.*;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.ConfigConstant;
@@ -41,8 +41,8 @@ public final class CommandFactory {
         commonCommands.put(CommandType.LOGOUT, new LogoutCommand());
         commonCommands.put(CommandType.GOTO_MAKE_BET, new GotoMakeBetCommand());
         commonCommands.put(CommandType.MAKE_BET, new MakeBetCommand());
-        commonCommands.put(CommandType.EVENT_SHOW_ACTUAL, new ShowActualEventsCommand());
-        commonCommands.put(CommandType.EVENT_SHOW_RESULT, new ShowEventResultCommand());
+        commonCommands.put(CommandType.GOTO_EVENT_SHOW_ACTUAL, new GotoEventShowActualCommand());
+        commonCommands.put(CommandType.GOTO_EVENT_SHOW_RESULT, new GotoEventShowResultCommand());
         
         guestCommands.putAll(commonCommands);
         
@@ -51,14 +51,14 @@ public final class CommandFactory {
         
         adminCommands.putAll(commonCommands);
         adminCommands.put(CommandType.GOTO_MANAGE_PLAYERS, new GotoManagePlayersCommand());
-        adminCommands.put(CommandType.EVENT_MANAGE, new ManageEventsCommand());
-        adminCommands.put(CommandType.EVENT_SET_RESULT, new SetEventResultCommand());
-        adminCommands.put(CommandType.EVENT_MANAGE_FAILED, new ManageFailedEventsCommand());
+        adminCommands.put(CommandType.GOTO_EVENT_MANAGE, new GotoEventManageCommand());
+        adminCommands.put(CommandType.GOTO_EVENT_SET_RESULT, new GotoEventSetResultCommand());
+        adminCommands.put(CommandType.GOTO_EVENT_MANAGE_FAILED, new GotoEventManageFailedCommand());
         
         analystCommands.putAll(commonCommands);
-        analystCommands.put(CommandType.EVENT_SET_COEFFICIENT, new SetCoefficientCommand());
-        analystCommands.put(CommandType.EVENT_SET_COEFFICIENT, new SetCoefficientCommand());
-        analystCommands.put(CommandType.EVENT_CORRECT_COEFFICIENT, new CorrectCoefficientCommand());
+        analystCommands.put(CommandType.GOTO_EVENT_SET_COEFFICIENT, new GotoEventSetCoefficientCommand());
+        analystCommands.put(CommandType.GOTO_EVENT_SET_COEFFICIENT, new GotoEventSetCoefficientCommand());
+        analystCommands.put(CommandType.GOTO_EVENT_CORRECT_COEFFICIENT, new GotoEventCorrectCoefficientCommand());
     }
     
     private CommandFactory() {
@@ -132,12 +132,12 @@ public final class CommandFactory {
         
         GOTO_PLAYER_STATE, GOTO_PAGINATION,
         
-        EVENT_SHOW_ACTUAL,
-        EVENT_MANAGE,
-        EVENT_SET_COEFFICIENT,
-        EVENT_CORRECT_COEFFICIENT,
-        EVENT_SET_RESULT,
-        EVENT_SHOW_RESULT,
-        EVENT_MANAGE_FAILED
+        GOTO_EVENT_SHOW_ACTUAL,
+        GOTO_EVENT_MANAGE,
+        GOTO_EVENT_SET_COEFFICIENT,
+        GOTO_EVENT_CORRECT_COEFFICIENT,
+        GOTO_EVENT_SET_RESULT,
+        GOTO_EVENT_SHOW_RESULT,
+        GOTO_EVENT_MANAGE_FAILED
     }
 }

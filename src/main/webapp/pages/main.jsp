@@ -12,33 +12,30 @@
 
     <%@include file="jspf/sport-category.jspf" %>
 
-    <c:set var="event_command_type" value="${sessionScope.event_command_type}" scope="page"/>
+    <c:set var="event_goto_type" value="${sessionScope.event_command_type}" scope="page"/>
     <c:choose>
-        <c:when test="${requestScope.event_set!=null && event_command_type!=null}">
+        <c:when test="${requestScope.event_set!=null && event_goto_type!=null}">
             <c:choose>
-                <c:when test="${event_command_type == 'show_actual'}">
-                    <%@include file="jspf/events_actual.jspf" %>
+                <c:when test="${event_goto_type == 'show_actual'}">
+                    <%@include file="jspf/event/events_actual.jspf" %>
                 </c:when>
-                <c:when test="${event_command_type == 'manage'}">
-                    <%@include file="jspf/events_actual.jspf" %>
+                <c:when test="${event_goto_type == 'show_result'}">
+                    <%@include file="jspf/event/events_results.jspf" %>
                 </c:when>
-                <c:when test="${event_command_type == 'set_coefficient'}">
-                    <%@include file="jspf/events_actual.jspf" %>
+                <c:when test="${event_goto_type == 'set_coefficient' || event_goto_type == 'correct_coefficient'}">
+                    <%@include file="jspf/event/events_manage_coefficient.jspf" %>
                 </c:when>
-                <c:when test="${event_command_type == 'correct_coefficient'}">
-                    <%@include file="jspf/events_actual.jspf" %>
+                <c:when test="${event_goto_type == 'manage'}">
+                    <%@include file="jspf/event/events_manage_event.jspf" %>
                 </c:when>
-                <c:when test="${event_command_type == 'set_result'}">
-                    <%@include file="jspf/events_actual.jspf" %>
+                <c:when test="${event_goto_type == 'set_result'}">
+                    <%@include file="jspf/event/events_set_result.jspf" %>
                 </c:when>
-                <c:when test="${event_command_type == 'show_result'}">
-                    <%@include file="jspf/events_actual.jspf" %>
-                </c:when>
-                <c:when test="${event_command_type == 'manage_failed'}">
-                    <%@include file="jspf/events_actual.jspf" %>
+                <c:when test="${event_goto_type == 'manage_failed'}">
+                    <%@include file="jspf/event/events_failed.jspf" %>
                 </c:when>
                 <c:otherwise>
-                    <%@include file="jspf/events_actual.jspf" %>
+                    <%@include file="jspf/event/events_actual.jspf" %>
                 </c:otherwise>
             </c:choose>
         </c:when>

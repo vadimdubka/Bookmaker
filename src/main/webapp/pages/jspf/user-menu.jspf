@@ -45,13 +45,12 @@
             <c:when test="${sessionScope.user.role.role=='admin'}">
                 <div>
                     <ul>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/controller?command_type=event_manage">
-                                Управление событиями</a></li>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=event_set_result">
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_manage">
+                            Управление событиями</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_result">
                             Внести результаты событий</a></li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/controller?command_type=event_manage_failed">
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_manage_failed">
                                 Удалить невалидные события</a></li>
                     </ul>
                 </div>
@@ -59,10 +58,12 @@
             <c:when test="${sessionScope.user.role.role=='analyst'}">
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=event_set_coefficient">
-                            Назначить коэффициэнты на новые события</a></li>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=event_correct_coefficient">
-                            Корректировать коэфиценты</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_coefficient">
+                                Назначить коэффициэнты на новые события</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct_coefficient">
+                                Корректировать коэфиценты</a></li>
                     </ul>
                 </div>
             </c:when>
