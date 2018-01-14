@@ -88,6 +88,12 @@ public final class ConfigConstant {
     public static final String ATTR_TYPE_1_MAP = "type_1_map";
     public static final String ATTR_TYPE_X_MAP = "type_x_map";
     public static final String ATTR_TYPE_2_MAP = "type_2_map";
+    public static final String ATTR_CATEGORY = "category";
+    public static final String ATTR_SPORT_CATEGORY = "sportCategory";
+    public static final String ATTR_EVENT = "event";
+    public static final String ATTR_OUTCOME = "outcome";
+    public static final String ATTR_EDIT_TYPE = "edit_type";
+    public static final String ATTR_OUTCOME_MAP = "outcome_map";
     
     /**
      * {@link javax.servlet.http.HttpServletRequest} parameter names
@@ -103,6 +109,11 @@ public final class ConfigConstant {
     public static final String PARAM_CATEGORY_ID = "category_id";
     public static final String PARAM_PASSWORD_AGAIN = "password_again";
     public static final String PARAM_PASSWORD_OLD = "old_password";
+    public static final String PARAM_EVENT_ID = "event_id";
+    public static final String PARAM_OUTCOME_TYPE = "outcome_type";
+    public static final String PARAM_OUTCOME_COEFFICIENT = "outcome_coefficient";
+    public static final String PARAM_BET_AMOUNT = "bet_amount";
+    public static final String PARAM_EVENT_EDIT_TYPE = "edit_type";
     /******/
     //TODO удалить лишние
     public static final String PARAM_AMOUNT = "amount";
@@ -138,6 +149,17 @@ public final class ConfigConstant {
     public static final String MESSAGE_LOGIN_MISMATCH = "login.mismatch";
     public static final String MESSAGE_PASSWORD_MISMATCH = "password.mismatch";
     public static final String MESSAGE_INVALID_BIRTHDATE = "invalid.birthdate";
+    public static final String MESSAGE_ERROR_BET_GOTO_REGISTRATION = "Чтобы сделать ставку, пожалуйста, зарегистрируйтесь и войдите в систему";
+    public static final String MESSAGE_ERROR_BET_FOR_EMPLOYEE = "Сотрудники букмекерской компании не могут делать ставки.";
+    public static final String MESSAGE_ERROR_BET_AMOUNT_INVALID = "Введенное число не является валидным. Число должно быть больше нуля, меньше либо равно 999.99, число может быть дробным и содержать два знака после запятой.";
+    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BALANCE = "Введенная сумма ставки превышает баланс на счету игрока. Сделайте ставку меньше.";
+    public static final String MESSAGE_ERROR_OUTCOME_COEFF = "Коэффициет исхода по выбранному событию изменился с тех пор, как вы решили сделать ставку. Проверьте выбранный коэффициент еще раз.";
+    public static final String MESSAGE_ERROR_BET_TIME = "Время, отведенное на ставку, истекло.";
+    public static final String MESSAGE_ERROR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления. Вероятно, уже сделана ставка на аналогичный исход события.";
+    public static final String MESSAGE_INFO_BET_IS_DONE = "Ставка сделана!";
+    public static final String MESSAGE_ERROR_EVENT_INVALID_ID = "Невалидный id события.";
+    public static final String MESSAGE_INVALID_REQUEST_PARAMETER = "Один или несколько параметров запроса не определен.";
+    
     
     /**
      * Navigation response types
@@ -168,6 +190,7 @@ public final class ConfigConstant {
     public static final String PAGE_UPLOAD_PASSPORT = "/pages/upload_passport.jsp";
     public static final String PAGE_RULES = "/pages/rules.jsp";
     public static final String PAGE_ERROR_500 = "/pages/error/error_500.jsp";
+    public static final String PAGE_EDIT_EVENT = "/pages/edit_event.jsp";
     /**
      * Common navigation queries
      */
@@ -255,6 +278,11 @@ public final class ConfigConstant {
     public static final String EVENT_GOTO_SET_RESULT = "set_result";
     public static final String EVENT_GOTO_SHOW_RESULT = "show_result";
     public static final String EVENT_GOTO_MANAGE_FAILED = "manage_failed";
+    
+    /**
+     * Event edit types
+     */
+    public static final String EVENT_EDIT_TYPE_DELETE_EVENT = "delete_event";
     
     private ConfigConstant() {
     }

@@ -2,7 +2,9 @@
 <section class="section-events col-s-12 col-6 col-float-right">
     <div class="section-header"><h2>Редактирвать события</h2></div>
     <div class="section-content">
-        <div class="custom-button"><a href="#">Добавить событие</a></div>
+        <div class="custom-button">
+            <a href="${pageContext.request.contextPath}/controller?command_type=prepare_edit_event&edit_type=create_event&event_id=0">Добавить
+                событие</a></div>
         <table class="events">
             <tr>
                 <th>№</th>
@@ -19,8 +21,12 @@
                     <td>${event.participant1}</td>
                     <td>${event.participant2}</td>
                     <td>
-                        <div class="custom-button button-edit"><a href="#">Редактировать</a></div>
-                        <div class="custom-button button-edit button-edit-last"><a href="#">Удалить</a></div>
+                        <div class="custom-button button-edit">
+                            <a href="${pageContext.request.contextPath}/controller?command_type=prepare_edit_event&edit_type=change_info&event_id=${event.id}">Редактировать</a>
+                        </div>
+                        <div class="custom-button button-edit button-edit-last">
+                            <a href="${pageContext.request.contextPath}/controller?command_type=prepare_edit_event&edit_type=delete&event_id=${event.id}">Удалить</a>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

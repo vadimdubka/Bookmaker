@@ -1,6 +1,8 @@
 package com.dubatovka.app.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Event {
@@ -130,5 +132,14 @@ public class Event {
             }
         }
         return result;
+    }
+    
+    public Map<String, Outcome> getOutcomeMap() {
+        Map<String, Outcome> outcomeMap = new HashMap<>();
+        outcomeSet.forEach(outcome -> {
+            outcomeMap.put(outcome.getType(), outcome);
+        });
+        
+        return outcomeMap;
     }
 }

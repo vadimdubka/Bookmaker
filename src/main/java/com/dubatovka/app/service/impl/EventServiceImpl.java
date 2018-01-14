@@ -59,6 +59,18 @@ public class EventServiceImpl extends EventService {
     }
     
     @Override
+    public Event getEvent(String eventIdStr) {
+        Event event = null;
+        try {
+            int eventId = Integer.parseInt(eventIdStr);
+            event = getEvent(eventId);
+        } catch (NumberFormatException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        }
+        return event;
+    }
+    
+    @Override
     public Set<Event> getEvents(String categoryId, String eventQueryType) {
         Set<Event> eventSet = null;
         try {
@@ -101,12 +113,14 @@ public class EventServiceImpl extends EventService {
     }
     
     private void setOutcomesForEvent(Event event) {
-        int id = event.getId();
-        try {
-            Set<Outcome> outcomeSet = outcomeDAO.getOutcomesByEventId(id);
-            event.setOutcomeSet(outcomeSet);
-        } catch (DAOException e) {
-            logger.log(Level.ERROR, e.getMessage());
+        if (event != null) {
+            try {
+                int id = event.getId();
+                Set<Outcome> outcomeSet = outcomeDAO.getOutcomesByEventId(id);
+                event.setOutcomeSet(outcomeSet);
+            } catch (DAOException e) {
+                logger.log(Level.ERROR, e.getMessage());
+            }
         }
     }
     

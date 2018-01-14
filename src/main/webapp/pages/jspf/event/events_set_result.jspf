@@ -21,7 +21,7 @@
                     <td>${event.result2}</td>
                     <td>
                         <div class="custom-button button-edit button-edit-last">
-                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_edit_event&event_id=${event.id}">Внести результат</a>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=prepare_edit_event&event_id=${event.id}">Внести результат</a>
                         </div>
                     </td>
                 </tr>

@@ -208,6 +208,9 @@ input[type="submit"] {
     margin: 0;
 }
 
+.login-form input[name="email"] {
+    margin: 0;
+}
 /*Registration-form*/
 .register-form {
     padding: 0 1em;
@@ -304,7 +307,7 @@ ul.error-paragraph li {
 }
 
 .custom-button a {
-    font-size: 1em;
+    font-size: 0.85em;
     font-weight: bold;
     color: black;
     padding: .3em;
@@ -318,7 +321,7 @@ ul.error-paragraph li {
 /*Button for editing events*/
 .button-edit {
     margin: 0px 0px 10px 0px;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 
 .button-edit a {

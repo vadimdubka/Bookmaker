@@ -1,6 +1,7 @@
 package com.dubatovka.app.controller;
 
 import com.dubatovka.app.controller.impl.ChangeLocaleCommand;
+import com.dubatovka.app.controller.impl.PrepareEditEventCommand;
 import com.dubatovka.app.controller.impl.MakeBetCommand;
 import com.dubatovka.app.controller.impl.authorization.LoginCommand;
 import com.dubatovka.app.controller.impl.authorization.LogoutCommand;
@@ -54,11 +55,13 @@ public final class CommandFactory {
         adminCommands.put(CommandType.GOTO_EVENT_MANAGE, new GotoEventManageCommand());
         adminCommands.put(CommandType.GOTO_EVENT_SET_RESULT, new GotoEventSetResultCommand());
         adminCommands.put(CommandType.GOTO_EVENT_MANAGE_FAILED, new GotoEventManageFailedCommand());
+        adminCommands.put(CommandType.PREPARE_EDIT_EVENT, new PrepareEditEventCommand());
         
         analystCommands.putAll(commonCommands);
         analystCommands.put(CommandType.GOTO_EVENT_SET_COEFFICIENT, new GotoEventSetCoefficientCommand());
         analystCommands.put(CommandType.GOTO_EVENT_SET_COEFFICIENT, new GotoEventSetCoefficientCommand());
         analystCommands.put(CommandType.GOTO_EVENT_CORRECT_COEFFICIENT, new GotoEventCorrectCoefficientCommand());
+        analystCommands.put(CommandType.PREPARE_EDIT_EVENT, new PrepareEditEventCommand());
     }
     
     private CommandFactory() {
@@ -138,6 +141,8 @@ public final class CommandFactory {
         GOTO_EVENT_CORRECT_COEFFICIENT,
         GOTO_EVENT_SET_RESULT,
         GOTO_EVENT_SHOW_RESULT,
-        GOTO_EVENT_MANAGE_FAILED
+        GOTO_EVENT_MANAGE_FAILED,
+    
+        PREPARE_EDIT_EVENT
     }
 }

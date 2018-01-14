@@ -17,6 +17,8 @@ public abstract class EventService extends AbstractService {
     
     public abstract Event getEvent(int eventId);
     
+    public abstract Event getEvent(String eventIdStr);
+    
     public abstract Set<Event> getEvents(String categoryId, String eventQueryType);
     
     public abstract Map<Integer, Integer> countEvents(String eventQueryType);

@@ -31,7 +31,7 @@
                     <td>${event.result1} - ${event.result2}</td>
                     <td>
                         <div class="custom-button button-edit button-edit-last">
-                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_edit_event&event_id=${event.id}">Удалить</a>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=prepare_edit_event&event_id=${event.id}">Удалить</a>
                         </div>
                     </td>
                 </tr>

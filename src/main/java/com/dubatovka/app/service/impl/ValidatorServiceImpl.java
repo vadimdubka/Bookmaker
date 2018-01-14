@@ -102,6 +102,17 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
     
     @Override
+    public boolean isValidRequestParam(String... params) {
+        boolean result = true;
+        for (String param : params) {
+            if ((param == null) || param.isEmpty()) {
+                result = false;
+            }
+        }
+        return result;
+    }
+    
+    @Override
     public boolean isMatchPattern(String s, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(s);

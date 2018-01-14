@@ -4,7 +4,7 @@
         <div class="section-header"><h2><fmt:message key="register.header"/></h2></div>
         <div class="section-content">
             <noscript><p class="error-message">${requestScope.errorMessage}</p></noscript>
-            <form onsubmit="return validateRegister()" id="register-form" class="register-form" name="registerForm" action="controller" method="post" >
+            <form onsubmit="return validateRegister()" id="register-form" class="register-form" name="registerForm" action="controller" method="post">
                 <input type="hidden" name="command_type" value="register"/>
                 <div class="input-block">
                     <label class="required" for="email-input"><fmt:message key="register.email"/></label>
@@ -37,9 +37,9 @@
                            title="<fmt:message key="register.lname.title"/>" required/>
                 </div>
                 <div class="input-block">
-                    <label for="fname=input"><fmt:message key="register.fname"/></label>
+                    <label for="fname-input"><fmt:message key="register.fname"/></label>
                     <span id="err-fname" class="err-msg"></span>
-                    <input id="fname=input" type="text" name="fname" value="" pattern="[A-Za-z]{1,70}"
+                    <input id="fname-input" type="text" name="fname" value="" pattern="[A-Za-z]{1,70}"
                            title="<fmt:message key="register.fname.title"/>" required/>
                 </div>
                 <div class="input-block">

@@ -22,4 +22,6 @@ public interface ValidatorService {
     boolean isValidOutcomeCoeffOnPage(String outcomeCoeffOnPage, Event event, String outcomeType);
     
     boolean isValidBetTime(LocalDateTime betDateTime, Event event);
+    
+    boolean isValidRequestParam(String... params);
 }
