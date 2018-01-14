@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <section class="section-events col-s-12 col-6 col-float-right">
-    <div class="section-header"><h2>Спортивные события</h2></div>
+    <div class="section-header"><h2>Внесение результатов событий</h2></div>
     <div class="section-content">
         <table class="events">
             <tr>
@@ -9,6 +9,7 @@
                 <th>Событие</th>
                 <th>Результат 1</th>
                 <th>Результат 2</th>
+                <th>Действие</th>
             </tr>
             <c:forEach var="event" items="${requestScope.event_set}">
                 <c:set var="event_id">${event.id}</c:set>
@@ -18,6 +19,11 @@
                     <td>${event.participant1} - ${event.participant2}</td>
                     <td>${event.result1}</td>
                     <td>${event.result2}</td>
+                    <td>
+                        <div class="custom-button button-edit button-edit-last">
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_edit_event&event_id=${event.id}">Внести результат</a>
+                        </div>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
