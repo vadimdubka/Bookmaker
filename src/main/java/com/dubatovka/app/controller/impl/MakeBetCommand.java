@@ -42,11 +42,13 @@ public class MakeBetCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             try (EventService eventService = ServiceFactory.getEventService(); PlayerService playerService = ServiceFactory.getPlayerService()) {
                 Event event = eventService.getEvent(eventIdStr);
-                validateCommand(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
+                validateUserRole(role, errorMessage);
+                validateEventNotNull(event, errorMessage);
+                validateMakeBetCommand(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
                 navigator = makeBet(request, session, errorMessage, player, betAmountStr, outcomeType, playerService, event);
             }
         } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_INVALID_REQUEST_PARAMETER);
+            request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_INVALID_REQUEST_PARAMETER);
             navigator = PageNavigator.FORWARD_PREV_QUERY;
         }
         
@@ -76,9 +78,7 @@ public class MakeBetCommand implements Command {
         return navigator;
     }
     
-    private void validateCommand(User.UserRole role, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
-        validateUserRole(role, errorMessage);
-        validateEvent(event, errorMessage);
+    private void validateMakeBetCommand(User.UserRole role, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             validateMakeBetParams(errorMessage, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage);
         }
@@ -92,9 +92,9 @@ public class MakeBetCommand implements Command {
         }
     }
     
-    private void validateEvent(Event event, StringBuilder errorMessage) {
+    private void validateEventNotNull(Event event, StringBuilder errorMessage) {
         if (event == null) {
-            errorMessage.append(MESSAGE_ERROR_EVENT_INVALID_ID).append(MESSAGE_SEPARATOR);
+            errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
         }
     }
     
@@ -113,8 +113,12 @@ public class MakeBetCommand implements Command {
         if (validatorService.isValidBetAmount(betAmountStr)) {
             BigDecimal betAmount = new BigDecimal(betAmountStr);
             BigDecimal balance = player.getAccount().getBalance();
+            BigDecimal betLimit = player.getAccount().getStatus().getBetLimit();
             if (betAmount.compareTo(balance) > 0) {
                 errorMessage.append(MESSAGE_ERROR_BET_AMOUNT_LESS_BALANCE).append(MESSAGE_SEPARATOR);
+            }
+            if (betAmount.compareTo(betLimit) >= 0) {
+                errorMessage.append(MESSAGE_ERROR_BET_AMOUNT_LESS_BET_LIMIT).append(MESSAGE_SEPARATOR);
             }
         } else {
             errorMessage.append(MESSAGE_ERROR_BET_AMOUNT_INVALID).append(MESSAGE_SEPARATOR);

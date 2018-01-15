@@ -107,6 +107,7 @@ public final class ConfigConstant {
     public static final String PARAM_LNAME = "lname";
     public static final String PARAM_LOCALE = "locale";
     public static final String PARAM_MNAME = "mname";
+    public static final String PARAM_BIRTHDATE = "birthdate";
     public static final String PARAM_PASSWORD = "password";
     public static final String PARAM_CATEGORY_ID = "category_id";
     public static final String PARAM_PASSWORD_AGAIN = "password_again";
@@ -116,13 +117,21 @@ public final class ConfigConstant {
     public static final String PARAM_OUTCOME_COEFFICIENT = "outcome_coefficient";
     public static final String PARAM_BET_AMOUNT = "bet_amount";
     public static final String PARAM_EVENT_EDIT_TYPE = "edit_type";
+    public static final String PARAM_OUTCOME_1 = "outcome_1";
+    public static final String PARAM_OUTCOME_X = "outcome_X";
+    public static final String PARAM_OUTCOME_2 = "outcome_2";
+    public static final String PARAM_DATE = "date";
+    public static final String PARAM_PARTICIPANT_1 = "participant_1";
+    public static final String PARAM_PARTICIPANT_2 = "participant_2";
+    public static final String PARAM_RESULT_1 = "result_1";
+    public static final String PARAM_RESULT_2 = "result_2";
     /******/
     //TODO удалить лишние
     public static final String PARAM_AMOUNT = "amount";
     public static final String PARAM_ANSWER = "answer";
     public static final String PARAM_BALANCE = "balance";
     public static final String PARAM_BET = "bet";
-    public static final String PARAM_BIRTHDATE = "birthdate";
+    
     public static final String PARAM_COMMAND = "command";
     public static final String PARAM_COMMENTARY = "commentary";
     public static final String PARAM_HEADER = "header";
@@ -136,9 +145,6 @@ public final class ConfigConstant {
     public static final String PARAM_SORT_BY_REST = "sort_by_rest";
     public static final String PARAM_SORT_BY_TOTAL = "sort_by_total";
     public static final String PARAM_STATUS = "status";
-    public static final String PARAM_TEXT = "text";
-    public static final String PARAM_TOPIC = "topic";
-    public static final String PARAM_TYPE = "type";
     public static final String PARAM_VERIFICATION = "verification";
     public static final String PARAM_WITHDRAWAL = "withdrawal";
     
@@ -155,13 +161,20 @@ public final class ConfigConstant {
     public static final String MESSAGE_ERROR_BET_FOR_EMPLOYEE = "Сотрудники букмекерской компании не могут делать ставки.";
     public static final String MESSAGE_ERROR_BET_AMOUNT_INVALID = "Введенное число не является валидным. Число должно быть больше нуля, меньше либо равно 999.99, число может быть дробным и содержать два знака после запятой.";
     public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BALANCE = "Введенная сумма ставки превышает баланс на счету игрока. Сделайте ставку меньше.";
+    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BET_LIMIT = "Введенная сумма ставки превышает лимит по ставкам. Сделайте ставку меньше.";
     public static final String MESSAGE_ERROR_OUTCOME_COEFF = "Коэффициет исхода по выбранному событию изменился с тех пор, как вы решили сделать ставку. Проверьте выбранный коэффициент еще раз.";
     public static final String MESSAGE_ERROR_BET_TIME = "Время, отведенное на ставку, истекло.";
     public static final String MESSAGE_ERROR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления. Вероятно, уже сделана ставка на аналогичный исход события.";
+    public static final String MESSAGE_ERROR_INVALID_EVENT_ID = "Невалидный id события.";
+    public static final String MESSAGE_ERROR_INVALID_PARTICIPANT = "Невалидный название участника события.";
+    public static final String MESSAGE_ERROR_INVALID_DATE = "Невалидная дата.";
+    public static final String MESSAGE_ERROR_INVALID_CATEGORY_ID = "Невалидный id категории.";
+    public static final String MESSAGE_ERROR_INVALID_REQUEST_PARAMETER = "Один или несколько параметров запроса не определен.";
+    public static final String MESSAGE_ERROR_EVENT_DELETE_FAIL = "Событие не удалось удалить, видимо по нему уже сделаны ставки.";
+    public static final String MESSAGE_ERROR_EVENT_CREATE_FAIL = "Событие не удалось создать.";
     public static final String MESSAGE_INFO_BET_IS_DONE = "Ставка сделана!";
-    public static final String MESSAGE_ERROR_EVENT_INVALID_ID = "Невалидный id события.";
-    public static final String MESSAGE_INVALID_REQUEST_PARAMETER = "Один или несколько параметров запроса не определен.";
-    
+    public static final String MESSAGE_INFO_EVENT_DELETE_SUCCESS = "Событие успешно удалено.";
+    public static final String MESSAGE_INFO_EVENT_CREATE_SUCCESS = "Событие успешно создано.";
     
     /**
      * Navigation response types
@@ -283,7 +296,13 @@ public final class ConfigConstant {
     /**
      * Event edit types
      */
-    public static final String EVENT_EDIT_TYPE_DELETE_EVENT = "delete_event";
+    public static final String EVENT_EDIT_TYPE_DELETE = "delete";
+    public static final String EVENT_EDIT_TYPE_CREATE = "create";
+    public static final String EVENT_EDIT_TYPE_UPDATE_INFO = "update_info";
+    public static final String EVENT_EDIT_TYPE_UPDATE_RESULT = "update_result";
+    public static final String EVENT_EDIT_TYPE_UPDATE_COEFFICIENT = "update_coefficient";
+    
+    public static final String LOCALE_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm";
     
     private ConfigConstant() {
     }

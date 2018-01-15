@@ -26,8 +26,8 @@ public class ValidatorServiceImpl implements ValidatorService {
     private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[\\w_-]{8,}$";
     private static final String NAME_REGEX = "[A-Za-z]{1,70}";
     private static final String BET_AMOUNT_REGEX = "^[0-9]{1,3}\\.?[0-9]{0,2}$";
-    public static final double MIN_BET_AMOUNT = 0;
-    public static final double MAX_BET_AMOUNT = 999.99;
+    private static final String ID_REGEX = "[0-9]+";
+    private static final String PARTICIPANT_REGEX = "^([a-zA-Z_0-9а-яА-Я]+).{0,100}";
     
     ValidatorServiceImpl() {
     }
@@ -66,24 +66,33 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
     
     @Override
-    public boolean isValidBirthdate(String birthdate) {
-        if ((birthdate == null) || birthdate.trim().isEmpty()) {
-            return false;
+    public boolean isValidBirthdate(String birthDate) {
+        boolean result = false;
+        if ((birthDate != null) && !birthDate.trim().isEmpty()) {
+            try {
+                LocalDate date = LocalDate.parse(birthDate);
+                LocalDate now = LocalDate.now();
+                result = date.plusYears(MIN_PLAYER_AGE).isBefore(now) || date.plusYears(MIN_PLAYER_AGE).isEqual(now);
+            } catch (DateTimeParseException e) {
+                result = false;
+            }
         }
-        
-        LocalDate date;
-        try {
-            date = LocalDate.parse(birthdate);
-        } catch (DateTimeParseException e) {
-            return false;
-        }
-        LocalDate now = LocalDate.now();
-        return date.plusYears(MIN_PLAYER_AGE).isBefore(now) || date.plusYears(MIN_PLAYER_AGE).isEqual(now);
+        return result;
     }
     
     @Override
     public boolean isValidBetAmount(String betAmount) {
         return (betAmount != null) && isMatchPattern(betAmount, BET_AMOUNT_REGEX);
+    }
+    
+    @Override
+    public boolean isValidId(String id) {
+        return (id != null) && isMatchPattern(id, ID_REGEX) && (Integer.parseInt(id) > 0);
+    }
+    
+    @Override
+    public boolean isNotNull(Object object) {
+        return object != null;
     }
     
     @Override
@@ -113,7 +122,24 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
     
     @Override
-    public boolean isMatchPattern(String s, String regex) {
+    public boolean isValidEventDateTime(String dateTimeStr) {
+        boolean result;
+        try {
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr);
+            LocalDateTime now = LocalDateTime.now();
+            result = dateTime.isAfter(now);
+        } catch (DateTimeParseException e) {
+            result = false;
+        }
+        return result;
+    }
+    
+    @Override
+    public boolean isValidEventParticipantName(String participant) {
+        return (participant != null) && !participant.trim().isEmpty() && isMatchPattern(participant, PARTICIPANT_REGEX);
+    }
+    
+    private boolean isMatchPattern(String s, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(s);
         return matcher.matches();

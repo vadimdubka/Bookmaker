@@ -13,15 +13,21 @@ public interface ValidatorService {
     
     boolean isValidName(String name);
     
-    boolean isMatchPattern(String s, String regex);
-    
     boolean isValidBirthdate(String birthDate);
     
     boolean isValidBetAmount(String betAmount);
+    
+    boolean isValidId(String id);
+    
+    boolean isNotNull(Object object);
     
     boolean isValidOutcomeCoeffOnPage(String outcomeCoeffOnPage, Event event, String outcomeType);
     
     boolean isValidBetTime(LocalDateTime betDateTime, Event event);
     
     boolean isValidRequestParam(String... params);
+    
+    boolean isValidEventDateTime(String dateTimeStr);
+    
+    boolean isValidEventParticipantName(String participant);
 }

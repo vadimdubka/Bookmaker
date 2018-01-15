@@ -50,7 +50,7 @@ public class GotoMakeBetCommand implements Command {
                 }
             }
         } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_INVALID_REQUEST_PARAMETER);
+            request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_INVALID_REQUEST_PARAMETER);
             navigator = PageNavigator.FORWARD_GOTO_MAIN;
         }
         
@@ -60,7 +60,7 @@ public class GotoMakeBetCommand implements Command {
     
     private void validateEvent(Event event, StringBuilder errorMessage) {
         if (event == null) {
-            errorMessage.append(MESSAGE_ERROR_EVENT_INVALID_ID).append(MESSAGE_SEPARATOR);
+            errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
         }
     }
     

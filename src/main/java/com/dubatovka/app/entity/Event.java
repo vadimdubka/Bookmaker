@@ -15,17 +15,6 @@ public class Event {
     private String result2;
     private Set<Outcome> outcomeSet;
     
-    public Event() {
-    }
-    
-    public Event(int id, int categoryId, LocalDateTime date, String participant1, String participant2) {
-        this.id = id;
-        this.categoryId = categoryId;
-        this.date = date;
-        this.participant1 = participant1;
-        this.participant2 = participant2;
-    }
-    
     public int getId() {
         return id;
     }
