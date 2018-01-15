@@ -94,6 +94,8 @@ public final class ConfigConstant {
     public static final String ATTR_OUTCOME = "outcome";
     public static final String ATTR_EDIT_TYPE = "edit_type";
     public static final String ATTR_OUTCOME_MAP = "outcome_map";
+    public static final String ATTR_CATEGORY_ID = "category_id";
+    
     
     /**
      * {@link javax.servlet.http.HttpServletRequest} parameter names
@@ -190,7 +192,6 @@ public final class ConfigConstant {
     public static final String PAGE_UPLOAD_PASSPORT = "/pages/upload_passport.jsp";
     public static final String PAGE_RULES = "/pages/rules.jsp";
     public static final String PAGE_ERROR_500 = "/pages/error/error_500.jsp";
-    public static final String PAGE_EDIT_EVENT = "/pages/edit_event.jsp";
     /**
      * Common navigation queries
      */

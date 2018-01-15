@@ -18,9 +18,11 @@ import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class GotoMainCommand implements Command {
     
+    
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         String categoryId = request.getParameter(PARAM_CATEGORY_ID);
+        
         HttpSession session = request.getSession();
         String eventQueryType = (String) session.getAttribute(ATTR_EVENT_QUERY_TYPE);
         String eventCommandType = (String) session.getAttribute(ATTR_EVENT_GOTO_TYPE);
@@ -45,6 +47,7 @@ public class GotoMainCommand implements Command {
                 Map<String, String> type2Map = coeffColumnMaps.get(OUTCOME_TYPE_2);
                 
                 request.setAttribute(ATTR_EVENT_SET, eventSet);
+                request.setAttribute(ATTR_CATEGORY_ID, categoryId);
                 request.setAttribute(ATTR_TYPE_1_MAP, type1Map);
                 request.setAttribute(ATTR_TYPE_X_MAP, typeXMap);
                 request.setAttribute(ATTR_TYPE_2_MAP, type2Map);
