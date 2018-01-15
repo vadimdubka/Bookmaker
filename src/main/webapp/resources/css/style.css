@@ -55,17 +55,18 @@ input,
 button {
     outline: none;
     border: none;
+
 }
 
 button {
+    font-size: 0.85em;
     border-radius: .5em;
-    background-color: #CCCCCC;
+    background-color: #FDC001;
     color: black;
     cursor: pointer;
-    margin-left: .3em;
-    margin-right: .3em;
-    padding-left: .3em;
-    padding-right: .3em;
+    margin: .2em;
+    padding: .2em;
+    font-weight: bold;
 }
 
 /*****************/
@@ -211,6 +212,7 @@ input[type="submit"] {
 .login-form input[name="email"] {
     margin: 0;
 }
+
 /*Registration-form*/
 .register-form {
     padding: 0 1em;
@@ -263,6 +265,11 @@ form.make-bet-form {
 
 form.make-bet-form input {
     margin: 0.33em;
+}
+
+/*Edit event form*/
+form.edit-event-form input {
+    padding-right: 0;
 }
 
 /*error pages*/
@@ -363,6 +370,11 @@ table.events th, table.bets th {
     color: black;
 }
 
+table.events button.delete {
+    background-color: red;
+    color: white;
+}
+
 /*Table user-menu*/
 table.user-menu {
     border: none;
@@ -376,9 +388,25 @@ table.user-menu td.info {
     font-weight: bold;
 }
 
-/*Table bets*/
-table.bets {
-    /*font-size: 1em;*/
+/*Table events*/
+table.events {
+    font-size: 0.8em;
+}
+
+table.events .row-new-event input {
+    background: #caff28;
+}
+
+table.events input.bet {
+    width: 60px;
+}
+
+table.events input.result {
+    width: 60px;
+}
+
+table.events input[type=datetime-local] {
+    width: auto;
 }
 
 /*Footer*/

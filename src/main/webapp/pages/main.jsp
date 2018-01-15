@@ -17,25 +17,25 @@
         <c:when test="${requestScope.event_set!=null && event_goto_type!=null}">
             <c:choose>
                 <c:when test="${event_goto_type == 'show_actual'}">
-                    <%@include file="jspf/event/events_actual.jspf" %>
+                    <%@include file="jspf/events/events_actual.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'show_result'}">
-                    <%@include file="jspf/event/events_results.jspf" %>
+                    <%@include file="jspf/events/events_results.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'set_coefficient' || event_goto_type == 'correct_coefficient'}">
-                    <%@include file="jspf/event/events_manage_coefficient.jspf" %>
+                    <%@include file="jspf/events/events_manage_coefficient.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'manage'}">
-                    <%@include file="jspf/event/events_manage_event.jspf" %>
+                    <%@include file="jspf/events/events_manage_event.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'set_result'}">
-                    <%@include file="jspf/event/events_set_result.jspf" %>
+                    <%@include file="jspf/events/events_set_result.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'manage_failed'}">
-                    <%@include file="jspf/event/events_failed.jspf" %>
+                    <%@include file="jspf/events/events_failed.jspf" %>
                 </c:when>
                 <c:otherwise>
-                    <%@include file="jspf/event/events_actual.jspf" %>
+                    <%@include file="jspf/events/events_actual.jspf" %>
                 </c:otherwise>
             </c:choose>
         </c:when>
