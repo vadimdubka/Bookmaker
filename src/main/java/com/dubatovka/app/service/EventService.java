@@ -24,4 +24,12 @@ public abstract class EventService extends AbstractService {
     public abstract Map<Integer, Integer> countEvents(String eventQueryType);
     
     public abstract Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet);
+    
+    public abstract void deleteEvent(int eventId, StringBuilder errorMessage);
+    
+    public abstract void insertEvent(Event event, StringBuilder errorMessage);
+    
+    public abstract void updateEventInfo(Event event, StringBuilder errorMessage);
+    
+    public abstract void updateEventResult(Event event, StringBuilder errorMessage);
 }

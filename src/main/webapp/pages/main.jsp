@@ -23,7 +23,7 @@
                     <%@include file="jspf/events/events_results.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'set_coefficient' || event_goto_type == 'correct_coefficient'}">
-                    <%@include file="jspf/events/events_manage_coefficient.jspf" %>
+                    <%@include file="jspf/events/events_manage_outcome.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'manage'}">
                     <%@include file="jspf/events/events_manage_event.jspf" %>

@@ -12,13 +12,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidatorServiceImpl implements ValidatorService {
-    
+    //TODO проверить, правильно ли все валидируется
     private static final int MAX_EMAIL_LENGTH = 320;
     private static final int MAX_EMAIL_NAME_LENGTH = 64;
     private static final int MAX_EMAIL_DOMAIN_LENGTH = 255;
     private static final String EMAIL_SPLITERATOR = "@";
     private static final int EMAIL_PAIR_LENGTH = 2;
     public static final int MIN_PLAYER_AGE = 18;
+    public static final BigDecimal MIN_OUTCOME_COEFF = BigDecimal.valueOf(1.01);
+    public static final BigDecimal MAX_OUTCOME_COEFF = BigDecimal.valueOf(99.99);
     
     private static final String EMAIL_REGEX =
             "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*" +
@@ -26,7 +28,9 @@ public class ValidatorServiceImpl implements ValidatorService {
     private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[\\w_-]{8,}$";
     private static final String NAME_REGEX = "[A-Za-z]{1,70}";
     private static final String BET_AMOUNT_REGEX = "^[0-9]{1,3}\\.?[0-9]{0,2}$";
+    private static final String OUTCOME_COEFF_REGEX = "^[0-9]{1,2}\\.?[0-9]{0,2}$";
     private static final String ID_REGEX = "[0-9]+";
+    private static final String RESULT_REGEX = "[0-9]{1,3}";
     private static final String PARTICIPANT_REGEX = "^([a-zA-Z_0-9а-яА-Я]+).{0,100}";
     
     ValidatorServiceImpl() {
@@ -137,6 +141,26 @@ public class ValidatorServiceImpl implements ValidatorService {
     @Override
     public boolean isValidEventParticipantName(String participant) {
         return (participant != null) && !participant.trim().isEmpty() && isMatchPattern(participant, PARTICIPANT_REGEX);
+    }
+    
+    @Override
+    public boolean isValidEventResult(String eventResult) {
+        boolean result = (eventResult != null) && isMatchPattern(eventResult, RESULT_REGEX);
+        if (result) {
+            int i = Integer.parseInt(eventResult);
+            result = (i > 0) && (i < 1000);
+        }
+        return result;
+    }
+    
+    @Override
+    public boolean isValidOutcomeCoeff(String outcomeCoeff) {
+        boolean result = (outcomeCoeff != null) && isMatchPattern(outcomeCoeff, OUTCOME_COEFF_REGEX);
+        if (result) {
+            BigDecimal decimal = new BigDecimal(outcomeCoeff);
+            result = (decimal.compareTo(MIN_OUTCOME_COEFF) >= 0) && (decimal.compareTo(MAX_OUTCOME_COEFF) <= 0);
+        }
+        return result;
     }
     
     private boolean isMatchPattern(String s, String regex) {

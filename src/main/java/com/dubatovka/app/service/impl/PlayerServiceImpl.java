@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_OPERATION;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_TRANSACTION;
+
 public class PlayerServiceImpl extends PlayerService {
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
     private final UserDAO userDAO = daoHelper.getUserDAO();
@@ -98,10 +101,10 @@ public class PlayerServiceImpl extends PlayerService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append("Database connection error while doing sql transaction.");
+            errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
         } catch (SQLException e) {
-            logger.log(Level.ERROR, "Database connection error while doing sql transaction. " + e);
-            errorMessage.append("Database connection error while doing sql transaction.");
+            logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
+            errorMessage.append(MESSAGE_ERROR_SQL_TRANSACTION);
         }
     }
     
@@ -129,7 +132,7 @@ public class PlayerServiceImpl extends PlayerService {
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         } catch (SQLException e) {
-            logger.log(Level.ERROR, "Database connection error while doing sql transaction. " + e);
+            logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
         }
         return result;
     }

@@ -2,6 +2,7 @@ package com.dubatovka.app.dao;
 
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Bet;
+import com.dubatovka.app.entity.Outcome;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface BetDAO {
     boolean insertBet(Bet bet) throws DAOException;
     
     List<Bet> readBetListForPlayer(int playerId) throws DAOException;
+    
+    boolean updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException;
 }

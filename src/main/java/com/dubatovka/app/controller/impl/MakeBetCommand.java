@@ -92,12 +92,6 @@ public class MakeBetCommand implements Command {
         }
     }
     
-    private void validateEventNotNull(Event event, StringBuilder errorMessage) {
-        if (event == null) {
-            errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
-        }
-    }
-    
     private void validateMakeBetParams(StringBuilder errorMessage, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage) {
         LocalDateTime betDateTime = LocalDateTime.now();
         ValidatorService validatorService = ServiceFactory.getValidatorService();

@@ -12,7 +12,8 @@ public interface OutcomeDAO {
     String EVENT_ID = "event_id";
     String TYPE = "type";
     String COEFFICIENT = "coefficient";
-    String DESCRIPTION = "description";
     
     Set<Outcome> getOutcomesByEventId(int id) throws DAOException;
+    
+    void insertOutcome(Outcome outcome) throws DAOException;
 }

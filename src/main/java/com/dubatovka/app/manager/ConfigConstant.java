@@ -22,6 +22,14 @@ public final class ConfigConstant {
     public static final String VERIFIED = "verified";
     
     /**
+     * Outcome types
+     */
+    public static final String TYPE_1 = "1";
+    public static final String TYPE_X = "x";
+    public static final String TYPE_2 = "2";
+    
+    
+    /**
      * Bet Status
      */
     public static final String NEW = "new";
@@ -167,14 +175,22 @@ public final class ConfigConstant {
     public static final String MESSAGE_ERROR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления. Вероятно, уже сделана ставка на аналогичный исход события.";
     public static final String MESSAGE_ERROR_INVALID_EVENT_ID = "Невалидный id события.";
     public static final String MESSAGE_ERROR_INVALID_PARTICIPANT = "Невалидный название участника события.";
-    public static final String MESSAGE_ERROR_INVALID_DATE = "Невалидная дата.";
+    public static final String MESSAGE_ERROR_INVALID_DATE = "Невалидная дата события.";
+    public static final String MESSAGE_ERROR_INVALID_EVENT_RESULT = "Невалидный результат события.";
+    public static final String MESSAGE_ERROR_INVALID_EVENT_OUTCOME = "Невалидный исход события.";
     public static final String MESSAGE_ERROR_INVALID_CATEGORY_ID = "Невалидный id категории.";
     public static final String MESSAGE_ERROR_INVALID_REQUEST_PARAMETER = "Один или несколько параметров запроса не определен.";
     public static final String MESSAGE_ERROR_EVENT_DELETE_FAIL = "Событие не удалось удалить, видимо по нему уже сделаны ставки.";
     public static final String MESSAGE_ERROR_EVENT_CREATE_FAIL = "Событие не удалось создать.";
+    public static final String MESSAGE_ERROR_EVENT_UPDATE_INFO_FAIL = "Событие не удалось Обновить.";
+    public static final String MESSAGE_ERROR_OUTCOME_UPDATE_FAIL = "Исходы события не удалось Обновить.";
+    public static final String MESSAGE_ERROR_SQL_OPERATION = "Database connection error while doing sql operation.";
+    public static final String MESSAGE_ERROR_SQL_TRANSACTION = "Database connection error while doing sql transaction. ";
     public static final String MESSAGE_INFO_BET_IS_DONE = "Ставка сделана!";
     public static final String MESSAGE_INFO_EVENT_DELETE_SUCCESS = "Событие успешно удалено.";
     public static final String MESSAGE_INFO_EVENT_CREATE_SUCCESS = "Событие успешно создано.";
+    public static final String MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS = "Событие успешно обновлено.";
+    public static final String MESSAGE_INFO_OUTCOME_UPDATE_SUCCESS = "Исходы событий успешно обновлены.";
     
     /**
      * Navigation response types
@@ -300,7 +316,7 @@ public final class ConfigConstant {
     public static final String EVENT_EDIT_TYPE_CREATE = "create";
     public static final String EVENT_EDIT_TYPE_UPDATE_INFO = "update_info";
     public static final String EVENT_EDIT_TYPE_UPDATE_RESULT = "update_result";
-    public static final String EVENT_EDIT_TYPE_UPDATE_COEFFICIENT = "update_coefficient";
+    public static final String EVENT_EDIT_TYPE_UPDATE_OUTCOME = "update_outcome";
     
     public static final String LOCALE_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm";
     

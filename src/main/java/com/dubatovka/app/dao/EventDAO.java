@@ -24,4 +24,12 @@ public interface EventDAO {
     Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException;
     
     Map<Integer, Integer> countEvents(String eventQueryType) throws DAOException;
+    
+    void deleteEvent(int eventId) throws DAOException;
+    
+    void insertEvent(Event event) throws DAOException;
+    
+    void updateEvenInfo(Event event) throws DAOException;
+    
+    boolean updateEventResult(Event event) throws DAOException;
 }

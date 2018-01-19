@@ -1,11 +1,36 @@
 package com.dubatovka.app.entity;
 
+import com.dubatovka.app.manager.ConfigConstant;
+
 import java.math.BigDecimal;
 
 public class Outcome {
     private int eventId;
-    private String type;
+    private Type type;
     private BigDecimal coefficient;
+    
+    public Outcome() {
+    }
+    
+    public Outcome(int eventId, BigDecimal coefficient, Type type) {
+        this.eventId = eventId;
+        this.coefficient = coefficient;
+        this.type = type;
+    }
+    
+    public enum Type {
+        TYPE_1(ConfigConstant.TYPE_1), TYPE_X(ConfigConstant.TYPE_X), TYPE_2(ConfigConstant.TYPE_2);
+        
+        private final String type;
+        
+        Type(String type) {
+            this.type = type;
+        }
+        
+        public String getType() {
+            return type;
+        }
+    }
     
     public int getEventId() {
         return eventId;
@@ -15,11 +40,11 @@ public class Outcome {
         this.eventId = eventId;
     }
     
-    public String getType() {
+    public Type getType() {
         return type;
     }
     
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
     
@@ -39,9 +64,9 @@ public class Outcome {
         Outcome outcome = (Outcome) o;
         
         if (eventId != outcome.eventId) return false;
-        if (type != null ? !type.equals(outcome.type) : outcome.type != null) return false;
+        if (type != outcome.type) return false;
         return coefficient != null ? coefficient.equals(outcome.coefficient) : outcome.coefficient == null;
-    
+        
     }
     
     @Override
@@ -56,7 +81,7 @@ public class Outcome {
     public String toString() {
         return "Outcome{" +
                 "eventId=" + eventId +
-                ", type='" + type + '\'' +
+                ", type=" + type +
                 ", coefficient=" + coefficient +
                 '}';
     }

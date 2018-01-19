@@ -178,6 +178,27 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
         return eventCountMap;
     }
     
+    @Override
+    public void deleteEvent(int eventId) throws DAOException {
+        sdffsdfsdf
+    }
+    
+    @Override
+    public void insertEvent(Event event) throws DAOException {
+        sdfsdfsdf
+    }
+    
+    @Override
+    public void updateEvenInfo(Event event) throws DAOException {
+        sdfsdfsdf
+    }
+    
+    @Override
+    public boolean updateEventResult(Event event) throws DAOException {
+        sdfsdfsdfsdf
+        return false;
+    }
+    
     private Set<Event> readEventsByQuery(String categoryId, String sqlQuery) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setString(1, categoryId);

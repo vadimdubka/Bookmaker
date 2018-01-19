@@ -1,24 +1,11 @@
 package com.dubatovka.app.controller;
 
-import com.dubatovka.app.controller.impl.ChangeLocaleCommand;
-import com.dubatovka.app.controller.impl.EditEventCommand;
-import com.dubatovka.app.controller.impl.MakeBetCommand;
+import com.dubatovka.app.controller.impl.*;
 import com.dubatovka.app.controller.impl.authorization.LoginCommand;
 import com.dubatovka.app.controller.impl.authorization.LogoutCommand;
 import com.dubatovka.app.controller.impl.authorization.RegisterCommand;
-import com.dubatovka.app.controller.impl.navigation.GotoIndexCommand;
-import com.dubatovka.app.controller.impl.navigation.GotoMainCommand;
-import com.dubatovka.app.controller.impl.navigation.GotoMakeBetCommand;
-import com.dubatovka.app.controller.impl.navigation.GotoManagePlayersCommand;
-import com.dubatovka.app.controller.impl.navigation.GotoPlayerStateCommand;
-import com.dubatovka.app.controller.impl.navigation.GotoRegisterCommand;
-import com.dubatovka.app.controller.impl.navigation.events.GotoEventCorrectCoefficientCommand;
-import com.dubatovka.app.controller.impl.navigation.events.GotoEventManageCommand;
-import com.dubatovka.app.controller.impl.navigation.events.GotoEventManageFailedCommand;
-import com.dubatovka.app.controller.impl.navigation.events.GotoEventSetCoefficientCommand;
-import com.dubatovka.app.controller.impl.navigation.events.GotoEventSetResultCommand;
-import com.dubatovka.app.controller.impl.navigation.events.GotoEventShowActualCommand;
-import com.dubatovka.app.controller.impl.navigation.events.GotoEventShowResultCommand;
+import com.dubatovka.app.controller.impl.navigation.*;
+import com.dubatovka.app.controller.impl.navigation.events.*;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.ConfigConstant;
 import org.apache.logging.log4j.Level;
@@ -66,12 +53,15 @@ public final class CommandFactory {
         adminCommands.put(CommandType.GOTO_EVENT_MANAGE, new GotoEventManageCommand());
         adminCommands.put(CommandType.GOTO_EVENT_SET_RESULT, new GotoEventSetResultCommand());
         adminCommands.put(CommandType.GOTO_EVENT_MANAGE_FAILED, new GotoEventManageFailedCommand());
-        adminCommands.put(CommandType.EDIT_EVENT, new EditEventCommand());
+        adminCommands.put(CommandType.EVENT_DELETE, new EventDeleteCommand());
+        adminCommands.put(CommandType.EVENT_CREATE, new EventCreateCommand());
+        adminCommands.put(CommandType.EVENT_INFO_UPDATE, new EventInfoUpdateCommand());
+        adminCommands.put(CommandType.EVENT_RESULT_UPDATE, new EventResultUpdateCommand());
         
         analystCommands.putAll(commonCommands);
         analystCommands.put(CommandType.GOTO_EVENT_SET_COEFFICIENT, new GotoEventSetCoefficientCommand());
         analystCommands.put(CommandType.GOTO_EVENT_CORRECT_COEFFICIENT, new GotoEventCorrectCoefficientCommand());
-        analystCommands.put(CommandType.EDIT_EVENT, new EditEventCommand());
+        analystCommands.put(CommandType.OUTCOME_CREATE, new OutcomeCreateCommand());
     }
     
     private CommandFactory() {
@@ -153,6 +143,10 @@ public final class CommandFactory {
         GOTO_EVENT_SHOW_RESULT,
         GOTO_EVENT_MANAGE_FAILED,
         
-        EDIT_EVENT
+        EVENT_DELETE,
+        EVENT_CREATE,
+        EVENT_INFO_UPDATE,
+        EVENT_RESULT_UPDATE,
+        OUTCOME_CREATE
     }
 }

@@ -30,4 +30,8 @@ public interface ValidatorService {
     boolean isValidEventDateTime(String dateTimeStr);
     
     boolean isValidEventParticipantName(String participant);
+    
+    boolean isValidEventResult(String eventResult);
+    
+    boolean isValidOutcomeCoeff(String outcomeCoeff);
 }

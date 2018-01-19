@@ -3,7 +3,6 @@ package com.dubatovka.app.entity;
 import java.time.LocalDate;
 
 public class PlayerProfile {
-    
     private String firstName;
     private String middleName;
     private String lastName;

@@ -4,6 +4,7 @@ import com.dubatovka.app.dao.BetDAO;
 import com.dubatovka.app.dao.db.WrappedConnection;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Bet;
+import com.dubatovka.app.entity.Outcome;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -47,6 +48,12 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
         } catch (SQLException e) {
             throw new DAOException("Database connection error while getting bet. " + e);
         }
+    }
+    
+    @Override
+    public boolean updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException {
+        sdfsdfsdfsdf
+        return false;
     }
     
     private List<Bet> buildBetList(ResultSet resultSet) throws SQLException {
