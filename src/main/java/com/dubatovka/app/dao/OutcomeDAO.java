@@ -15,5 +15,5 @@ public interface OutcomeDAO {
     
     Set<Outcome> getOutcomesByEventId(int id) throws DAOException;
     
-    void insertOutcome(Outcome outcome) throws DAOException;
+    boolean insertOutcome(Outcome outcome) throws DAOException;
 }

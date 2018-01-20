@@ -22,5 +22,5 @@ public interface BetDAO {
     
     List<Bet> readBetListForPlayer(int playerId) throws DAOException;
     
-    boolean updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException;
+    void updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException;
 }

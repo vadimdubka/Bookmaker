@@ -29,7 +29,7 @@ public interface EventDAO {
     
     void insertEvent(Event event) throws DAOException;
     
-    void updateEvenInfo(Event event) throws DAOException;
+    void updateEventInfo(Event event) throws DAOException;
     
     boolean updateEventResult(Event event) throws DAOException;
 }

@@ -41,6 +41,8 @@ public class EventResultUpdateCommand implements Command {
                     } else {
                         request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_EVENT_UPDATE_INFO_FAIL);
                     }
+                } else {
+                    request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString());
                 }
             }
         } else {
@@ -53,10 +55,10 @@ public class EventResultUpdateCommand implements Command {
     private void validateEventResultUpdateCommand(StringBuilder errorMessage, String result1Str, String result2Str) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (errorMessage.toString().trim().isEmpty()) {
-            if (validatorService.isValidEventResult(result1Str)) {
+            if (!validatorService.isValidEventResult(result1Str)) {
                 errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_RESULT).append(MESSAGE_SEPARATOR);
             }
-            if (validatorService.isValidEventResult(result2Str)) {
+            if (!validatorService.isValidEventResult(result2Str)) {
                 errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_RESULT).append(MESSAGE_SEPARATOR);
             }
         }

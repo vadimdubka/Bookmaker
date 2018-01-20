@@ -53,6 +53,8 @@ public class OutcomeCreateCommand implements Command {
                     } else {
                         request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_OUTCOME_UPDATE_FAIL);
                     }
+                } else {
+                    request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString());
                 }
             }
         } else {
@@ -65,13 +67,13 @@ public class OutcomeCreateCommand implements Command {
     private void validateOutcomeCreateCommand(StringBuilder errorMessage, String outcome1Str, String outcomeXStr, String outcome2Str) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (errorMessage.toString().trim().isEmpty()) {
-            if (validatorService.isValidOutcomeCoeff(outcome1Str)) {
+            if (!validatorService.isValidOutcomeCoeff(outcome1Str)) {
                 errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
             }
-            if (validatorService.isValidOutcomeCoeff(outcomeXStr)) {
+            if (!validatorService.isValidOutcomeCoeff(outcomeXStr)) {
                 errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
             }
-            if (validatorService.isValidOutcomeCoeff(outcome2Str)) {
+            if (!validatorService.isValidOutcomeCoeff(outcome2Str)) {
                 errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
             }
         }

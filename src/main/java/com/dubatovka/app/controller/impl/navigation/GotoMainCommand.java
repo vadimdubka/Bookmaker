@@ -4,6 +4,7 @@ import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.entity.Category;
 import com.dubatovka.app.entity.Event;
+import com.dubatovka.app.entity.Outcome;
 import com.dubatovka.app.manager.QueryManager;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
@@ -42,9 +43,9 @@ public class GotoMainCommand implements Command {
             if (categoryId != null) {
                 Set<Event> eventSet = eventService.getEvents(categoryId, eventQueryType);
                 Map<String, Map<String, String>> coeffColumnMaps = eventService.getOutcomeColumnMaps(eventSet);
-                Map<String, String> type1Map = coeffColumnMaps.get(OUTCOME_TYPE_1);
-                Map<String, String> typeXMap = coeffColumnMaps.get(OUTCOME_TYPE_X);
-                Map<String, String> type2Map = coeffColumnMaps.get(OUTCOME_TYPE_2);
+                Map<String, String> type1Map = coeffColumnMaps.get(Outcome.Type.TYPE_1.getType());
+                Map<String, String> typeXMap = coeffColumnMaps.get(Outcome.Type.TYPE_X.getType());
+                Map<String, String> type2Map = coeffColumnMaps.get(Outcome.Type.TYPE_2.getType());
                 
                 request.setAttribute(ATTR_EVENT_SET, eventSet);
                 request.setAttribute(ATTR_CATEGORY_ID, categoryId);

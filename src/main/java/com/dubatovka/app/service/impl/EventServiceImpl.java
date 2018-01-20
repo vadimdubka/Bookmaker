@@ -32,13 +32,13 @@ public class EventServiceImpl extends EventService {
     private final Map<String, String> type2 = new HashMap<>();
     
     {
-        coeffColumnMaps.put(OUTCOME_TYPE_1, type1);
-        coeffColumnMaps.put(OUTCOME_TYPE_X, typeX);
-        coeffColumnMaps.put(OUTCOME_TYPE_2, type2);
+        coeffColumnMaps.put(Outcome.Type.TYPE_1.getType(), type1);
+        coeffColumnMaps.put(Outcome.Type.TYPE_X.getType(), typeX);
+        coeffColumnMaps.put(Outcome.Type.TYPE_2.getType(), type2);
         
-        type1.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_1);
-        typeX.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_X);
-        type2.put(OUTCOME_TYPE_NAME_KEY, OUTCOME_TYPE_2);
+        type1.put(OUTCOME_TYPE_NAME_KEY, Outcome.Type.TYPE_1.getType());
+        typeX.put(OUTCOME_TYPE_NAME_KEY, Outcome.Type.TYPE_X.getType());
+        type2.put(OUTCOME_TYPE_NAME_KEY, Outcome.Type.TYPE_2.getType());
     }
     
     EventServiceImpl() {
@@ -68,7 +68,7 @@ public class EventServiceImpl extends EventService {
             int eventId = Integer.parseInt(eventIdStr);
             event = getEvent(eventId);
         } catch (NumberFormatException e) {
-            logger.log(Level.ERROR, e.getMessage());
+            logger.log(Level.ERROR, String.format("%s %s %s", e.getClass(), e.getMessage(), eventIdStr));
         }
         return event;
     }
@@ -134,7 +134,7 @@ public class EventServiceImpl extends EventService {
     @Override
     public void updateEventInfo(Event event, StringBuilder errorMessage) {
         try {
-            eventDAO.updateEvenInfo(event);
+            eventDAO.updateEventInfo(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
             errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
@@ -150,11 +150,10 @@ public class EventServiceImpl extends EventService {
         try {
             daoHelper.beginTransaction();
             boolean isUpdEvent = eventDAO.updateEventResult(event);
-            boolean isUpdBetStatus = false;
             for (Map.Entry<Outcome.Type, Bet.Status> entrySet : betStatusMap.entrySet()) {
-                isUpdBetStatus = betDAO.updateBetStatus(eventId, entrySet.getKey(), entrySet.getValue());
+                betDAO.updateBetStatus(eventId, entrySet.getKey(), entrySet.getValue());
             }
-            if (isUpdEvent && isUpdBetStatus) {
+            if (isUpdEvent) {
                 daoHelper.commit();
             } else {
                 daoHelper.rollback();

@@ -5,10 +5,7 @@ import com.dubatovka.app.dao.db.WrappedConnection;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Event;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -100,6 +97,14 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     private static final String SQL_COUNT_EVENTS_WITHOUT_RESULTS_GROUP_BY_CATEGORY_ID =
             "SELECT category_id, COUNT(category_id) FROM event WHERE result1 IS NULL GROUP BY category_id";
     
+    private static final String SQL_DELETE_EVENT = "DELETE FROM event WHERE id=?";
+    
+    private static final String SQL_INSERT_EVENT = "INSERT INTO event (category_id, date, participant1, participant2) VALUES (?, ?, ?, ?)";
+    
+    private static final String SQL_UPDATE_EVENT_INFO = "UPDATE event SET date=?, participant1=?, participant2=? WHERE id=?";
+    
+    private static final String SQL_UPDATE_EVENT_RESULT = "UPDATE event SET result1=?, result2=? WHERE id=?";
+    
     EventDAOImpl() {
     }
     
@@ -180,23 +185,52 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     
     @Override
     public void deleteEvent(int eventId) throws DAOException {
-        sdffsdfsdf
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_EVENT)) {
+            statement.setInt(1, eventId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while deleting event. " + e);
+        }
     }
     
     @Override
     public void insertEvent(Event event) throws DAOException {
-        sdfsdfsdf
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_EVENT)) {
+            statement.setInt(1, event.getCategoryId());
+            statement.setTimestamp(2, Timestamp.valueOf(event.getDate()));
+            statement.setString(3, event.getParticipant1());
+            statement.setString(4, event.getParticipant2());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while inserting event. " + e);
+        }
+        
     }
     
     @Override
-    public void updateEvenInfo(Event event) throws DAOException {
-        sdfsdfsdf
+    public void updateEventInfo(Event event) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_EVENT_INFO)) {
+            statement.setTimestamp(1, Timestamp.valueOf(event.getDate()));
+            statement.setString(2, event.getParticipant1());
+            statement.setString(3, event.getParticipant2());
+            statement.setInt(4, event.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while updating event info. " + e);
+        }
     }
     
     @Override
     public boolean updateEventResult(Event event) throws DAOException {
-        sdfsdfsdfsdf
-        return false;
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_EVENT_RESULT)) {
+            statement.setString(1, event.getResult1());
+            statement.setString(2, event.getResult2());
+            statement.setInt(3, event.getId());
+            int count = statement.executeUpdate();
+            return count == 1;
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while updating event results. " + e);
+        }
     }
     
     private Set<Event> readEventsByQuery(String categoryId, String sqlQuery) throws DAOException {

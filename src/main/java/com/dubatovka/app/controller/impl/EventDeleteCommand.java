@@ -35,6 +35,8 @@ public class EventDeleteCommand implements Command {
                     } else {
                         request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_EVENT_DELETE_FAIL);
                     }
+                } else {
+                    request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString());
                 }
             }
         } else {
@@ -46,7 +48,7 @@ public class EventDeleteCommand implements Command {
     
     private void validateEventDeleteCommand(StringBuilder errorMessage, String eventIdStr) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
-        if (validatorService.isValidId(eventIdStr)) {
+        if (!validatorService.isValidId(eventIdStr)) {
             errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
         }
     }

@@ -13,6 +13,8 @@ import java.util.List;
 public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, coefficient, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
+    private static final String SQL_UPDATE_BET_STATUS = "UPDATE bet SET status=? WHERE event_id=? AND type=? AND status=?";
+    
     private static final String SQL_SELECT_BET_BY_PLAYER_ID = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC";
     
     BetDAOImpl() {
@@ -46,14 +48,21 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
             ResultSet resultSet = statement.executeQuery();
             return buildBetList(resultSet);
         } catch (SQLException e) {
-            throw new DAOException("Database connection error while getting bet. " + e);
+            throw new DAOException("Database connection error while reading bet. " + e);
         }
     }
     
     @Override
-    public boolean updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException {
-        sdfsdfsdfsdf
-        return false;
+    public void updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_BET_STATUS)) {
+            statement.setString(1, status.getStatus());
+            statement.setInt(2, eventId);
+            statement.setString(3, type.getType());
+            statement.setString(4, Bet.Status.NEW.getStatus());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while inserting bet. " + e);
+        }
     }
     
     private List<Bet> buildBetList(ResultSet resultSet) throws SQLException {

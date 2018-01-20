@@ -42,7 +42,10 @@ public class OutcomeServiceImpl extends OutcomeService {
     public void insertOutcomeSet(Set<Outcome> outcomeSet, StringBuilder errorMessage) {
         try {
             for (Outcome outcome : outcomeSet) {
-                outcomeDAO.insertOutcome(outcome);
+                boolean failure = !outcomeDAO.insertOutcome(outcome);
+                if (failure) {
+                    errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+                }
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());

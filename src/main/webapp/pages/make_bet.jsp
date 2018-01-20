@@ -19,7 +19,7 @@
                     <jsp:useBean id="event" scope="request" class="com.dubatovka.app.entity.Event" />
                     <td>${j:formatDateTime(event.date, "dd.MM.yyyy HH:mm")}</td>
                     <td>${requestScope.event.participant1} - ${requestScope.event.participant2}</td>
-                    <td>${requestScope.outcome.type}</td>
+                    <td>${requestScope.outcome.type.type}</td>
                     <td>${requestScope.outcome.coefficient}</td>
                 </tr>
             </table>
@@ -27,7 +27,7 @@
                 <form class="make-bet-form" action="controller" method="post">
                     <input type="hidden" name="command_type" value="make_bet"/>
                     <input type="hidden" name="event_id" value="${requestScope.event.id}"/>
-                    <input type="hidden" name="outcome_type" value="${requestScope.outcome.type}"/>
+                    <input type="hidden" name="outcome_type" value="${requestScope.outcome.type.type}"/>
                     <input type="hidden" name="outcome_coefficient" value="${requestScope.outcome.coefficient}"/>
                     <input type="number" name="bet_amount" value=""
                            title="Введите сумму ставки"
