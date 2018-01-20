@@ -347,6 +347,12 @@ table {
     width: 100%;
 }
 
+div.table-overflow {
+    width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 /*Table events*/
 table.events td, table.bets td {
     border: 1px solid dimgrey;
@@ -390,7 +396,7 @@ table.user-menu td.info {
 
 /*Table events*/
 table.events {
-    font-size: 0.8em;
+    font-size: 11px;
 }
 
 table.events .row-new-event input {
@@ -403,6 +409,10 @@ table.events input.bet {
 
 table.events input.result {
     width: 60px;
+}
+
+table.events input.participant {
+    width: 140px;
 }
 
 table.events input[type=datetime-local] {
