@@ -13,7 +13,7 @@ public class GotoEventSetResultCommand implements Command {
     public PageNavigator execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.setAttribute(ATTR_EVENT_QUERY_TYPE, EVENT_QUERY_TYPE_STARTED);
-        session.setAttribute(ATTR_EVENT_GOTO_TYPE, EVENT_GOTO_SET_RESULT);
+        session.setAttribute(ATTR_EVENT_GOTO_TYPE, EVENT_GOTO_MANAGE_RESULT);
         return PageNavigator.FORWARD_GOTO_MAIN;
     }
 }

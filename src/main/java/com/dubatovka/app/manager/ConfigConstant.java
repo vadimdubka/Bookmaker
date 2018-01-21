@@ -299,21 +299,11 @@ public final class ConfigConstant {
      * Goto command types for managing events
      */
     public static final String EVENT_GOTO_SHOW_ACTUAL = "show_actual";
-    public static final String EVENT_GOTO_MANAGE = "manage";
-    public static final String EVENT_GOTO_SET_COEFFICIENT = "set_coefficient";
-    public static final String EVENT_GOTO_CORRECT_COEFFICIENT = "correct_coefficient";
-    public static final String EVENT_GOTO_SET_RESULT = "set_result";
     public static final String EVENT_GOTO_SHOW_RESULT = "show_result";
+    public static final String EVENT_GOTO_MANAGE_EVENT = "manage_event";
+    public static final String EVENT_GOTO_MANAGE_OUTCOME = "manage_outcome";
+    public static final String EVENT_GOTO_MANAGE_RESULT = "manage_result";
     public static final String EVENT_GOTO_MANAGE_FAILED = "manage_failed";
-    
-    /**
-     * Event edit types
-     */
-    public static final String EVENT_EDIT_TYPE_DELETE = "delete";
-    public static final String EVENT_EDIT_TYPE_CREATE = "create";
-    public static final String EVENT_EDIT_TYPE_UPDATE_INFO = "update_info";
-    public static final String EVENT_EDIT_TYPE_UPDATE_RESULT = "update_result";
-    public static final String EVENT_EDIT_TYPE_UPDATE_OUTCOME = "update_outcome";
     
     public static final String LOCALE_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm";
     

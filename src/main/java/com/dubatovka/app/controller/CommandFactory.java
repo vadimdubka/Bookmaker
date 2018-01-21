@@ -52,6 +52,7 @@ public final class CommandFactory {
         adminCommands.put(CommandType.GOTO_MANAGE_PLAYERS, new GotoManagePlayersCommand());
         adminCommands.put(CommandType.GOTO_EVENT_MANAGE, new GotoEventManageCommand());
         adminCommands.put(CommandType.GOTO_EVENT_SET_RESULT, new GotoEventSetResultCommand());
+        adminCommands.put(CommandType.GOTO_EVENT_CORRECT_RESULT, new GotoEventCorrectResultCommand());
         adminCommands.put(CommandType.GOTO_EVENT_MANAGE_FAILED, new GotoEventManageFailedCommand());
         adminCommands.put(CommandType.EVENT_DELETE, new EventDeleteCommand());
         adminCommands.put(CommandType.EVENT_CREATE, new EventCreateCommand());
@@ -59,8 +60,8 @@ public final class CommandFactory {
         adminCommands.put(CommandType.EVENT_RESULT_UPDATE, new EventResultUpdateCommand());
         
         analystCommands.putAll(commonCommands);
-        analystCommands.put(CommandType.GOTO_EVENT_SET_COEFFICIENT, new GotoEventSetCoefficientCommand());
-        analystCommands.put(CommandType.GOTO_EVENT_CORRECT_COEFFICIENT, new GotoEventCorrectCoefficientCommand());
+        analystCommands.put(CommandType.GOTO_EVENT_SET_OUTCOME, new GotoEventSetOutcomeCommand());
+        analystCommands.put(CommandType.GOTO_EVENT_CORRECT_OUTCOME, new GotoEventCorrectOutcomeCommand());
         analystCommands.put(CommandType.OUTCOME_CREATE, new OutcomeCreateCommand());
     }
     
@@ -137,9 +138,10 @@ public final class CommandFactory {
         
         GOTO_EVENT_SHOW_ACTUAL,
         GOTO_EVENT_MANAGE,
-        GOTO_EVENT_SET_COEFFICIENT,
-        GOTO_EVENT_CORRECT_COEFFICIENT,
+        GOTO_EVENT_SET_OUTCOME,
+        GOTO_EVENT_CORRECT_OUTCOME,
         GOTO_EVENT_SET_RESULT,
+        GOTO_EVENT_CORRECT_RESULT,
         GOTO_EVENT_SHOW_RESULT,
         GOTO_EVENT_MANAGE_FAILED,
         

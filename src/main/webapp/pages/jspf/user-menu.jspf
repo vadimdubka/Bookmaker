@@ -50,6 +50,9 @@
                         <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_result">
                             Внести результаты событий</a></li>
                         <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct_result">
+                                Редактировать результаты событий</a></li>
+                        <li>
                             <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_manage_failed">
                                 Удалить невалидные события</a></li>
                     </ul>
@@ -58,11 +61,10 @@
             <c:when test="${sessionScope.user.role.role=='analyst'}">
                 <div>
                     <ul>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_outcome">
+                            Назначить коэффициэнты на новые события</a></li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_coefficient">
-                                Назначить коэффициэнты на новые события</a></li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct_coefficient">
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct_outcome">
                                 Корректировать коэфиценты</a></li>
                     </ul>
                 </div>

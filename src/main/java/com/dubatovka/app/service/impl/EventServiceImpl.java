@@ -169,18 +169,15 @@ public class EventServiceImpl extends EventService {
     
     private Map<Outcome.Type, Bet.Status> getBetStatusMapForEventResult(int result1, int result2) {
         Map<Outcome.Type, Bet.Status> betStatusMap = new EnumMap<>(Outcome.Type.class);
+        betStatusMap.put(Outcome.Type.TYPE_1, Bet.Status.LOSING);
+        betStatusMap.put(Outcome.Type.TYPE_X, Bet.Status.LOSING);
+        betStatusMap.put(Outcome.Type.TYPE_2, Bet.Status.LOSING);
         if (result1 > result2) {
             betStatusMap.put(Outcome.Type.TYPE_1, Bet.Status.WIN);
-            betStatusMap.put(Outcome.Type.TYPE_X, Bet.Status.LOSING);
-            betStatusMap.put(Outcome.Type.TYPE_2, Bet.Status.LOSING);
         } else if (result1 < result2) {
-            betStatusMap.put(Outcome.Type.TYPE_1, Bet.Status.LOSING);
-            betStatusMap.put(Outcome.Type.TYPE_X, Bet.Status.LOSING);
             betStatusMap.put(Outcome.Type.TYPE_2, Bet.Status.WIN);
         } else {
-            betStatusMap.put(Outcome.Type.TYPE_1, Bet.Status.LOSING);
             betStatusMap.put(Outcome.Type.TYPE_X, Bet.Status.WIN);
-            betStatusMap.put(Outcome.Type.TYPE_2, Bet.Status.LOSING);
         }
         return betStatusMap;
     }

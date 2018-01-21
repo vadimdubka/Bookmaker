@@ -13,7 +13,7 @@ import java.util.List;
 public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, coefficient, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    private static final String SQL_UPDATE_BET_STATUS = "UPDATE bet SET status=? WHERE event_id=? AND type=? AND status=?";
+    private static final String SQL_UPDATE_BET_STATUS = "UPDATE bet SET status=? WHERE event_id=? AND type=? AND status is NOT ?";
     
     private static final String SQL_SELECT_BET_BY_PLAYER_ID = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC";
     
@@ -58,7 +58,7 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
             statement.setString(1, status.getStatus());
             statement.setInt(2, eventId);
             statement.setString(3, type.getType());
-            statement.setString(4, Bet.Status.NEW.getStatus());
+            statement.setString(4, Bet.Status.PAID.getStatus());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Database connection error while inserting bet. " + e);

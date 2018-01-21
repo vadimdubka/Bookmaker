@@ -8,12 +8,12 @@ import javax.servlet.http.HttpSession;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
-public class GotoEventSetCoefficientCommand implements Command {
+public class GotoEventCorrectResultCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute(ATTR_EVENT_QUERY_TYPE, EVENT_QUERY_TYPE_NEW);
-        session.setAttribute(ATTR_EVENT_GOTO_TYPE, EVENT_GOTO_SET_COEFFICIENT);
+        session.setAttribute(ATTR_EVENT_QUERY_TYPE, EVENT_QUERY_TYPE_CLOSED);
+        session.setAttribute(ATTR_EVENT_GOTO_TYPE, EVENT_GOTO_MANAGE_RESULT);
         return PageNavigator.FORWARD_GOTO_MAIN;
     }
 }

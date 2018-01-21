@@ -22,14 +22,14 @@
                 <c:when test="${event_goto_type == 'show_result'}">
                     <%@include file="jspf/events/events_results.jspf" %>
                 </c:when>
-                <c:when test="${event_goto_type == 'set_coefficient' || event_goto_type == 'correct_coefficient'}">
-                    <%@include file="jspf/events/events_manage_outcome.jspf" %>
-                </c:when>
-                <c:when test="${event_goto_type == 'manage'}">
+                <c:when test="${event_goto_type == 'manage_event'}">
                     <%@include file="jspf/events/events_manage_event.jspf" %>
                 </c:when>
-                <c:when test="${event_goto_type == 'set_result'}">
-                    <%@include file="jspf/events/events_set_result.jspf" %>
+                <c:when test="${event_goto_type == 'manage_outcome'}">
+                    <%@include file="jspf/events/events_manage_outcome.jspf" %>
+                </c:when>
+                <c:when test="${event_goto_type == 'manage_result'}">
+                    <%@include file="jspf/events/events_manage_result.jspf" %>
                 </c:when>
                 <c:when test="${event_goto_type == 'manage_failed'}">
                     <%@include file="jspf/events/events_failed.jspf" %>

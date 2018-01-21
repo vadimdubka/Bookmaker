@@ -94,9 +94,6 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
                     "WHERE result1 IS NOT NULL " +
                     "GROUP BY category_id";
     
-    private static final String SQL_COUNT_EVENTS_WITHOUT_RESULTS_GROUP_BY_CATEGORY_ID =
-            "SELECT category_id, COUNT(category_id) FROM event WHERE result1 IS NULL GROUP BY category_id";
-    
     private static final String SQL_DELETE_EVENT = "DELETE FROM event WHERE id=?";
     
     private static final String SQL_INSERT_EVENT = "INSERT INTO event (category_id, date, participant1, participant2) VALUES (?, ?, ?, ?)";
