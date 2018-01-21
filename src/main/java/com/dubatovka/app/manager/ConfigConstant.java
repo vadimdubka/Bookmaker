@@ -103,6 +103,8 @@ public final class ConfigConstant {
     public static final String ATTR_EDIT_TYPE = "edit_type";
     public static final String ATTR_OUTCOME_MAP = "outcome_map";
     public static final String ATTR_CATEGORY_ID = "category_id";
+    public static final String ATTR_WIN_BET_COUNT = "win_bet_count";
+    public static final String ATTR_WIN_BET_SUM = "win_bet_sum";
     
     
     /**
@@ -294,6 +296,7 @@ public final class ConfigConstant {
     public static final String EVENT_QUERY_TYPE_STARTED = "started";
     public static final String EVENT_QUERY_TYPE_FAILED = "failed";
     public static final String EVENT_QUERY_TYPE_CLOSED = "closed";
+    public static final String EVENT_QUERY_TYPE_TO_PAY = "to_pay";
     
     /**
      * Goto command types for managing events
@@ -304,10 +307,14 @@ public final class ConfigConstant {
     public static final String EVENT_GOTO_MANAGE_OUTCOME = "manage_outcome";
     public static final String EVENT_GOTO_MANAGE_RESULT = "manage_result";
     public static final String EVENT_GOTO_MANAGE_FAILED = "manage_failed";
+    public static final String EVENT_GOTO_SHOW_TO_PAY = "show_to_pay";
     
     public static final String LOCALE_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm";
     
     public static final String PREFIX_FOR_OUTCOME_TYPE = "TYPE_";
+    
+    public static final String WIN_BET_INFO_KEY_COUNT = "count";
+    public static final String WIN_BET_INFO_KEY_SUM = "sum";
     
     private ConfigConstant() {
     }

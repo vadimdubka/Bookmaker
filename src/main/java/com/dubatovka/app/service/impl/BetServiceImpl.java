@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 
 public class BetServiceImpl extends BetService {
     private static final Logger logger = LogManager.getLogger(BetServiceImpl.class);
@@ -31,6 +32,17 @@ public class BetServiceImpl extends BetService {
             logger.log(Level.ERROR, e.getMessage());
         }
         return betList;
+    }
+    
+    @Override
+    public Map<String, Map<String, String>> getWinBetInfo(int categoryId) {
+        Map<String, Map<String, String>> winBetInfoMap = null;
+        try {
+            winBetInfoMap = betDAO.readWinBetInfoMap(categoryId);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        }
+        return winBetInfoMap;
     }
     
 }

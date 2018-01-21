@@ -34,6 +34,9 @@
                 <c:when test="${event_goto_type == 'manage_failed'}">
                     <%@include file="jspf/events/events_failed.jspf" %>
                 </c:when>
+                <c:when test="${event_goto_type == 'show_to_pay'}">
+                    <%@include file="jspf/events/events_to_pay.jspf" %>
+                </c:when>
                 <c:otherwise>
                     <%@include file="jspf/events/events_actual.jspf" %>
                 </c:otherwise>

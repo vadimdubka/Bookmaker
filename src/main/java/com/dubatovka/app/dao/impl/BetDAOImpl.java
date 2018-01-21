@@ -6,9 +6,15 @@ import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Bet;
 import com.dubatovka.app.entity.Outcome;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.dubatovka.app.manager.ConfigConstant.WIN_BET_INFO_KEY_COUNT;
+import static com.dubatovka.app.manager.ConfigConstant.WIN_BET_INFO_KEY_SUM;
 
 public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, coefficient, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -16,6 +22,9 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     private static final String SQL_UPDATE_BET_STATUS = "UPDATE bet SET status=? WHERE event_id=? AND type=? AND status <>'paid'";
     
     private static final String SQL_SELECT_BET_BY_PLAYER_ID = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC";
+    
+    private static final String SQL_SELECT_WIN_BET_INFO_GROUP_BY_EVENT_ID =
+            "SELECT event_id, COUNT(event_id) AS count, SUM(amount) AS sum FROM bet WHERE status='win' and event_id IN (SELECT id FROM event WHERE category_id=?) GROUP BY event_id;";
     
     BetDAOImpl() {
     }
@@ -62,6 +71,31 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Database connection error while inserting bet. " + e);
+        }
+    }
+    
+    @Override
+    public Map<String, Map<String, String>> readWinBetInfoMap(int categoryId) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_WIN_BET_INFO_GROUP_BY_EVENT_ID)) {
+            statement.setInt(1, categoryId);
+            ResultSet resultSet = statement.executeQuery();
+            
+            Map<String, String> winBetCount = new HashMap<>();
+            Map<String, String> winBetSum = new HashMap<>();
+            
+            while (resultSet.next()) {
+                int eventId = resultSet.getInt(EVENT_ID);
+                int count = resultSet.getInt(COUNT);
+                BigDecimal sum = resultSet.getBigDecimal(SUM);
+                winBetCount.put(String.valueOf(eventId), String.valueOf(count));
+                winBetSum.put(String.valueOf(eventId), String.valueOf(sum));
+            }
+            Map<String, Map<String, String>> winBetInfoMap = new HashMap<>();
+            winBetInfoMap.put(WIN_BET_INFO_KEY_COUNT, winBetCount);
+            winBetInfoMap.put(WIN_BET_INFO_KEY_SUM, winBetSum);
+            return winBetInfoMap;
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while reading bet. " + e);
         }
     }
     

@@ -54,6 +54,7 @@ public final class CommandFactory {
         adminCommands.put(CommandType.GOTO_EVENT_SET_RESULT, new GotoEventSetResultCommand());
         adminCommands.put(CommandType.GOTO_EVENT_CORRECT_RESULT, new GotoEventCorrectResultCommand());
         adminCommands.put(CommandType.GOTO_EVENT_MANAGE_FAILED, new GotoEventManageFailedCommand());
+        adminCommands.put(CommandType.GOTO_EVENTS_TO_PAY, new GotoEventToPayCommand());
         adminCommands.put(CommandType.EVENT_DELETE, new EventDeleteCommand());
         adminCommands.put(CommandType.EVENT_CREATE, new EventCreateCommand());
         adminCommands.put(CommandType.EVENT_INFO_UPDATE, new EventInfoUpdateCommand());
@@ -144,6 +145,7 @@ public final class CommandFactory {
         GOTO_EVENT_CORRECT_RESULT,
         GOTO_EVENT_SHOW_RESULT,
         GOTO_EVENT_MANAGE_FAILED,
+        GOTO_EVENTS_TO_PAY,
         
         EVENT_DELETE,
         EVENT_CREATE,
