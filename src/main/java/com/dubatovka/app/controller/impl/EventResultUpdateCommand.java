@@ -48,7 +48,7 @@ public class EventResultUpdateCommand implements Command {
         } else {
             request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_INVALID_REQUEST_PARAMETER);
         }
-    
+        
         return PageNavigator.FORWARD_PREV_QUERY;
     }
     

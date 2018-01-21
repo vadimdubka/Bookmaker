@@ -145,7 +145,7 @@ public class EventServiceImpl extends EventService {
     public void updateEventResult(Event event, StringBuilder errorMessage) {
         int eventId = event.getId();
         int result1 = Integer.parseInt(event.getResult1());
-        int result2 = Integer.parseInt(event.getResult1());
+        int result2 = Integer.parseInt(event.getResult2());
         Map<Outcome.Type, Bet.Status> betStatusMap = getBetStatusMapForEventResult(result1, result2);
         try {
             daoHelper.beginTransaction();
