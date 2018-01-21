@@ -47,9 +47,10 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     
     private static final String SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-                    "FROM event WHERE category_id =? " +
-                    "AND id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-                    "AND (date - NOW()) <= 0";
+                    "FROM event " +
+                    "WHERE category_id =? " +
+                    "AND (date - NOW()) <= 0 "+
+                    "AND (id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id))";
     
     private static final String SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
@@ -85,8 +86,8 @@ public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     
     private static final String SQL_COUNT_FAILED_EVENTS_GROUP_BY_CATEGORY_ID =
             "SELECT category_id, COUNT(category_id) AS count FROM event " +
-                    "WHERE id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-                    "AND (date - NOW()) <= 0 " +
+                    "WHERE (date - NOW()) <= 0 AND " +
+                    "(id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id)) " +
                     "GROUP BY category_id";
     
     private static final String SQL_COUNT_CLOSED_EVENTS_GROUP_BY_CATEGORY_ID =
