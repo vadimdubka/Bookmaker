@@ -381,6 +381,29 @@ table.events button.delete {
     color: white;
 }
 
+/*Table user-state*/
+table.user-state {
+    font-size: 12px;
+}
+
+table.user-state td.bet-status{
+    font-weight: bold;
+    background-color: #FDC001;
+}
+
+table.user-state td.bet-status-win{
+    background-color: #9aff0f;
+}
+
+table.user-state td.bet-status-paid{
+
+    background-color: #1ecc4a;
+}
+
+table.user-state td.bet-status-losing{
+    background-color: red;
+}
+
 /*Table user-menu*/
 table.user-menu {
     border: none;
