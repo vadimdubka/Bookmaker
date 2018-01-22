@@ -182,7 +182,6 @@ public class EventServiceImpl extends EventService {
         return betStatusMap;
     }
     
-    //TODO почему передаем daohalper в сервис
     private void setOutcomesForEvents(Iterable<Event> eventSet) {
         eventSet.forEach(ServiceFactory.getOutcomeService(daoHelper)::setOutcomesForEvent);
     }

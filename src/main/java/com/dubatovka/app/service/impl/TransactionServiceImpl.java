@@ -1,5 +1,6 @@
 package com.dubatovka.app.service.impl;
 
+import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.impl.DAOHelper;
@@ -10,10 +11,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
@@ -21,17 +22,13 @@ import static com.dubatovka.app.manager.ConfigConstant.*;
 public class TransactionServiceImpl extends TransactionService {
     private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
     private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
+    private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();
     
     TransactionServiceImpl() {
     }
     
     TransactionServiceImpl(DAOHelper daoHelper) {
         super(daoHelper);
-    }
-    
-    @Override
-    public Set<Object> mockMethod(String id) {
-        return null;
     }
     
     /**
@@ -43,6 +40,7 @@ public class TransactionServiceImpl extends TransactionService {
      * @return taken {@link List} collection
      * @see TransactionDAO#takePlayerTransactions(int, String)
      */
+    @Override
     public List<Transaction> takePlayerTransactions(int id, String month) {
         List<Transaction> transactionList = null;
         String monthPattern = (month != null ? month.trim() : EMPTY_STRING) + PERCENT;
@@ -57,16 +55,17 @@ public class TransactionServiceImpl extends TransactionService {
     /**
      * Calls DAO layer to take {@link List} collection of {@link Transaction} objects due to given parameters.
      *
-     * @param filterByType string representation of {@link Transaction.TransactionType}
-     *                     value instance or 'all'
-     * @param month        string representation of month value in format 'yyyy-mm'
-     * @param sortByAmount is need to sort result collection by {@link Transaction#amount}
+     * @param filterByType   string representation of {@link Transaction.TransactionType}
+     *                       value instance or 'all'
+     * @param month          string representation of month value in format 'yyyy-mm'
+     * @param isSortByAmount is need to sort result collection by {@link Transaction#amount}
      * @return taken {@link List} collection
      * @see TransactionDAO#takeTransactionList(String)
      * @see #filterByType(List, Transaction.TransactionType)
      * @see #sortByAmount(List, boolean)
      */
-    public List<Transaction> takeTransactionList(String filterByType, String month, boolean sortByAmount) {
+    @Override
+    public List<Transaction> takeTransactionList(String filterByType, String month, boolean isSortByAmount) {
         List<Transaction> transactionList = null;
         String monthPattern = (month != null ? month.trim() : EMPTY_STRING) + PERCENT;
         if (filterByType == null || filterByType.trim().isEmpty()) {
@@ -80,7 +79,7 @@ public class TransactionServiceImpl extends TransactionService {
         if (!ALL.equals(filterByType.trim())) {
             filterByType(transactionList, Transaction.TransactionType.valueOf(filterByType.trim().toUpperCase()));
         }
-        if (sortByAmount) {
+        if (isSortByAmount) {
             sortByAmount(transactionList, false);
         }
         return transactionList;
@@ -92,7 +91,8 @@ public class TransactionServiceImpl extends TransactionService {
      * @param transactions {@link List} collection of {@link Transaction} objects to be filtered
      * @return defined {@link BigDecimal} value
      */
-    static BigDecimal defineMaxPayment(List<Transaction> transactions) {
+    @Override
+    public BigDecimal defineMaxPayment(List<Transaction> transactions) {
         BigDecimal maxPayment = BigDecimal.ZERO;
         if (transactions != null) {
             for (Transaction transaction : transactions) {
@@ -113,7 +113,8 @@ public class TransactionServiceImpl extends TransactionService {
      * @param transactions {@link List} collection of {@link Transaction} objects to be filtered
      * @return counted {@link BigDecimal} value
      */
-    static BigDecimal countTotalPayment(List<Transaction> transactions) {
+    @Override
+    public BigDecimal countTotalPayment(List<Transaction> transactions) {
         BigDecimal totalPayment = BigDecimal.ZERO;
         if (transactions != null) {
             for (Transaction transaction : transactions) {
@@ -133,7 +134,8 @@ public class TransactionServiceImpl extends TransactionService {
      * @param transactions {@link List} collection of {@link Transaction} objects to be filtered
      * @return defined {@link BigDecimal} value
      */
-    static BigDecimal defineMaxWithdrawal(List<Transaction> transactions) {
+    @Override
+    public BigDecimal defineMaxWithdrawal(List<Transaction> transactions) {
         BigDecimal maxWithdrawal = BigDecimal.ZERO;
         if (transactions != null) {
             for (Transaction transaction : transactions) {
@@ -153,7 +155,8 @@ public class TransactionServiceImpl extends TransactionService {
      * @param transactions {@link List} collection of {@link Transaction} objects to be filtered
      * @return counted {@link BigDecimal} value
      */
-    static BigDecimal countTotalWithdrawal(List<Transaction> transactions) {
+    @Override
+    public BigDecimal countTotalWithdrawal(List<Transaction> transactions) {
         BigDecimal totalWithdrawal = BigDecimal.ZERO;
         if (transactions != null) {
             for (Transaction transaction : transactions) {
@@ -165,6 +168,36 @@ public class TransactionServiceImpl extends TransactionService {
             }
         }
         return totalWithdrawal;
+    }
+    
+    /**
+     * Calls DAO layer to make an account transaction of definite
+     * {@link Transaction.TransactionType}.
+     *
+     * @param playerId        player's id who processes transaction
+     * @param amount          amount of money player transacts
+     * @param transactionType type of transaction
+     * @return true if transaction proceeded successfully
+     */
+    @Override
+    public int makeTransaction(int playerId, BigDecimal amount, Transaction.TransactionType transactionType) {
+        int result = 0;
+        try {
+            daoHelper.beginTransaction();
+            int transactId = transactionDAO.insertTransaction(playerId, amount, transactionType);
+            boolean isBalUpd = playerDAO.updateBalance(playerId, amount, transactionType);
+            if ((transactId != 0) && isBalUpd) {
+                daoHelper.commit();
+                result = transactId;
+            } else {
+                daoHelper.rollback();
+            }
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
+        }
+        return result;
     }
     
     /**

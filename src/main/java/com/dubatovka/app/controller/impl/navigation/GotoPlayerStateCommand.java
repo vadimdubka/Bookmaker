@@ -10,6 +10,7 @@ import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
+import com.dubatovka.app.service.PlayerService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,8 +41,8 @@ public class GotoPlayerStateCommand implements Command {
         
         validateParams(player, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
-            try (BetService betService = ServiceFactory.getBetService(); EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService()) {
-                List<Bet> betList = betService.getBetList(player.getId());
+            try (BetService betService = ServiceFactory.getBetService(); EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService(); PlayerService playerService = ServiceFactory.getPlayerService()) {
+                List<Bet> betList = betService.getBetListForPlayer(player.getId());
                 Map<Bet, Event> eventMap = new HashMap<>(betList.size());
                 Map<Bet, Category> categoryMap = new HashMap<>(betList.size());
                 Map<Bet, Category> sportMap = new HashMap<>(betList.size());
@@ -53,6 +54,8 @@ public class GotoPlayerStateCommand implements Command {
                     categoryMap.put(bet, category);
                     sportMap.put(bet, parentCategory);
                 });
+                playerService.updatePlayerInfo(player);
+                session.setAttribute(ATTR_PLAYER, player);
                 request.setAttribute(ATTR_BET_LIST, betList);
                 request.setAttribute(ATTR_EVENT_MAP, eventMap);
                 request.setAttribute(ATTR_CATEGORY_MAP, categoryMap);

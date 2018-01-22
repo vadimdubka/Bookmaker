@@ -49,6 +49,8 @@
     </ul>
 </nav>
 
+    <%--TODO удалить если не понадобиться--%>
+<%--
 <c:choose>
     <c:when test="${sessionScope.user.role.role == 'admin'}">
         <nav class="employee-nav">
@@ -68,4 +70,4 @@
             </ul>
         </nav>
     </c:when>
-</c:choose>
+</c:choose>--%>

@@ -37,7 +37,7 @@ public class OutcomeCreateCommand implements Command {
             try (EventService eventService = ServiceFactory.getEventService(); OutcomeService outcomeService = ServiceFactory.getOutcomeService()) {
                 Event event = eventService.getEvent(eventIdStr);
                 validateEventNotNull(event, errorMessage);
-                validateOutcomeCreateCommand(errorMessage, outcome1Str, outcomeXStr, outcome2Str);
+                validateCommand(errorMessage, outcome1Str, outcomeXStr, outcome2Str);
                 if (errorMessage.toString().trim().isEmpty()) {
                     int eventId = event.getId();
                     Outcome outcomeType1 = new Outcome(eventId, new BigDecimal(outcome1Str), Outcome.Type.TYPE_1);
@@ -64,7 +64,7 @@ public class OutcomeCreateCommand implements Command {
         return PageNavigator.FORWARD_PREV_QUERY;
     }
     
-    private void validateOutcomeCreateCommand(StringBuilder errorMessage, String outcome1Str, String outcomeXStr, String outcome2Str) {
+    private void validateCommand(StringBuilder errorMessage, String outcome1Str, String outcomeXStr, String outcome2Str) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (errorMessage.toString().trim().isEmpty()) {
             if (!validatorService.isValidOutcomeCoeff(outcome1Str)) {

@@ -184,7 +184,8 @@ public final class ConfigConstant {
     public static final String MESSAGE_ERROR_INVALID_REQUEST_PARAMETER = "Один или несколько параметров запроса не определен.";
     public static final String MESSAGE_ERROR_EVENT_DELETE_FAIL = "Событие не удалось удалить, видимо по нему уже сделаны ставки.";
     public static final String MESSAGE_ERROR_EVENT_CREATE_FAIL = "Событие не удалось создать.";
-    public static final String MESSAGE_ERROR_EVENT_UPDATE_INFO_FAIL = "Событие не удалось Обновить.";
+    public static final String MESSAGE_ERROR_EVENT_UPDATE_INFO_FAIL = "Событие не удалось обновить.";
+    public static final String MESSAGE_ERROR_PAY_WIN_BET_FAIL = "Выигравшие ставки не удалось оплатить.";
     public static final String MESSAGE_ERROR_OUTCOME_UPDATE_FAIL = "Исходы события не удалось обновить.";
     public static final String MESSAGE_ERROR_SQL_OPERATION = "Database connection error while doing sql operation.";
     public static final String MESSAGE_ERROR_SQL_TRANSACTION = "Database connection error while doing sql transaction. ";
@@ -192,6 +193,7 @@ public final class ConfigConstant {
     public static final String MESSAGE_INFO_EVENT_DELETE_SUCCESS = "Событие успешно удалено.";
     public static final String MESSAGE_INFO_EVENT_CREATE_SUCCESS = "Событие успешно создано.";
     public static final String MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS = "Событие успешно обновлено.";
+    public static final String MESSAGE_INFO_PAY_WIN_BET_SUCCESS = "Выигравшие ставки успешно оплачены.";
     public static final String MESSAGE_INFO_OUTCOME_UPDATE_SUCCESS = "Исходы событий успешно обновлены.";
     
     /**

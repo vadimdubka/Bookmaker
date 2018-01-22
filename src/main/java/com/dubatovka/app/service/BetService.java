@@ -5,6 +5,7 @@ import com.dubatovka.app.entity.Bet;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class BetService extends AbstractService {
     
@@ -15,7 +16,13 @@ public abstract class BetService extends AbstractService {
         super(daoHelper);
     }
     
-    public abstract List<Bet> getBetList(int playerId);
+    public abstract List<Bet> getBetListForPlayer(int playerId);
     
-    public abstract Map<String,Map<String,String>> getWinBetInfo(int categoryId);
+    public abstract Set<Bet> getBetSetForEventAndStatus(int eventId, Bet.Status status);
+    
+    public abstract Map<String, Map<String, String>> getWinBetInfo(int categoryId);
+    
+    public abstract void payWinBet(int eventId, StringBuilder errorMessage);
+    
+    public abstract void makeBet(Bet bet, StringBuilder errorMessage);
 }

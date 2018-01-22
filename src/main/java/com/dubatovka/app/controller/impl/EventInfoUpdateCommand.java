@@ -28,13 +28,13 @@ public class EventInfoUpdateCommand implements Command {
         String participant1 = request.getParameter(PARAM_PARTICIPANT_1);
         String participant2 = request.getParameter(PARAM_PARTICIPANT_2);
         
-        validateRequestParams(errorMessage, dateTimeStr, participant1, participant2);
+        //TODO запретить обновлять наименования событий для которых уже есть ставки
+        validateRequestParams(errorMessage, eventIdStr, dateTimeStr, participant1, participant2);
         if (errorMessage.toString().trim().isEmpty()) {
             try (EventService eventService = ServiceFactory.getEventService()) {
-                Event event = eventService.getEvent(eventIdStr);
-                validateEventNotNull(event, errorMessage);
-                validateEventInfoUpdateCommand(errorMessage, dateTimeStr, participant1, participant2);
+                validateCommand(errorMessage, eventIdStr, dateTimeStr, participant1, participant2);
                 if (errorMessage.toString().trim().isEmpty()) {
+                    Event event = eventService.getEvent(eventIdStr);
                     event.setDate(LocalDateTime.parse(dateTimeStr));
                     event.setParticipant1(participant1.trim());
                     event.setParticipant2(participant2.trim());
@@ -51,22 +51,23 @@ public class EventInfoUpdateCommand implements Command {
         } else {
             request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_INVALID_REQUEST_PARAMETER);
         }
-    
+        
         return PageNavigator.FORWARD_PREV_QUERY;
     }
     
-    private void validateEventInfoUpdateCommand(StringBuilder errorMessage, String dateTimeStr, String participant1, String participant2) {
+    private void validateCommand(StringBuilder errorMessage, String eventIdStr, String dateTimeStr, String participant1, String participant2) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
-        if (errorMessage.toString().trim().isEmpty()) {
-            if (!validatorService.isValidEventDateTime(dateTimeStr)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_DATE).append(MESSAGE_SEPARATOR);
-            }
-            if (!validatorService.isValidEventParticipantName(participant1)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
-            }
-            if (!validatorService.isValidEventParticipantName(participant2)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
-            }
+        if (!validatorService.isValidId(eventIdStr)) {
+            errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+        }
+        if (!validatorService.isValidEventDateTime(dateTimeStr)) {
+            errorMessage.append(MESSAGE_ERROR_INVALID_DATE).append(MESSAGE_SEPARATOR);
+        }
+        if (!validatorService.isValidEventParticipantName(participant1)) {
+            errorMessage.append(MESSAGE_ERROR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
+        }
+        if (!validatorService.isValidEventParticipantName(participant2)) {
+            errorMessage.append(MESSAGE_ERROR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
         }
     }
 }

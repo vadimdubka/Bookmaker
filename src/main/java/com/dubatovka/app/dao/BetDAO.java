@@ -6,6 +6,7 @@ import com.dubatovka.app.entity.Outcome;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface BetDAO {
     /**
@@ -27,5 +28,9 @@ public interface BetDAO {
     
     void updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException;
     
+    int updateBetStatus(int eventId, Bet.Status oldStatus, Bet.Status newStatus) throws DAOException;
+    
     Map<String,Map<String,String>> readWinBetInfoMap(int categoryId) throws DAOException;
+    
+    Set<Bet> readBetSetForEventAndStatus(int eventId, Bet.Status status) throws DAOException;
 }

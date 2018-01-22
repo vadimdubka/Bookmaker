@@ -1,11 +1,8 @@
 package com.dubatovka.app.service;
 
 import com.dubatovka.app.dao.impl.DAOHelper;
-import com.dubatovka.app.entity.Bet;
 import com.dubatovka.app.entity.Player;
-import com.dubatovka.app.entity.Transaction;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public abstract class PlayerService extends AbstractService {
@@ -23,7 +20,5 @@ public abstract class PlayerService extends AbstractService {
     
     public abstract void updatePlayerInfo(Player player);
     
-    public abstract void makeBet(Bet bet, StringBuilder errorMessage);
     
-    public abstract int makeTransaction(Player player, BigDecimal amount, Transaction.TransactionType transactionType);
 }

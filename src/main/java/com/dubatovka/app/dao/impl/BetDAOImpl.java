@@ -8,10 +8,7 @@ import com.dubatovka.app.entity.Outcome;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.dubatovka.app.manager.ConfigConstant.WIN_BET_INFO_KEY_COUNT;
 import static com.dubatovka.app.manager.ConfigConstant.WIN_BET_INFO_KEY_SUM;
@@ -19,10 +16,15 @@ import static com.dubatovka.app.manager.ConfigConstant.WIN_BET_INFO_KEY_SUM;
 public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, coefficient, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    private static final String SQL_UPDATE_BET_STATUS = "UPDATE bet SET status=? WHERE event_id=? AND type=? AND status <>'paid'";
+    private static final String SQL_UPDATE_BET_STATUS_BY_TYPE = "UPDATE bet SET status=? WHERE event_id=? AND type=? AND status <>'paid'";
+    
+    private static final String SQL_UPDATE_BET_STATUS_BY_STATUS = "UPDATE bet SET status=? WHERE event_id=? AND status= ?";
+    
+    private static final String SQL_SELECT_BET_BY_EVENT_ID_AND_STATUS = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE event_id = ? and status = ?";
     
     private static final String SQL_SELECT_BET_BY_PLAYER_ID = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC";
     
+    //TODO сделать общий запрос по типу статуса, а не конкретный
     private static final String SQL_SELECT_WIN_BET_INFO_GROUP_BY_EVENT_ID =
             "SELECT event_id, COUNT(event_id) AS count, SUM(amount) AS sum FROM bet WHERE status='win' and event_id IN (SELECT id FROM event WHERE category_id=?) GROUP BY event_id;";
     
@@ -62,15 +64,38 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     }
     
     @Override
+    public Set<Bet> readBetSetForEventAndStatus(int eventId, Bet.Status status) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BET_BY_EVENT_ID_AND_STATUS)) {
+            statement.setInt(1, eventId);
+            statement.setString(2, status.getStatus());
+            ResultSet resultSet = statement.executeQuery();
+            return buildBetSet(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while reading bet. " + e);
+        }
+    }
+    
+    @Override
     public void updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_BET_STATUS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_BET_STATUS_BY_TYPE)) {
             statement.setString(1, status.getStatus());
             statement.setInt(2, eventId);
             statement.setString(3, type.getType());
-//            statement.setString(4, Bet.Status.PAID.getStatus());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Database connection error while inserting bet. " + e);
+            throw new DAOException("Database connection error while updating bet. " + e);
+        }
+    }
+    
+    @Override
+    public int updateBetStatus(int eventId, Bet.Status oldStatus, Bet.Status newStatus) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_BET_STATUS_BY_STATUS)) {
+            statement.setString(1, newStatus.getStatus());
+            statement.setInt(2, eventId);
+            statement.setString(3, oldStatus.getStatus());
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while updating bet. " + e);
         }
     }
     
@@ -102,16 +127,30 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     private List<Bet> buildBetList(ResultSet resultSet) throws SQLException {
         List<Bet> betList = new ArrayList<>();
         while (resultSet.next()) {
-            Bet bet = new Bet();
-            bet.setPlayerId(resultSet.getInt(PLAYER_ID));
-            bet.setEventId(resultSet.getInt(EVENT_ID));
-            bet.setOutcomeType(resultSet.getString(OUTCOME_TYPE));
-            bet.setDate(resultSet.getTimestamp(DATE).toLocalDateTime());
-            bet.setCoefficient(resultSet.getBigDecimal(COEFFICIENT));
-            bet.setAmount(resultSet.getBigDecimal(AMOUNT));
-            bet.setStatus(Bet.Status.valueOf(resultSet.getString(STATUS).toUpperCase()));
+            Bet bet = buildBet(resultSet);
             betList.add(bet);
         }
         return betList;
+    }
+    
+    private Set<Bet> buildBetSet(ResultSet resultSet) throws SQLException {
+        Set<Bet> betSet = new HashSet<>();
+        while (resultSet.next()) {
+            Bet bet = buildBet(resultSet);
+            betSet.add(bet);
+        }
+        return betSet;
+    }
+    
+    private Bet buildBet(ResultSet resultSet) throws SQLException {
+        Bet bet = new Bet();
+        bet.setPlayerId(resultSet.getInt(PLAYER_ID));
+        bet.setEventId(resultSet.getInt(EVENT_ID));
+        bet.setOutcomeType(resultSet.getString(OUTCOME_TYPE));
+        bet.setDate(resultSet.getTimestamp(DATE).toLocalDateTime());
+        bet.setCoefficient(resultSet.getBigDecimal(COEFFICIENT));
+        bet.setAmount(resultSet.getBigDecimal(AMOUNT));
+        bet.setStatus(Bet.Status.valueOf(resultSet.getString(STATUS).toUpperCase()));
+        return bet;
     }
 }

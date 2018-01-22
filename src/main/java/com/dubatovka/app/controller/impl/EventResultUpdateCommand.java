@@ -31,7 +31,7 @@ public class EventResultUpdateCommand implements Command {
             try (EventService eventService = ServiceFactory.getEventService()) {
                 Event event = eventService.getEvent(eventIdStr);
                 validateEventNotNull(event, errorMessage);
-                validateEventResultUpdateCommand(errorMessage, result1Str, result2Str);
+                validateCommand(errorMessage, result1Str, result2Str);
                 if (errorMessage.toString().trim().isEmpty()) {
                     event.setResult1(result1Str.trim());
                     event.setResult2(result2Str.trim());
@@ -52,7 +52,7 @@ public class EventResultUpdateCommand implements Command {
         return PageNavigator.FORWARD_PREV_QUERY;
     }
     
-    private void validateEventResultUpdateCommand(StringBuilder errorMessage, String result1Str, String result2Str) {
+    private void validateCommand(StringBuilder errorMessage, String result1Str, String result2Str) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (errorMessage.toString().trim().isEmpty()) {
             if (!validatorService.isValidEventResult(result1Str)) {

@@ -59,6 +59,7 @@ public final class CommandFactory {
         adminCommands.put(CommandType.EVENT_CREATE, new EventCreateCommand());
         adminCommands.put(CommandType.EVENT_INFO_UPDATE, new EventInfoUpdateCommand());
         adminCommands.put(CommandType.EVENT_RESULT_UPDATE, new EventResultUpdateCommand());
+        adminCommands.put(CommandType.PAY_WIN_BET, new PayWinBetCommand());
         
         analystCommands.putAll(commonCommands);
         analystCommands.put(CommandType.GOTO_EVENT_SET_OUTCOME, new GotoEventSetOutcomeCommand());
@@ -127,6 +128,7 @@ public final class CommandFactory {
         LOGOUT,
         
         MAKE_BET,
+        PAY_WIN_BET,
         
         GOTO_MAIN,
         GOTO_INDEX,

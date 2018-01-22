@@ -7,12 +7,12 @@ import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.PlayerService;
 import com.dubatovka.app.service.ValidatorService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class MakeBetCommand implements Command {
-    
+    //TODO порефакторить метод
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator;
@@ -40,12 +40,29 @@ public class MakeBetCommand implements Command {
         String outcomeCoeffOnPage = request.getParameter(PARAM_OUTCOME_COEFFICIENT);
         validateRequestParams(errorMessage, betAmountStr, eventIdStr, outcomeType, outcomeCoeffOnPage);
         if (errorMessage.toString().trim().isEmpty()) {
-            try (EventService eventService = ServiceFactory.getEventService(); PlayerService playerService = ServiceFactory.getPlayerService()) {
+            try (EventService eventService = ServiceFactory.getEventService(); PlayerService playerService = ServiceFactory.getPlayerService(); BetService betService = ServiceFactory.getBetService()) {
                 Event event = eventService.getEvent(eventIdStr);
                 validateUserRole(role, errorMessage);
                 validateEventNotNull(event, errorMessage);
-                validateMakeBetCommand(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
-                navigator = makeBet(request, session, errorMessage, player, betAmountStr, outcomeType, playerService, event);
+                validateCommand(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
+                if (errorMessage.toString().trim().isEmpty()) {
+                    BigDecimal coefficient = event.getOutcomeByType(outcomeType).getCoefficient();
+                    BigDecimal betAmount = new BigDecimal(betAmountStr);
+                    Bet bet = new Bet(player.getId(), event.getId(), outcomeType, LocalDateTime.now(), coefficient, betAmount, Bet.Status.NEW);
+                    betService.makeBet(bet, errorMessage);
+                    if (errorMessage.toString().trim().isEmpty()) {
+                        playerService.updatePlayerInfo(player);
+                        session.setAttribute(ATTR_PLAYER, player);
+                        request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_BET_IS_DONE);
+                        navigator = PageNavigator.FORWARD_GOTO_MAIN;
+                    } else {
+                        request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_BETTING_INTERRUPTED);
+                        navigator = PageNavigator.FORWARD_PREV_QUERY;
+                    }
+                } else {
+                    request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString().trim());
+                    navigator = PageNavigator.FORWARD_PREV_QUERY;
+                }
             }
         } else {
             request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_INVALID_REQUEST_PARAMETER);
@@ -55,30 +72,7 @@ public class MakeBetCommand implements Command {
         return navigator;
     }
     
-    private PageNavigator makeBet(ServletRequest request, HttpSession session, StringBuilder errorMessage, Player player, String betAmountStr, String outcomeType, PlayerService playerService, Event event) {
-        PageNavigator navigator;
-        if (errorMessage.toString().trim().isEmpty()) {
-            BigDecimal coefficient = event.getOutcomeByType(outcomeType).getCoefficient();
-            BigDecimal betAmount = new BigDecimal(betAmountStr);
-            Bet bet = new Bet(player.getId(), event.getId(), outcomeType, LocalDateTime.now(), coefficient, betAmount, Bet.Status.NEW);
-            playerService.makeBet(bet, errorMessage);
-            if (errorMessage.toString().trim().isEmpty()) {
-                playerService.updatePlayerInfo(player);
-                session.setAttribute(ATTR_PLAYER, player);
-                request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_BET_IS_DONE);
-                navigator = PageNavigator.FORWARD_GOTO_MAIN;
-            } else {
-                request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_BETTING_INTERRUPTED);
-                navigator = PageNavigator.FORWARD_PREV_QUERY;
-            }
-        } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString().trim());
-            navigator = PageNavigator.FORWARD_PREV_QUERY;
-        }
-        return navigator;
-    }
-    
-    private void validateMakeBetCommand(User.UserRole role, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
+    private void validateCommand(User.UserRole role, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             validateMakeBetParams(errorMessage, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage);
         }

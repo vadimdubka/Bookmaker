@@ -31,7 +31,7 @@ public class EventCreateCommand implements Command {
         validateRequestParams(errorMessage, categoryIdStr, dateTimeStr, participant1, participant2);
         if (errorMessage.toString().trim().isEmpty()) {
             try (EventService eventService = ServiceFactory.getEventService()) {
-                validateEventCreateCommand(errorMessage, categoryIdStr, dateTimeStr, participant1, participant2);
+                validateCommand(errorMessage, categoryIdStr, dateTimeStr, participant1, participant2);
                 if (errorMessage.toString().trim().isEmpty()) {
                     int categotyId = Integer.parseInt(categoryIdStr);
                     LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr);
@@ -40,7 +40,6 @@ public class EventCreateCommand implements Command {
                     event.setDate(dateTime);
                     event.setParticipant1(participant1.trim());
                     event.setParticipant2(participant2.trim());
-                    
                     eventService.insertEvent(event, errorMessage);
                     if (errorMessage.toString().trim().isEmpty()) {
                         request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_EVENT_CREATE_SUCCESS);
@@ -58,7 +57,7 @@ public class EventCreateCommand implements Command {
         return PageNavigator.FORWARD_PREV_QUERY;
     }
     
-    private void validateEventCreateCommand(StringBuilder errorMessage, String categoryIdStr, String dateTimeStr, String participant1, String participant2) {
+    private void validateCommand(StringBuilder errorMessage, String categoryIdStr, String dateTimeStr, String participant1, String participant2) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (!validatorService.isValidId(categoryIdStr)) {
             errorMessage.append(MESSAGE_ERROR_INVALID_CATEGORY_ID).append(MESSAGE_SEPARATOR);
