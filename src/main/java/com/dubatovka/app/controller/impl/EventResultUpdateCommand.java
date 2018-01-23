@@ -16,45 +16,43 @@ import static com.dubatovka.app.manager.ConfigConstant.*;
 public class EventResultUpdateCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
+        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
         StringBuilder errorMessage = new StringBuilder();
+        StringBuilder infoMessage = new StringBuilder();
         
         String eventIdStr = request.getParameter(PARAM_EVENT_ID);
         String result1Str = request.getParameter(PARAM_RESULT_1);
         String result2Str = request.getParameter(PARAM_RESULT_2);
+        Event event = new Event();
         
         validateRequestParams(errorMessage, result1Str, result2Str);
+        setAndCheckEventNotNull(eventIdStr, event, errorMessage);
+        validateCommand(errorMessage, result1Str, result2Str);
         if (errorMessage.toString().trim().isEmpty()) {
+            event.setResult1(result1Str.trim());
+            event.setResult2(result2Str.trim());
             try (EventService eventService = ServiceFactory.getEventService()) {
-                Event event = eventService.getEvent(eventIdStr);
-                validateEventNotNull(event, errorMessage);
-                validateCommand(errorMessage, result1Str, result2Str);
-                if (errorMessage.toString().trim().isEmpty()) {
-                    event.setResult1(result1Str.trim());
-                    event.setResult2(result2Str.trim());
-                    eventService.updateEventResult(event, errorMessage);
-                    if (errorMessage.toString().trim().isEmpty()) {
-                        request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS);
-                    } else {
-                        request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_EVENT_UPDATE_INFO_FAIL);
-                    }
-                } else {
-                    request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString());
-                }
+                eventService.updateEventResult(event, errorMessage);
             }
-        } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_INVALID_REQUEST_PARAMETER);
+            if (errorMessage.toString().trim().isEmpty()) {
+                request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS);
+            } else {
+                request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_EVENT_UPDATE_INFO_FAIL);
+            }
         }
-        
-        return PageNavigator.FORWARD_PREV_QUERY;
+    
+        setErrorMessagesToRequest(errorMessage, request);
+        setInfoMessagesToRequest(infoMessage, request);
+        return navigator;
     }
     
     private void validateCommand(StringBuilder errorMessage, String result1Str, String result2Str) {
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (errorMessage.toString().trim().isEmpty()) {
+            ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidEventResult(result1Str)) {
                 errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_RESULT).append(MESSAGE_SEPARATOR);
             }

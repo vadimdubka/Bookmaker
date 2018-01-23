@@ -1,6 +1,5 @@
 package com.dubatovka.app.controller.impl.authorization;
 
-
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.manager.MessageManager;
@@ -14,41 +13,15 @@ import javax.servlet.http.HttpSession;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class RegisterCommand implements Command {
-    
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator;
-        
-        String errorMessage = validateRequestParams(request);
-        
-        if (errorMessage.isEmpty()) {
-            try (PlayerService playerService = ServiceFactory.getPlayerService()) {
-                String email = request.getParameter(PARAM_EMAIL);
-                String password = request.getParameter(PARAM_PASSWORD);
-                String fName = request.getParameter(PARAM_FNAME);
-                String mName = request.getParameter(PARAM_MNAME);
-                String lName = request.getParameter(PARAM_LNAME);
-                String birthDate = request.getParameter(PARAM_BIRTHDATE);
-                if (playerService.registerPlayer(email, password, fName, mName, lName, birthDate)) {
-                    navigator = PageNavigator.REDIRECT_GOTO_INDEX;
-                } else {
-                    navigator = PageNavigator.FORWARD_PAGE_REGISTER;
-                }
-            }
-        } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage);
-            navigator = PageNavigator.FORWARD_PAGE_REGISTER;
-        }
-        return navigator;
-    }
-    
-    private String validateRequestParams(HttpServletRequest request) {
-        StringBuilder errorMessage;
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
+        PageNavigator navigator = PageNavigator.FORWARD_PAGE_REGISTER;
         HttpSession session = request.getSession();
+        
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        errorMessage = new StringBuilder();
+        StringBuilder errorMessage = new StringBuilder();
+        StringBuilder infoMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
@@ -58,17 +31,36 @@ public class RegisterCommand implements Command {
         String lName = request.getParameter(PARAM_LNAME);
         String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
+        validateRequestParams(errorMessage, email, password, passwordAgain, fName, mName, lName, birthDate);
+        validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageManager, errorMessage, request);
+        if (errorMessage.toString().trim().isEmpty()) {
+            try (PlayerService playerService = ServiceFactory.getPlayerService()) {
+                boolean isRegPlayer = playerService.registerPlayer(email, password, fName, mName, lName, birthDate);
+                if (isRegPlayer) {
+                    navigator = PageNavigator.REDIRECT_GOTO_INDEX;
+                }
+            }
+        } else {
+            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage);
+            navigator = PageNavigator.FORWARD_PAGE_REGISTER;
+        }
+    
+        setErrorMessagesToRequest(errorMessage, request);
+        setInfoMessagesToRequest(infoMessage, request);
+        return navigator;
+    }
+    
+    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageManager messageManager, StringBuilder errorMessage, HttpServletRequest request) {
+        ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (validatorService.isValidEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
         }
-        
         if (!validatorService.isValidPassword(password, passwordAgain)) {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(WHITESPACE)
                     .append(messageManager.getMessage(MESSAGE_PASSWORD_MISMATCH)).append(MESSAGE_SEPARATOR);
         }
-        
         if (validatorService.isValidName(fName)) {
             request.setAttribute(ATTR_FNAME_INPUT, fName);
         } else {
@@ -89,7 +81,5 @@ public class RegisterCommand implements Command {
         } else {
             errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_BIRTHDATE)).append(MESSAGE_SEPARATOR);
         }
-        
-        return errorMessage.toString().trim();
     }
 }

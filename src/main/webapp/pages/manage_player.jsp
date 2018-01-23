@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--TODO удалить или доделать--%>
 <main class="row container">
     <section class="section-center">
         <div class="section-header"><h2>Игроки, зарегистрированные в системе</h2></div>

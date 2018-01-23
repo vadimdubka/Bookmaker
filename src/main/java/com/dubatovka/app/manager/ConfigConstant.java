@@ -105,6 +105,10 @@ public final class ConfigConstant {
     public static final String ATTR_CATEGORY_ID = "category_id";
     public static final String ATTR_WIN_BET_COUNT = "win_bet_count";
     public static final String ATTR_WIN_BET_SUM = "win_bet_sum";
+    public static final String ATTR_BET_LIST = "bet_list";
+    public static final String ATTR_EVENT_MAP = "event_map";
+    public static final String ATTR_CATEGORY_MAP = "category_map";
+    public static final String ATTR_SPORT_MAP = "sport_map";
     
     
     /**
@@ -195,6 +199,7 @@ public final class ConfigConstant {
     public static final String MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS = "Событие успешно обновлено.";
     public static final String MESSAGE_INFO_PAY_WIN_BET_SUCCESS = "Выигравшие ставки успешно оплачены.";
     public static final String MESSAGE_INFO_OUTCOME_UPDATE_SUCCESS = "Исходы событий успешно обновлены.";
+    public static final String MESSAGE_ERROR_PLAYER_NOT_DEFINED = "Невозможно перейти на страницу, т.к. игрок не определен.";
     
     /**
      * Navigation response types

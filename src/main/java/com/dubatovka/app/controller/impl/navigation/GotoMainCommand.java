@@ -24,11 +24,13 @@ public class GotoMainCommand implements Command {
     
     @Override
     public PageNavigator execute(HttpServletRequest request) {
+        PageNavigator navigator = PageNavigator.FORWARD_PAGE_MAIN;
         HttpSession session = request.getSession();
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
         StringBuilder errorMessage = new StringBuilder();
+        StringBuilder infoMessage = new StringBuilder();
         
         String categoryIdStr = request.getParameter(PARAM_CATEGORY_ID);
         String eventQueryType = (String) session.getAttribute(ATTR_EVENT_QUERY_TYPE);
@@ -46,45 +48,44 @@ public class GotoMainCommand implements Command {
             request.setAttribute(ATTR_SPORT_SET, sportSet);
             request.setAttribute(ATTR_EVENT_COUNT_MAP, eventCountMap);
             
-            //TODO оптимизировать метод
             if (categoryIdStr != null) {
-                Set<Event> eventSet = eventService.getEvents(categoryIdStr, eventQueryType);
-                Map<String, Map<String, String>> coeffColumnMaps = eventService.getOutcomeColumnMaps(eventSet);
-                Map<String, String> type1Map = coeffColumnMaps.get(Outcome.Type.TYPE_1.getType());
-                Map<String, String> typeXMap = coeffColumnMaps.get(Outcome.Type.TYPE_X.getType());
-                Map<String, String> type2Map = coeffColumnMaps.get(Outcome.Type.TYPE_2.getType());
-                
-                request.setAttribute(ATTR_EVENT_SET, eventSet);
-                request.setAttribute(ATTR_CATEGORY_ID, categoryIdStr);
-                request.setAttribute(ATTR_TYPE_1_MAP, type1Map);
-                request.setAttribute(ATTR_TYPE_X_MAP, typeXMap);
-                request.setAttribute(ATTR_TYPE_2_MAP, type2Map);
-                
-                if (EVENT_GOTO_SHOW_TO_PAY.equals(eventCommandType)) {
-                    validateCommand(errorMessage, categoryIdStr);
-                    if (errorMessage.toString().trim().isEmpty()) {
+                validateCommand(errorMessage, categoryIdStr);
+                if (errorMessage.toString().trim().isEmpty()) {
+                    Set<Event> eventSet = eventService.getEvents(categoryIdStr, eventQueryType);
+                    Map<String, Map<String, String>> coeffColumnMaps = eventService.getOutcomeColumnMaps(eventSet);
+                    Map<String, String> type1Map = coeffColumnMaps.get(Outcome.Type.TYPE_1.getType());
+                    Map<String, String> typeXMap = coeffColumnMaps.get(Outcome.Type.TYPE_X.getType());
+                    Map<String, String> type2Map = coeffColumnMaps.get(Outcome.Type.TYPE_2.getType());
+                    request.setAttribute(ATTR_EVENT_SET, eventSet);
+                    request.setAttribute(ATTR_CATEGORY_ID, categoryIdStr);
+                    request.setAttribute(ATTR_TYPE_1_MAP, type1Map);
+                    request.setAttribute(ATTR_TYPE_X_MAP, typeXMap);
+                    request.setAttribute(ATTR_TYPE_2_MAP, type2Map);
+                    
+                    if (EVENT_GOTO_SHOW_TO_PAY.equals(eventCommandType)) {
                         int categoryId = Integer.parseInt(categoryIdStr);
                         Map<String, Map<String, String>> winBetInfoMap = betService.getWinBetInfo(categoryId);
                         Map<String, String> winBetCount = winBetInfoMap.get(WIN_BET_INFO_KEY_COUNT);
                         Map<String, String> winBetSum = winBetInfoMap.get(WIN_BET_INFO_KEY_SUM);
                         request.setAttribute(ATTR_WIN_BET_COUNT, winBetCount);
                         request.setAttribute(ATTR_WIN_BET_SUM, winBetSum);
-                    } else {
-                        request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString());
                     }
                 }
             }
         }
         
         QueryManager.saveQueryToSession(request);
-        return PageNavigator.FORWARD_PAGE_MAIN;
+        setErrorMessagesToRequest(errorMessage, request);
+        setInfoMessagesToRequest(infoMessage, request);
+        return navigator;
     }
     
-    //TODO оптимизировать метод
     private void validateCommand(StringBuilder errorMessage, String categoryIdStr) {
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
-        if (!validatorService.isValidId(categoryIdStr)) {
-            errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+        if (errorMessage.toString().trim().isEmpty()) {
+            ValidatorService validatorService = ServiceFactory.getValidatorService();
+            if (!validatorService.isValidId(categoryIdStr)) {
+                errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+            }
         }
     }
 }

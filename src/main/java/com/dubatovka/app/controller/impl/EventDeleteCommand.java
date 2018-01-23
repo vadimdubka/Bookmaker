@@ -15,41 +15,41 @@ import static com.dubatovka.app.manager.ConfigConstant.*;
 public class EventDeleteCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
+        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
         StringBuilder errorMessage = new StringBuilder();
+        StringBuilder infoMessage = new StringBuilder();
         
         String eventIdStr = request.getParameter(PARAM_EVENT_ID);
         
         validateRequestParams(errorMessage, eventIdStr);
+        validateCommand(errorMessage, eventIdStr);
         if (errorMessage.toString().trim().isEmpty()) {
+            int eventId = Integer.parseInt(eventIdStr);
             try (EventService eventService = ServiceFactory.getEventService()) {
-                validateCommand(errorMessage, eventIdStr);
-                if (errorMessage.toString().trim().isEmpty()) {
-                    int eventId = Integer.parseInt(eventIdStr);
-                    eventService.deleteEvent(eventId, errorMessage);
-                    if (errorMessage.toString().trim().isEmpty()) {
-                        request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_EVENT_DELETE_SUCCESS);
-                    } else {
-                        request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_EVENT_DELETE_FAIL);
-                    }
-                } else {
-                    request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString());
-                }
+                eventService.deleteEvent(eventId, errorMessage);
             }
-        } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERROR_INVALID_REQUEST_PARAMETER);
+            if (errorMessage.toString().trim().isEmpty()) {
+                infoMessage.append(MESSAGE_INFO_EVENT_DELETE_SUCCESS).append(MESSAGE_SEPARATOR);
+            } else {
+                errorMessage.append(MESSAGE_ERROR_EVENT_DELETE_FAIL).append(MESSAGE_SEPARATOR);
+            }
         }
     
-        return PageNavigator.FORWARD_PREV_QUERY;
+        setErrorMessagesToRequest(errorMessage, request);
+        setInfoMessagesToRequest(infoMessage, request);
+        return navigator;
     }
     
     private void validateCommand(StringBuilder errorMessage, String eventIdStr) {
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
-        if (!validatorService.isValidId(eventIdStr)) {
-            errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+        if (errorMessage.toString().trim().isEmpty()) {
+            ValidatorService validatorService = ServiceFactory.getValidatorService();
+            if (!validatorService.isValidId(eventIdStr)) {
+                errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+            }
         }
     }
 }

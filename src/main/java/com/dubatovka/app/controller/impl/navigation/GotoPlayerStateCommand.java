@@ -22,24 +22,19 @@ import java.util.Map;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class GotoPlayerStateCommand implements Command {
-    public static final String MESSAGE_ERROR_PLAYER_NOT_DEFINED = "Невозможно перейти на страницу, т.к. игрок не определен.";
-    public static final String ATTR_BET_LIST = "bet_list";
-    public static final String ATTR_EVENT_MAP = "event_map";
-    public static final String ATTR_CATEGORY_MAP = "category_map";
-    public static final String ATTR_SPORT_MAP = "sport_map";
-    
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator;
+        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
         StringBuilder errorMessage = new StringBuilder();
+        StringBuilder infoMessage = new StringBuilder();
         
         Player player = (Player) session.getAttribute(PLAYER);
         
-        validateParams(player, errorMessage);
+        validateCommand(player, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
             try (BetService betService = ServiceFactory.getBetService(); EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService(); PlayerService playerService = ServiceFactory.getPlayerService()) {
                 List<Bet> betList = betService.getBetListForPlayer(player.getId());
@@ -62,16 +57,18 @@ public class GotoPlayerStateCommand implements Command {
                 request.setAttribute(ATTR_SPORT_MAP, sportMap);
                 navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
             }
-        } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString().trim());
-            navigator = PageNavigator.FORWARD_PREV_QUERY;
         }
+    
+        setErrorMessagesToRequest(errorMessage, request);
+        setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     
-    private void validateParams(Player player, StringBuilder errorMessage) {
-        if (player == null) {
-            errorMessage.append(MESSAGE_ERROR_PLAYER_NOT_DEFINED);
+    private void validateCommand(Player player, StringBuilder errorMessage) {
+        if (errorMessage.toString().trim().isEmpty()) {
+            if (player == null) {
+                errorMessage.append(MESSAGE_ERROR_PLAYER_NOT_DEFINED);
+            }
         }
     }
 }

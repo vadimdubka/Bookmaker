@@ -18,52 +18,48 @@ import javax.servlet.http.HttpSession;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class LoginCommand implements Command {
-    
     @Override
     public PageNavigator execute(HttpServletRequest request) {
+        PageNavigator navigator = PageNavigator.FORWARD_PAGE_INDEX;
         HttpSession session = request.getSession();
+        
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
         StringBuilder errorMessage = new StringBuilder();
+        StringBuilder infoMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
         
-        boolean isValid = isValidData(email, password, errorMessage, messageManager);
-        if (isValid) {
-            User user;
+        validateRequestParams(errorMessage, email, password);
+        validateCommand(email, password, errorMessage, messageManager);
+        if (errorMessage.toString().trim().isEmpty()) {
             try (UserService userService = ServiceFactory.getUserService()) {
-                user = userService.authorizeUser(email, password);
+                User user = userService.authorizeUser(email, password);
+                if (user != null) {
+                    setUserToSession(user, session);
+                } else {
+                    errorMessage.append(messageManager.getMessage(MESSAGE_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
+                }
             }
-            if (user != null) {
-                setUserToSession(user, session);
-            } else {
-                errorMessage.append(messageManager.getMessage(MESSAGE_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
-                request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString().trim());
-                request.setAttribute(ATTR_EMAIL_INPUT, email);
-            }
-        } else {
-            request.setAttribute(ATTR_EMAIL_INPUT, email);
-            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage.toString().trim());
         }
-        PageNavigator navigator = PageNavigator.FORWARD_PAGE_INDEX;
+    
+        setErrorMessagesToRequest(errorMessage, request);
+        setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     
-    private boolean isValidData(String email, String password, StringBuilder errorMessage, MessageManager messageManager) {
-        boolean valid;
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
-        valid = true;
-        
-        if (!validatorService.isValidEmail(email)) {
-            errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
-            valid = false;
+    private void validateCommand(String email, String password, StringBuilder errorMessage, MessageManager messageManager) {
+        if (errorMessage.toString().trim().isEmpty()) {
+            ValidatorService validatorService = ServiceFactory.getValidatorService();
+            
+            if (!validatorService.isValidEmail(email)) {
+                errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
+            }
+            if (!validatorService.isValidPassword(password)) {
+                errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
+            }
         }
-        if (!validatorService.isValidPassword(password)) {
-            errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
-            valid = false;
-        }
-        return valid;
     }
     
     private void setUserToSession(User user, HttpSession session) {

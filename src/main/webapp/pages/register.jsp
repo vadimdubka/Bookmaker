@@ -9,7 +9,7 @@
                 <div class="input-block">
                     <label class="required" for="email-input"><fmt:message key="register.email"/></label>
                     <span id="err-email" class="err-msg"></span>
-                    <input id="email-input" type="email" name="email" value=""
+                    <input id="email-input" type="email" name="email" value="${email_input}"
                            pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
                            title="<fmt:message key="register.email.title"/>"
                            maxlength="320" required/>
@@ -33,25 +33,25 @@
                 <div class="input-block">
                     <label for="lname-input"><fmt:message key="register.lname"/></label>
                     <span id="err-lname" class="err-msg"></span>
-                    <input id="lname-input" type="text" name="lname" value="" pattern="[A-Za-z]{1,70}"
+                    <input id="lname-input" type="text" name="lname" value="${lname_input}" pattern="[A-Za-z]{1,70}"
                            title="<fmt:message key="register.lname.title"/>" required/>
                 </div>
                 <div class="input-block">
                     <label for="fname-input"><fmt:message key="register.fname"/></label>
                     <span id="err-fname" class="err-msg"></span>
-                    <input id="fname-input" type="text" name="fname" value="" pattern="[A-Za-z]{1,70}"
+                    <input id="fname-input" type="text" name="fname" value="${fname_input}" pattern="[A-Za-z]{1,70}"
                            title="<fmt:message key="register.fname.title"/>" required/>
                 </div>
                 <div class="input-block">
                     <label for="mname-input"><fmt:message key="register.mname"/></label>
                     <span id="err-mname" class="err-msg"></span>
-                    <input id="mname-input" type="text" name="mname" value="" pattern="[A-Za-z]{1,70}"
+                    <input id="mname-input" type="text" name="mname" value="${mname_input}" pattern="[A-Za-z]{1,70}"
                            title="<fmt:message key="register.mname.title"/>" required/>
                 </div>
                 <div class="input-block">
                     <label class="required" for="birthdate-input"><fmt:message key="register.birthdate"/></label>
                     <span id="err-bdate" class="err-msg"></span>
-                    <input id="birthdate-input" type="date" name="birthdate" value=""
+                    <input id="birthdate-input" type="date" name="birthdate" value="${birthdate_input}"
                            min="1900-01-01" title="<fmt:message key="register.birthdate.title"/>" required/>
                 </div>
                 <div class="input-block">
