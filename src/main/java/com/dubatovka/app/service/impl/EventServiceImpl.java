@@ -53,7 +53,7 @@ public class EventServiceImpl extends EventService {
     public Event getEvent(int eventId) {
         Event event = null;
         try {
-            event = eventDAO.getEvent(eventId);
+            event = eventDAO.readEvent(eventId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }

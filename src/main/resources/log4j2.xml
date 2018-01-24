@@ -2,7 +2,7 @@
 
 <configuration>
     <properties>
-        <property name="name">simpleweb</property>
+        <property name="name">bookmaker</property>
         <property name="pattern_to_file">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %-55logger{36} line:%-4L : %msg%n
         </property>
         <property name="pattern_to_console">%d{mm:ss} |%12t | %-5level %-20logger{2} line:%-3L : %msg%n</property>

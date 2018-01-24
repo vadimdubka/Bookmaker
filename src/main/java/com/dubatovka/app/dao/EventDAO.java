@@ -19,11 +19,9 @@ public interface EventDAO {
     String RESULT2 = "result2";
     String COUNT = "count";
     
-    Event getEvent(int eventId) throws DAOException;
+    Event readEvent(int eventId) throws DAOException;
     
     Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException;
-    
-    Map<Integer, Integer> countEvents(String eventQueryType) throws DAOException;
     
     void deleteEvent(int eventId) throws DAOException;
     
@@ -32,4 +30,6 @@ public interface EventDAO {
     void updateEventInfo(Event event) throws DAOException;
     
     boolean updateEventResult(Event event) throws DAOException;
+    
+    Map<Integer, Integer> countEvents(String eventQueryType) throws DAOException;
 }

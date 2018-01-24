@@ -17,7 +17,6 @@ public class ValidatorServiceImplTest {
     @Test
     public void emailValidCheck() {
         String validEmail = "any@valid.by";
-        
         Assert.assertTrue(validatorService.isValidEmail(validEmail));
     }
     
