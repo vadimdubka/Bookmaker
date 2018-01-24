@@ -175,8 +175,9 @@ public final class ConfigConstant {
     public static final String MESSAGE_ERROR_BET_GOTO_REGISTRATION = "Чтобы сделать ставку, пожалуйста, зарегистрируйтесь и войдите в систему";
     public static final String MESSAGE_ERROR_BET_FOR_EMPLOYEE = "Сотрудники букмекерской компании не могут делать ставки.";
     public static final String MESSAGE_ERROR_BET_AMOUNT_INVALID = "Введенное число не является валидным. Число должно быть больше нуля, меньше либо равно 999.99, число может быть дробным и содержать два знака после запятой.";
-    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BALANCE = "Введенная сумма ставки превышает баланс на счету игрока. Сделайте ставку меньше.";
-    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BET_LIMIT = "Введенная сумма ставки превышает лимит по ставкам. Сделайте ставку меньше.";
+    public static final String MESSAGE_ERROR_PLAYER_STATUS_BAN = "Игрок забанен.";
+    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BALANCE = "Введенная сумма ставки превышает баланс на счету игрока.";
+    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BET_LIMIT = "Введенная сумма ставки превышает лимит по ставкам.";
     public static final String MESSAGE_ERROR_OUTCOME_COEFF = "Коэффициет исхода по выбранному событию изменился с тех пор, как вы решили сделать ставку. Проверьте выбранный коэффициент еще раз.";
     public static final String MESSAGE_ERROR_BET_TIME = "Время, отведенное на ставку, истекло.";
     public static final String MESSAGE_ERROR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления. Вероятно, уже сделана ставка на аналогичный исход события.";

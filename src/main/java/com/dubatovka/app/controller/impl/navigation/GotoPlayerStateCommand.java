@@ -67,8 +67,8 @@ public class GotoPlayerStateCommand implements Command {
                 request.setAttribute(ATTR_CATEGORY_MAP, categoryMap);
                 request.setAttribute(ATTR_SPORT_MAP, sportMap);
                 request.setAttribute(ATTR_PAGINATION, paginationService);
+                navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
             }
-            navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
         }
         
         setErrorMessagesToRequest(errorMessage, request);

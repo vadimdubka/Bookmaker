@@ -2,10 +2,7 @@ package com.dubatovka.app.controller.impl;
 
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
-import com.dubatovka.app.entity.Bet;
-import com.dubatovka.app.entity.Event;
-import com.dubatovka.app.entity.Player;
-import com.dubatovka.app.entity.User;
+import com.dubatovka.app.entity.*;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.PlayerService;
@@ -58,7 +55,7 @@ public class MakeBetCommand implements Command {
                 }
             }
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         setInfoMessagesToRequest(infoMessage, request);
         return navigator;
@@ -76,6 +73,10 @@ public class MakeBetCommand implements Command {
             if (!validatorService.isValidOutcomeCoeffOnPage(outcomeCoeffOnPage, event, outcomeType)) {
                 errorMessage.append(MESSAGE_ERROR_OUTCOME_COEFF).append(MESSAGE_SEPARATOR);
             }
+    
+            if (player.getAccount().getStatus().getStatus() == PlayerStatus.Status.BAN) {
+                errorMessage.append(MESSAGE_ERROR_PLAYER_STATUS_BAN).append(MESSAGE_SEPARATOR);
+            }
             
             if (validatorService.isValidBetAmount(betAmountStr)) {
                 BigDecimal betAmount = new BigDecimal(betAmountStr);
@@ -90,6 +91,8 @@ public class MakeBetCommand implements Command {
             } else {
                 errorMessage.append(MESSAGE_ERROR_BET_AMOUNT_INVALID).append(MESSAGE_SEPARATOR);
             }
+            
+            
         }
     }
     
