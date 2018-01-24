@@ -24,6 +24,10 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     
     private static final String SQL_SELECT_BET_BY_PLAYER_ID = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC";
     
+    private static final String SQL_COUNT_BET_BY_PLAYER_ID = "SELECT COUNT(player_id) AS count FROM bet WHERE player_id = ?";
+    
+    private static final String SQL_SELECT_BET_BY_PLAYER_ID_LIMIT = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC LIMIT ? OFFSET ?";
+    
     //TODO сделать общий запрос по типу статуса, а не конкретный
     private static final String SQL_SELECT_WIN_BET_INFO_GROUP_BY_EVENT_ID =
             "SELECT event_id, COUNT(event_id) AS count, SUM(amount) AS sum FROM bet WHERE status='win' and event_id IN (SELECT id FROM event WHERE category_id=?) GROUP BY event_id;";
@@ -64,6 +68,19 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     }
     
     @Override
+    public List<Bet> readBetListForPlayer(int playerId, int limit, int offset) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BET_BY_PLAYER_ID_LIMIT)) {
+            statement.setInt(1, playerId);
+            statement.setInt(2, limit);
+            statement.setInt(3, offset);
+            ResultSet resultSet = statement.executeQuery();
+            return buildBetList(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while reading bet. " + e);
+        }
+    }
+    
+    @Override
     public Set<Bet> readBetSetForEventAndStatus(int eventId, Bet.Status status) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BET_BY_EVENT_ID_AND_STATUS)) {
             statement.setInt(1, eventId);
@@ -72,6 +89,18 @@ public class BetDAOImpl extends AbstractDBDAO implements BetDAO {
             return buildBetSet(resultSet);
         } catch (SQLException e) {
             throw new DAOException("Database connection error while reading bet. " + e);
+        }
+    }
+    
+    @Override
+    public int countBetForPlayer(int playerId) throws DAOException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_COUNT_BET_BY_PLAYER_ID);) {
+            statement.setInt(1, playerId);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(COUNT);
+        } catch (SQLException e) {
+            throw new DAOException("Database connection error while count bet. " + e);
         }
     }
     

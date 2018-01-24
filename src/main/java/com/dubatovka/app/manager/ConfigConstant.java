@@ -76,6 +76,7 @@ public final class ConfigConstant {
     public static final String ATTR_ERROR_MESSAGE = "errorMessage";
     public static final String ATTR_INFO_MESSAGE = "infoMessage";
     public static final String ATTR_SPORT_SET = "sport_set";
+    public static final String ATTR_PAGINATION = "pagination";
     
     //TODO вынести все psf поля из команд
     

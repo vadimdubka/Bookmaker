@@ -26,11 +26,15 @@ public interface BetDAO {
     
     List<Bet> readBetListForPlayer(int playerId) throws DAOException;
     
+    List<Bet> readBetListForPlayer(int playerId, int limit, int offset) throws DAOException;
+    
     void updateBetStatus(int eventId, Outcome.Type type, Bet.Status status) throws DAOException;
     
     int updateBetStatus(int eventId, Bet.Status oldStatus, Bet.Status newStatus) throws DAOException;
     
-    Map<String,Map<String,String>> readWinBetInfoMap(int categoryId) throws DAOException;
+    Map<String, Map<String, String>> readWinBetInfoMap(int categoryId) throws DAOException;
     
     Set<Bet> readBetSetForEventAndStatus(int eventId, Bet.Status status) throws DAOException;
+    
+    int countBetForPlayer(int playerId) throws DAOException;
 }

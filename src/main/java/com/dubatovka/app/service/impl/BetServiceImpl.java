@@ -46,6 +46,17 @@ public class BetServiceImpl extends BetService {
     }
     
     @Override
+    public List<Bet> getBetListForPlayer(int playerId, int limit, int offset) {
+        List<Bet> betList = null;
+        try {
+            betList = betDAO.readBetListForPlayer(playerId, limit, offset);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        }
+        return betList;
+    }
+    
+    @Override
     public Set<Bet> getBetSetForEventAndStatus(int eventId, Bet.Status status) {
         Set<Bet> betList = null;
         try {
@@ -120,6 +131,17 @@ public class BetServiceImpl extends BetService {
             logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
             errorMessage.append(MESSAGE_ERROR_SQL_TRANSACTION);
         }
+    }
+    
+    @Override
+    public int countBetsForPlayer(int playerId) {
+        int count = 0;
+        try {
+            count = betDAO.countBetForPlayer(playerId);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e.getMessage());
+        }
+        return count;
     }
     
 }

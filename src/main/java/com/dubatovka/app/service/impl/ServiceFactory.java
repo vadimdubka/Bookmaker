@@ -40,6 +40,10 @@ public final class ServiceFactory {
         return new OutcomeServiceImpl(daoHelper);
     }
     
+    public static PaginationService getPaginationService() {
+        return new PaginationServiceImpl();
+    }
+    
     public static PlayerService getPlayerService() {
         return new PlayerServiceImpl();
     }

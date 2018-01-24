@@ -7,17 +7,9 @@
             <p><b>${sessionScope.user.role} ${sessionScope.user.email}</b></p>
             <div class="col-s-8 col-4">
                 <table class="user-menu">
-                    <tr>
+                    <%--<tr>
                         <td class="name">Статус верификации:</td>
                         <td class="info">${sessionScope.player.verification.verificationStatus.status}</td>
-                    </tr>
-                    <tr>
-                        <td class="name">Статус игрока:</td>
-                        <td class="info">${sessionScope.player.account.status.status.status}</td>
-                    </tr>
-                    <tr>
-                        <td class="name">Лимит по ставкам:</td>
-                        <td class="info">${sessionScope.player.account.status.betLimit}</td>
                     </tr>
                     <tr>
                         <td class="name">Лимит на вывод в месяц:</td>
@@ -26,6 +18,14 @@
                     <tr>
                         <td class="name">Снято в этом месяце:</td>
                         <td class="info">${sessionScope.player.account.thisMonthWithdrawal}</td>
+                    </tr>--%>
+                    <tr>
+                        <td class="name">Статус игрока:</td>
+                        <td class="info">${sessionScope.player.account.status.status.status}</td>
+                    </tr>
+                    <tr>
+                        <td class="name">Лимит по ставкам:</td>
+                        <td class="info">${sessionScope.player.account.status.betLimit}</td>
                     </tr>
                     <tr>
                         <td class="name">Баланс:</td>
@@ -86,6 +86,22 @@
                     </tr>
                 </c:forEach>
             </table>
+            <c:if test="${requestScope.pagination.amountOfPages>0}">
+                <div align="center">
+                    <c:forEach var="i" begin="1" end="${requestScope.pagination.amountOfPages}">
+                        <c:choose>
+                            <c:when test="${i!=requestScope.pagination.currentPage}">
+                                <a href="controller?command_type=goto_player_state&page_number=<c:out value="${i}"/>">
+                                    <c:out value="${i}"/>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${i}"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </div>
+            </c:if>
         </div>
     </section>
 </main>

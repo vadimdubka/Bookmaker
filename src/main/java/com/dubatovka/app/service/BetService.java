@@ -18,6 +18,8 @@ public abstract class BetService extends AbstractService {
     
     public abstract List<Bet> getBetListForPlayer(int playerId);
     
+    public abstract List<Bet> getBetListForPlayer(int playerId, int limit, int offset);
+    
     public abstract Set<Bet> getBetSetForEventAndStatus(int eventId, Bet.Status status);
     
     public abstract Map<String, Map<String, String>> getWinBetInfo(int categoryId);
@@ -25,4 +27,6 @@ public abstract class BetService extends AbstractService {
     public abstract void payWinBet(int eventId, StringBuilder errorMessage);
     
     public abstract void makeBet(Bet bet, StringBuilder errorMessage);
+        
+    public abstract int countBetsForPlayer(int playerId);
 }

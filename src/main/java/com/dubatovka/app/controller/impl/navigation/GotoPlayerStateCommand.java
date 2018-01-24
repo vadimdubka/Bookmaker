@@ -10,7 +10,9 @@ import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
+import com.dubatovka.app.service.PaginationService;
 import com.dubatovka.app.service.PlayerService;
+import com.dubatovka.app.service.ValidatorService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,8 @@ import java.util.Map;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class GotoPlayerStateCommand implements Command {
+    private static final int PAGE_LIMIT = 5;
+    
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
@@ -33,11 +37,18 @@ public class GotoPlayerStateCommand implements Command {
         StringBuilder infoMessage = new StringBuilder();
         
         Player player = (Player) session.getAttribute(PLAYER);
+        String pageNumberStr = request.getParameter(PARAM_PAGE_NUMBER);
         
         validateCommand(player, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
-            try (BetService betService = ServiceFactory.getBetService(); EventService eventService = ServiceFactory.getEventService(); CategoryService categoryService = ServiceFactory.getCategoryService(); PlayerService playerService = ServiceFactory.getPlayerService()) {
-                List<Bet> betList = betService.getBetListForPlayer(player.getId());
+            try (BetService betService = ServiceFactory.getBetService(); CategoryService categoryService = ServiceFactory.getCategoryService(); EventService eventService = ServiceFactory.getEventService(); PlayerService playerService = ServiceFactory.getPlayerService()) {
+                ValidatorService validatorService = ServiceFactory.getValidatorService();
+                int pageNumber = validatorService.isValidId(pageNumberStr) ? Integer.parseInt(pageNumberStr) : 1;
+                int totalEntityAmount = betService.countBetsForPlayer(player.getId());
+                PaginationService paginationService = getPaginationService(pageNumber, totalEntityAmount);
+                int limit = paginationService.getLimitOnPage();
+                int offset = paginationService.getOffsetForPage(pageNumber);
+                List<Bet> betList = betService.getBetListForPlayer(player.getId(), limit, offset);
                 Map<Bet, Event> eventMap = new HashMap<>(betList.size());
                 Map<Bet, Category> categoryMap = new HashMap<>(betList.size());
                 Map<Bet, Category> sportMap = new HashMap<>(betList.size());
@@ -55,13 +66,20 @@ public class GotoPlayerStateCommand implements Command {
                 request.setAttribute(ATTR_EVENT_MAP, eventMap);
                 request.setAttribute(ATTR_CATEGORY_MAP, categoryMap);
                 request.setAttribute(ATTR_SPORT_MAP, sportMap);
-                navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
+                request.setAttribute(ATTR_PAGINATION, paginationService);
             }
+            navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         setInfoMessagesToRequest(infoMessage, request);
         return navigator;
+    }
+    
+    private PaginationService getPaginationService(int pageNumber, int totalEntityAmount) {
+        PaginationService paginationService = ServiceFactory.getPaginationService();
+        paginationService.buildService(totalEntityAmount, PAGE_LIMIT, pageNumber);
+        return paginationService;
     }
     
     private void validateCommand(Player player, StringBuilder errorMessage) {
