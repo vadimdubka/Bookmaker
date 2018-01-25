@@ -23,7 +23,7 @@ public interface ValidatorService {
     
     boolean isValidOutcomeCoeffOnPage(String outcomeCoeffOnPage, Event event, String outcomeType);
     
-    boolean isValidBetTime(LocalDateTime betDateTime, Event event);
+    boolean isValidBetTime(LocalDateTime betDateTime, LocalDateTime eventDateTime);
     
     boolean isValidRequestParam(String... params);
     

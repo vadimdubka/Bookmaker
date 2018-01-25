@@ -66,7 +66,7 @@ public class MakeBetCommand implements Command {
             LocalDateTime betDateTime = LocalDateTime.now();
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             
-            if (!validatorService.isValidBetTime(betDateTime, event)) {
+            if (!validatorService.isValidBetTime(betDateTime, event.getDate())) {
                 errorMessage.append(MESSAGE_ERROR_BET_TIME).append(MESSAGE_SEPARATOR);
             }
             
