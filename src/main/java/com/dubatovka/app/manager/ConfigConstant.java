@@ -2,7 +2,8 @@ package com.dubatovka.app.manager;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public final class ConfigConstant {
-    
+    //TODO удалить лишние
+    //TODO Перенести public static final String в файл с констрантами
     /**
      * User's roles
      */
@@ -27,7 +28,6 @@ public final class ConfigConstant {
     public static final String TYPE_1 = "1";
     public static final String TYPE_X = "X";
     public static final String TYPE_2 = "2";
-    
     
     /**
      * Bet Status
@@ -59,8 +59,8 @@ public final class ConfigConstant {
     public static final String PERCENT = "%";
     public static final String EMPTY_STRING = "";
     public static final String WHITESPACE = " ";
-    public static final String DOT = ".";
     public static final String ALL = "all";
+    public static final String DOT = ".";
     public static final String RANGE_SPLITERATOR = "\\D+";
     
     /**
@@ -77,14 +77,7 @@ public final class ConfigConstant {
     public static final String ATTR_INFO_MESSAGE = "infoMessage";
     public static final String ATTR_SPORT_SET = "sport_set";
     public static final String ATTR_PAGINATION = "pagination";
-    
-    //TODO вынести все psf поля из команд
-    
-    /**
-     * Attribute names.
-     */
     public static final String ATTR_PLAYERS = "players";
-    public static final String ATTR_PAGE_MODEL_BUILDER = "page_model_builder";
     public static final String ATTR_EMAIL_INPUT = "email_input";
     public static final String ATTR_FNAME_INPUT = "fname_input";
     public static final String ATTR_LNAME_INPUT = "lname_input";
@@ -101,8 +94,6 @@ public final class ConfigConstant {
     public static final String ATTR_SPORT_CATEGORY = "sportCategory";
     public static final String ATTR_EVENT = "event";
     public static final String ATTR_OUTCOME = "outcome";
-    public static final String ATTR_EDIT_TYPE = "edit_type";
-    public static final String ATTR_OUTCOME_MAP = "outcome_map";
     public static final String ATTR_CATEGORY_ID = "category_id";
     public static final String ATTR_WIN_BET_COUNT = "win_bet_count";
     public static final String ATTR_WIN_BET_SUM = "win_bet_sum";
@@ -110,7 +101,6 @@ public final class ConfigConstant {
     public static final String ATTR_EVENT_MAP = "event_map";
     public static final String ATTR_CATEGORY_MAP = "category_map";
     public static final String ATTR_SPORT_MAP = "sport_map";
-    
     
     /**
      * {@link javax.servlet.http.HttpServletRequest} parameter names
@@ -140,28 +130,6 @@ public final class ConfigConstant {
     public static final String PARAM_PARTICIPANT_2 = "participant_2";
     public static final String PARAM_RESULT_1 = "result_1";
     public static final String PARAM_RESULT_2 = "result_2";
-    /******/
-    //TODO удалить лишние
-    public static final String PARAM_AMOUNT = "amount";
-    public static final String PARAM_ANSWER = "answer";
-    public static final String PARAM_BALANCE = "balance";
-    public static final String PARAM_BET = "bet";
-    
-    public static final String PARAM_COMMAND = "command";
-    public static final String PARAM_COMMENTARY = "commentary";
-    public static final String PARAM_HEADER = "header";
-    public static final String PARAM_ID = "id";
-    public static final String PARAM_MONTH = "month";
-    public static final String PARAM_PASSPORT = "passport";
-    public static final String PARAM_SCAN = "scan";
-    public static final String PARAM_TARGET = "target";
-    public static final String PARAM_FILTER_MY = "show_my";
-    public static final String PARAM_SORT_BY_AMOUNT = "sort_by_amount";
-    public static final String PARAM_SORT_BY_REST = "sort_by_rest";
-    public static final String PARAM_SORT_BY_TOTAL = "sort_by_total";
-    public static final String PARAM_STATUS = "status";
-    public static final String PARAM_VERIFICATION = "verification";
-    public static final String PARAM_WITHDRAWAL = "withdrawal";
     
     /**
      * Server message property keys
@@ -276,25 +244,10 @@ public final class ConfigConstant {
     public static final String GOTO_STATS_REPORT = "/controller?command=goto_manage_report";
     
     /**
-     * Analyst JSP pages paths
-     */
-    public static final String PAGE_ANALYST_MAIN = "/pages/main.jsp";
-    /**
-     * Analyst navigation queries
-     */
-    public static final String GOTO_ANALYST_MAIN = "/controller?command=goto_analyst_main";
-    
-    /**
-     * Other
+     * Main controller constants.
      */
     public static final String MAIN_CONTROLLER = "MainController";
     public static final String MAIN_CONTROLLER_URL = "/controller";
-    
-    //TODO Перенести private static final String в файл с констрантами
-    /**
-     * Otcomes types for events
-     */
-    public static final String OUTCOME_TYPE_NAME_KEY = "name";
     
     /**
      * Event query types
@@ -318,12 +271,18 @@ public final class ConfigConstant {
     public static final String EVENT_GOTO_MANAGE_FAILED = "manage_failed";
     public static final String EVENT_GOTO_SHOW_TO_PAY = "show_to_pay";
     
+    /**
+     * Keys for maps
+     */
+    public static final String OUTCOME_TYPE_KEY_NAME = "name";
+    public static final String WIN_BET_INFO_KEY_COUNT = "count";
+    public static final String WIN_BET_INFO_KEY_SUM = "sum";
+    
+    /**
+     * Pattern for LocalDateTime*/
     public static final String LOCALE_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm";
     
     public static final String PREFIX_FOR_OUTCOME_TYPE = "TYPE_";
-    
-    public static final String WIN_BET_INFO_KEY_COUNT = "count";
-    public static final String WIN_BET_INFO_KEY_SUM = "sum";
     
     private ConfigConstant() {
     }

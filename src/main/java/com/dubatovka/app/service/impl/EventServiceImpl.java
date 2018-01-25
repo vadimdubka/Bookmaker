@@ -36,9 +36,9 @@ public class EventServiceImpl extends EventService {
         coeffColumnMaps.put(Outcome.Type.TYPE_X.getType(), typeX);
         coeffColumnMaps.put(Outcome.Type.TYPE_2.getType(), type2);
         
-        type1.put(OUTCOME_TYPE_NAME_KEY, Outcome.Type.TYPE_1.getType());
-        typeX.put(OUTCOME_TYPE_NAME_KEY, Outcome.Type.TYPE_X.getType());
-        type2.put(OUTCOME_TYPE_NAME_KEY, Outcome.Type.TYPE_2.getType());
+        type1.put(OUTCOME_TYPE_KEY_NAME, Outcome.Type.TYPE_1.getType());
+        typeX.put(OUTCOME_TYPE_KEY_NAME, Outcome.Type.TYPE_X.getType());
+        type2.put(OUTCOME_TYPE_KEY_NAME, Outcome.Type.TYPE_2.getType());
     }
     
     EventServiceImpl() {
