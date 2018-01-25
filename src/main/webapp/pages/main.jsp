@@ -3,14 +3,14 @@
 
     <c:choose>
         <c:when test="${sessionScope.user == null}">
-            <%@include file="jspf/user-login.jspf" %>
+            <%@include file="jspf/user_login.jspf" %>
         </c:when>
         <c:otherwise>
-            <%@include file="jspf/user-menu.jspf" %>
+            <%@include file="jspf/user_menu.jspf" %>
         </c:otherwise>
     </c:choose>
 
-    <%@include file="jspf/sport-category.jspf" %>
+    <%@include file="jspf/sport_category.jspf" %>
 
     <c:set var="event_goto_type" value="${sessionScope.event_command_type}" scope="page"/>
     <c:choose>

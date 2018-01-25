@@ -3,7 +3,12 @@ package com.dubatovka.app.dao.impl;
 import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.db.WrappedConnection;
-import com.dubatovka.app.entity.*;
+import com.dubatovka.app.entity.Player;
+import com.dubatovka.app.entity.PlayerAccount;
+import com.dubatovka.app.entity.PlayerProfile;
+import com.dubatovka.app.entity.PlayerStatus;
+import com.dubatovka.app.entity.PlayerVerification;
+import com.dubatovka.app.entity.Transaction;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;

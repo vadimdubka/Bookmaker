@@ -23,10 +23,6 @@ public class Transaction {
     
     private TransactionType type;
     
-    public enum TransactionType {
-        REPLENISH, WITHDRAW
-    }
-    
     public int getId() {
         return id;
     }
@@ -100,5 +96,9 @@ public class Transaction {
                 ", date=" + date +
                 ", amount=" + amount +
                 '}';
+    }
+    
+    public enum TransactionType {
+        REPLENISH, WITHDRAW
     }
 }

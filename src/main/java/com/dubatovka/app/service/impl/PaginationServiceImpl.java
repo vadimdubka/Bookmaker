@@ -36,11 +36,10 @@ public class PaginationServiceImpl implements PaginationService {
     }
     
     @Override
-    public int getOffsetForPage(int pageNumber) {
+    public int getOffset() {
         if (!isStateValid) {
             throw new IllegalStateException("Pagination service is not built.");
         }
-        setCurrentPage(pageNumber);
         
         int amountOfPreviousPages = currentPage - 1;
         if (amountOfPreviousPages < 0) {

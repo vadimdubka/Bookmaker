@@ -7,6 +7,7 @@ import com.dubatovka.app.service.PlayerService;
 import com.dubatovka.app.service.ValidatorService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +22,6 @@ public class RegisterCommand implements Command {
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
         StringBuilder errorMessage = new StringBuilder();
-        StringBuilder infoMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
@@ -46,11 +46,10 @@ public class RegisterCommand implements Command {
         }
     
         setErrorMessagesToRequest(errorMessage, request);
-        setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     
-    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageManager messageManager, StringBuilder errorMessage, HttpServletRequest request) {
+    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageManager messageManager, StringBuilder errorMessage, ServletRequest request) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (validatorService.isValidEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);

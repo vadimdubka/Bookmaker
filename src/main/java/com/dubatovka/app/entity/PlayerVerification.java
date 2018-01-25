@@ -18,20 +18,6 @@ public class PlayerVerification {
      */
     private String passport;
     
-    public enum VerificationStatus {
-        UNVERIFIED(ConfigConstant.UNVERIFIED), REQUEST(ConfigConstant.REQUEST), VERIFIED(ConfigConstant.VERIFIED);
-        
-        private final String status;
-    
-        VerificationStatus(String status) {
-            this.status = status;
-        }
-        
-        public String getStatus() {
-            return status;
-        }
-    }
-    
     public String getCountry() {
         return country;
     }
@@ -84,5 +70,19 @@ public class PlayerVerification {
                 ", country='" + country + '\'' +
                 ", passport='" + passport + '\'' +
                 '}';
+    }
+    
+    public enum VerificationStatus {
+        UNVERIFIED(ConfigConstant.UNVERIFIED), REQUEST(ConfigConstant.REQUEST), VERIFIED(ConfigConstant.VERIFIED);
+        
+        private final String status;
+        
+        VerificationStatus(String status) {
+            this.status = status;
+        }
+        
+        public String getStatus() {
+            return status;
+        }
     }
 }

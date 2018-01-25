@@ -27,23 +27,6 @@ public class Bet {
         this.status = status;
     }
     
-    public enum Status {
-        NEW(ConfigConstant.NEW),
-        LOSING(ConfigConstant.LOSING),
-        WIN(ConfigConstant.WIN),
-        PAID(ConfigConstant.PAID);
-        
-        private final String status;
-        
-        Status(String status) {
-            this.status = status;
-        }
-        
-        public String getStatus() {
-            return status;
-        }
-    }
-    
     public int getPlayerId() {
         return playerId;
     }
@@ -140,5 +123,22 @@ public class Bet {
                 ", amount=" + amount +
                 ", status=" + status +
                 '}';
+    }
+    
+    public enum Status {
+        NEW(ConfigConstant.NEW),
+        LOSING(ConfigConstant.LOSING),
+        WIN(ConfigConstant.WIN),
+        PAID(ConfigConstant.PAID);
+        
+        private final String status;
+        
+        Status(String status) {
+            this.status = status;
+        }
+        
+        public String getStatus() {
+            return status;
+        }
     }
 }

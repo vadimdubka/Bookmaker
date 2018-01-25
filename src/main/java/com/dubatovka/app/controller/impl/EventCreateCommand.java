@@ -33,23 +33,23 @@ public class EventCreateCommand implements Command {
         validateRequestParams(errorMessage, categoryIdStr, dateTimeStr, participant1, participant2);
         validateCommand(errorMessage, categoryIdStr, dateTimeStr, participant1, participant2);
         if (errorMessage.toString().trim().isEmpty()) {
+            int categoryId = Integer.parseInt(categoryIdStr);
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr);
+            Event event = new Event();
+            event.setCategoryId(categoryId);
+            event.setDate(dateTime);
+            event.setParticipant1(participant1.trim());
+            event.setParticipant2(participant2.trim());
             try (EventService eventService = ServiceFactory.getEventService()) {
-                int categoryId = Integer.parseInt(categoryIdStr);
-                LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr);
-                Event event = new Event();
-                event.setCategoryId(categoryId);
-                event.setDate(dateTime);
-                event.setParticipant1(participant1.trim());
-                event.setParticipant2(participant2.trim());
                 eventService.insertEvent(event, errorMessage);
-                if (errorMessage.toString().trim().isEmpty()) {
-                    infoMessage.append(MESSAGE_INFO_EVENT_CREATE_SUCCESS).append(MESSAGE_SEPARATOR);
-                } else {
-                    errorMessage.append(MESSAGE_ERROR_EVENT_CREATE_FAIL).append(MESSAGE_SEPARATOR);
-                }
+            }
+            if (errorMessage.toString().trim().isEmpty()) {
+                infoMessage.append(MESSAGE_INFO_EVENT_CREATE_SUCCESS).append(MESSAGE_SEPARATOR);
+            } else {
+                errorMessage.append(MESSAGE_ERROR_EVENT_CREATE_FAIL).append(MESSAGE_SEPARATOR);
             }
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         setInfoMessagesToRequest(infoMessage, request);
         return navigator;

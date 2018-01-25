@@ -5,7 +5,11 @@ import com.dubatovka.app.dao.db.WrappedConnection;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Event;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

@@ -26,7 +26,6 @@ public class LoginCommand implements Command {
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
         StringBuilder errorMessage = new StringBuilder();
-        StringBuilder infoMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
@@ -43,9 +42,8 @@ public class LoginCommand implements Command {
                 }
             }
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
-        setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     

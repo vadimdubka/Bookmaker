@@ -10,7 +10,7 @@ public interface PaginationService {
     
     int getCurrentPage();
     
-    int getOffsetForPage(int pageNumber);
+    int getOffset();
     
     void buildService(int totalEntityAmount, int limitOnPage, int currentPage);
 }

@@ -14,7 +14,7 @@ import java.io.IOException;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 @WebServlet(name = MAIN_CONTROLLER, urlPatterns = {MAIN_CONTROLLER_URL})
-public class MainController extends HttpServlet {
+public class MainControllerServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

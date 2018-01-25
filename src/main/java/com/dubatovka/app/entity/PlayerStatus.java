@@ -18,20 +18,6 @@ public class PlayerStatus {
      */
     private BigDecimal withdrawalLimit;
     
-    public enum Status {
-        UNVERIFIED(ConfigConstant.UNVERIFIED), BASIC(ConfigConstant.BASIC), VIP(ConfigConstant.VIP), BAN(ConfigConstant.BAN);
-        
-        private final String status;
-        
-        Status(String status) {
-            this.status = status;
-        }
-        
-        public String getStatus() {
-            return status;
-        }
-    }
-    
     public Status getStatus() {
         return status;
     }
@@ -84,5 +70,19 @@ public class PlayerStatus {
                 ", betLimit=" + betLimit +
                 ", withdrawalLimit=" + withdrawalLimit +
                 '}';
+    }
+    
+    public enum Status {
+        UNVERIFIED(ConfigConstant.UNVERIFIED), BASIC(ConfigConstant.BASIC), VIP(ConfigConstant.VIP), BAN(ConfigConstant.BAN);
+        
+        private final String status;
+        
+        Status(String status) {
+            this.status = status;
+        }
+        
+        public String getStatus() {
+            return status;
+        }
     }
 }

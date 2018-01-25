@@ -148,7 +148,7 @@ public class ValidatorServiceImpl implements ValidatorService {
         boolean result = (eventResult != null) && isMatchPattern(eventResult, RESULT_REGEX);
         if (result) {
             int i = Integer.parseInt(eventResult);
-            result = (i > 0) && (i < 1000);
+            result = (i >= 0) && (i < 1000);
         }
         return result;
     }

@@ -12,23 +12,6 @@ public class User {
     private UserRole role;
     private LocalDate registrationDate;
     
-    public enum UserRole {
-        GUEST(ConfigConstant.GUEST),
-        PLAYER(ConfigConstant.PLAYER),
-        ADMIN(ConfigConstant.ADMIN),
-        ANALYST(ConfigConstant.ANALYST);
-        
-        private final String role;
-        
-        UserRole(String role) {
-            this.role = role;
-        }
-        
-        public String getRole() {
-            return role;
-        }
-    }
-    
     public int getId() {
         return id;
     }
@@ -61,7 +44,6 @@ public class User {
         this.registrationDate = registrationDate;
     }
     
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -90,6 +72,23 @@ public class User {
                 ", role=" + role +
                 ", registrationDate=" + registrationDate +
                 '}';
+    }
+    
+    public enum UserRole {
+        GUEST(ConfigConstant.GUEST),
+        PLAYER(ConfigConstant.PLAYER),
+        ADMIN(ConfigConstant.ADMIN),
+        ANALYST(ConfigConstant.ANALYST);
+        
+        private final String role;
+        
+        UserRole(String role) {
+            this.role = role;
+        }
+        
+        public String getRole() {
+            return role;
+        }
     }
     
 }

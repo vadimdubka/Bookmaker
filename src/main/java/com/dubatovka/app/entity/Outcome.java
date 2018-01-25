@@ -18,20 +18,6 @@ public class Outcome {
         this.type = type;
     }
     
-    public enum Type {
-        TYPE_1(ConfigConstant.TYPE_1), TYPE_X(ConfigConstant.TYPE_X), TYPE_2(ConfigConstant.TYPE_2);
-        
-        private final String type;
-        
-        Type(String type) {
-            this.type = type;
-        }
-        
-        public String getType() {
-            return type;
-        }
-    }
-    
     public int getEventId() {
         return eventId;
     }
@@ -84,5 +70,19 @@ public class Outcome {
                 ", type=" + type +
                 ", coefficient=" + coefficient +
                 '}';
+    }
+    
+    public enum Type {
+        TYPE_1(ConfigConstant.TYPE_1), TYPE_X(ConfigConstant.TYPE_X), TYPE_2(ConfigConstant.TYPE_2);
+        
+        private final String type;
+        
+        Type(String type) {
+            this.type = type;
+        }
+        
+        public String getType() {
+            return type;
+        }
     }
 }
