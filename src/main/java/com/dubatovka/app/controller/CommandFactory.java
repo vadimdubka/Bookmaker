@@ -90,7 +90,7 @@ public final class CommandFactory {
     private CommandFactory() {
     }
     
-    public static Command defineCommand(HttpServletRequest request) {
+    static Command defineCommand(HttpServletRequest request) {
         String commandTypeName = request.getParameter(ConfigConstant.PARAM_COMMAND_TYPE);
         User.UserRole role = (User.UserRole) request.getSession().getAttribute(ATTR_ROLE);
         boolean isCommandTypeNameValid = isCommandTypeNameValid(commandTypeName);
@@ -142,23 +142,22 @@ public final class CommandFactory {
     
     private enum CommandType {
         CHANGE_LOCALE,
-        
         REGISTER,
         LOGIN,
         LOGOUT,
-        
         MAKE_BET,
         PAY_WIN_BET,
-        
+        EVENT_DELETE,
+        EVENT_CREATE,
+        EVENT_INFO_UPDATE,
+        EVENT_RESULT_UPDATE,
+        OUTCOME_CREATE,
         GOTO_MAIN,
         GOTO_INDEX,
         GOTO_REGISTER,
-        
         GOTO_MANAGE_PLAYERS,
         GOTO_MAKE_BET,
-        
         GOTO_PLAYER_STATE, GOTO_PAGINATION,
-        
         GOTO_EVENT_SHOW_ACTUAL,
         GOTO_EVENT_MANAGE,
         GOTO_EVENT_SET_OUTCOME,
@@ -167,12 +166,6 @@ public final class CommandFactory {
         GOTO_EVENT_CORRECT_RESULT,
         GOTO_EVENT_SHOW_RESULT,
         GOTO_EVENT_MANAGE_FAILED,
-        GOTO_EVENTS_TO_PAY,
-        
-        EVENT_DELETE,
-        EVENT_CREATE,
-        EVENT_INFO_UPDATE,
-        EVENT_RESULT_UPDATE,
-        OUTCOME_CREATE
+        GOTO_EVENTS_TO_PAY
     }
 }

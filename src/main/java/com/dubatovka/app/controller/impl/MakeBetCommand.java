@@ -2,7 +2,11 @@ package com.dubatovka.app.controller.impl;
 
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
-import com.dubatovka.app.entity.*;
+import com.dubatovka.app.entity.Bet;
+import com.dubatovka.app.entity.Event;
+import com.dubatovka.app.entity.Player;
+import com.dubatovka.app.entity.PlayerStatus;
+import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.PlayerService;
@@ -17,6 +21,7 @@ import java.time.LocalDateTime;
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
 public class MakeBetCommand implements Command {
+   
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
@@ -38,12 +43,14 @@ public class MakeBetCommand implements Command {
         validateRequestParams(errorMessage, betAmountStr, eventIdStr, outcomeType, outcomeCoeffOnPage);
         setAndCheckEventNotNull(eventIdStr, event, errorMessage);
         validateUserRole(role, errorMessage);
-        validateCommand(role, player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
+        validateCommand(player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
-            try (PlayerService playerService = ServiceFactory.getPlayerService(); BetService betService = ServiceFactory.getBetService()) {
+            try (PlayerService playerService = ServiceFactory.getPlayerService();
+                 BetService betService = ServiceFactory.getBetService()) {
                 BigDecimal coefficient = event.getOutcomeByType(outcomeType).getCoefficient();
                 BigDecimal betAmount = new BigDecimal(betAmountStr);
-                Bet bet = new Bet(player.getId(), event.getId(), outcomeType, LocalDateTime.now(), coefficient, betAmount, Bet.Status.NEW);
+                Bet bet = new Bet(player.getId(), event.getId(), outcomeType, LocalDateTime.now(),
+                                         coefficient, betAmount, Bet.Status.NEW);
                 betService.makeBet(bet, errorMessage);
                 if (errorMessage.toString().trim().isEmpty()) {
                     playerService.updatePlayerInfo(player);
@@ -61,7 +68,18 @@ public class MakeBetCommand implements Command {
         return navigator;
     }
     
-    private void validateCommand(User.UserRole role, Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
+    private void validateUserRole(User.UserRole role, StringBuilder errorMessage) {
+        if (errorMessage.toString().trim().isEmpty()) {
+            if (role == User.UserRole.GUEST) {
+                errorMessage.append(MESSAGE_ERROR_BET_GOTO_REGISTRATION).append(MESSAGE_SEPARATOR);
+            } else if ((role == User.UserRole.ADMIN) || (role == User.UserRole.ANALYST)) {
+                errorMessage.append(MESSAGE_ERROR_BET_FOR_EMPLOYEE).append(MESSAGE_SEPARATOR);
+            }
+        }
+    }
+    
+    private void validateCommand(Player player, String betAmountStr, Event event,
+                                 String outcomeType, String outcomeCoeffOnPage, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             LocalDateTime betDateTime = LocalDateTime.now();
             ValidatorService validatorService = ServiceFactory.getValidatorService();
@@ -73,7 +91,7 @@ public class MakeBetCommand implements Command {
             if (!validatorService.isValidOutcomeCoeffOnPage(outcomeCoeffOnPage, event, outcomeType)) {
                 errorMessage.append(MESSAGE_ERROR_OUTCOME_COEFF).append(MESSAGE_SEPARATOR);
             }
-    
+            
             if (player.getAccount().getStatus().getStatus() == PlayerStatus.Status.BAN) {
                 errorMessage.append(MESSAGE_ERROR_PLAYER_STATUS_BAN).append(MESSAGE_SEPARATOR);
             }
@@ -90,18 +108,6 @@ public class MakeBetCommand implements Command {
                 }
             } else {
                 errorMessage.append(MESSAGE_ERROR_BET_AMOUNT_INVALID).append(MESSAGE_SEPARATOR);
-            }
-            
-            
-        }
-    }
-    
-    private void validateUserRole(User.UserRole role, StringBuilder errorMessage) {
-        if (errorMessage.toString().trim().isEmpty()) {
-            if (role == User.UserRole.GUEST) {
-                errorMessage.append(MESSAGE_ERROR_BET_GOTO_REGISTRATION).append(MESSAGE_SEPARATOR);
-            } else if ((role == User.UserRole.ADMIN) || (role == User.UserRole.ANALYST)) {
-                errorMessage.append(MESSAGE_ERROR_BET_FOR_EMPLOYEE).append(MESSAGE_SEPARATOR);
             }
         }
     }

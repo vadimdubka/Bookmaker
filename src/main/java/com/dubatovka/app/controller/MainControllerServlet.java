@@ -28,13 +28,9 @@ public class MainControllerServlet extends HttpServlet {
     
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Command command = CommandFactory.defineCommand(request);
-        if (command != null) {
-            PageNavigator navigator = command.execute(request);
-            if (navigator != null) {
-                processNavigator(request, response, navigator);
-            } else {
-                defaultProcessRequest(request, response);
-            }
+        PageNavigator navigator = command.execute(request);
+        if (navigator != null) {
+            processNavigator(request, response, navigator);
         } else {
             defaultProcessRequest(request, response);
         }

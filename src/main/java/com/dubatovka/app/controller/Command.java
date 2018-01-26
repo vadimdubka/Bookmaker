@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
+
 @FunctionalInterface
 public interface Command {
     PageNavigator execute(HttpServletRequest request);

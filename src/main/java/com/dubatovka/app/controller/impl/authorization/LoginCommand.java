@@ -15,7 +15,18 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_ADMIN;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_ANALYST;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_PLAYER;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_ROLE;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_USER;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INVALID_EMAIL;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INVALID_PASSWORD;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_LOGIN_MISMATCH;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_EMAIL;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
 
 public class LoginCommand implements Command {
     @Override
@@ -42,15 +53,14 @@ public class LoginCommand implements Command {
                 }
             }
         }
-        
         setErrorMessagesToRequest(errorMessage, request);
         return navigator;
     }
     
-    private void validateCommand(String email, String password, StringBuilder errorMessage, MessageManager messageManager) {
+    private void validateCommand(String email, String password, StringBuilder errorMessage,
+                                 MessageManager messageManager) {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
-            
             if (!validatorService.isValidEmail(email)) {
                 errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
             }
