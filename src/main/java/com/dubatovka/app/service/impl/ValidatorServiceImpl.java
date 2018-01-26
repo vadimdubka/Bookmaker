@@ -48,18 +48,18 @@ public class ValidatorServiceImpl implements ValidatorService {
     
     @Override
     public boolean isValidPassword(String password) {
-        return password != null && !password.trim().isEmpty() && isMatchPattern(password, PASSWORD_REGEX);
+        return (password != null) && !password.trim().isEmpty() && isMatchPattern(password, PASSWORD_REGEX);
     }
     
     @Override
     public boolean isValidPassword(String password, String passwordAgain) {
-        return !(password == null || password.trim().isEmpty() || !password.equals(passwordAgain))
-                && isValidPassword(password);
+        boolean result = isValidPassword(password);
+        return result && password.equals(passwordAgain);
     }
     
     @Override
     public boolean isValidName(String name) {
-        return name == null || name.trim().isEmpty() || isMatchPattern(name, NAME_REGEX);
+        return (name == null) || name.trim().isEmpty() || isMatchPattern(name, NAME_REGEX);
     }
     
     @Override

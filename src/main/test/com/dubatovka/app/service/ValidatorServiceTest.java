@@ -1,8 +1,8 @@
-package com.dubatovka.app.service.impl;
+package com.dubatovka.app.service;
 
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.impl.ServiceFactory;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ValidatorServiceImplTest {
+public class ValidatorServiceTest {
     private static ValidatorService validatorService;
     
     @BeforeClass
