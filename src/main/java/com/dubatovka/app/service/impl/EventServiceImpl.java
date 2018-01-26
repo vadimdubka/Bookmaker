@@ -15,10 +15,13 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_OPERATION;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_TRANSACTION;
+import static com.dubatovka.app.manager.ConfigConstant.OUTCOME_TYPE_KEY_NAME;
 
 class EventServiceImpl extends EventService {
     private static final Logger logger = LogManager.getLogger(EventServiceImpl.class);
@@ -74,17 +77,17 @@ class EventServiceImpl extends EventService {
     }
     
     @Override
-    public Set<Event> getEvents(String categoryId, String eventQueryType) {
-        Set<Event> eventSet = null;
+    public List<Event> getEvents(String categoryId, String eventQueryType) {
+        List<Event> events = null;
         try {
             if (eventQueryType != null) {
-                eventSet = eventDAO.readEvents(categoryId, eventQueryType);
-                setOutcomesForEvents(eventSet);
+                events = eventDAO.readEvents(categoryId, eventQueryType);
+                setOutcomesForEvents(events);
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
-        return eventSet;
+        return events;
     }
     
     @Override
@@ -101,9 +104,9 @@ class EventServiceImpl extends EventService {
     }
     
     @Override
-    public Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet) {
-        if (eventSet != null) {
-            eventSet.forEach(event -> {
+    public Map<String, Map<String, String>> getOutcomeColumnMaps(List<Event>  events) {
+        if (events != null) {
+            events.forEach(event -> {
                 int evetId = event.getId();
                 fillOutcomeColumnMaps(evetId, event.getOutcomeSet());
             });

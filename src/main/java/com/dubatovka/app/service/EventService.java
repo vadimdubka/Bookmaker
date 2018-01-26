@@ -3,8 +3,8 @@ package com.dubatovka.app.service;
 import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Event;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class EventService extends AbstractService {
     
@@ -19,11 +19,11 @@ public abstract class EventService extends AbstractService {
     
     public abstract Event getEvent(String eventIdStr);
     
-    public abstract Set<Event> getEvents(String categoryId, String eventQueryType);
+    public abstract List<Event> getEvents(String categoryId, String eventQueryType);
     
     public abstract Map<Integer, Integer> countEvents(String eventQueryType);
     
-    public abstract Map<String, Map<String, String>> getOutcomeColumnMaps(Set<Event> eventSet);
+    public abstract Map<String, Map<String, String>> getOutcomeColumnMaps(List<Event> events);
     
     public abstract void deleteEvent(int eventId, StringBuilder errorMessage);
     

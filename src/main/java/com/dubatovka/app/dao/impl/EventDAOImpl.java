@@ -10,12 +10,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_ACTUAL;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_CLOSED;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_FAILED;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_NEW;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_NOT_STARTED;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_STARTED;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_TO_PAY;
 
 class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     private static final String SQL_SELECT_EVENT_BY_EVENT_ID =
@@ -27,44 +33,44 @@ class EventDAOImpl extends AbstractDBDAO implements EventDAO {
                     "FROM event WHERE category_id =? " +
                     "AND id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
                     "AND (date - NOW()) > 0 " +
-                    "AND result1 IS NULL";
+                    "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event WHERE category_id =? " +
                     "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
                     "AND (date - NOW()) > 0 " +
-                    "AND result1 IS NULL";
+                    "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event WHERE category_id =? " +
                     "AND (date - NOW()) > 0 " +
-                    "AND result1 IS NULL";
+                    "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event WHERE category_id =? " +
                     "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
                     "AND (date - NOW()) <= 0 " +
-                    "AND result1 IS NULL";
+                    "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event " +
                     "WHERE category_id =? " +
                     "AND (date - NOW()) <= 0 " +
-                    "AND (id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id))";
+                    "AND (id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id)) ORDER BY date";
     
     private static final String SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event WHERE category_id =? " +
-                    "AND result1 IS NOT NULL";
+                    "AND result1 IS NOT NULL ORDER BY date";
     
     private static final String SQL_SELECT_EVENTS_TO_PAY_BY_CATEGORY_ID =
             "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
                     "FROM event " +
-                    "WHERE category_id =? AND id IN (SELECT event_id FROM bet WHERE status='win' GROUP BY event_id)";
+                    "WHERE category_id =? AND id IN (SELECT event_id FROM bet WHERE status='win' GROUP BY event_id) ORDER BY date";
     
     private static final String SQL_COUNT_NEW_EVENTS_GROUP_BY_CATEGORY_ID =
             "SELECT category_id, COUNT(category_id) AS count FROM event " +
@@ -140,34 +146,34 @@ class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     }
     
     @Override
-    public Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException {
-        Set<Event> eventSet;
+    public List<Event> readEvents(String categoryId, String eventQueryType) throws DAOException {
+        List<Event> events;
         switch (eventQueryType) {
             case EVENT_QUERY_TYPE_NEW:
-                eventSet = readEventsByQuery(categoryId, SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID);
+                events = readEventsByQuery(categoryId, SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID);
                 break;
             case EVENT_QUERY_TYPE_ACTUAL:
-                eventSet = readEventsByQuery(categoryId, SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID);
+                events = readEventsByQuery(categoryId, SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID);
                 break;
             case EVENT_QUERY_TYPE_NOT_STARTED:
-                eventSet = readEventsByQuery(categoryId, SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID);
+                events = readEventsByQuery(categoryId, SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID);
                 break;
             case EVENT_QUERY_TYPE_STARTED:
-                eventSet = readEventsByQuery(categoryId, SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID);
+                events = readEventsByQuery(categoryId, SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID);
                 break;
             case EVENT_QUERY_TYPE_FAILED:
-                eventSet = readEventsByQuery(categoryId, SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID);
+                events = readEventsByQuery(categoryId, SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID);
                 break;
             case EVENT_QUERY_TYPE_CLOSED:
-                eventSet = readEventsByQuery(categoryId, SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID);
+                events = readEventsByQuery(categoryId, SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID);
                 break;
             case EVENT_QUERY_TYPE_TO_PAY:
-                eventSet = readEventsByQuery(categoryId, SQL_SELECT_EVENTS_TO_PAY_BY_CATEGORY_ID);
+                events = readEventsByQuery(categoryId, SQL_SELECT_EVENTS_TO_PAY_BY_CATEGORY_ID);
                 break;
             default:
-                eventSet = new HashSet<>();
+                events = new ArrayList<>();
         }
-        return eventSet;
+        return events;
     }
     
     @Override
@@ -251,11 +257,11 @@ class EventDAOImpl extends AbstractDBDAO implements EventDAO {
         }
     }
     
-    private Set<Event> readEventsByQuery(String categoryId, String sqlQuery) throws DAOException {
+    private List<Event> readEventsByQuery(String categoryId, String sqlQuery) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setString(1, categoryId);
             ResultSet resultSet = statement.executeQuery();
-            return buildEventSet(resultSet);
+            return buildEventList(resultSet);
         } catch (SQLException e) {
             throw new DAOException("Database connection error while getting sport event. " + e);
         }
@@ -276,13 +282,13 @@ class EventDAOImpl extends AbstractDBDAO implements EventDAO {
         }
     }
     
-    private Set<Event> buildEventSet(ResultSet resultSet) throws SQLException {
-        Set<Event> eventSet = new HashSet<>();
+    private List<Event> buildEventList(ResultSet resultSet) throws SQLException {
+        List<Event> events = new ArrayList<>();
         while (resultSet.next()) {
             Event event = buildEvent(resultSet);
-            eventSet.add(event);
+            events.add(event);
         }
-        return eventSet;
+        return events;
     }
     
     private Event buildEvent(ResultSet resultSet) throws SQLException {

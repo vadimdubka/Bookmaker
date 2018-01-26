@@ -3,8 +3,8 @@ package com.dubatovka.app.dao;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Event;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface EventDAO {
     /**
@@ -21,7 +21,7 @@ public interface EventDAO {
     
     Event readEvent(int eventId) throws DAOException;
     
-    Set<Event> readEvents(String categoryId, String eventQueryType) throws DAOException;
+    List<Event> readEvents(String categoryId, String eventQueryType) throws DAOException;
     
     void deleteEvent(int eventId) throws DAOException;
     

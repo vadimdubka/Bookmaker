@@ -16,6 +16,7 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,17 +70,17 @@ public class GotoMainCommand implements Command {
     }
     
     private void setEventInfo(ServletRequest request, String categoryIdStr, String eventQueryType) {
-        Set<Event> eventSet;
+        List<Event> events;
         Map<String, Map<String, String>> coeffColumnMaps;
         try (EventService eventService = ServiceFactory.getEventService()) {
-            eventSet = eventService.getEvents(categoryIdStr, eventQueryType);
-            coeffColumnMaps = eventService.getOutcomeColumnMaps(eventSet);
+            events = eventService.getEvents(categoryIdStr, eventQueryType);
+            coeffColumnMaps = eventService.getOutcomeColumnMaps(events);
         }
         Map<String, String> type1Map = coeffColumnMaps.get(Outcome.Type.TYPE_1.getType());
         Map<String, String> typeXMap = coeffColumnMaps.get(Outcome.Type.TYPE_X.getType());
         Map<String, String> type2Map = coeffColumnMaps.get(Outcome.Type.TYPE_2.getType());
         request.setAttribute(ATTR_CATEGORY_ID, categoryIdStr);
-        request.setAttribute(ATTR_EVENT_SET, eventSet);
+        request.setAttribute(ATTR_EVENT_SET, events);
         request.setAttribute(ATTR_TYPE_1_MAP, type1Map);
         request.setAttribute(ATTR_TYPE_X_MAP, typeXMap);
         request.setAttribute(ATTR_TYPE_2_MAP, type2Map);
