@@ -20,7 +20,7 @@ import java.util.Set;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
-public class EventServiceImpl extends EventService {
+class EventServiceImpl extends EventService {
     private static final Logger logger = LogManager.getLogger(EventServiceImpl.class);
     
     private final EventDAO eventDAO = daoHelper.getEventDAO();

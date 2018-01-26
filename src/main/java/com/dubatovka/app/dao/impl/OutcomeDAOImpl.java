@@ -13,7 +13,7 @@ import java.util.Set;
 
 import static com.dubatovka.app.manager.ConfigConstant.PREFIX_FOR_OUTCOME_TYPE;
 
-public class OutcomeDAOImpl extends AbstractDBDAO implements OutcomeDAO {
+class OutcomeDAOImpl extends AbstractDBDAO implements OutcomeDAO {
     private static final String SQL_SELECT_OUTCOMES_BY_EVENT_ID =
             "SELECT event_id, type, coefficient " +
                     "FROM outcome " +

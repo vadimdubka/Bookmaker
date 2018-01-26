@@ -14,7 +14,7 @@ import java.util.Set;
 
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_OPERATION;
 
-public class OutcomeServiceImpl extends OutcomeService {
+class OutcomeServiceImpl extends OutcomeService {
     private static final Logger logger = LogManager.getLogger(OutcomeServiceImpl.class);
     private final OutcomeDAO outcomeDAO = daoHelper.getOutcomeDAO();
     

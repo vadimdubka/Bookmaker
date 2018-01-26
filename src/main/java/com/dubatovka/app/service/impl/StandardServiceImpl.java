@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Set;
 
 //TODO удалить по завершению проекта
-public class StandardServiceImpl extends StandardService {
+class StandardServiceImpl extends StandardService {
     private static final Logger logger = LogManager.getLogger(StandardServiceImpl.class);
     private final StandardDAO standardDAO = daoHelper.getStandardDAO();
     

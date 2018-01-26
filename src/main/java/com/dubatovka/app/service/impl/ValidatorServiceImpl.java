@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidatorServiceImpl implements ValidatorService {
+class ValidatorServiceImpl implements ValidatorService {
     private static final int MAX_EMAIL_LENGTH = 320;
     private static final int MAX_EMAIL_NAME_LENGTH = 64;
     private static final int MAX_EMAIL_DOMAIN_LENGTH = 255;

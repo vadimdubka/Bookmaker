@@ -2,7 +2,7 @@ package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.service.PaginationService;
 
-public class PaginationServiceImpl implements PaginationService {
+class PaginationServiceImpl implements PaginationService {
     private static final int DEFAULT_LIMIT_ON_PAGE = 5;
     private static final int DEFAULT_TOTAL_ENTITY_AMOUNT = 0;
     private static final int DEFAULT_AMOUNT_OF_PAGES = 0;

@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 //TODO удалить по завершению проекта
-public class StandardDAOImpl extends AbstractDBDAO implements StandardDAO {
+class StandardDAOImpl extends AbstractDBDAO implements StandardDAO {
     private static final String SQL_SELECT_X = "SELECT X";
     
     StandardDAOImpl() {

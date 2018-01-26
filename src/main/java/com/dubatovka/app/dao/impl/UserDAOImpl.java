@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
-public class UserDAOImpl extends AbstractDBDAO implements UserDAO {
+class UserDAOImpl extends AbstractDBDAO implements UserDAO {
     private static final String SQL_INSERT_USER = "INSERT INTO user (email, password, role, registration_date) " +
             "VALUES (?, ?, 'player', NOW())";
     
@@ -65,5 +65,4 @@ public class UserDAOImpl extends AbstractDBDAO implements UserDAO {
         }
         return user;
     }
-    
 }

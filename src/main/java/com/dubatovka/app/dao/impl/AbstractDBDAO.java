@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractDBDAO {
+abstract class AbstractDBDAO {
     private static final Logger logger = LogManager.getLogger(AbstractDBDAO.class);
     
     /**

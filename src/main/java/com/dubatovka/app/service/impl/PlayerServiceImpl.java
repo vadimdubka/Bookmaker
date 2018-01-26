@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class PlayerServiceImpl extends PlayerService {
+class PlayerServiceImpl extends PlayerService {
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
     private final UserDAO userDAO = daoHelper.getUserDAO();
     private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();

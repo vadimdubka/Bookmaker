@@ -21,7 +21,7 @@ import java.util.Set;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_OPERATION;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_TRANSACTION;
 
-public class BetServiceImpl extends BetService {
+class BetServiceImpl extends BetService {
     private static final Logger logger = LogManager.getLogger(BetServiceImpl.class);
     private final BetDAO betDAO = daoHelper.getBetDAO();
     private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();

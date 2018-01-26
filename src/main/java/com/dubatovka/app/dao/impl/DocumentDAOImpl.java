@@ -12,8 +12,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-public class DocumentDAOImpl implements DocumentDAO {
+//TODO удалить если не надо
+class DocumentDAOImpl implements DocumentDAO {
     private static final Logger logger = LogManager.getLogger(DocumentDAOImpl.class);
     
     @Override

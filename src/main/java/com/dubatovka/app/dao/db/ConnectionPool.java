@@ -45,7 +45,7 @@ public final class ConnectionPool {
     /**
      * Class lock for {@link #getInstance()} method.
      */
-    private static final Lock lock = new ReentrantLock();//TODO Lock с большой или маленькой
+    private static final Lock lock = new ReentrantLock();
     
     /**
      * Class singleton instance.

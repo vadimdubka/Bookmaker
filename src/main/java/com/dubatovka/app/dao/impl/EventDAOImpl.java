@@ -17,7 +17,7 @@ import java.util.Set;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
-public class EventDAOImpl extends AbstractDBDAO implements EventDAO {
+class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     private static final String SQL_SELECT_EVENT_BY_EVENT_ID =
             "SELECT id, date, category_id, participant1, participant2, result1, result2 " +
                     "FROM event WHERE id =?";

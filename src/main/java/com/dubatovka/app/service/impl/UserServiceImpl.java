@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UserServiceImpl extends UserService {
+class UserServiceImpl extends UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private final UserDAO userDAO = daoHelper.getUserDAO();
     

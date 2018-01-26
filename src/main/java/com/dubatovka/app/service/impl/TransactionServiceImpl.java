@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
 
-public class TransactionServiceImpl extends TransactionService {
+class TransactionServiceImpl extends TransactionService {
     private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
     private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
     private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();

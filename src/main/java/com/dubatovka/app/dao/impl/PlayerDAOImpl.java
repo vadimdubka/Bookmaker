@@ -18,7 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
+class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     private static final String SQL_INSERT_PLAYER = "INSERT INTO player (id, fname, mname, lname, birthday) " +
             "VALUES (?, ?, ?, ?, ?)";
     
