@@ -2,8 +2,11 @@ package com.dubatovka.app.entity;
 
 import com.dubatovka.app.manager.ConfigConstant;
 
-public class PlayerVerification {
+import java.io.Serializable;
+
+public class PlayerVerification implements Serializable {
     
+    private static final long serialVersionUID = 3172147030959748268L;
     /**
      * Player verification verificationStatus.
      */
@@ -50,7 +53,8 @@ public class PlayerVerification {
         PlayerVerification that = (PlayerVerification) o;
         
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (passport != null ? !passport.equals(that.passport) : that.passport != null) return false;
+        if (passport != null ? !passport.equals(that.passport) : that.passport != null)
+            return false;
         return verificationStatus == that.verificationStatus;
         
     }
@@ -66,10 +70,10 @@ public class PlayerVerification {
     @Override
     public String toString() {
         return "PlayerVerification{" +
-                "verificationStatus=" + verificationStatus +
-                ", country='" + country + '\'' +
-                ", passport='" + passport + '\'' +
-                '}';
+                       "verificationStatus=" + verificationStatus +
+                       ", country='" + country + '\'' +
+                       ", passport='" + passport + '\'' +
+                       '}';
     }
     
     public enum VerificationStatus {

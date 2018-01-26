@@ -1,9 +1,11 @@
 package com.dubatovka.app.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-public class Event {
+public class Event implements Serializable {
+    private static final long serialVersionUID = -3491120153605965764L;
     private int id;
     private int categoryId;
     private LocalDateTime date;

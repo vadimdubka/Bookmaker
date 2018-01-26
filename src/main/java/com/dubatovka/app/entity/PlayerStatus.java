@@ -2,9 +2,11 @@ package com.dubatovka.app.entity;
 
 import com.dubatovka.app.manager.ConfigConstant;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class PlayerStatus {
+public class PlayerStatus implements Serializable {
+    private static final long serialVersionUID = 539544012880393907L;
     /**
      * Player account status value.
      */

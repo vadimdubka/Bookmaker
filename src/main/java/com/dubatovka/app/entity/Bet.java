@@ -2,10 +2,12 @@ package com.dubatovka.app.entity;
 
 import com.dubatovka.app.manager.ConfigConstant;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Bet {
+public class Bet implements Serializable {
+    private static final long serialVersionUID = -2992542772233016603L;
     private int playerId;
     private int eventId;
     private String outcomeType;
@@ -92,9 +94,11 @@ public class Bet {
         
         if (playerId != bet.playerId) return false;
         if (eventId != bet.eventId) return false;
-        if (outcomeType != null ? !outcomeType.equals(bet.outcomeType) : bet.outcomeType != null) return false;
+        if (outcomeType != null ? !outcomeType.equals(bet.outcomeType) : bet.outcomeType != null)
+            return false;
         if (date != null ? !date.equals(bet.date) : bet.date != null) return false;
-        if (coefficient != null ? !coefficient.equals(bet.coefficient) : bet.coefficient != null) return false;
+        if (coefficient != null ? !coefficient.equals(bet.coefficient) : bet.coefficient != null)
+            return false;
         if (amount != null ? !amount.equals(bet.amount) : bet.amount != null) return false;
         return status == bet.status;
         
@@ -115,14 +119,14 @@ public class Bet {
     @Override
     public String toString() {
         return "Bet{" +
-                "playerId=" + playerId +
-                ", eventId=" + eventId +
-                ", outcomeType='" + outcomeType + '\'' +
-                ", date=" + date +
-                ", coefficient=" + coefficient +
-                ", amount=" + amount +
-                ", status=" + status +
-                '}';
+                       "playerId=" + playerId +
+                       ", eventId=" + eventId +
+                       ", outcomeType='" + outcomeType + '\'' +
+                       ", date=" + date +
+                       ", coefficient=" + coefficient +
+                       ", amount=" + amount +
+                       ", status=" + status +
+                       '}';
     }
     
     public enum Status {

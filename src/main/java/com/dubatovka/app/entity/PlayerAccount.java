@@ -1,9 +1,10 @@
 package com.dubatovka.app.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class PlayerAccount {
-    
+public class PlayerAccount implements Serializable {
+    private static final long serialVersionUID = -3202129806852194136L;
     /**
      * Object which contains player status data.
      */
@@ -65,9 +66,9 @@ public class PlayerAccount {
     @Override
     public String toString() {
         return "PlayerAccount{" +
-                "status=" + status +
-                ", balance=" + balance +
-                ", thisMonthWithdrawal=" + thisMonthWithdrawal +
-                '}';
+                       "status=" + status +
+                       ", balance=" + balance +
+                       ", thisMonthWithdrawal=" + thisMonthWithdrawal +
+                       '}';
     }
 }

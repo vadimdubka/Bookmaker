@@ -2,9 +2,11 @@ package com.dubatovka.app.entity;
 
 import com.dubatovka.app.manager.ConfigConstant;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Outcome {
+public class Outcome implements Serializable {
+    private static final long serialVersionUID = 2004092848932695202L;
     private int eventId;
     private Type type;
     private BigDecimal coefficient;

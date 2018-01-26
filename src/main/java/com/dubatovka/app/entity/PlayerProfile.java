@@ -1,8 +1,10 @@
 package com.dubatovka.app.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PlayerProfile {
+public class PlayerProfile implements Serializable {
+    private static final long serialVersionUID = 4607918367842467031L;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -47,11 +49,14 @@ public class PlayerProfile {
         
         PlayerProfile that = (PlayerProfile) o;
         
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null)
+            return false;
+        if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null)
+            return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null)
+            return false;
         return birthDate != null ? birthDate.equals(that.birthDate) : that.birthDate == null;
-    
+        
     }
     
     @Override
@@ -66,10 +71,10 @@ public class PlayerProfile {
     @Override
     public String toString() {
         return "PlayerProfile{" +
-                "firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
+                       "firstName='" + firstName + '\'' +
+                       ", middleName='" + middleName + '\'' +
+                       ", lastName='" + lastName + '\'' +
+                       ", birthDate=" + birthDate +
+                       '}';
     }
 }

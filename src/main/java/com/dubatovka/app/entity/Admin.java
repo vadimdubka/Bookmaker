@@ -1,6 +1,9 @@
 package com.dubatovka.app.entity;
 
-public class Admin extends User {
+import java.io.Serializable;
+
+public class Admin extends User implements Serializable {
+    private static final long serialVersionUID = -8023371264325607651L;
     
     public Admin() {
     }

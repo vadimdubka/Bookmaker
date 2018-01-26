@@ -1,7 +1,9 @@
 package com.dubatovka.app.entity;
 
-public class Player extends User {
-    
+import java.io.Serializable;
+
+public class Player extends User implements Serializable {
+    private static final long serialVersionUID = -3724993061188402916L;
     private PlayerProfile profile;
     private PlayerAccount account;
     private PlayerVerification verification;
@@ -48,8 +50,10 @@ public class Player extends User {
         
         Player player = (Player) o;
         
-        if (profile != null ? !profile.equals(player.profile) : player.profile != null) return false;
-        if (account != null ? !account.equals(player.account) : player.account != null) return false;
+        if (profile != null ? !profile.equals(player.profile) : player.profile != null)
+            return false;
+        if (account != null ? !account.equals(player.account) : player.account != null)
+            return false;
         return verification != null ? verification.equals(player.verification) : player.verification == null;
         
     }
@@ -66,9 +70,9 @@ public class Player extends User {
     @Override
     public String toString() {
         return "Player{" +
-                "profile=" + profile +
-                ", account=" + account +
-                ", verification=" + verification +
-                '}';
+                       "profile=" + profile +
+                       ", account=" + account +
+                       ", verification=" + verification +
+                       '}';
     }
 }

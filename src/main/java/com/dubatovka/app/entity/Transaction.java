@@ -1,9 +1,11 @@
 package com.dubatovka.app.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Transaction {
+public class Transaction implements Serializable {
+    private static final long serialVersionUID = 494519517782731780L;
     /**
      * Transaction unique id.
      */
@@ -97,6 +99,7 @@ public class Transaction {
                 ", amount=" + amount +
                 '}';
     }
+    
     
     public enum TransactionType {
         REPLENISH, WITHDRAW

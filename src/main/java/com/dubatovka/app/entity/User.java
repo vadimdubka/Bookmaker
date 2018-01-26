@@ -2,11 +2,12 @@ package com.dubatovka.app.entity;
 
 import com.dubatovka.app.manager.ConfigConstant;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class User {
-    
+public class User implements Serializable {
+    private static final long serialVersionUID = 10220719251876555L;
     private int id;
     private String email;
     private UserRole role;
@@ -54,9 +55,9 @@ public class User {
         }
         User user = (User) o;
         return id == user.id &&
-                Objects.equals(email, user.email) &&
-                role == user.role &&
-                Objects.equals(registrationDate, user.registrationDate);
+                       Objects.equals(email, user.email) &&
+                       role == user.role &&
+                       Objects.equals(registrationDate, user.registrationDate);
     }
     
     @Override
@@ -68,10 +69,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "id=" + id +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", registrationDate=" + registrationDate +
-                '}';
+                       ", email='" + email + '\'' +
+                       ", role=" + role +
+                       ", registrationDate=" + registrationDate +
+                       '}';
     }
     
     public enum UserRole {

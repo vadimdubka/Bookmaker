@@ -1,8 +1,10 @@
 package com.dubatovka.app.entity;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Category {
+public class Category implements Serializable {
+    private static final long serialVersionUID = 5577191201787646890L;
     private int id;
     private String name;
     private int parentId;
@@ -66,10 +68,10 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", parentId=" + parentId +
-                ", childCategorySet=" + childCategorySet +
-                '}';
+                       "id=" + id +
+                       ", name='" + name + '\'' +
+                       ", parentId=" + parentId +
+                       ", childCategorySet=" + childCategorySet +
+                       '}';
     }
 }
