@@ -14,11 +14,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class CategoryServiceImpl extends CategoryService {
+class CategoryServiceImpl extends CategoryService {
     private static final Logger logger = LogManager.getLogger(CategoryServiceImpl.class);
+    private static final Lock lock = new ReentrantLock();
+    private static final AtomicBoolean isCategoriesModified = new AtomicBoolean(false);
     private static Set<Category> sportCategories;
-    private static boolean isCategoriesModified = false; //TODO менять значение переменной при любой модификации списка категорий
     private final CategoryDAO categoryDAO = daoHelper.getCategoryDAO();
     
     CategoryServiceImpl() {
@@ -28,18 +32,22 @@ public class CategoryServiceImpl extends CategoryService {
         super(daoHelper);
     }
     
-    //TODO метод синхронизовать
     @Override
     public Set<Category> getSportCategories() {
-        if ((sportCategories == null) || isCategoriesModified) {
+        if ((sportCategories == null) || isCategoriesModified.get()) {
+            lock.lock();
             try {
-                Set<Category> categorySet = categoryDAO.readAllCategories();
-                sportCategories = buildCategoryHierarchy(categorySet);
+                if ((sportCategories == null) || isCategoriesModified.get()) {
+                    Set<Category> categorySet = categoryDAO.readAllCategories();
+                    sportCategories = buildCategoryHierarchy(categorySet);
+                    isCategoriesModified.set(false);
+                }
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());
+            } finally {
+                lock.unlock();
             }
         }
-        isCategoriesModified = false;
         return sportCategories;
     }
     
