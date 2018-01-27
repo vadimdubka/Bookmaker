@@ -20,12 +20,8 @@ import static com.dubatovka.app.manager.ConfigConstant.RU_RU;
 
 public final class MessageManager {
     private static final Logger logger = LogManager.getLogger(MessageManager.class);
-    
     private static final Locale LOCALE_EN_US = new Locale(LANG_EN, COUNTRY_US);
     private static final Locale LOCALE_RU_RU = new Locale(LANG_RU, COUNTRY_RU);
-    private static final MessageManager MESSAGE_MANAGER_US = new MessageManager(LOCALE_EN_US);
-    private static final MessageManager MESSAGE_MANAGER_RU = new MessageManager(LOCALE_RU_RU);
-    private static final MessageManager MESSAGE_MANAGER_DEFAULT = MESSAGE_MANAGER_RU;
     
     private final ResourceBundle bundle;
     private final StringBuilder errMess = new StringBuilder();
@@ -39,13 +35,13 @@ public final class MessageManager {
         MessageManager messageManager;
         switch (locale) {
             case EN_US:
-                messageManager = MESSAGE_MANAGER_US;
+                messageManager = new MessageManager(LOCALE_EN_US);
                 break;
             case RU_RU:
-                messageManager = MESSAGE_MANAGER_RU;
+                messageManager = new MessageManager(LOCALE_RU_RU);
                 break;
             default:
-                messageManager = MESSAGE_MANAGER_DEFAULT;
+                messageManager = new MessageManager(LOCALE_RU_RU);
         }
         return messageManager;
     }
