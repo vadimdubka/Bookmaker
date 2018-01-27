@@ -1,14 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <section class="section-events col-s-12 col-6 col-float-right">
-    <div class="section-header"><h2>Редактирвать события</h2></div>
+    <div class="section-header"><h2><fmt:message key="header.events.correct"/></h2></div>
     <div class="section-content table-overflow">
         <table class="events">
             <tr>
                 <th>№</th>
-                <th>Дата</th>
-                <th>Участник 1</th>
-                <th>Участник 2</th>
-                <th>Действие</th>
+                <th><fmt:message key="event.date"/></th>
+                <th><fmt:message key="event.participant1"/></th>
+                <th><fmt:message key="event.participant2"/></th>
+                <th><fmt:message key="action"/></th>
             </tr>
             <tr class="row-new-event">
                 <td>new</td>
@@ -24,7 +24,7 @@
                     <td>
                         <input class="participant" type="text" name="participant_2" value="---" pattern="^([a-zA-Z_0-9а-яА-Я]+).{0,100}" required/>
                     </td>
-                    <td><input type="submit" value="Создать"/></td>
+                    <td><input type="submit" value="<fmt:message key="button.create"/>"/></td>
                 </form>
             </tr>
             <c:forEach var="event" items="${requestScope.event_set}">
@@ -49,9 +49,11 @@
                         <input type="hidden" name="category_id" value="${requestScope.category_id}"/>
                     </form>
                     <td>
-                        <button type="submit" form="form-edit${event.id}">Cохранить</button><br/>
-                        <button type="submit" form="form-delete${event.id}" class="delete button-edit-last">Удалить
-                        </button>
+                        <button type="submit" form="form-edit${event.id}">
+                            <fmt:message key="button.save"/></button>
+                        <br/>
+                        <button type="submit" form="form-delete${event.id}" class="delete button-edit-last">
+                            <fmt:message key="button.delete"/></button>
                     </td>
                 </tr>
             </c:forEach>

@@ -8,6 +8,7 @@ import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.manager.QueryManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
@@ -55,6 +56,7 @@ public class GotoPlayerStateCommand implements Command {
             setPlayerInfo(session, player);
             navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
         }
+        QueryManager.saveQueryToSession(request);
         setMessagesToRequest(messageManager, request);
         return navigator;
     }

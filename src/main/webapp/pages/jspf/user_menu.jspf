@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <section class="section-user-menu col-s-5 col-3 col-float-right">
-    <div class="section-header"><h2>Аккаунт пользователя</h2></div>
+    <div class="section-header"><h2><fmt:message key="header.section.user.menu"/></h2></div>
     <div class="section-content">
         <div class="bold">
             ${sessionScope.user.role} ${sessionScope.user.email}
@@ -8,42 +8,46 @@
         <c:choose>
             <c:when test="${sessionScope.user.role.role=='player'}">
                 <div class="bold">
-                    Баланс: ${sessionScope.player.account.balance}
-                </div>
+                    <fmt:message key="player.balance"/> ${sessionScope.player.account.balance}</div>
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_player_state">Состояние
-                            и история аккаунта</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_player_state">
+                                <fmt:message key="header.section.player.state"/></a>
+                        </li>
                     </ul>
                 </div>
             </c:when>
             <c:when test="${sessionScope.user.role.role=='admin'}">
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_manage">
-                            Управление событиями</a></li>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_result">
-                            Внести результаты событий</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_manage">
+                                <fmt:message key="menu.event.manage"/></a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_result">
+                                <fmt:message key="menu.event.set.result"/></a></li>
                         <li>
                             <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct_result">
-                                Редактировать результаты событий</a></li>
+                                <fmt:message key="menu.event.correct.result"/></a></li>
                         <li>
                             <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_manage_failed">
-                                Удалить невалидные события</a></li>
+                                <fmt:message key="menu.event.manage.failed"/></a></li>
                         <li>
                             <a href="${pageContext.request.contextPath}/controller?command_type=goto_events_to_pay">
-                                Оплатить выигравшие ставки</a></li>
+                                <fmt:message key="menu.event.to.pay"/></a></li>
                     </ul>
                 </div>
             </c:when>
             <c:when test="${sessionScope.user.role.role=='analyst'}">
                 <div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_outcome">
-                            Назначить коэффициэнты на новые события</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_set_outcome">
+                                <fmt:message key="menu.event.set.outcome"/></a></li>
                         <li>
                             <a href="${pageContext.request.contextPath}/controller?command_type=goto_event_correct_outcome">
-                                Корректировать коэфиценты</a></li>
+                                <fmt:message key="menu.event.correct.outcome"/></a></li>
                     </ul>
                 </div>
             </c:when>

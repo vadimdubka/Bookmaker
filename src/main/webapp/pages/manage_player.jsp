@@ -3,16 +3,15 @@
 <%--TODO удалить или доделать--%>
 <main class="row container">
     <section class="section-center">
-        <div class="section-header"><h2>Игроки, зарегистрированные в системе</h2></div>
+        <div class="section-header"><h2><fmt:message key="header.manage.players"/></h2></div>
         <div class="section-content">
             <table border="true">
                 <tr>
-                    <th>Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
+                    <th><fmt:message key="player.name"/></th>
+                    <th><fmt:message key="player.mname"/></th>
+                    <th><fmt:message key="player.lname"/></th>
                 </tr>
                 <c:forEach var="player" items="${requestScope.players}">
-                    <jsp:useBean id="player" type="com.dubatovka.app.entity.Player" scope="page"/>
                     <tr>
                         <td>${player.profile.firstName}</td>
                         <td>${player.profile.middleName}</td>

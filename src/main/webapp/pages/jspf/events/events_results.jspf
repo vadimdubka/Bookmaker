@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <section class="section-events col-s-12 col-6 col-float-right">
-    <div class="section-header"><h2>Результаты событий</h2></div>
+    <div class="section-header"><h2><fmt:message key="header.events.result"/></h2></div>
     <div class="section-content table-overflow">
         <table class="events">
             <tr>
                 <th>№</th>
-                <th>Дата</th>
-                <th>Событие</th>
-                <th>Результат</th>
+                <th><fmt:message key="event.date"/></th>
+                <th><fmt:message key="event"/></th>
+                <th><fmt:message key="event.result"/></th>
             </tr>
             <c:forEach var="event" items="${requestScope.event_set}">
                 <c:set var="event_id">${event.id}</c:set>

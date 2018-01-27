@@ -44,7 +44,7 @@
         </c:when>
         <c:otherwise>
             <section class="section-promo col-s-12 col-6 col-float-right">
-                <div class="section-header"><h2>Выбери свой спорт!</h2></div>
+                <div class="section-header"><h2><fmt:message key="header.section.promo"/></h2></div>
                 <img class="img-choose-sport"
                      src="${pageContext.request.contextPath}/resources/img/choose-sport.jpg"
                      alt="Choose-sport-logo"

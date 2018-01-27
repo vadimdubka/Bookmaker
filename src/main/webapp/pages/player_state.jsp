@@ -2,11 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <main class="row container">
     <section class="section-center col-s-7">
-        <div class="section-header"><h2>Состояние и история аккаунта</h2></div>
+        <div class="section-header"><h2><fmt:message key="header.section.player.state"/></h2></div>
         <div class="section-content">
             <p><b>${sessionScope.user.role} ${sessionScope.user.email}</b></p>
             <div class="col-s-8 col-4">
                 <table class="user-menu">
+                    <%--TODO удалить или доделать--%>
                     <%--<tr>
                         <td class="name">Статус верификации:</td>
                         <td class="info">${sessionScope.player.verification.verificationStatus.status}</td>
@@ -20,15 +21,15 @@
                         <td class="info">${sessionScope.player.account.thisMonthWithdrawal}</td>
                     </tr>--%>
                     <tr>
-                        <td class="name">Статус игрока:</td>
+                        <td class="name"><fmt:message key="player.status"/></td>
                         <td class="info">${sessionScope.player.account.status.status.status}</td>
                     </tr>
                     <tr>
-                        <td class="name">Лимит по ставкам:</td>
+                        <td class="name"><fmt:message key="bet.limit"/></td>
                         <td class="info">${sessionScope.player.account.status.betLimit}</td>
                     </tr>
                     <tr>
-                        <td class="name">Баланс:</td>
+                        <td class="name"><fmt:message key="player.balance"/></td>
                         <td class="info">${sessionScope.player.account.balance}</td>
                     </tr>
                 </table>
@@ -36,17 +37,17 @@
 
             <table class="bets user-state">
                 <tr>
-                    <th colspan="5">Cтавка</th>
-                    <th colspan="3">Событие</th>
+                    <th colspan="5"><fmt:message key="bet"/></th>
+                    <th colspan="3"><fmt:message key="event"/></th>
                 </tr>
                 <tr>
-                    <th>Статус</th>
-                    <th>Дата</th>
-                    <th>Сумма</th>
-                    <th>Коэфф.</th>
-                    <th>Тип</th>
-                    <th>Результ</th>
-                    <th>Дата</th>
+                    <th><fmt:message key="bet.status"/></th>
+                    <th><fmt:message key="bet.date"/></th>
+                    <th><fmt:message key="bet.amount"/></th>
+                    <th><fmt:message key="bet.coefficient"/></th>
+                    <th><fmt:message key="bet.outcome.type"/></th>
+                    <th><fmt:message key="event.result"/></th>
+                    <th><fmt:message key="event.date"/></th>
                     <th>№</th>
                 </tr>
                 <c:forEach var="bet" items="${requestScope.bet_list}">
