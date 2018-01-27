@@ -106,28 +106,28 @@ public final class ConfigConstant {
     /**
      * {@link javax.servlet.http.HttpServletRequest} parameter names
      */
+    public static final String PARAM_BET_AMOUNT = "bet_amount";
+    public static final String PARAM_BIRTHDATE = "birthdate";
+    public static final String PARAM_CATEGORY_ID = ATTR_CATEGORY_ID;
     public static final String PARAM_COMMAND_TYPE = "command_type";
-    public static final String PARAM_PAGE_NUMBER = "page_number";
+    public static final String PARAM_DATE = "date";
     public static final String PARAM_EMAIL = "email";
+    public static final String PARAM_EVENT_ID = "event_id";
     public static final String PARAM_FNAME = "fname";
     public static final String PARAM_LNAME = "lname";
-    public static final String PARAM_LOCALE = "locale";
+    public static final String PARAM_LOCALE = ATTR_LOCALE;
     public static final String PARAM_MNAME = "mname";
-    public static final String PARAM_BIRTHDATE = "birthdate";
-    public static final String PARAM_PASSWORD = "password";
-    public static final String PARAM_CATEGORY_ID = "category_id";
-    public static final String PARAM_PASSWORD_AGAIN = "password_again";
-    public static final String PARAM_PASSWORD_OLD = "old_password";
-    public static final String PARAM_EVENT_ID = "event_id";
-    public static final String PARAM_OUTCOME_TYPE = "outcome_type";
-    public static final String PARAM_OUTCOME_COEFFICIENT = "outcome_coefficient";
-    public static final String PARAM_BET_AMOUNT = "bet_amount";
     public static final String PARAM_OUTCOME_1 = "outcome_1";
-    public static final String PARAM_OUTCOME_X = "outcome_X";
     public static final String PARAM_OUTCOME_2 = "outcome_2";
-    public static final String PARAM_DATE = "date";
+    public static final String PARAM_OUTCOME_COEFFICIENT = "outcome_coefficient";
+    public static final String PARAM_OUTCOME_TYPE = "outcome_type";
+    public static final String PARAM_OUTCOME_X = "outcome_X";
+    public static final String PARAM_PAGE_NUMBER = "page_number";
     public static final String PARAM_PARTICIPANT_1 = "participant_1";
     public static final String PARAM_PARTICIPANT_2 = "participant_2";
+    public static final String PARAM_PASSWORD = "password";
+    public static final String PARAM_PASSWORD_AGAIN = "password_again";
+    public static final String PARAM_PASSWORD_OLD = "old_password";
     public static final String PARAM_RESULT_1 = "result_1";
     public static final String PARAM_RESULT_2 = "result_2";
     
@@ -180,7 +180,7 @@ public final class ConfigConstant {
     /**
      * Navigation previous query constant
      */
-    public static final String PREV_QUERY = "prevQuery";
+    public static final String PREV_QUERY = ATTR_PREV_QUERY;
     
     /**
      * Common JSP pages paths

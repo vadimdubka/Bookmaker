@@ -10,22 +10,31 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_PREV_QUERY;
+import static com.dubatovka.app.manager.ConfigConstant.FORWARD;
+import static com.dubatovka.app.manager.ConfigConstant.MAIN_CONTROLLER;
+import static com.dubatovka.app.manager.ConfigConstant.MAIN_CONTROLLER_URL;
+import static com.dubatovka.app.manager.ConfigConstant.PAGE_INDEX;
+import static com.dubatovka.app.manager.ConfigConstant.PREV_QUERY;
+import static com.dubatovka.app.manager.ConfigConstant.REDIRECT;
 
 @WebServlet(name = MAIN_CONTROLLER, urlPatterns = {MAIN_CONTROLLER_URL})
 public class MainControllerServlet extends HttpServlet {
     
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         processRequest(req, resp);
     }
     
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         processRequest(req, resp);
     }
     
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Command command = CommandFactory.defineCommand(request);
         PageNavigator navigator = command.execute(request);
         if (navigator != null) {
@@ -35,7 +44,8 @@ public class MainControllerServlet extends HttpServlet {
         }
     }
     
-    private void processNavigator(HttpServletRequest request, HttpServletResponse response, PageNavigator navigator) throws ServletException, IOException {
+    private void processNavigator(HttpServletRequest request, HttpServletResponse response, PageNavigator navigator)
+            throws ServletException, IOException {
         String query = navigator.getQuery();
         if (PREV_QUERY.equals(query)) {
             query = takePreviousQuery(request);
@@ -56,7 +66,8 @@ public class MainControllerServlet extends HttpServlet {
         }
     }
     
-    private static void defaultProcessRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private static void defaultProcessRequest(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         String contextPath = request.getContextPath();
         response.sendRedirect(contextPath + PAGE_INDEX);
     }
