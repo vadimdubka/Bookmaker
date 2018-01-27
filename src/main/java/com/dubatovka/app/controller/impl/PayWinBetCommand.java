@@ -10,7 +10,12 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_PAY_WIN_BET;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INF_PAY_WIN_BET;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
 
 public class PayWinBetCommand implements Command {
     @Override
@@ -24,30 +29,30 @@ public class PayWinBetCommand implements Command {
         StringBuilder infoMessage = new StringBuilder();
         
         String eventIdStr = request.getParameter(PARAM_EVENT_ID);
-        validateRequestParams(errorMessage, eventIdStr);
-        validateCommand(errorMessage, eventIdStr);
+        validateRequestParams(messageManager, errorMessage, eventIdStr);
+        validateCommand(messageManager, errorMessage, eventIdStr);
         if (errorMessage.toString().trim().isEmpty()) {
             int eventId = Integer.parseInt(eventIdStr);
             try (BetService betService = ServiceFactory.getBetService()) {
-                betService.payWinBet(eventId, errorMessage);
+                betService.payWinBet(eventId, messageManager, errorMessage);
             }
             if (errorMessage.toString().trim().isEmpty()) {
-                infoMessage.append(MESSAGE_INFO_PAY_WIN_BET_SUCCESS).append(MESSAGE_SEPARATOR);
+                infoMessage.append(messageManager.getMessage(MESSAGE_INF_PAY_WIN_BET)).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(MESSAGE_ERR_PAY_WIN_BET_FAIL).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_PAY_WIN_BET)).append(MESSAGE_SEPARATOR);
             }
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     
-    private void validateCommand(StringBuilder errorMessage, String eventIdStr) {
+    private void validateCommand(MessageManager messageManager, StringBuilder errorMessage, String eventIdStr) {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(eventIdStr)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
             }
         }
     }

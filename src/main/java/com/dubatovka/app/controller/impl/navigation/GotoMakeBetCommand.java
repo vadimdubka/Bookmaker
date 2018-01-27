@@ -13,7 +13,13 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_CATEGORY;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_OUTCOME;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_SPORT_CATEGORY;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_TYPE;
 
 public class GotoMakeBetCommand implements Command {
     
@@ -30,8 +36,8 @@ public class GotoMakeBetCommand implements Command {
         String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
         Event event = new Event();
         
-        validateRequestParams(errorMessage, eventIdStr, outcomeType);
-        setAndCheckEventNotNull(eventIdStr, event, errorMessage);
+        validateRequestParams(messageManager, errorMessage, eventIdStr, outcomeType);
+        setAndCheckEventNotNull(eventIdStr, event, messageManager, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
             try (CategoryService categoryService = ServiceFactory.getCategoryService()) {
                 Outcome outcome = event.getOutcomeByType(outcomeType);

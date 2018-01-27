@@ -11,7 +11,14 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_EVENT_UPDATE_INFO;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_RESULT;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INF_EVENT_UPDATE_INFO;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_RESULT_1;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_RESULT_2;
 
 public class EventResultUpdateCommand implements Command {
     @Override
@@ -29,35 +36,35 @@ public class EventResultUpdateCommand implements Command {
         String result2Str = request.getParameter(PARAM_RESULT_2);
         Event event = new Event();
         
-        validateRequestParams(errorMessage, result1Str, result2Str);
-        setAndCheckEventNotNull(eventIdStr, event, errorMessage);
-        validateCommand(errorMessage, result1Str, result2Str);
+        validateRequestParams(messageManager, errorMessage, result1Str, result2Str);
+        setAndCheckEventNotNull(eventIdStr, event, messageManager, errorMessage);
+        validateCommand(messageManager, errorMessage, result1Str, result2Str);
         if (errorMessage.toString().trim().isEmpty()) {
             event.setResult1(result1Str.trim());
             event.setResult2(result2Str.trim());
             try (EventService eventService = ServiceFactory.getEventService()) {
-                eventService.updateEventResult(event, errorMessage);
+                eventService.updateEventResult(event, messageManager, errorMessage);
             }
             if (errorMessage.toString().trim().isEmpty()) {
-                request.setAttribute(ATTR_INFO_MESSAGE, MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS);
+                infoMessage.append(messageManager.getMessage(MESSAGE_INF_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
             } else {
-                request.setAttribute(ATTR_ERROR_MESSAGE, MESSAGE_ERR_EVENT_UPDATE_INFO_FAIL);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
             }
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     
-    private void validateCommand(StringBuilder errorMessage, String result1Str, String result2Str) {
+    private void validateCommand(MessageManager messageManager, StringBuilder errorMessage, String result1Str, String result2Str) {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidEventResult(result1Str)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_RESULT).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_RESULT)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventResult(result2Str)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_RESULT).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_RESULT)).append(MESSAGE_SEPARATOR);
             }
         }
     }

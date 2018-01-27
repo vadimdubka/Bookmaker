@@ -41,7 +41,7 @@ public class LoginCommand implements Command {
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
         
-        validateRequestParams(errorMessage, email, password);
+        validateRequestParams(messageManager, errorMessage, email, password);
         validateCommand(email, password, errorMessage, messageManager);
         if (errorMessage.toString().trim().isEmpty()) {
             try (UserService userService = ServiceFactory.getUserService()) {
@@ -57,8 +57,7 @@ public class LoginCommand implements Command {
         return navigator;
     }
     
-    private void validateCommand(String email, String password, StringBuilder errorMessage,
-                                 MessageManager messageManager) {
+    private void validateCommand(String email, String password, StringBuilder errorMessage, MessageManager messageManager) {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidEmail(email)) {

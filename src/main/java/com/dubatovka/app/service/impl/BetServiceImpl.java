@@ -7,6 +7,7 @@ import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Bet;
 import com.dubatovka.app.entity.Transaction;
+import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.BetService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -79,7 +80,7 @@ class BetServiceImpl extends BetService {
     }
     
     @Override
-    public void payWinBet(int eventId, StringBuilder errorMessage) {
+    public void payWinBet(int eventId, MessageManager messageManager, StringBuilder errorMessage) {
         Set<Bet> winBetSet = getBetSetForEventAndStatus(eventId, Bet.Status.WIN);
         if ((winBetSet != null) && !winBetSet.isEmpty()) {
             try {
@@ -105,16 +106,16 @@ class BetServiceImpl extends BetService {
                 }
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());
-                errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
             } catch (SQLException e) {
                 logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-                errorMessage.append(MESSAGE_ERR_SQL_TRANSACTION);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_TRANSACTION));
             }
         }
     }
     
     @Override
-    public void makeBet(Bet bet, StringBuilder errorMessage) {
+    public void makeBet(Bet bet, MessageManager messageManager, StringBuilder errorMessage) {
         try {
             daoHelper.beginTransaction();
             boolean isBetIns = betDAO.insertBet(bet);
@@ -126,10 +127,10 @@ class BetServiceImpl extends BetService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
         } catch (SQLException e) {
             logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-            errorMessage.append(MESSAGE_ERR_SQL_TRANSACTION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_TRANSACTION));
         }
     }
     

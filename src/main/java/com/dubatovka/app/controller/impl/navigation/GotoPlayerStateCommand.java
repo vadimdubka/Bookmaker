@@ -2,7 +2,11 @@ package com.dubatovka.app.controller.impl.navigation;
 
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
-import com.dubatovka.app.entity.*;
+import com.dubatovka.app.entity.Bet;
+import com.dubatovka.app.entity.Category;
+import com.dubatovka.app.entity.Event;
+import com.dubatovka.app.entity.Player;
+import com.dubatovka.app.entity.User;
 import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.CategoryService;
@@ -19,7 +23,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_BET_LIST;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_CATEGORY_MAP;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT_MAP;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_PAGINATION;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_PLAYER;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_SPORT_MAP;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_PLAYER_NOT_DEFINED;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PAGE_NUMBER;
+import static com.dubatovka.app.manager.ConfigConstant.PLAYER;
 
 public class GotoPlayerStateCommand implements Command {
     private static final int PAGE_LIMIT = 5;
@@ -36,7 +49,7 @@ public class GotoPlayerStateCommand implements Command {
         Player player = (Player) session.getAttribute(PLAYER);
         String pageNumberStr = request.getParameter(PARAM_PAGE_NUMBER);
         
-        validateCommand(player, errorMessage);
+        validateCommand(player, messageManager, errorMessage);
         if (errorMessage.toString().trim().isEmpty()) {
             PaginationService paginationService = setPaginationService(request, player, pageNumberStr);
             setBetInfo(request, player, paginationService);
@@ -91,10 +104,10 @@ public class GotoPlayerStateCommand implements Command {
         session.setAttribute(ATTR_PLAYER, player);
     }
     
-    private void validateCommand(Player player, StringBuilder errorMessage) {
+    private void validateCommand(Player player, MessageManager messageManager, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             if (player == null) {
-                errorMessage.append(MESSAGE_ERR_PLAYER_NOT_DEFINED);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_PLAYER_NOT_DEFINED));
             }
         }
     }

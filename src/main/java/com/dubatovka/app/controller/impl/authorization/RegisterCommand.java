@@ -31,7 +31,7 @@ public class RegisterCommand implements Command {
         String lName = request.getParameter(PARAM_LNAME);
         String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
-        validateRequestParams(errorMessage, email, password, passwordAgain, fName, mName, lName, birthDate);
+        validateRequestParams(messageManager, errorMessage, email, password, passwordAgain, fName, mName, lName, birthDate);
         validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageManager, errorMessage, request);
         if (errorMessage.toString().trim().isEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
@@ -44,7 +44,7 @@ public class RegisterCommand implements Command {
             request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage);
             navigator = PageNavigator.FORWARD_PAGE_REGISTER;
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         return navigator;
     }

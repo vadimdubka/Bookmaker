@@ -12,7 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_EVENT_UPDATE_INFO;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_DATE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PARTICIPANT;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INF_EVENT_UPDATE_INFO;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_DATE;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PARTICIPANT_1;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PARTICIPANT_2;
 
 public class EventInfoUpdateCommand implements Command {
     @Override
@@ -31,42 +41,42 @@ public class EventInfoUpdateCommand implements Command {
         String participant2 = request.getParameter(PARAM_PARTICIPANT_2);
         Event event = new Event();
         
-        validateRequestParams(errorMessage, eventIdStr, dateTimeStr, participant1, participant2);
-        setAndCheckEventNotNull(eventIdStr, event, errorMessage);
-        validateCommand(errorMessage, eventIdStr, dateTimeStr, participant1, participant2);
+        validateRequestParams(messageManager, errorMessage, eventIdStr, dateTimeStr, participant1, participant2);
+        setAndCheckEventNotNull(eventIdStr, event, messageManager, errorMessage);
+        validateCommand(messageManager, errorMessage, eventIdStr, dateTimeStr, participant1, participant2);
         if (errorMessage.toString().trim().isEmpty()) {
             event.setDate(LocalDateTime.parse(dateTimeStr));
             event.setParticipant1(participant1.trim());
             event.setParticipant2(participant2.trim());
             try (EventService eventService = ServiceFactory.getEventService()) {
-                eventService.updateEventInfo(event, errorMessage);
+                eventService.updateEventInfo(event, messageManager, errorMessage);
             }
             if (errorMessage.toString().trim().isEmpty()) {
-                infoMessage.append(MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS).append(MESSAGE_SEPARATOR);
+                infoMessage.append(messageManager.getMessage(MESSAGE_INF_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(MESSAGE_ERR_EVENT_UPDATE_INFO_FAIL).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
             }
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     
-    private void validateCommand(StringBuilder errorMessage, String eventIdStr, String dateTimeStr, String participant1, String participant2) {
+    private void validateCommand(MessageManager messageManager, StringBuilder errorMessage, String eventIdStr, String dateTimeStr, String participant1, String participant2) {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(eventIdStr)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventDateTime(dateTimeStr)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_DATE).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_DATE)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventParticipantName(participant1)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventParticipantName(participant2)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
             }
         }
     }

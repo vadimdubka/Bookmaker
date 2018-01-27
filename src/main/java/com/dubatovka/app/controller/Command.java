@@ -1,23 +1,28 @@
 package com.dubatovka.app.controller;
 
 import com.dubatovka.app.entity.Event;
+import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.ValidatorService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_ERROR_MESSAGE;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_INFO_MESSAGE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_REQUEST_PARAMETER;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
 
 
 @FunctionalInterface
 public interface Command {
     PageNavigator execute(HttpServletRequest request);
     
-    default void validateRequestParams(StringBuilder errorMessage, String... params) {
+    default void validateRequestParams(MessageManager messageManager, StringBuilder errorMessage, String... params) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (!validatorService.isValidRequestParam(params)) {
-            errorMessage.append(MESSAGE_ERR_INVALID_REQUEST_PARAMETER).append(MESSAGE_SEPARATOR);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_REQUEST_PARAMETER)).append(MESSAGE_SEPARATOR);
         }
     }
     
@@ -35,7 +40,7 @@ public interface Command {
         }
     }
     
-    default void setAndCheckEventNotNull(String eventIdStr, Event event, StringBuilder errorMessage) {
+    default void setAndCheckEventNotNull(String eventIdStr, Event event, MessageManager messageManager, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             try (EventService eventService = ServiceFactory.getEventService()) {
                 Event eventDB = eventService.getEvent(eventIdStr);
@@ -49,7 +54,7 @@ public interface Command {
                     event.setResult2(eventDB.getResult2());
                     event.setOutcomeSet(eventDB.getOutcomeSet());
                 } else {
-                    errorMessage.append(MESSAGE_ERR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
                 }
             }
         }

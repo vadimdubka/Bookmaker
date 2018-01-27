@@ -45,7 +45,7 @@ public class GotoMainCommand implements Command {
         
         setCategoryInfo(request, eventQueryType);
         if (categoryIdStr != null) {
-            validateCommand(errorMessage, categoryIdStr);
+            validateCommand(messageManager, errorMessage, categoryIdStr);
             if (errorMessage.toString().trim().isEmpty()) {
                 setEventInfo(request, categoryIdStr, eventQueryType);
                 if (EVENT_GOTO_SHOW_TO_PAY.equals(eventCommandType)) {
@@ -98,11 +98,11 @@ public class GotoMainCommand implements Command {
         request.setAttribute(ATTR_WIN_BET_SUM, winBetSum);
     }
     
-    private void validateCommand(StringBuilder errorMessage, String categoryIdStr) {
+    private void validateCommand(MessageManager messageManager, StringBuilder errorMessage, String categoryIdStr) {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(categoryIdStr)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
             }
         }
     }

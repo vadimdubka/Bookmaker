@@ -6,7 +6,10 @@ import com.dubatovka.app.controller.PageNavigator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT_GOTO_TYPE;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT_QUERY_TYPE;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_GOTO_MANAGE_EVENT;
+import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_NOT_STARTED;
 
 public class GotoEventManageCommand implements Command {
     @Override

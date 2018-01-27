@@ -15,7 +15,15 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_OUTCOME;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_OUTCOME_UPDATE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INF_OUTCOME_UPDATE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_1;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_2;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_X;
 
 public class OutcomeCreateCommand implements Command {
     @Override
@@ -34,9 +42,9 @@ public class OutcomeCreateCommand implements Command {
         String outcome2Str = request.getParameter(PARAM_OUTCOME_2);
         Event event = new Event();
         
-        validateRequestParams(errorMessage, outcome1Str, outcomeXStr, outcome2Str);
-        setAndCheckEventNotNull(eventIdStr, event, errorMessage);
-        validateCommand(errorMessage, outcome1Str, outcomeXStr, outcome2Str);
+        validateRequestParams(messageManager, errorMessage, outcome1Str, outcomeXStr, outcome2Str);
+        setAndCheckEventNotNull(eventIdStr, event, messageManager, errorMessage);
+        validateCommand(messageManager, errorMessage, outcome1Str, outcomeXStr, outcome2Str);
         if (errorMessage.toString().trim().isEmpty()) {
             int eventId = event.getId();
             Outcome outcomeType1 = new Outcome(eventId, new BigDecimal(outcome1Str), Outcome.Type.TYPE_1);
@@ -47,31 +55,31 @@ public class OutcomeCreateCommand implements Command {
             outcomeSet.add(outcomeTypeX);
             outcomeSet.add(outcomeType2);
             try (OutcomeService outcomeService = ServiceFactory.getOutcomeService()) {
-                outcomeService.insertOutcomeSet(outcomeSet, errorMessage);
+                outcomeService.insertOutcomeSet(outcomeSet, messageManager, errorMessage);
             }
             if (errorMessage.toString().trim().isEmpty()) {
-                infoMessage.append(MESSAGE_INFO_OUTCOME_UPDATE_SUCCESS).append(MESSAGE_SEPARATOR);
+                infoMessage.append(messageManager.getMessage(MESSAGE_INF_OUTCOME_UPDATE)).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(MESSAGE_ERR_OUTCOME_UPDATE_FAIL).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_OUTCOME_UPDATE)).append(MESSAGE_SEPARATOR);
             }
         }
-    
+        
         setErrorMessagesToRequest(errorMessage, request);
         setInfoMessagesToRequest(infoMessage, request);
         return navigator;
     }
     
-    private void validateCommand(StringBuilder errorMessage, String outcome1Str, String outcomeXStr, String outcome2Str) {
+    private void validateCommand(MessageManager messageManager, StringBuilder errorMessage, String outcome1Str, String outcomeXStr, String outcome2Str) {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidOutcomeCoeff(outcome1Str)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_OUTCOME)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidOutcomeCoeff(outcomeXStr)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_OUTCOME)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidOutcomeCoeff(outcome2Str)) {
-                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_OUTCOME)).append(MESSAGE_SEPARATOR);
             }
         }
     }

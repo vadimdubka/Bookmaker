@@ -5,6 +5,7 @@ import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
+import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.OutcomeService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -39,17 +40,17 @@ class OutcomeServiceImpl extends OutcomeService {
     }
     
     @Override
-    public void insertOutcomeSet(Set<Outcome> outcomeSet, StringBuilder errorMessage) {
+    public void insertOutcomeSet(Set<Outcome> outcomeSet, MessageManager messageManager, StringBuilder errorMessage) {
         try {
             for (Outcome outcome : outcomeSet) {
                 boolean failure = !outcomeDAO.insertOutcome(outcome);
                 if (failure) {
-                    errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
                 }
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
         }
     }
 }

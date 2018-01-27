@@ -7,6 +7,7 @@ import com.dubatovka.app.dao.impl.DAOHelper;
 import com.dubatovka.app.entity.Bet;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
+import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.EventService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -114,37 +115,37 @@ class EventServiceImpl extends EventService {
     }
     
     @Override
-    public void deleteEvent(int eventId, StringBuilder errorMessage) {
+    public void deleteEvent(int eventId, MessageManager messageManager, StringBuilder errorMessage) {
         try {
             eventDAO.deleteEvent(eventId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
         }
     }
     
     @Override
-    public void insertEvent(Event event, StringBuilder errorMessage) {
+    public void insertEvent(Event event, MessageManager messageManager, StringBuilder errorMessage) {
         try {
             eventDAO.insertEvent(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
         }
     }
     
     @Override
-    public void updateEventInfo(Event event, StringBuilder errorMessage) {
+    public void updateEventInfo(Event event, MessageManager messageManager, StringBuilder errorMessage) {
         try {
             eventDAO.updateEventInfo(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
         }
     }
     
     @Override
-    public void updateEventResult(Event event, StringBuilder errorMessage) {
+    public void updateEventResult(Event event, MessageManager messageManager, StringBuilder errorMessage) {
         int eventId = event.getId();
         int result1 = Integer.parseInt(event.getResult1());
         int result2 = Integer.parseInt(event.getResult2());
@@ -162,10 +163,10 @@ class EventServiceImpl extends EventService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
         } catch (SQLException e) {
             logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-            errorMessage.append(MESSAGE_ERR_SQL_TRANSACTION);
+            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_TRANSACTION));
         }
     }
     
