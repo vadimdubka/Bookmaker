@@ -40,17 +40,17 @@ class OutcomeServiceImpl extends OutcomeService {
     }
     
     @Override
-    public void insertOutcomeSet(Set<Outcome> outcomeSet, MessageManager messageManager, StringBuilder errorMessage) {
+    public void insertOutcomeSet(Set<Outcome> outcomeSet, MessageManager messageManager) {
         try {
             for (Outcome outcome : outcomeSet) {
                 boolean failure = !outcomeDAO.insertOutcome(outcome);
                 if (failure) {
-                    errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
+                    messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
                 }
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
+            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
         }
     }
 }

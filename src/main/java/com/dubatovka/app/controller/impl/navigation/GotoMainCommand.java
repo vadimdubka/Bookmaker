@@ -31,7 +31,6 @@ public class GotoMainCommand implements Command {
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
         
         String categoryIdStr = request.getParameter(PARAM_CATEGORY_ID);
         String eventQueryType = (String) session.getAttribute(ATTR_EVENT_QUERY_TYPE);
@@ -45,8 +44,8 @@ public class GotoMainCommand implements Command {
         
         setCategoryInfo(request, eventQueryType);
         if (categoryIdStr != null) {
-            validateCommand(messageManager, errorMessage, categoryIdStr);
-            if (errorMessage.toString().trim().isEmpty()) {
+            validateCommand(messageManager, categoryIdStr);
+            if (messageManager.isErrMessEmpty()) {
                 setEventInfo(request, categoryIdStr, eventQueryType);
                 if (EVENT_GOTO_SHOW_TO_PAY.equals(eventCommandType)) {
                     setWinBetInfo(request, categoryIdStr);
@@ -55,7 +54,7 @@ public class GotoMainCommand implements Command {
         }
         
         QueryManager.saveQueryToSession(request);
-        setErrorMessagesToRequest(errorMessage, request);
+        setMessagesToRequest(messageManager, request);
         return navigator;
     }
     
@@ -98,11 +97,11 @@ public class GotoMainCommand implements Command {
         request.setAttribute(ATTR_WIN_BET_SUM, winBetSum);
     }
     
-    private void validateCommand(MessageManager messageManager, StringBuilder errorMessage, String categoryIdStr) {
-        if (errorMessage.toString().trim().isEmpty()) {
+    private void validateCommand(MessageManager messageManager, String categoryIdStr) {
+        if (messageManager.isErrMessEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(categoryIdStr)) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
+                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_ID);
             }
         }
     }

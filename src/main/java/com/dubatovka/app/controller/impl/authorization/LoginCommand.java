@@ -24,7 +24,6 @@ import static com.dubatovka.app.manager.ConfigConstant.ATTR_USER;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EMAIL;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PASSWORD;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_LOGIN_MISMATCH;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_EMAIL;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
 
@@ -36,35 +35,34 @@ public class LoginCommand implements Command {
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
         
-        validateRequestParams(messageManager, errorMessage, email, password);
-        validateCommand(email, password, errorMessage, messageManager);
-        if (errorMessage.toString().trim().isEmpty()) {
+        validateRequestParams(messageManager, email, password);
+        validateCommand(email, password, messageManager);
+        if (messageManager.isErrMessEmpty()) {
             try (UserService userService = ServiceFactory.getUserService()) {
                 User user = userService.authorizeUser(email, password);
                 if (user != null) {
                     setUserToSession(user, session);
                 } else {
-                    errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
+                    messageManager.appendErrMessByKey(MESSAGE_ERR_LOGIN_MISMATCH);
                 }
             }
         }
-        setErrorMessagesToRequest(errorMessage, request);
+        setMessagesToRequest(messageManager, request);
         return navigator;
     }
     
-    private void validateCommand(String email, String password, StringBuilder errorMessage, MessageManager messageManager) {
-        if (errorMessage.toString().trim().isEmpty()) {
+    private void validateCommand(String email, String password, MessageManager messageManager) {
+        if (messageManager.isErrMessEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidEmail(email)) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
+                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EMAIL);
             }
             if (!validatorService.isValidPassword(password)) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
+                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_PASSWORD);
             }
         }
     }

@@ -30,15 +30,14 @@ public class GotoMakeBetCommand implements Command {
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
         
         String eventIdStr = request.getParameter(PARAM_EVENT_ID);
         String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
         Event event = new Event();
         
-        validateRequestParams(messageManager, errorMessage, eventIdStr, outcomeType);
-        setAndCheckEventNotNull(eventIdStr, event, messageManager, errorMessage);
-        if (errorMessage.toString().trim().isEmpty()) {
+        validateRequestParams(messageManager, eventIdStr, outcomeType);
+        setAndCheckEventNotNull(eventIdStr, event, messageManager);
+        if (messageManager.isErrMessEmpty()) {
             try (CategoryService categoryService = ServiceFactory.getCategoryService()) {
                 Outcome outcome = event.getOutcomeByType(outcomeType);
                 Category category = categoryService.getCategoryById(event.getCategoryId());
@@ -52,7 +51,7 @@ public class GotoMakeBetCommand implements Command {
         }
         
         QueryManager.saveQueryToSession(request);
-        setErrorMessagesToRequest(errorMessage, request);
+        setMessagesToRequest(messageManager, request);
         return navigator;
     }
 }

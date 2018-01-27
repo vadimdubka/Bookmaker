@@ -11,7 +11,24 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_BIRTHDATE_INPUT;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_EMAIL_INPUT;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_FNAME_INPUT;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LNAME_INPUT;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_MNAME_INPUT;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_BIRTHDATE;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EMAIL;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_NAME;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PASSWORD;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_PASSWORD_MISMATCH;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_BIRTHDATE;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_EMAIL;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_FNAME;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_LNAME;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_MNAME;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD_AGAIN;
 
 public class RegisterCommand implements Command {
     @Override
@@ -21,7 +38,6 @@ public class RegisterCommand implements Command {
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
@@ -31,54 +47,50 @@ public class RegisterCommand implements Command {
         String lName = request.getParameter(PARAM_LNAME);
         String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
-        validateRequestParams(messageManager, errorMessage, email, password, passwordAgain, fName, mName, lName, birthDate);
-        validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageManager, errorMessage, request);
-        if (errorMessage.toString().trim().isEmpty()) {
+        validateRequestParams(messageManager, email, password, passwordAgain, fName, mName, lName, birthDate);
+        validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageManager, request);
+        if (messageManager.isErrMessEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
                 boolean isRegPlayer = playerService.registerPlayer(email, password, fName, mName, lName, birthDate);
                 if (isRegPlayer) {
                     navigator = PageNavigator.REDIRECT_GOTO_INDEX;
                 }
             }
-        } else {
-            request.setAttribute(ATTR_ERROR_MESSAGE, errorMessage);
-            navigator = PageNavigator.FORWARD_PAGE_REGISTER;
         }
-        
-        setErrorMessagesToRequest(errorMessage, request);
+        setMessagesToRequest(messageManager, request);
         return navigator;
     }
     
-    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageManager messageManager, StringBuilder errorMessage, ServletRequest request) {
+    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageManager messageManager, ServletRequest request) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (validatorService.isValidEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);
         } else {
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
+            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EMAIL);
         }
         if (!validatorService.isValidPassword(password, passwordAgain)) {
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_PASSWORD)).append(WHITESPACE)
-                    .append(messageManager.getMessageByKey(MESSAGE_ERR_PASSWORD_MISMATCH)).append(MESSAGE_SEPARATOR);
+            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_PASSWORD);
+            messageManager.appendErrMessByKey(MESSAGE_ERR_PASSWORD_MISMATCH);
         }
         if (validatorService.isValidName(fName)) {
             request.setAttribute(ATTR_FNAME_INPUT, fName);
         } else {
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_NAME)).append(MESSAGE_SEPARATOR);
+            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
         }
         if (validatorService.isValidName(mName)) {
             request.setAttribute(ATTR_MNAME_INPUT, mName);
         } else {
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_NAME)).append(MESSAGE_SEPARATOR);
+            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
         }
         if (validatorService.isValidName(lName)) {
             request.setAttribute(ATTR_LNAME_INPUT, lName);
         } else {
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_NAME)).append(MESSAGE_SEPARATOR);
+            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
         }
         if (validatorService.isValidBirthdate(birthDate)) {
             request.setAttribute(ATTR_BIRTHDATE_INPUT, birthDate);
         } else {
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_BIRTHDATE)).append(MESSAGE_SEPARATOR);
+            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_BIRTHDATE);
         }
     }
 }

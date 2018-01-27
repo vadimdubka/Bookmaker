@@ -26,11 +26,11 @@ public abstract class EventService extends AbstractService {
     
     public abstract Map<String, Map<String, String>> getOutcomeColumnMaps(List<Event> events);
     
-    public abstract void deleteEvent(int eventId, MessageManager messageManager, StringBuilder errorMessage);
+    public abstract void deleteEvent(int eventId, MessageManager messageManager);
     
-    public abstract void insertEvent(Event event, MessageManager messageManager, StringBuilder errorMessage);
+    public abstract void insertEvent(Event event, MessageManager messageManager);
     
-    public abstract void updateEventInfo(Event event, MessageManager messageManager, StringBuilder errorMessage);
+    public abstract void updateEventInfo(Event event, MessageManager messageManager);
     
-    public abstract void updateEventResult(Event event, MessageManager messageManager, StringBuilder errorMessage);
+    public abstract void updateEventResult(Event event, MessageManager messageManager);
 }

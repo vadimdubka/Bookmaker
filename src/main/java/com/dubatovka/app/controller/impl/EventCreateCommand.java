@@ -18,7 +18,6 @@ import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_CATEG
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_DATE;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PARTICIPANT;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INF_EVENT_CREATE;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_CATEGORY_ID;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_DATE;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_PARTICIPANT_1;
@@ -32,17 +31,15 @@ public class EventCreateCommand implements Command {
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
-        StringBuilder infoMessage = new StringBuilder();
         
         String categoryIdStr = request.getParameter(PARAM_CATEGORY_ID);
         String dateTimeStr = request.getParameter(PARAM_DATE);
         String participant1 = request.getParameter(PARAM_PARTICIPANT_1);
         String participant2 = request.getParameter(PARAM_PARTICIPANT_2);
         
-        validateRequestParams(messageManager, errorMessage, categoryIdStr, dateTimeStr, participant1, participant2);
-        validateCommand(messageManager, errorMessage, categoryIdStr, dateTimeStr, participant1, participant2);
-        if (errorMessage.toString().trim().isEmpty()) {
+        validateRequestParams(messageManager, categoryIdStr, dateTimeStr, participant1, participant2);
+        validateCommand(messageManager, categoryIdStr, dateTimeStr, participant1, participant2);
+        if (messageManager.isErrMessEmpty()) {
             int categoryId = Integer.parseInt(categoryIdStr);
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr);
             Event event = new Event();
@@ -51,34 +48,29 @@ public class EventCreateCommand implements Command {
             event.setParticipant1(participant1.trim());
             event.setParticipant2(participant2.trim());
             try (EventService eventService = ServiceFactory.getEventService()) {
-                eventService.insertEvent(event, messageManager, errorMessage);
+                eventService.insertEvent(event, messageManager);
             }
-            if (errorMessage.toString().trim().isEmpty()) {
-                infoMessage.append(messageManager.getMessageByKey(MESSAGE_INF_EVENT_CREATE)).append(MESSAGE_SEPARATOR);
+            if (messageManager.isErrMessEmpty()) {
+                messageManager.appendInfMessByKey(MESSAGE_INF_EVENT_CREATE);
             } else {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_EVENT_CREATE)).append(MESSAGE_SEPARATOR);
+                messageManager.appendErrMessByKey(MESSAGE_ERR_EVENT_CREATE);
             }
         }
-        
-        setErrorMessagesToRequest(errorMessage, request);
-        setInfoMessagesToRequest(infoMessage, request);
+        setMessagesToRequest(messageManager, request);
         return navigator;
     }
     
-    private void validateCommand(MessageManager messageManager, StringBuilder errorMessage, String categoryIdStr, String dateTimeStr, String participant1, String participant2) {
-        if (errorMessage.toString().trim().isEmpty()) {
+    private void validateCommand(MessageManager messageManager, String categoryIdStr, String dateTimeStr, String participant1, String participant2) {
+        if (messageManager.isErrMessEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(categoryIdStr)) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_CATEGORY_ID)).append(MESSAGE_SEPARATOR);
+                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_CATEGORY_ID);
             }
             if (!validatorService.isValidEventDateTime(dateTimeStr)) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_DATE)).append(MESSAGE_SEPARATOR);
+                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_DATE);
             }
-            if (!validatorService.isValidEventParticipantName(participant1)) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
-            }
-            if (!validatorService.isValidEventParticipantName(participant2)) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
+            if (!validatorService.isValidEventParticipantName(participant1) || !validatorService.isValidEventParticipantName(participant2)) {
+                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_PARTICIPANT);
             }
         }
     }

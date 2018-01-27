@@ -80,7 +80,7 @@ class BetServiceImpl extends BetService {
     }
     
     @Override
-    public void payWinBet(int eventId, MessageManager messageManager, StringBuilder errorMessage) {
+    public void payWinBet(int eventId, MessageManager messageManager) {
         Set<Bet> winBetSet = getBetSetForEventAndStatus(eventId, Bet.Status.WIN);
         if ((winBetSet != null) && !winBetSet.isEmpty()) {
             try {
@@ -106,16 +106,16 @@ class BetServiceImpl extends BetService {
                 }
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
+                messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
             } catch (SQLException e) {
                 logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_TRANSACTION));
+                messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
             }
         }
     }
     
     @Override
-    public void makeBet(Bet bet, MessageManager messageManager, StringBuilder errorMessage) {
+    public void makeBet(Bet bet, MessageManager messageManager) {
         try {
             daoHelper.beginTransaction();
             boolean isBetIns = betDAO.insertBet(bet);
@@ -127,10 +127,10 @@ class BetServiceImpl extends BetService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
+            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
         } catch (SQLException e) {
             logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_TRANSACTION));
+            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
         }
     }
     

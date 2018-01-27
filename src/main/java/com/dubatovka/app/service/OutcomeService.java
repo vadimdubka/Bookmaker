@@ -17,5 +17,5 @@ public abstract class OutcomeService extends AbstractService {
     
     public abstract void setOutcomesForEvent(Event event);
     
-    public abstract void insertOutcomeSet(Set<Outcome> outcomeSet, MessageManager messageManager, StringBuilder errorMessage);
+    public abstract void insertOutcomeSet(Set<Outcome> outcomeSet, MessageManager messageManager);
 }

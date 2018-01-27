@@ -44,20 +44,18 @@ public class GotoPlayerStateCommand implements Command {
         
         String locale = (String) session.getAttribute(ATTR_LOCALE);
         MessageManager messageManager = MessageManager.getMessageManager(locale);
-        StringBuilder errorMessage = new StringBuilder();
         
         Player player = (Player) session.getAttribute(PLAYER);
         String pageNumberStr = request.getParameter(PARAM_PAGE_NUMBER);
         
-        validateCommand(player, messageManager, errorMessage);
-        if (errorMessage.toString().trim().isEmpty()) {
+        validateCommand(player, messageManager);
+        if (messageManager.isErrMessEmpty()) {
             PaginationService paginationService = setPaginationService(request, player, pageNumberStr);
             setBetInfo(request, player, paginationService);
             setPlayerInfo(session, player);
             navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
         }
-        
-        setErrorMessagesToRequest(errorMessage, request);
+        setMessagesToRequest(messageManager, request);
         return navigator;
     }
     
@@ -104,10 +102,10 @@ public class GotoPlayerStateCommand implements Command {
         session.setAttribute(ATTR_PLAYER, player);
     }
     
-    private void validateCommand(Player player, MessageManager messageManager, StringBuilder errorMessage) {
-        if (errorMessage.toString().trim().isEmpty()) {
+    private void validateCommand(Player player, MessageManager messageManager) {
+        if (messageManager.isErrMessEmpty()) {
             if (player == null) {
-                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_PLAYER_NOT_DEFINED));
+                messageManager.appendErrMessByKey(MESSAGE_ERR_PLAYER_NOT_DEFINED);
             }
         }
     }

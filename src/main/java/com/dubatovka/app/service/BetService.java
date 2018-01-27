@@ -25,9 +25,9 @@ public abstract class BetService extends AbstractService {
     
     public abstract Map<String, Map<String, String>> getWinBetInfo(int categoryId);
     
-    public abstract void payWinBet(int eventId, MessageManager messageManager, StringBuilder errorMessage);
+    public abstract void payWinBet(int eventId, MessageManager messageManager);
     
-    public abstract void makeBet(Bet bet, MessageManager messageManager, StringBuilder errorMessage);
+    public abstract void makeBet(Bet bet, MessageManager messageManager);
         
     public abstract int countBetsForPlayer(int playerId);
 }
