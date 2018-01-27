@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 
 import static com.dubatovka.app.manager.ConfigConstant.ATTR_PREV_QUERY;
-import static com.dubatovka.app.manager.ConfigConstant.PAGE_INDEX;
 import static com.dubatovka.app.manager.ConfigConstant.PARAMETER_SEPARATOR;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD_AGAIN;
@@ -32,17 +31,6 @@ public final class QueryManager {
         HttpSession session = request.getSession();
         String query = buildQueryString(request);
         session.setAttribute(ATTR_PREV_QUERY, query);
-    }
-    
-    /**
-     * Takes saved to {@link HttpSession} query.
-     */
-    public static String takePreviousQuery(HttpServletRequest request) {
-        String prevQuery = (String) request.getSession().getAttribute(ATTR_PREV_QUERY);
-        if (prevQuery == null) {
-            prevQuery = PAGE_INDEX;
-        }
-        return prevQuery;
     }
     
     /**

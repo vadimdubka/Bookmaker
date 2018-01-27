@@ -1,7 +1,5 @@
 package com.dubatovka.app.controller;
 
-import com.dubatovka.app.manager.QueryManager;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -9,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static com.dubatovka.app.manager.ConfigConstant.*;
@@ -39,7 +38,7 @@ public class MainControllerServlet extends HttpServlet {
     private void processNavigator(HttpServletRequest request, HttpServletResponse response, PageNavigator navigator) throws ServletException, IOException {
         String query = navigator.getQuery();
         if (PREV_QUERY.equals(query)) {
-            query = QueryManager.takePreviousQuery(request);
+            query = takePreviousQuery(request);
         }
         String responseType = navigator.getResponseType();
         switch (responseType) {
@@ -60,5 +59,16 @@ public class MainControllerServlet extends HttpServlet {
     private static void defaultProcessRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String contextPath = request.getContextPath();
         response.sendRedirect(contextPath + PAGE_INDEX);
+    }
+    
+    /**
+     * Takes saved to {@link HttpSession} query.
+     */
+    private static String takePreviousQuery(HttpServletRequest request) {
+        String prevQuery = (String) request.getSession().getAttribute(ATTR_PREV_QUERY);
+        if (prevQuery == null) {
+            prevQuery = PAGE_INDEX;
+        }
+        return prevQuery;
     }
 }
