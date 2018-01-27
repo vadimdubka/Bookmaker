@@ -134,42 +134,42 @@ public final class ConfigConstant {
     /**
      * Server message property keys
      */
-    public static final String MESSAGE_INVALID_EMAIL = "invalid.email";
-    public static final String MESSAGE_INVALID_NAME = "invalid.name";
-    public static final String MESSAGE_INVALID_PASSWORD = "invalid.password";
-    public static final String MESSAGE_LOGIN_MISMATCH = "login.mismatch";
-    public static final String MESSAGE_PASSWORD_MISMATCH = "password.mismatch";
-    public static final String MESSAGE_INVALID_BIRTHDATE = "invalid.birthdate";
-    public static final String MESSAGE_ERROR_BET_GOTO_REGISTRATION = "Чтобы сделать ставку, пожалуйста, зарегистрируйтесь и войдите в систему";
-    public static final String MESSAGE_ERROR_BET_FOR_EMPLOYEE = "Сотрудники букмекерской компании не могут делать ставки.";
-    public static final String MESSAGE_ERROR_BET_AMOUNT_INVALID = "Введенное число не является валидным. Число должно быть больше нуля, меньше либо равно 999.99, число может быть дробным и содержать два знака после запятой.";
-    public static final String MESSAGE_ERROR_PLAYER_STATUS_BAN = "Игрок забанен.";
-    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BALANCE = "Введенная сумма ставки превышает баланс на счету игрока.";
-    public static final String MESSAGE_ERROR_BET_AMOUNT_LESS_BET_LIMIT = "Введенная сумма ставки превышает лимит по ставкам.";
-    public static final String MESSAGE_ERROR_OUTCOME_COEFF = "Коэффициет исхода по выбранному событию изменился с тех пор, как вы решили сделать ставку. Проверьте выбранный коэффициент еще раз.";
-    public static final String MESSAGE_ERROR_BET_TIME = "Время, отведенное на ставку, истекло.";
-    public static final String MESSAGE_ERROR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления. Вероятно, уже сделана ставка на аналогичный исход события.";
-    public static final String MESSAGE_ERROR_INVALID_EVENT_ID = "Невалидный id события.";
-    public static final String MESSAGE_ERROR_INVALID_PARTICIPANT = "Невалидный название участника события.";
-    public static final String MESSAGE_ERROR_INVALID_DATE = "Невалидная дата события.";
-    public static final String MESSAGE_ERROR_INVALID_EVENT_RESULT = "Невалидный результат события.";
-    public static final String MESSAGE_ERROR_INVALID_EVENT_OUTCOME = "Невалидный исход события.";
-    public static final String MESSAGE_ERROR_INVALID_CATEGORY_ID = "Невалидный id категории.";
-    public static final String MESSAGE_ERROR_INVALID_REQUEST_PARAMETER = "Один или несколько параметров запроса не определен.";
-    public static final String MESSAGE_ERROR_EVENT_DELETE_FAIL = "Событие не удалось удалить, видимо по нему уже сделаны ставки.";
-    public static final String MESSAGE_ERROR_EVENT_CREATE_FAIL = "Событие не удалось создать.";
-    public static final String MESSAGE_ERROR_EVENT_UPDATE_INFO_FAIL = "Событие не удалось обновить.";
-    public static final String MESSAGE_ERROR_PAY_WIN_BET_FAIL = "Выигравшие ставки не удалось оплатить.";
-    public static final String MESSAGE_ERROR_OUTCOME_UPDATE_FAIL = "Исходы события не удалось обновить.";
-    public static final String MESSAGE_ERROR_SQL_OPERATION = "Database connection error while doing sql operation.";
-    public static final String MESSAGE_ERROR_SQL_TRANSACTION = "Database connection error while doing sql transaction. ";
+    public static final String MESSAGE_ERR_INVALID_EMAIL = "invalid.email";
+    public static final String MESSAGE_ERR_INVALID_NAME = "invalid.name";
+    public static final String MESSAGE_ERR_INVALID_PASSWORD = "invalid.password";
+    public static final String MESSAGE_ERR_INVALID_EVENT_ID = "Невалидный id события.";
+    public static final String MESSAGE_ERR_INVALID_PARTICIPANT = "Невалидный название участника события.";
+    public static final String MESSAGE_ERR_INVALID_DATE = "Невалидная дата события.";
+    public static final String MESSAGE_ERR_INVALID_EVENT_RESULT = "Невалидный результат события.";
+    public static final String MESSAGE_ERR_INVALID_EVENT_OUTCOME = "Невалидный исход события.";
+    public static final String MESSAGE_ERR_INVALID_CATEGORY_ID = "Невалидный id категории.";
+    public static final String MESSAGE_ERR_INVALID_REQUEST_PARAMETER = "Один или несколько параметров запроса не определен.";
+    public static final String MESSAGE_ERR_INVALID_BIRTHDATE = "invalid.birthdate";
+    public static final String MESSAGE_ERR_LOGIN_MISMATCH = "login.mismatch";
+    public static final String MESSAGE_ERR_PASSWORD_MISMATCH = "password.mismatch";
+    public static final String MESSAGE_ERR_BET_GOTO_REGISTRATION = "Чтобы сделать ставку, пожалуйста, зарегистрируйтесь и войдите в систему";
+    public static final String MESSAGE_ERR_BET_FOR_EMPLOYEE = "Сотрудники букмекерской компании не могут делать ставки.";
+    public static final String MESSAGE_ERR_BET_AMOUNT_INVALID = "Введенное число не является валидным. Число должно быть больше нуля, меньше либо равно 999.99, число может быть дробным и содержать два знака после запятой.";
+    public static final String MESSAGE_ERR_PLAYER_STATUS_BAN = "Игрок забанен.";
+    public static final String MESSAGE_ERR_BET_AMOUNT_LESS_BALANCE = "Введенная сумма ставки превышает баланс на счету игрока.";
+    public static final String MESSAGE_ERR_BET_AMOUNT_LESS_BET_LIMIT = "Введенная сумма ставки превышает лимит по ставкам.";
+    public static final String MESSAGE_ERR_OUTCOME_COEFF = "Коэффициет исхода по выбранному событию изменился с тех пор, как вы решили сделать ставку. Проверьте выбранный коэффициент еще раз.";
+    public static final String MESSAGE_ERR_BET_TIME = "Время, отведенное на ставку, истекло.";
+    public static final String MESSAGE_ERR_BETTING_INTERRUPTED = "Ставка была прервана в процессе осуществления. Вероятно, уже сделана ставка на аналогичный исход события.";
+    public static final String MESSAGE_ERR_EVENT_DELETE_FAIL = "Событие не удалось удалить, видимо по нему уже сделаны ставки.";
+    public static final String MESSAGE_ERR_EVENT_CREATE_FAIL = "Событие не удалось создать.";
+    public static final String MESSAGE_ERR_EVENT_UPDATE_INFO_FAIL = "Событие не удалось обновить.";
+    public static final String MESSAGE_ERR_PAY_WIN_BET_FAIL = "Выигравшие ставки не удалось оплатить.";
+    public static final String MESSAGE_ERR_OUTCOME_UPDATE_FAIL = "Исходы события не удалось обновить.";
+    public static final String MESSAGE_ERR_SQL_OPERATION = "Database connection error while doing sql operation.";
+    public static final String MESSAGE_ERR_SQL_TRANSACTION = "Database connection error while doing sql transaction. ";
+    public static final String MESSAGE_ERR_PLAYER_NOT_DEFINED = "Невозможно перейти на страницу, т.к. игрок не определен.";
     public static final String MESSAGE_INFO_BET_IS_DONE = "Ставка сделана!";
     public static final String MESSAGE_INFO_EVENT_DELETE_SUCCESS = "Событие успешно удалено.";
     public static final String MESSAGE_INFO_EVENT_CREATE_SUCCESS = "Событие успешно создано.";
     public static final String MESSAGE_INFO_EVENT_UPDATE_INFO_SUCCESS = "Событие успешно обновлено.";
     public static final String MESSAGE_INFO_PAY_WIN_BET_SUCCESS = "Выигравшие ставки успешно оплачены.";
     public static final String MESSAGE_INFO_OUTCOME_UPDATE_SUCCESS = "Исходы событий успешно обновлены.";
-    public static final String MESSAGE_ERROR_PLAYER_NOT_DEFINED = "Невозможно перейти на страницу, т.к. игрок не определен.";
     
     /**
      * Navigation response types

@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_OPERATION;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_OPERATION;
 
 class OutcomeServiceImpl extends OutcomeService {
     private static final Logger logger = LogManager.getLogger(OutcomeServiceImpl.class);
@@ -44,12 +44,12 @@ class OutcomeServiceImpl extends OutcomeService {
             for (Outcome outcome : outcomeSet) {
                 boolean failure = !outcomeDAO.insertOutcome(outcome);
                 if (failure) {
-                    errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+                    errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
                 }
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
         }
     }
 }

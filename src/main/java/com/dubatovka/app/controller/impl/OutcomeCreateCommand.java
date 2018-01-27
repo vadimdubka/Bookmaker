@@ -52,7 +52,7 @@ public class OutcomeCreateCommand implements Command {
             if (errorMessage.toString().trim().isEmpty()) {
                 infoMessage.append(MESSAGE_INFO_OUTCOME_UPDATE_SUCCESS).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(MESSAGE_ERROR_OUTCOME_UPDATE_FAIL).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_OUTCOME_UPDATE_FAIL).append(MESSAGE_SEPARATOR);
             }
         }
     
@@ -65,13 +65,13 @@ public class OutcomeCreateCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidOutcomeCoeff(outcome1Str)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidOutcomeCoeff(outcomeXStr)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidOutcomeCoeff(outcome2Str)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_INVALID_EVENT_OUTCOME).append(MESSAGE_SEPARATOR);
             }
         }
     }

@@ -94,7 +94,7 @@ public class GotoPlayerStateCommand implements Command {
     private void validateCommand(Player player, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             if (player == null) {
-                errorMessage.append(MESSAGE_ERROR_PLAYER_NOT_DEFINED);
+                errorMessage.append(MESSAGE_ERR_PLAYER_NOT_DEFINED);
             }
         }
     }

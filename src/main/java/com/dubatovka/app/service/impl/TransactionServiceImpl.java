@@ -195,7 +195,7 @@ class TransactionServiceImpl extends TransactionService {
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         } catch (SQLException e) {
-            logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
+            logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
         }
         return result;
     }

@@ -17,7 +17,7 @@ public interface Command {
     default void validateRequestParams(StringBuilder errorMessage, String... params) {
         ValidatorService validatorService = ServiceFactory.getValidatorService();
         if (!validatorService.isValidRequestParam(params)) {
-            errorMessage.append(MESSAGE_ERROR_INVALID_REQUEST_PARAMETER).append(MESSAGE_SEPARATOR);
+            errorMessage.append(MESSAGE_ERR_INVALID_REQUEST_PARAMETER).append(MESSAGE_SEPARATOR);
         }
     }
     
@@ -49,7 +49,7 @@ public interface Command {
                     event.setResult2(eventDB.getResult2());
                     event.setOutcomeSet(eventDB.getOutcomeSet());
                 } else {
-                    errorMessage.append(MESSAGE_ERROR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
+                    errorMessage.append(MESSAGE_ERR_INVALID_EVENT_ID).append(MESSAGE_SEPARATOR);
                 }
             }
         }

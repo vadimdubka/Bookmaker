@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_OPERATION;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_TRANSACTION;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_OPERATION;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_TRANSACTION;
 
 class BetServiceImpl extends BetService {
     private static final Logger logger = LogManager.getLogger(BetServiceImpl.class);
@@ -105,10 +105,10 @@ class BetServiceImpl extends BetService {
                 }
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());
-                errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+                errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
             } catch (SQLException e) {
-                logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
-                errorMessage.append(MESSAGE_ERROR_SQL_TRANSACTION);
+                logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
+                errorMessage.append(MESSAGE_ERR_SQL_TRANSACTION);
             }
         }
     }
@@ -126,10 +126,10 @@ class BetServiceImpl extends BetService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
         } catch (SQLException e) {
-            logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
-            errorMessage.append(MESSAGE_ERROR_SQL_TRANSACTION);
+            logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
+            errorMessage.append(MESSAGE_ERR_SQL_TRANSACTION);
         }
     }
     

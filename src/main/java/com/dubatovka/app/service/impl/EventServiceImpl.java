@@ -17,10 +17,9 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_OPERATION;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERROR_SQL_TRANSACTION;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_OPERATION;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_TRANSACTION;
 import static com.dubatovka.app.manager.ConfigConstant.OUTCOME_TYPE_KEY_NAME;
 
 class EventServiceImpl extends EventService {
@@ -120,7 +119,7 @@ class EventServiceImpl extends EventService {
             eventDAO.deleteEvent(eventId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
         }
     }
     
@@ -130,7 +129,7 @@ class EventServiceImpl extends EventService {
             eventDAO.insertEvent(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
         }
     }
     
@@ -140,7 +139,7 @@ class EventServiceImpl extends EventService {
             eventDAO.updateEventInfo(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
         }
     }
     
@@ -163,10 +162,10 @@ class EventServiceImpl extends EventService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(MESSAGE_ERROR_SQL_OPERATION);
+            errorMessage.append(MESSAGE_ERR_SQL_OPERATION);
         } catch (SQLException e) {
-            logger.log(Level.ERROR, MESSAGE_ERROR_SQL_TRANSACTION + e);
-            errorMessage.append(MESSAGE_ERROR_SQL_TRANSACTION);
+            logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
+            errorMessage.append(MESSAGE_ERR_SQL_TRANSACTION);
         }
     }
     

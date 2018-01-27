@@ -46,7 +46,7 @@ public class EventCreateCommand implements Command {
             if (errorMessage.toString().trim().isEmpty()) {
                 infoMessage.append(MESSAGE_INFO_EVENT_CREATE_SUCCESS).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(MESSAGE_ERROR_EVENT_CREATE_FAIL).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_EVENT_CREATE_FAIL).append(MESSAGE_SEPARATOR);
             }
         }
         
@@ -59,16 +59,16 @@ public class EventCreateCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(categoryIdStr)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_CATEGORY_ID).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_INVALID_CATEGORY_ID).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventDateTime(dateTimeStr)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_DATE).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_INVALID_DATE).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventParticipantName(participant1)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventParticipantName(participant2)) {
-                errorMessage.append(MESSAGE_ERROR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
+                errorMessage.append(MESSAGE_ERR_INVALID_PARTICIPANT).append(MESSAGE_SEPARATOR);
             }
         }
     }

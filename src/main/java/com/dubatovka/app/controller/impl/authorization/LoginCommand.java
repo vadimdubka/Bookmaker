@@ -21,9 +21,9 @@ import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
 import static com.dubatovka.app.manager.ConfigConstant.ATTR_PLAYER;
 import static com.dubatovka.app.manager.ConfigConstant.ATTR_ROLE;
 import static com.dubatovka.app.manager.ConfigConstant.ATTR_USER;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INVALID_EMAIL;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INVALID_PASSWORD;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_LOGIN_MISMATCH;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EMAIL;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PASSWORD;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_LOGIN_MISMATCH;
 import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_EMAIL;
 import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
@@ -49,7 +49,7 @@ public class LoginCommand implements Command {
                 if (user != null) {
                     setUserToSession(user, session);
                 } else {
-                    errorMessage.append(messageManager.getMessage(MESSAGE_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
+                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
                 }
             }
         }
@@ -62,10 +62,10 @@ public class LoginCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidEmail(email)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidPassword(password)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
             }
         }
     }
