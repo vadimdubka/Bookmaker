@@ -37,9 +37,9 @@ public class PayWinBetCommand implements Command {
                 betService.payWinBet(eventId, messageManager, errorMessage);
             }
             if (errorMessage.toString().trim().isEmpty()) {
-                infoMessage.append(messageManager.getMessage(MESSAGE_INF_PAY_WIN_BET)).append(MESSAGE_SEPARATOR);
+                infoMessage.append(messageManager.getMessageByKey(MESSAGE_INF_PAY_WIN_BET)).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_PAY_WIN_BET)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_PAY_WIN_BET)).append(MESSAGE_SEPARATOR);
             }
         }
         
@@ -52,7 +52,7 @@ public class PayWinBetCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(eventIdStr)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
             }
         }
     }

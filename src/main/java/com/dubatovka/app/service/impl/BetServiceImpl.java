@@ -106,10 +106,10 @@ class BetServiceImpl extends BetService {
                 }
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
             } catch (SQLException e) {
                 logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_TRANSACTION));
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_TRANSACTION));
             }
         }
     }
@@ -127,10 +127,10 @@ class BetServiceImpl extends BetService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
         } catch (SQLException e) {
             logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_TRANSACTION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_TRANSACTION));
         }
     }
     

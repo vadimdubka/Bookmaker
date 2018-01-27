@@ -107,7 +107,7 @@ public class GotoPlayerStateCommand implements Command {
     private void validateCommand(Player player, MessageManager messageManager, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             if (player == null) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_PLAYER_NOT_DEFINED));
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_PLAYER_NOT_DEFINED));
             }
         }
     }

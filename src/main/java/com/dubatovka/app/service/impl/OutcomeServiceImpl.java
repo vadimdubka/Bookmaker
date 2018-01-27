@@ -45,12 +45,12 @@ class OutcomeServiceImpl extends OutcomeService {
             for (Outcome outcome : outcomeSet) {
                 boolean failure = !outcomeDAO.insertOutcome(outcome);
                 if (failure) {
-                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+                    errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
                 }
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
         }
     }
 }

@@ -46,9 +46,9 @@ public class EventResultUpdateCommand implements Command {
                 eventService.updateEventResult(event, messageManager, errorMessage);
             }
             if (errorMessage.toString().trim().isEmpty()) {
-                infoMessage.append(messageManager.getMessage(MESSAGE_INF_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
+                infoMessage.append(messageManager.getMessageByKey(MESSAGE_INF_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_EVENT_UPDATE_INFO)).append(MESSAGE_SEPARATOR);
             }
         }
         
@@ -61,10 +61,10 @@ public class EventResultUpdateCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidEventResult(result1Str)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_RESULT)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EVENT_RESULT)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventResult(result2Str)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_RESULT)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EVENT_RESULT)).append(MESSAGE_SEPARATOR);
             }
         }
     }

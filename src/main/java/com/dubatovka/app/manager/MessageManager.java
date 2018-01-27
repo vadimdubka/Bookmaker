@@ -8,7 +8,15 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.COUNTRY_RU;
+import static com.dubatovka.app.manager.ConfigConstant.COUNTRY_US;
+import static com.dubatovka.app.manager.ConfigConstant.EMPTY_STRING;
+import static com.dubatovka.app.manager.ConfigConstant.EN_US;
+import static com.dubatovka.app.manager.ConfigConstant.LANG_EN;
+import static com.dubatovka.app.manager.ConfigConstant.LANG_RU;
+import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.PATH_TO_MESSAGES_BUNDLE;
+import static com.dubatovka.app.manager.ConfigConstant.RU_RU;
 
 public final class MessageManager {
     private static final Logger logger = LogManager.getLogger(MessageManager.class);
@@ -20,6 +28,8 @@ public final class MessageManager {
     private static final MessageManager MESSAGE_MANAGER_DEFAULT = MESSAGE_MANAGER_RU;
     
     private final ResourceBundle bundle;
+    private final StringBuilder errMess = new StringBuilder();
+    private final StringBuilder infMess = new StringBuilder();
     
     private MessageManager(Locale locale) {
         bundle = ResourceBundle.getBundle(PATH_TO_MESSAGES_BUNDLE, locale);
@@ -40,7 +50,39 @@ public final class MessageManager {
         return messageManager;
     }
     
-    public String getMessage(String key) {
+    public void appendErrMessByKey(String key) {
+        errMess.append(getMessageByKey(key)).append(MESSAGE_SEPARATOR);
+    }
+    
+    public void appendInfMessByKey(String key) {
+        infMess.append(getMessageByKey(key)).append(MESSAGE_SEPARATOR);
+    }
+    
+    public void appendErrMess(String message) {
+        errMess.append(message).append(MESSAGE_SEPARATOR);
+    }
+    
+    public void appendInfMess(String message) {
+        infMess.append(message).append(MESSAGE_SEPARATOR);
+    }
+    
+    public String getErrMessContent() {
+        return errMess.toString().trim();
+    }
+    
+    public String getInfMessContent() {
+        return infMess.toString().trim();
+    }
+    
+    public boolean isErrMessEmpty() {
+        return errMess.toString().trim().isEmpty();
+    }
+    
+    public boolean isInfMessEmpty() {
+        return errMess.toString().trim().isEmpty();
+    }
+    
+    public String getMessageByKey(String key) {
         String property;
         try {
             property = bundle.getString(key);

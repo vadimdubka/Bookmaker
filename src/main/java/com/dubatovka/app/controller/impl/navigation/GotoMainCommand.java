@@ -102,7 +102,7 @@ public class GotoMainCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(categoryIdStr)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EVENT_ID)).append(MESSAGE_SEPARATOR);
             }
         }
     }

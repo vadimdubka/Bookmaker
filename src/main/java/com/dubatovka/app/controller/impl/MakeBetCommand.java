@@ -74,9 +74,9 @@ public class MakeBetCommand implements Command {
                     playerService.updatePlayerInfo(player);
                     session.setAttribute(ATTR_PLAYER, player);
                     navigator = PageNavigator.FORWARD_GOTO_MAIN;
-                    infoMessage.append(messageManager.getMessage(MESSAGE_INF_BET_IS_DONE)).append(MESSAGE_SEPARATOR);
+                    infoMessage.append(messageManager.getMessageByKey(MESSAGE_INF_BET_IS_DONE)).append(MESSAGE_SEPARATOR);
                 } else {
-                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_BETTING_INTERRUPTED)).append(MESSAGE_SEPARATOR);
+                    errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_BETTING_INTERRUPTED)).append(MESSAGE_SEPARATOR);
                 }
             }
         }
@@ -89,9 +89,9 @@ public class MakeBetCommand implements Command {
     private void validateUserRole(User.UserRole role, MessageManager messageManager, StringBuilder errorMessage) {
         if (errorMessage.toString().trim().isEmpty()) {
             if (role == User.UserRole.GUEST) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_BET_GOTO_REGISTRATION)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_BET_GOTO_REGISTRATION)).append(MESSAGE_SEPARATOR);
             } else if ((role == User.UserRole.ADMIN) || (role == User.UserRole.ANALYST)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_BET_FOR_EMPLOYEE)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_BET_FOR_EMPLOYEE)).append(MESSAGE_SEPARATOR);
             }
         }
     }
@@ -102,15 +102,15 @@ public class MakeBetCommand implements Command {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             
             if (!validatorService.isValidBetTime(betDateTime, event.getDate())) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_BET_TIME)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_BET_TIME)).append(MESSAGE_SEPARATOR);
             }
             
             if (!validatorService.isValidOutcomeCoeffOnPage(outcomeCoeffOnPage, event, outcomeType)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_OUTCOME_COEFF_CHANGE)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_OUTCOME_COEFF_CHANGE)).append(MESSAGE_SEPARATOR);
             }
             
             if (player.getAccount().getStatus().getStatus() == PlayerStatus.Status.BAN) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_PLAYER_STATUS_BAN)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_PLAYER_STATUS_BAN)).append(MESSAGE_SEPARATOR);
             }
             
             if (validatorService.isValidBetAmount(betAmountStr)) {
@@ -118,13 +118,13 @@ public class MakeBetCommand implements Command {
                 BigDecimal balance = player.getAccount().getBalance();
                 BigDecimal betLimit = player.getAccount().getStatus().getBetLimit();
                 if (betAmount.compareTo(balance) > 0) {
-                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_BET_AMOUNT_LESS_BALANCE)).append(MESSAGE_SEPARATOR);
+                    errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_BET_AMOUNT_LESS_BALANCE)).append(MESSAGE_SEPARATOR);
                 }
                 if (betAmount.compareTo(betLimit) >= 0) {
-                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_BET_AMOUNT_LESS_BET_LIMIT)).append(MESSAGE_SEPARATOR);
+                    errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_BET_AMOUNT_LESS_BET_LIMIT)).append(MESSAGE_SEPARATOR);
                 }
             } else {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_BET_AMOUNT)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_BET_AMOUNT)).append(MESSAGE_SEPARATOR);
             }
         }
     }

@@ -49,7 +49,7 @@ public class LoginCommand implements Command {
                 if (user != null) {
                     setUserToSession(user, session);
                 } else {
-                    errorMessage.append(messageManager.getMessage(MESSAGE_ERR_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
+                    errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_LOGIN_MISMATCH)).append(MESSAGE_SEPARATOR);
                 }
             }
         }
@@ -61,10 +61,10 @@ public class LoginCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidEmail(email)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_EMAIL)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidPassword(password)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_PASSWORD)).append(MESSAGE_SEPARATOR);
             }
         }
     }

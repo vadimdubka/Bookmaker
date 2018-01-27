@@ -54,9 +54,9 @@ public class EventCreateCommand implements Command {
                 eventService.insertEvent(event, messageManager, errorMessage);
             }
             if (errorMessage.toString().trim().isEmpty()) {
-                infoMessage.append(messageManager.getMessage(MESSAGE_INF_EVENT_CREATE)).append(MESSAGE_SEPARATOR);
+                infoMessage.append(messageManager.getMessageByKey(MESSAGE_INF_EVENT_CREATE)).append(MESSAGE_SEPARATOR);
             } else {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_EVENT_CREATE)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_EVENT_CREATE)).append(MESSAGE_SEPARATOR);
             }
         }
         
@@ -69,16 +69,16 @@ public class EventCreateCommand implements Command {
         if (errorMessage.toString().trim().isEmpty()) {
             ValidatorService validatorService = ServiceFactory.getValidatorService();
             if (!validatorService.isValidId(categoryIdStr)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_CATEGORY_ID)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_CATEGORY_ID)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventDateTime(dateTimeStr)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_DATE)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_DATE)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventParticipantName(participant1)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
             }
             if (!validatorService.isValidEventParticipantName(participant2)) {
-                errorMessage.append(messageManager.getMessage(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
+                errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_INVALID_PARTICIPANT)).append(MESSAGE_SEPARATOR);
             }
         }
     }

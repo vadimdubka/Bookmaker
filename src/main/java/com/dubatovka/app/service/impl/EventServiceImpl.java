@@ -120,7 +120,7 @@ class EventServiceImpl extends EventService {
             eventDAO.deleteEvent(eventId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
         }
     }
     
@@ -130,7 +130,7 @@ class EventServiceImpl extends EventService {
             eventDAO.insertEvent(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
         }
     }
     
@@ -140,7 +140,7 @@ class EventServiceImpl extends EventService {
             eventDAO.updateEventInfo(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
         }
     }
     
@@ -163,10 +163,10 @@ class EventServiceImpl extends EventService {
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_OPERATION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_OPERATION));
         } catch (SQLException e) {
             logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-            errorMessage.append(messageManager.getMessage(MESSAGE_ERR_SQL_TRANSACTION));
+            errorMessage.append(messageManager.getMessageByKey(MESSAGE_ERR_SQL_TRANSACTION));
         }
     }
     
