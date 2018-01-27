@@ -1,23 +1,22 @@
 package com.dubatovka.app.manager;
 
-import com.dubatovka.app.entity.User;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.manager.ConfigConstant.ATTR_PREV_QUERY;
+import static com.dubatovka.app.manager.ConfigConstant.PAGE_INDEX;
+import static com.dubatovka.app.manager.ConfigConstant.PARAMETER_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD_AGAIN;
+import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD_OLD;
+import static com.dubatovka.app.manager.ConfigConstant.QUERY_START_SEPARATOR;
+import static com.dubatovka.app.manager.ConfigConstant.VALUE_SEPARATOR;
 
 /**
  * The class provides helper for work with queries.
  */
 public final class QueryManager {
-    
-    private static final Logger logger = LogManager.getLogger(QueryManager.class);
-    
     private static final String STUB = "********";
     
     /**
@@ -47,62 +46,18 @@ public final class QueryManager {
     }
     
     /**
-     * Logs query built from given request.
-     */
-    public static void logQuery(HttpServletRequest request) {
-        logger.log(Level.INFO, buildLog(request));
-    }
-    
-    /**
-     * Logs multipart query built from given request.
-     */
-    public static void logMultipartQuery(HttpServletRequest request, String query) {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(ATTR_USER);
-        logger.log(Level.INFO, buildLog(query, user));
-    }
-    
-    /**
-     * Builds log due to query and user role.
-     */
-    public static String buildLog(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(ATTR_USER);
-        String query = buildQueryString(request);
-        return buildLog(query, user);
-    }
-    
-    /**
-     * Builds log due to query and user role.
-     */
-    private static String buildLog(String query, User user) {
-        String log;
-        if (user == null) {
-            log = "guest called " + query;
-        } else {
-            String email = user.getEmail();
-            String role = user.getRole().getRole();
-            int id = user.getId();
-            log = role + " " + email + " (id=" + id + ") called " + query;
-        }
-        return log;
-    }
-    
-    /**
      * Builds query by parsing request parameters.
      */
     private static String buildQueryString(HttpServletRequest request) {
         String uri = request.getRequestURI();
         StringBuffer query = new StringBuffer();
-        
         Enumeration<String> params = request.getParameterNames();
-        
         while (params.hasMoreElements()) {
             String key = params.nextElement();
             String value = request.getParameter(key);
             if (key.equalsIgnoreCase(PARAM_PASSWORD) ||
-                    key.equalsIgnoreCase(PARAM_PASSWORD_AGAIN) ||
-                    key.equalsIgnoreCase(PARAM_PASSWORD_OLD)) {
+                        key.equalsIgnoreCase(PARAM_PASSWORD_AGAIN) ||
+                        key.equalsIgnoreCase(PARAM_PASSWORD_OLD)) {
                 value = STUB;
             }
             query = query.append(PARAMETER_SEPARATOR).append(key).append(VALUE_SEPARATOR).append(value);
