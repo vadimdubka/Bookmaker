@@ -2,16 +2,16 @@ package com.dubatovka.app.manager;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class Encryptor {
+public final class Encryptor {
     
     private Encryptor() {
     }
     
     public static String encryptMD5(String source) {
-        if (source == null) {
-            return null;
+        String result = null;
+        if (source != null) {
+            result = DigestUtils.md5Hex(source);
         }
-        return DigestUtils.md5Hex(source);
+        return result;
     }
-    
 }
