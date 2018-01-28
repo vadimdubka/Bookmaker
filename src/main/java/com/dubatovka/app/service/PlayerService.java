@@ -1,6 +1,6 @@
 package com.dubatovka.app.service;
 
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Player;
 
 import java.util.List;
@@ -9,8 +9,8 @@ public abstract class PlayerService extends AbstractService {
     protected PlayerService() {
     }
     
-    protected PlayerService(DAOHelper daoHelper) {
-        super(daoHelper);
+    protected PlayerService(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     public abstract List<Player> getAllPlayers();

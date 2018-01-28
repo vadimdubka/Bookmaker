@@ -2,7 +2,7 @@ package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.CategoryDAO;
 import com.dubatovka.app.dao.exception.DAOException;
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Category;
 import com.dubatovka.app.service.CategoryService;
 import org.apache.logging.log4j.Level;
@@ -23,13 +23,13 @@ class CategoryServiceImpl extends CategoryService {
     private static final Lock lock = new ReentrantLock();
     private static final AtomicBoolean isCategoriesModified = new AtomicBoolean(false);
     private static Set<Category> sportCategories;
-    private final CategoryDAO categoryDAO = daoHelper.getCategoryDAO();
+    private final CategoryDAO categoryDAO = daoProvider.getCategoryDAO();
     
     CategoryServiceImpl() {
     }
     
-    CategoryServiceImpl(DAOHelper daoHelper) {
-        super(daoHelper);
+    CategoryServiceImpl(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     @Override

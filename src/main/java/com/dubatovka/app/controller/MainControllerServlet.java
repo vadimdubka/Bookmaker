@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_PREV_QUERY;
-import static com.dubatovka.app.manager.ConfigConstant.FORWARD;
-import static com.dubatovka.app.manager.ConfigConstant.MAIN_CONTROLLER;
-import static com.dubatovka.app.manager.ConfigConstant.MAIN_CONTROLLER_URL;
-import static com.dubatovka.app.manager.ConfigConstant.PAGE_INDEX;
-import static com.dubatovka.app.manager.ConfigConstant.PREV_QUERY;
-import static com.dubatovka.app.manager.ConfigConstant.REDIRECT;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_PREV_QUERY;
+import static com.dubatovka.app.config.ConfigConstant.FORWARD;
+import static com.dubatovka.app.config.ConfigConstant.MAIN_CONTROLLER;
+import static com.dubatovka.app.config.ConfigConstant.MAIN_CONTROLLER_URL;
+import static com.dubatovka.app.config.ConfigConstant.PAGE_INDEX;
+import static com.dubatovka.app.config.ConfigConstant.PREV_QUERY;
+import static com.dubatovka.app.config.ConfigConstant.REDIRECT;
 
 @WebServlet(name = MAIN_CONTROLLER, urlPatterns = {MAIN_CONTROLLER_URL})
 public class MainControllerServlet extends HttpServlet {

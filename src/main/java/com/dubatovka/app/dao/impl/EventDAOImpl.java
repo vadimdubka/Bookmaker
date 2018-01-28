@@ -15,13 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_ACTUAL;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_CLOSED;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_FAILED;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_NEW;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_NOT_STARTED;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_STARTED;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_TO_PAY;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_ACTUAL;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_CLOSED;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_FAILED;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_NEW;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_NOT_STARTED;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_STARTED;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_TO_PAY;
 
 class EventDAOImpl extends AbstractDBDAO implements EventDAO {
     private static final String SQL_SELECT_EVENT_BY_EVENT_ID =

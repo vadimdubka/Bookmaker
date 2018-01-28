@@ -1,27 +1,29 @@
-package com.dubatovka.app.manager;
+package com.dubatovka.app.service;
+
+import com.dubatovka.app.config.ConfigConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_PREV_QUERY;
-import static com.dubatovka.app.manager.ConfigConstant.PARAMETER_SEPARATOR;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD_AGAIN;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD_OLD;
-import static com.dubatovka.app.manager.ConfigConstant.QUERY_START_SEPARATOR;
-import static com.dubatovka.app.manager.ConfigConstant.VALUE_SEPARATOR;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_PREV_QUERY;
+import static com.dubatovka.app.config.ConfigConstant.PARAMETER_SEPARATOR;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD_AGAIN;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD_OLD;
+import static com.dubatovka.app.config.ConfigConstant.QUERY_START_SEPARATOR;
+import static com.dubatovka.app.config.ConfigConstant.VALUE_SEPARATOR;
 
 /**
  * The class provides helper for work with queries.
  */
-public final class QueryManager {
+public final class QueryManagerService {
     private static final String STUB = "********";
     
     /**
      * Outer forbidding to create this class instances.
      */
-    private QueryManager() {
+    private QueryManagerService() {
     }
     
     /**
@@ -58,4 +60,6 @@ public final class QueryManager {
         }
         return result;
     }
+    
+    
 }

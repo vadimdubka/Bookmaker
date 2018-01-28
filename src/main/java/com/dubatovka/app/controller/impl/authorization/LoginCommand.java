@@ -6,63 +6,60 @@ import com.dubatovka.app.entity.Admin;
 import com.dubatovka.app.entity.Analyst;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
-import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.service.MessageService;
 import com.dubatovka.app.service.PlayerService;
 import com.dubatovka.app.service.UserService;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_ADMIN;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_ANALYST;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_PLAYER;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_ROLE;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_USER;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EMAIL;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PASSWORD;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_LOGIN_MISMATCH;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_EMAIL;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_ADMIN;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_ANALYST;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_PLAYER;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_USER;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EMAIL;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_PASSWORD;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_LOGIN_MISMATCH;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_EMAIL;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD;
 
 public class LoginCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PAGE_INDEX;
         HttpSession session = request.getSession();
-        
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        MessageService messageService = ServiceFactory.getMessageService(session);
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
         
-        validateRequestParams(messageManager, email, password);
-        validateCommand(email, password, messageManager);
-        if (messageManager.isErrMessEmpty()) {
+        validateRequestParams(messageService, email, password);
+        validateCommand(email, password, messageService);
+        if (messageService.isErrMessEmpty()) {
             try (UserService userService = ServiceFactory.getUserService()) {
                 User user = userService.authorizeUser(email, password);
                 if (user != null) {
                     setUserToSession(user, session);
                 } else {
-                    messageManager.appendErrMessByKey(MESSAGE_ERR_LOGIN_MISMATCH);
+                    messageService.appendErrMessByKey(MESSAGE_ERR_LOGIN_MISMATCH);
                 }
             }
         }
-        setMessagesToRequest(messageManager, request);
+        setMessagesToRequest(messageService, request);
         return navigator;
     }
     
-    private void validateCommand(String email, String password, MessageManager messageManager) {
-        if (messageManager.isErrMessEmpty()) {
-            ValidatorService validatorService = ServiceFactory.getValidatorService();
-            if (!validatorService.isValidEmail(email)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EMAIL);
+    private void validateCommand(String email, String password, MessageService messageService) {
+        if (messageService.isErrMessEmpty()) {
+            ValidationService validationService = ServiceFactory.getValidationService();
+            if (!validationService.isValidEmail(email)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EMAIL);
             }
-            if (!validatorService.isValidPassword(password)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_PASSWORD);
+            if (!validationService.isValidPassword(password)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_PASSWORD);
             }
         }
     }

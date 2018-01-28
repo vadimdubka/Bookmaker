@@ -9,7 +9,7 @@ import com.dubatovka.app.service.impl.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_PLAYERS;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_PLAYERS;
 
 public class GotoManagePlayersCommand implements Command {
     //TODO удалить или доделать

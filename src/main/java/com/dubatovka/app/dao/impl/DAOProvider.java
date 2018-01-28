@@ -17,14 +17,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
-//TODO переименовать в DAOProvider
+
 /**
  * The class provides manager for DAO layer classes.
  *
  * @see AutoCloseable
  */
-public final class DAOHelper implements AutoCloseable {
-    private static final Logger logger = LogManager.getLogger(DAOHelper.class);
+public final class DAOProvider implements AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(DAOProvider.class);
     /**
      * Field used to connect to database and do queries.
      *
@@ -43,11 +43,12 @@ public final class DAOHelper implements AutoCloseable {
     private StandardDAO standardDAO; //TODO yдалить по окончанию проекта
     
     /**
-     * Constructs DAOHelper object by taking {@link WrappedConnection} object from {@link ConnectionPool} collection.
+     * Constructs DAOProvider object by taking {@link WrappedConnection} object from {@link
+     * ConnectionPool} collection.
      *
      * @see ConnectionPool
      */
-    public DAOHelper() {
+    public DAOProvider() {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
         } catch (ConnectionPoolException e) {
@@ -56,11 +57,12 @@ public final class DAOHelper implements AutoCloseable {
     }
     
     /**
-     * Constructs DAOHelper object by assigning 'connection' field definite {@link WrappedConnection} object.
+     * Constructs DAOProvider object by assigning 'connection' field definite {@link
+     * WrappedConnection} object.
      *
      * @param connection {@link WrappedConnection} to assign to 'connection' field
      */
-    public DAOHelper(WrappedConnection connection) {
+    public DAOProvider(WrappedConnection connection) {
         this.connection = connection;
     }
     
@@ -130,8 +132,9 @@ public final class DAOHelper implements AutoCloseable {
     /**
      * Starts transaction for multiple SQL queries.
      *
-     * @throws SQLException if a database access error occurs, setAutoCommit(true) is called while participating in a
-     *                      distributed transaction, or this method is called on a closed connection
+     * @throws SQLException if a database access error occurs, setAutoCommit(true) is called while
+     *                      participating in a distributed transaction, or this method is called on
+     *                      a closed connection
      * @see WrappedConnection#setAutoCommit(boolean)
      */
     public void beginTransaction() throws SQLException {
@@ -141,9 +144,10 @@ public final class DAOHelper implements AutoCloseable {
     /**
      * Commits database changes made during transaction.
      *
-     * @throws SQLException if a database access error occurs, this method is called while participating in a
-     *                      distributed transaction, if this method is called on a closed connection or this
-     *                      <code>Connection</code> object is in auto-commit mode
+     * @throws SQLException if a database access error occurs, this method is called while
+     *                      participating in a distributed transaction, if this method is called on
+     *                      a closed connection or this <code>Connection</code> object is in
+     *                      auto-commit mode
      * @see WrappedConnection#commit()
      */
     public void commit() throws SQLException {
@@ -153,9 +157,10 @@ public final class DAOHelper implements AutoCloseable {
     /**
      * Rollbacks database changes made during transaction.
      *
-     * @throws SQLException if a database access error occurs, this method is called while participating in a
-     *                      distributed transaction, this method is called on a closed connection or this
-     *                      <code>Connection</code> object is in auto-commit mode
+     * @throws SQLException if a database access error occurs, this method is called while
+     *                      participating in a distributed transaction, this method is called on a
+     *                      closed connection or this <code>Connection</code> object is in
+     *                      auto-commit mode
      * @see WrappedConnection#rollback()
      */
     public void rollback() throws SQLException {

@@ -3,7 +3,7 @@ package com.dubatovka.app.service.impl;
 import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.exception.DAOException;
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Transaction;
 import com.dubatovka.app.service.TransactionService;
 import org.apache.logging.log4j.Level;
@@ -17,18 +17,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.config.ConfigConstant.*;
 
 class TransactionServiceImpl extends TransactionService {
     private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
-    private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
-    private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();
+    private final TransactionDAO transactionDAO = daoProvider.getTransactionDAO();
+    private final PlayerDAO playerDAO = daoProvider.getPlayerDAO();
     
     TransactionServiceImpl() {
     }
     
-    TransactionServiceImpl(DAOHelper daoHelper) {
-        super(daoHelper);
+    TransactionServiceImpl(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     /**
@@ -183,14 +183,14 @@ class TransactionServiceImpl extends TransactionService {
     public int makeTransaction(int playerId, BigDecimal amount, Transaction.TransactionType transactionType) {
         int result = 0;
         try {
-            daoHelper.beginTransaction();
+            daoProvider.beginTransaction();
             int transactId = transactionDAO.insertTransaction(playerId, amount, transactionType);
             boolean isBalUpd = playerDAO.updateBalance(playerId, amount, transactionType);
             if ((transactId != 0) && isBalUpd) {
-                daoHelper.commit();
+                daoProvider.commit();
                 result = transactId;
             } else {
-                daoHelper.rollback();
+                daoProvider.rollback();
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());

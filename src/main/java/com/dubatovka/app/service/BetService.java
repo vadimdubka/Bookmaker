@@ -1,8 +1,7 @@
 package com.dubatovka.app.service;
 
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Bet;
-import com.dubatovka.app.manager.MessageManager;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +12,8 @@ public abstract class BetService extends AbstractService {
     protected BetService() {
     }
     
-    protected BetService(DAOHelper daoHelper) {
-        super(daoHelper);
+    protected BetService(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     public abstract List<Bet> getBetListForPlayer(int playerId);
@@ -25,9 +24,9 @@ public abstract class BetService extends AbstractService {
     
     public abstract Map<String, Map<String, String>> getWinBetInfo(int categoryId);
     
-    public abstract void payWinBet(int eventId, MessageManager messageManager);
+    public abstract void payWinBet(int eventId, MessageService messageService);
     
-    public abstract void makeBet(Bet bet, MessageManager messageManager);
-        
+    public abstract void makeBet(Bet bet, MessageService messageService);
+    
     public abstract int countBetsForPlayer(int playerId);
 }

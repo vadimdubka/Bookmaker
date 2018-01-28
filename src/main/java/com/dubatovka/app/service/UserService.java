@@ -1,6 +1,6 @@
 package com.dubatovka.app.service;
 
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.User;
 
 public abstract class UserService extends AbstractService{
@@ -11,10 +11,10 @@ public abstract class UserService extends AbstractService{
     }
     
     /**
-     * Constructs instance using definite {@link DAOHelper} object.
+     * Constructs instance using definite {@link DAOProvider} object.
      */
-    protected UserService(DAOHelper daoHelper) {
-        super(daoHelper);
+    protected UserService(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     public abstract User authorizeUser(String email, String password);

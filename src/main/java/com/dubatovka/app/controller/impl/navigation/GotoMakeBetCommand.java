@@ -5,21 +5,20 @@ import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.entity.Category;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
-import com.dubatovka.app.manager.MessageManager;
-import com.dubatovka.app.manager.QueryManager;
 import com.dubatovka.app.service.CategoryService;
+import com.dubatovka.app.service.MessageService;
+import com.dubatovka.app.service.QueryManagerService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_CATEGORY;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_OUTCOME;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_SPORT_CATEGORY;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_TYPE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_CATEGORY;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_OUTCOME;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_SPORT_CATEGORY;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_TYPE;
 
 public class GotoMakeBetCommand implements Command {
     
@@ -27,17 +26,15 @@ public class GotoMakeBetCommand implements Command {
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_GOTO_MAIN;
         HttpSession session = request.getSession();
-        
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        MessageService messageService = ServiceFactory.getMessageService(session);
         
         String eventIdStr = request.getParameter(PARAM_EVENT_ID);
         String outcomeType = request.getParameter(PARAM_OUTCOME_TYPE);
         Event event = new Event();
         
-        validateRequestParams(messageManager, eventIdStr, outcomeType);
-        setAndCheckEventNotNull(eventIdStr, event, messageManager);
-        if (messageManager.isErrMessEmpty()) {
+        validateRequestParams(messageService, eventIdStr, outcomeType);
+        setAndCheckEventNotNull(eventIdStr, event, messageService);
+        if (messageService.isErrMessEmpty()) {
             try (CategoryService categoryService = ServiceFactory.getCategoryService()) {
                 Outcome outcome = event.getOutcomeByType(outcomeType);
                 Category category = categoryService.getCategoryById(event.getCategoryId());
@@ -50,8 +47,8 @@ public class GotoMakeBetCommand implements Command {
             }
         }
         
-        QueryManager.saveQueryToSession(request);
-        setMessagesToRequest(messageManager, request);
+        QueryManagerService.saveQueryToSession(request);
+        setMessagesToRequest(messageService, request);
         return navigator;
     }
 }

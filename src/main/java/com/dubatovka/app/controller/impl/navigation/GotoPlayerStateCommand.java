@@ -7,14 +7,14 @@ import com.dubatovka.app.entity.Category;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
-import com.dubatovka.app.manager.MessageManager;
-import com.dubatovka.app.manager.QueryManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
+import com.dubatovka.app.service.MessageService;
 import com.dubatovka.app.service.PaginationService;
 import com.dubatovka.app.service.PlayerService;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.QueryManagerService;
+import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.ServletRequest;
@@ -24,16 +24,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_BET_LIST;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_CATEGORY_MAP;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT_MAP;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_PAGINATION;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_PLAYER;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_SPORT_MAP;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_PLAYER_NOT_DEFINED;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PAGE_NUMBER;
-import static com.dubatovka.app.manager.ConfigConstant.PLAYER;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_BET_LIST;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_CATEGORY_MAP;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_MAP;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_PAGINATION;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_PLAYER;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_SPORT_MAP;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_PLAYER_NOT_DEFINED;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PAGE_NUMBER;
+import static com.dubatovka.app.config.ConfigConstant.PLAYER;
 
 public class GotoPlayerStateCommand implements Command {
     private static final int PAGE_LIMIT = 5;
@@ -42,22 +41,20 @@ public class GotoPlayerStateCommand implements Command {
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
-        
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        MessageService messageService = ServiceFactory.getMessageService(session);
         
         Player player = (Player) session.getAttribute(PLAYER);
         String pageNumberStr = request.getParameter(PARAM_PAGE_NUMBER);
         
-        validateCommand(player, messageManager);
-        if (messageManager.isErrMessEmpty()) {
+        validateCommand(player, messageService);
+        if (messageService.isErrMessEmpty()) {
             PaginationService paginationService = setPaginationService(request, player, pageNumberStr);
             setBetInfo(request, player, paginationService);
             setPlayerInfo(session, player);
             navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
         }
-        QueryManager.saveQueryToSession(request);
-        setMessagesToRequest(messageManager, request);
+        QueryManagerService.saveQueryToSession(request);
+        setMessagesToRequest(messageService, request);
         return navigator;
     }
     
@@ -85,8 +82,8 @@ public class GotoPlayerStateCommand implements Command {
     }
     
     private PaginationService setPaginationService(ServletRequest request, User player, String pageNumberStr) {
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
-        int pageNumber = validatorService.isValidId(pageNumberStr) ? Integer.parseInt(pageNumberStr) : 1;
+        ValidationService validationService = ServiceFactory.getValidationService();
+        int pageNumber = validationService.isValidId(pageNumberStr) ? Integer.parseInt(pageNumberStr) : 1;
         int totalEntityAmount;
         try (BetService betService = ServiceFactory.getBetService()) {
             totalEntityAmount = betService.countBetsForPlayer(player.getId());
@@ -104,10 +101,10 @@ public class GotoPlayerStateCommand implements Command {
         session.setAttribute(ATTR_PLAYER, player);
     }
     
-    private void validateCommand(Player player, MessageManager messageManager) {
-        if (messageManager.isErrMessEmpty()) {
+    private void validateCommand(Player player, MessageService messageService) {
+        if (messageService.isErrMessEmpty()) {
             if (player == null) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_PLAYER_NOT_DEFINED);
+                messageService.appendErrMessByKey(MESSAGE_ERR_PLAYER_NOT_DEFINED);
             }
         }
     }

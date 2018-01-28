@@ -1,7 +1,7 @@
 package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.StandardDAO;
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.service.StandardService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,13 +11,13 @@ import java.util.Set;
 //TODO удалить по завершению проекта
 class StandardServiceImpl extends StandardService {
     private static final Logger logger = LogManager.getLogger(StandardServiceImpl.class);
-    private final StandardDAO standardDAO = daoHelper.getStandardDAO();
+    private final StandardDAO standardDAO = daoProvider.getStandardDAO();
     
     StandardServiceImpl() {
     }
     
-    StandardServiceImpl(DAOHelper daoHelper) {
-        super(daoHelper);
+    StandardServiceImpl(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     @Override

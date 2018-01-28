@@ -1,6 +1,6 @@
 package com.dubatovka.app.entity;
 
-import com.dubatovka.app.manager.ConfigConstant;
+import com.dubatovka.app.config.ConfigConstant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

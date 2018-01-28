@@ -27,7 +27,7 @@ import com.dubatovka.app.controller.impl.navigation.events.GotoEventShowActualCo
 import com.dubatovka.app.controller.impl.navigation.events.GotoEventShowResultCommand;
 import com.dubatovka.app.controller.impl.navigation.events.GotoEventToPayCommand;
 import com.dubatovka.app.entity.User;
-import com.dubatovka.app.manager.ConfigConstant;
+import com.dubatovka.app.config.ConfigConstant;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.EnumMap;
 import java.util.Map;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_ROLE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
 
 public final class CommandFactory {
     private static final Logger logger = LogManager.getLogger(CommandFactory.class);

@@ -5,12 +5,12 @@ import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.entity.Category;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
-import com.dubatovka.app.manager.MessageManager;
-import com.dubatovka.app.manager.QueryManager;
 import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.MessageService;
+import com.dubatovka.app.service.QueryManagerService;
+import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.ServletRequest;
@@ -20,7 +20,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_CATEGORY_ID;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_COUNT_MAP;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_GOTO_TYPE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_QUERY_TYPE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_SET;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_SPORT_SET;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_TYPE_1_MAP;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_TYPE_2_MAP;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_TYPE_X_MAP;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_WIN_BET_COUNT;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_WIN_BET_SUM;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_GOTO_SHOW_ACTUAL;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_GOTO_SHOW_TO_PAY;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_ACTUAL;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_CATEGORY_ID;
+import static com.dubatovka.app.config.ConfigConstant.WIN_BET_INFO_KEY_COUNT;
+import static com.dubatovka.app.config.ConfigConstant.WIN_BET_INFO_KEY_SUM;
 
 public class GotoMainCommand implements Command {
     
@@ -28,9 +45,7 @@ public class GotoMainCommand implements Command {
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PAGE_MAIN;
         HttpSession session = request.getSession();
-        
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        MessageService messageService = ServiceFactory.getMessageService(session);
         
         String categoryIdStr = request.getParameter(PARAM_CATEGORY_ID);
         String eventQueryType = (String) session.getAttribute(ATTR_EVENT_QUERY_TYPE);
@@ -44,8 +59,8 @@ public class GotoMainCommand implements Command {
         
         setCategoryInfo(request, eventQueryType);
         if (categoryIdStr != null) {
-            validateCommand(messageManager, categoryIdStr);
-            if (messageManager.isErrMessEmpty()) {
+            validateCommand(messageService, categoryIdStr);
+            if (messageService.isErrMessEmpty()) {
                 setEventInfo(request, categoryIdStr, eventQueryType);
                 if (EVENT_GOTO_SHOW_TO_PAY.equals(eventCommandType)) {
                     setWinBetInfo(request, categoryIdStr);
@@ -53,8 +68,8 @@ public class GotoMainCommand implements Command {
             }
         }
         
-        QueryManager.saveQueryToSession(request);
-        setMessagesToRequest(messageManager, request);
+        QueryManagerService.saveQueryToSession(request);
+        setMessagesToRequest(messageService, request);
         return navigator;
     }
     
@@ -97,11 +112,11 @@ public class GotoMainCommand implements Command {
         request.setAttribute(ATTR_WIN_BET_SUM, winBetSum);
     }
     
-    private void validateCommand(MessageManager messageManager, String categoryIdStr) {
-        if (messageManager.isErrMessEmpty()) {
-            ValidatorService validatorService = ServiceFactory.getValidatorService();
-            if (!validatorService.isValidId(categoryIdStr)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_ID);
+    private void validateCommand(MessageService messageService, String categoryIdStr) {
+        if (messageService.isErrMessEmpty()) {
+            ValidationService validationService = ServiceFactory.getValidationService();
+            if (!validationService.isValidId(categoryIdStr)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_ID);
             }
         }
     }

@@ -6,10 +6,10 @@ import com.dubatovka.app.controller.PageNavigator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT_GOTO_TYPE;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_EVENT_QUERY_TYPE;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_GOTO_SHOW_RESULT;
-import static com.dubatovka.app.manager.ConfigConstant.EVENT_QUERY_TYPE_CLOSED;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_GOTO_TYPE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_QUERY_TYPE;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_GOTO_SHOW_RESULT;
+import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_CLOSED;
 
 public class GotoEventShowResultCommand implements Command {
     @Override

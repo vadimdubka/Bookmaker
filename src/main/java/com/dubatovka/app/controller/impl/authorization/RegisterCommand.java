@@ -2,42 +2,39 @@ package com.dubatovka.app.controller.impl.authorization;
 
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
-import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.service.MessageService;
 import com.dubatovka.app.service.PlayerService;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_BIRTHDATE_INPUT;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_EMAIL_INPUT;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_FNAME_INPUT;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LNAME_INPUT;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_MNAME_INPUT;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_BIRTHDATE;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EMAIL;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_NAME;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PASSWORD;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_PASSWORD_MISMATCH;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_BIRTHDATE;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_EMAIL;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_FNAME;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_LNAME;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_MNAME;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PASSWORD_AGAIN;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_BIRTHDATE_INPUT;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_EMAIL_INPUT;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_FNAME_INPUT;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_LNAME_INPUT;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_MNAME_INPUT;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_BIRTHDATE;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EMAIL;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_NAME;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_PASSWORD;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_PASSWORD_MISMATCH;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_BIRTHDATE;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_EMAIL;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_FNAME;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_LNAME;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_MNAME;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD_AGAIN;
 
 public class RegisterCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PAGE_REGISTER;
         HttpSession session = request.getSession();
-        
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        MessageService messageService = ServiceFactory.getMessageService(session);
         
         String email = request.getParameter(PARAM_EMAIL);
         String password = request.getParameter(PARAM_PASSWORD);
@@ -47,9 +44,9 @@ public class RegisterCommand implements Command {
         String lName = request.getParameter(PARAM_LNAME);
         String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
-        validateRequestParams(messageManager, email, password, passwordAgain, fName, mName, lName, birthDate);
-        validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageManager, request);
-        if (messageManager.isErrMessEmpty()) {
+        validateRequestParams(messageService, email, password, passwordAgain, fName, mName, lName, birthDate);
+        validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageService, request);
+        if (messageService.isErrMessEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
                 boolean isRegPlayer = playerService.registerPlayer(email, password, fName, mName, lName, birthDate);
                 if (isRegPlayer) {
@@ -57,40 +54,40 @@ public class RegisterCommand implements Command {
                 }
             }
         }
-        setMessagesToRequest(messageManager, request);
+        setMessagesToRequest(messageService, request);
         return navigator;
     }
     
-    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageManager messageManager, ServletRequest request) {
-        ValidatorService validatorService = ServiceFactory.getValidatorService();
-        if (validatorService.isValidEmail(email)) {
+    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageService messageService, ServletRequest request) {
+        ValidationService validationService = ServiceFactory.getValidationService();
+        if (validationService.isValidEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);
         } else {
-            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EMAIL);
+            messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EMAIL);
         }
-        if (!validatorService.isValidPassword(password, passwordAgain)) {
-            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_PASSWORD);
-            messageManager.appendErrMessByKey(MESSAGE_ERR_PASSWORD_MISMATCH);
+        if (!validationService.isValidPassword(password, passwordAgain)) {
+            messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_PASSWORD);
+            messageService.appendErrMessByKey(MESSAGE_ERR_PASSWORD_MISMATCH);
         }
-        if (validatorService.isValidName(fName)) {
+        if (validationService.isValidName(fName)) {
             request.setAttribute(ATTR_FNAME_INPUT, fName);
         } else {
-            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
+            messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
         }
-        if (validatorService.isValidName(mName)) {
+        if (validationService.isValidName(mName)) {
             request.setAttribute(ATTR_MNAME_INPUT, mName);
         } else {
-            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
+            messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
         }
-        if (validatorService.isValidName(lName)) {
+        if (validationService.isValidName(lName)) {
             request.setAttribute(ATTR_LNAME_INPUT, lName);
         } else {
-            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
+            messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
         }
-        if (validatorService.isValidBirthdate(birthDate)) {
+        if (validationService.isValidBirthdate(birthDate)) {
             request.setAttribute(ATTR_BIRTHDATE_INPUT, birthDate);
         } else {
-            messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_BIRTHDATE);
+            messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_BIRTHDATE);
         }
     }
 }

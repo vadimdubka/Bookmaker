@@ -1,6 +1,6 @@
 package com.dubatovka.app.service;
 
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 
 import java.util.Set;
 
@@ -9,8 +9,8 @@ public abstract class StandardService extends AbstractService {
     protected StandardService() {
     }
     
-    protected StandardService(DAOHelper daoHelper) {
-        super(daoHelper);
+    protected StandardService(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     public abstract  Set<Object> mockMethod(String id);

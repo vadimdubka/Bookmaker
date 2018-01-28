@@ -1,7 +1,7 @@
 package com.dubatovka.app.filter;
 
 import com.dubatovka.app.entity.User;
-import com.dubatovka.app.manager.ConfigConstant;
+import com.dubatovka.app.config.ConfigConstant;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_ROLE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
 
 /**
  * The class provides security filter for servlet container which monitors each session to have locale and role attributes set.

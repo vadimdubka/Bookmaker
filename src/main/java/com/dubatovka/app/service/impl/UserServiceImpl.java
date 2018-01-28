@@ -2,12 +2,12 @@ package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Admin;
 import com.dubatovka.app.entity.Analyst;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
-import com.dubatovka.app.manager.Encryptor;
+import com.dubatovka.app.service.EncryptorService;
 import com.dubatovka.app.service.UserService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 class UserServiceImpl extends UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private final UserDAO userDAO = daoHelper.getUserDAO();
+    private final UserDAO userDAO = daoProvider.getUserDAO();
     
     /**
      * Default instance constructor.
@@ -24,10 +24,10 @@ class UserServiceImpl extends UserService {
     }
     
     /**
-     * Constructs instance using definite {@link DAOHelper} object.
+     * Constructs instance using definite {@link DAOProvider} object.
      */
-    UserServiceImpl(DAOHelper daoHelper) {
-        super(daoHelper);
+    UserServiceImpl(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     /**
@@ -36,7 +36,7 @@ class UserServiceImpl extends UserService {
     @Override
     public User authorizeUser(String email, String password) {
         email = email.toLowerCase().trim();
-        password = Encryptor.encryptMD5(password);
+        password = EncryptorService.encryptMD5(password);
         User user = null;
         try {
             user = userDAO.authorizeUser(email, password);

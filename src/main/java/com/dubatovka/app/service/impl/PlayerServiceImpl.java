@@ -3,9 +3,9 @@ package com.dubatovka.app.service.impl;
 import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Player;
-import com.dubatovka.app.manager.Encryptor;
+import com.dubatovka.app.service.EncryptorService;
 import com.dubatovka.app.service.PlayerService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -15,14 +15,14 @@ import java.util.List;
 
 class PlayerServiceImpl extends PlayerService {
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
-    private final UserDAO userDAO = daoHelper.getUserDAO();
-    private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();
+    private final UserDAO userDAO = daoProvider.getUserDAO();
+    private final PlayerDAO playerDAO = daoProvider.getPlayerDAO();
     
     PlayerServiceImpl() {
     }
     
-    PlayerServiceImpl(DAOHelper daoHelper) {
-        super(daoHelper);
+    PlayerServiceImpl(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     @Override
@@ -40,7 +40,7 @@ class PlayerServiceImpl extends PlayerService {
     @Override
     public boolean registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate) {
         email = email.trim().toLowerCase();
-        password = Encryptor.encryptMD5(password);
+        password = EncryptorService.encryptMD5(password);
         if (fName != null) {
             fName = fName.trim().toUpperCase();
         }

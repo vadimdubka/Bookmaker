@@ -1,4 +1,4 @@
-package com.dubatovka.app.manager;
+package com.dubatovka.app.config;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public final class ConfigConstant {

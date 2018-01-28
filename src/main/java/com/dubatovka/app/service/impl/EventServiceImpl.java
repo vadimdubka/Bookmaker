@@ -3,12 +3,12 @@ package com.dubatovka.app.service.impl;
 import com.dubatovka.app.dao.BetDAO;
 import com.dubatovka.app.dao.EventDAO;
 import com.dubatovka.app.dao.exception.DAOException;
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Bet;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
-import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.EventService;
+import com.dubatovka.app.service.MessageService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,15 +19,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_OPERATION;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_TRANSACTION;
-import static com.dubatovka.app.manager.ConfigConstant.OUTCOME_TYPE_KEY_NAME;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_SQL_OPERATION;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_SQL_TRANSACTION;
+import static com.dubatovka.app.config.ConfigConstant.OUTCOME_TYPE_KEY_NAME;
 
 class EventServiceImpl extends EventService {
     private static final Logger logger = LogManager.getLogger(EventServiceImpl.class);
     
-    private final EventDAO eventDAO = daoHelper.getEventDAO();
-    private final BetDAO betDAO = daoHelper.getBetDAO();
+    private final EventDAO eventDAO = daoProvider.getEventDAO();
+    private final BetDAO betDAO = daoProvider.getBetDAO();
     
     private final Map<String, Map<String, String>> coeffColumnMaps = new HashMap<>();
     private final Map<String, String> type1 = new HashMap<>();
@@ -48,8 +48,8 @@ class EventServiceImpl extends EventService {
         
     }
     
-    EventServiceImpl(DAOHelper daoHelper) {
-        super(daoHelper);
+    EventServiceImpl(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     @Override
@@ -60,7 +60,7 @@ class EventServiceImpl extends EventService {
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }
-        ServiceFactory.getOutcomeService(daoHelper).setOutcomesForEvent(event);
+        ServiceFactory.getOutcomeService(daoProvider).setOutcomesForEvent(event);
         return event;
     }
     
@@ -115,58 +115,58 @@ class EventServiceImpl extends EventService {
     }
     
     @Override
-    public void deleteEvent(int eventId, MessageManager messageManager) {
+    public void deleteEvent(int eventId, MessageService messageService) {
         try {
             eventDAO.deleteEvent(eventId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
+            messageService.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
         }
     }
     
     @Override
-    public void insertEvent(Event event, MessageManager messageManager) {
+    public void insertEvent(Event event, MessageService messageService) {
         try {
             eventDAO.insertEvent(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
+            messageService.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
         }
     }
     
     @Override
-    public void updateEventInfo(Event event, MessageManager messageManager) {
+    public void updateEventInfo(Event event, MessageService messageService) {
         try {
             eventDAO.updateEventInfo(event);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
+            messageService.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
         }
     }
     
     @Override
-    public void updateEventResult(Event event, MessageManager messageManager) {
+    public void updateEventResult(Event event, MessageService messageService) {
         int eventId = event.getId();
         int result1 = Integer.parseInt(event.getResult1());
         int result2 = Integer.parseInt(event.getResult2());
         Map<Outcome.Type, Bet.Status> betStatusMap = getBetStatusMapForEventResult(result1, result2);
         try {
-            daoHelper.beginTransaction();
+            daoProvider.beginTransaction();
             boolean isUpdEvent = eventDAO.updateEventResult(event);
             for (Map.Entry<Outcome.Type, Bet.Status> entrySet : betStatusMap.entrySet()) {
                 betDAO.updateBetStatus(eventId, entrySet.getKey(), entrySet.getValue());
             }
             if (isUpdEvent) {
-                daoHelper.commit();
+                daoProvider.commit();
             } else {
-                daoHelper.rollback();
+                daoProvider.rollback();
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
+            messageService.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
         } catch (SQLException e) {
             logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
+            messageService.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
         }
     }
     
@@ -186,7 +186,7 @@ class EventServiceImpl extends EventService {
     }
     
     private void setOutcomesForEvents(Iterable<Event> eventSet) {
-        eventSet.forEach(ServiceFactory.getOutcomeService(daoHelper)::setOutcomesForEvent);
+        eventSet.forEach(ServiceFactory.getOutcomeService(daoProvider)::setOutcomesForEvent);
     }
     
     private void fillOutcomeColumnMaps(int eventId, Iterable<Outcome> outcomeSet) {

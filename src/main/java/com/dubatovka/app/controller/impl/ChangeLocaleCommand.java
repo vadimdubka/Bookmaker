@@ -7,9 +7,9 @@ import com.dubatovka.app.controller.PageNavigator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.LOCALE_DEFAULT;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_LOCALE;
+import static com.dubatovka.app.config.ConfigConstant.ATTR_LOCALE;
+import static com.dubatovka.app.config.ConfigConstant.LOCALE_DEFAULT;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_LOCALE;
 
 public class ChangeLocaleCommand implements Command {
     

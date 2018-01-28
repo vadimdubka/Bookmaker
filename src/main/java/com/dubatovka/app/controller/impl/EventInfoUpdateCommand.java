@@ -3,34 +3,31 @@ package com.dubatovka.app.controller.impl;
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.entity.Event;
-import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.EventService;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.MessageService;
+import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_EVENT_UPDATE_INFO;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_DATE;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_PARTICIPANT;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INF_EVENT_UPDATE_INFO;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_DATE;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PARTICIPANT_1;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_PARTICIPANT_2;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_EVENT_UPDATE_INFO;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_DATE;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_PARTICIPANT;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_INF_EVENT_UPDATE_INFO;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_DATE;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PARTICIPANT_1;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_PARTICIPANT_2;
 
 public class EventInfoUpdateCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
-        
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        MessageService messageService = ServiceFactory.getMessageService(session);
         
         String eventIdStr = request.getParameter(PARAM_EVENT_ID);
         String dateTimeStr = request.getParameter(PARAM_DATE);
@@ -38,38 +35,38 @@ public class EventInfoUpdateCommand implements Command {
         String participant2 = request.getParameter(PARAM_PARTICIPANT_2);
         Event event = new Event();
         
-        validateRequestParams(messageManager, eventIdStr, dateTimeStr, participant1, participant2);
-        setAndCheckEventNotNull(eventIdStr, event, messageManager);
-        validateCommand(messageManager, eventIdStr, dateTimeStr, participant1, participant2);
-        if (messageManager.isErrMessEmpty()) {
+        validateRequestParams(messageService, eventIdStr, dateTimeStr, participant1, participant2);
+        setAndCheckEventNotNull(eventIdStr, event, messageService);
+        validateCommand(messageService, eventIdStr, dateTimeStr, participant1, participant2);
+        if (messageService.isErrMessEmpty()) {
             event.setDate(LocalDateTime.parse(dateTimeStr));
             event.setParticipant1(participant1.trim());
             event.setParticipant2(participant2.trim());
             try (EventService eventService = ServiceFactory.getEventService()) {
-                eventService.updateEventInfo(event, messageManager);
+                eventService.updateEventInfo(event, messageService);
             }
-            if (messageManager.isErrMessEmpty()) {
-                messageManager.appendInfMessByKey(MESSAGE_INF_EVENT_UPDATE_INFO);
+            if (messageService.isErrMessEmpty()) {
+                messageService.appendInfMessByKey(MESSAGE_INF_EVENT_UPDATE_INFO);
             } else {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_EVENT_UPDATE_INFO);
+                messageService.appendErrMessByKey(MESSAGE_ERR_EVENT_UPDATE_INFO);
             }
         }
-        setMessagesToRequest(messageManager, request);
+        setMessagesToRequest(messageService, request);
         return navigator;
     }
     
-    private void validateCommand(MessageManager messageManager, String eventIdStr, String dateTimeStr, String participant1, String participant2) {
-        if (messageManager.isErrMessEmpty()) {
-            ValidatorService validatorService = ServiceFactory.getValidatorService();
-            if (!validatorService.isValidId(eventIdStr)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_ID);
+    private void validateCommand(MessageService messageService, String eventIdStr, String dateTimeStr, String participant1, String participant2) {
+        if (messageService.isErrMessEmpty()) {
+            ValidationService validationService = ServiceFactory.getValidationService();
+            if (!validationService.isValidId(eventIdStr)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_ID);
             }
-            if (!validatorService.isValidEventDateTime(dateTimeStr)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_DATE);
+            if (!validationService.isValidEventDateTime(dateTimeStr)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_DATE);
             }
-            if (!validatorService.isValidEventParticipantName(participant1) ||
-                        !validatorService.isValidEventParticipantName(participant2)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_PARTICIPANT);
+            if (!validationService.isValidEventParticipantName(participant1) ||
+                        !validationService.isValidEventParticipantName(participant2)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_PARTICIPANT);
             }
         }
     }

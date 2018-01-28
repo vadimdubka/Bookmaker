@@ -1,31 +1,31 @@
 package com.dubatovka.app.service;
 
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.dao.db.ConnectionPool;
 
 abstract class AbstractService implements AutoCloseable {
     
     /**
-     * DAOHelper instance for this class instance use.
+     * DAOProvider instance for this class instance use.
      */
-    protected DAOHelper daoHelper;
+    protected DAOProvider daoProvider;
     
     protected AbstractService() {
-        daoHelper = new DAOHelper();
+        daoProvider = new DAOProvider();
     }
     
     /**
-     * Constructs instance using definite {@link DAOHelper} object.
+     * Constructs instance using definite {@link DAOProvider} object.
      */
-    protected AbstractService(DAOHelper daoHelper) {
-        this.daoHelper = daoHelper;
+    protected AbstractService(DAOProvider daoProvider) {
+        this.daoProvider = daoProvider;
     }
     
     /**
-     * Returns {@link DAOHelper#connection} to {@link ConnectionPool}.
+     * Returns {@link DAOProvider#connection} to {@link ConnectionPool}.
      */
     @Override
     public void close() {
-        daoHelper.close();
+        daoProvider.close();
     }
 }

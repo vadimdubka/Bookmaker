@@ -4,9 +4,9 @@ import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
-import com.dubatovka.app.manager.MessageManager;
+import com.dubatovka.app.service.MessageService;
 import com.dubatovka.app.service.OutcomeService;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,23 +15,20 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.ATTR_LOCALE;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_OUTCOME;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_OUTCOME_UPDATE;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_INF_OUTCOME_UPDATE;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_EVENT_ID;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_1;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_2;
-import static com.dubatovka.app.manager.ConfigConstant.PARAM_OUTCOME_X;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_OUTCOME;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_OUTCOME_UPDATE;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_INF_OUTCOME_UPDATE;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_1;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_2;
+import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_X;
 
 public class OutcomeCreateCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
-        
-        String locale = (String) session.getAttribute(ATTR_LOCALE);
-        MessageManager messageManager = MessageManager.getMessageManager(locale);
+        MessageService messageService = ServiceFactory.getMessageService(session);
         
         String eventIdStr = request.getParameter(PARAM_EVENT_ID);
         String outcome1Str = request.getParameter(PARAM_OUTCOME_1);
@@ -39,10 +36,10 @@ public class OutcomeCreateCommand implements Command {
         String outcome2Str = request.getParameter(PARAM_OUTCOME_2);
         Event event = new Event();
         
-        validateRequestParams(messageManager, outcome1Str, outcomeXStr, outcome2Str);
-        setAndCheckEventNotNull(eventIdStr, event, messageManager);
-        validateCommand(messageManager, outcome1Str, outcomeXStr, outcome2Str);
-        if (messageManager.isErrMessEmpty()) {
+        validateRequestParams(messageService, outcome1Str, outcomeXStr, outcome2Str);
+        setAndCheckEventNotNull(eventIdStr, event, messageService);
+        validateCommand(messageService, outcome1Str, outcomeXStr, outcome2Str);
+        if (messageService.isErrMessEmpty()) {
             int eventId = event.getId();
             Outcome outcomeType1 = new Outcome(eventId, new BigDecimal(outcome1Str), Outcome.Type.TYPE_1);
             Outcome outcomeTypeX = new Outcome(eventId, new BigDecimal(outcomeXStr), Outcome.Type.TYPE_X);
@@ -52,30 +49,30 @@ public class OutcomeCreateCommand implements Command {
             outcomeSet.add(outcomeTypeX);
             outcomeSet.add(outcomeType2);
             try (OutcomeService outcomeService = ServiceFactory.getOutcomeService()) {
-                outcomeService.insertOutcomeSet(outcomeSet, messageManager);
+                outcomeService.insertOutcomeSet(outcomeSet, messageService);
             }
-            if (messageManager.isErrMessEmpty()) {
-                messageManager.appendInfMessByKey(MESSAGE_INF_OUTCOME_UPDATE);
+            if (messageService.isErrMessEmpty()) {
+                messageService.appendInfMessByKey(MESSAGE_INF_OUTCOME_UPDATE);
             } else {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_OUTCOME_UPDATE);
+                messageService.appendErrMessByKey(MESSAGE_ERR_OUTCOME_UPDATE);
             }
         }
         
-        setMessagesToRequest(messageManager, request);
+        setMessagesToRequest(messageService, request);
         return navigator;
     }
     
-    private void validateCommand(MessageManager messageManager, String outcome1Str, String outcomeXStr, String outcome2Str) {
-        if (messageManager.isErrMessEmpty()) {
-            ValidatorService validatorService = ServiceFactory.getValidatorService();
-            if (!validatorService.isValidOutcomeCoeff(outcome1Str)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_OUTCOME);
+    private void validateCommand(MessageService messageService, String outcome1Str, String outcomeXStr, String outcome2Str) {
+        if (messageService.isErrMessEmpty()) {
+            ValidationService validationService = ServiceFactory.getValidationService();
+            if (!validationService.isValidOutcomeCoeff(outcome1Str)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_OUTCOME);
             }
-            if (!validatorService.isValidOutcomeCoeff(outcomeXStr)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_OUTCOME);
+            if (!validationService.isValidOutcomeCoeff(outcomeXStr)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_OUTCOME);
             }
-            if (!validatorService.isValidOutcomeCoeff(outcome2Str)) {
-                messageManager.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_OUTCOME);
+            if (!validationService.isValidOutcomeCoeff(outcome2Str)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_OUTCOME);
             }
         }
     }

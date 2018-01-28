@@ -1,7 +1,7 @@
 package com.dubatovka.app.filter;
 
 
-import com.dubatovka.app.manager.ConfigConstant;
+import com.dubatovka.app.config.ConfigConstant;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

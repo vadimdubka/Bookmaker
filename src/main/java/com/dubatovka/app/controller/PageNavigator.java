@@ -1,6 +1,6 @@
 package com.dubatovka.app.controller;
 
-import static com.dubatovka.app.manager.ConfigConstant.*;
+import static com.dubatovka.app.config.ConfigConstant.*;
 
 public enum PageNavigator {
     FORWARD_PAGE_MANAGE_PLAYER(PAGE_MANAGE_PLAYER, FORWARD),

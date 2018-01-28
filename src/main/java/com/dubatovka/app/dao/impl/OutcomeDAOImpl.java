@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.PREFIX_FOR_OUTCOME_TYPE;
+import static com.dubatovka.app.config.ConfigConstant.PREFIX_FOR_OUTCOME_TYPE;
 
 class OutcomeDAOImpl extends AbstractDBDAO implements OutcomeDAO {
     private static final String SQL_SELECT_OUTCOMES_BY_EVENT_ID =

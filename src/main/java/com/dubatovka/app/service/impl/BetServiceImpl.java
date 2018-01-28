@@ -4,11 +4,11 @@ import com.dubatovka.app.dao.BetDAO;
 import com.dubatovka.app.dao.PlayerDAO;
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.exception.DAOException;
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Bet;
 import com.dubatovka.app.entity.Transaction;
-import com.dubatovka.app.manager.MessageManager;
 import com.dubatovka.app.service.BetService;
+import com.dubatovka.app.service.MessageService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,20 +19,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_OPERATION;
-import static com.dubatovka.app.manager.ConfigConstant.MESSAGE_ERR_SQL_TRANSACTION;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_SQL_OPERATION;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_SQL_TRANSACTION;
 
 class BetServiceImpl extends BetService {
     private static final Logger logger = LogManager.getLogger(BetServiceImpl.class);
-    private final BetDAO betDAO = daoHelper.getBetDAO();
-    private final PlayerDAO playerDAO = daoHelper.getPlayerDAO();
-    private final TransactionDAO transactionDAO = daoHelper.getTransactionDAO();
+    private final BetDAO betDAO = daoProvider.getBetDAO();
+    private final PlayerDAO playerDAO = daoProvider.getPlayerDAO();
+    private final TransactionDAO transactionDAO = daoProvider.getTransactionDAO();
     
     BetServiceImpl() {
     }
     
-    BetServiceImpl(DAOHelper daoHelper) {
-        super(daoHelper);
+    BetServiceImpl(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     @Override
@@ -80,11 +80,11 @@ class BetServiceImpl extends BetService {
     }
     
     @Override
-    public void payWinBet(int eventId, MessageManager messageManager) {
+    public void payWinBet(int eventId, MessageService messageService) {
         Set<Bet> winBetSet = getBetSetForEventAndStatus(eventId, Bet.Status.WIN);
         if ((winBetSet != null) && !winBetSet.isEmpty()) {
             try {
-                daoHelper.beginTransaction();
+                daoProvider.beginTransaction();
                 boolean isTransactionOk = true;
                 for (Bet bet : winBetSet) {
                     int playerId = bet.getPlayerId();
@@ -100,37 +100,37 @@ class BetServiceImpl extends BetService {
                 }
                 int betUpdCount = betDAO.updateBetStatus(eventId, Bet.Status.WIN, Bet.Status.PAID);
                 if ((betUpdCount == winBetSet.size()) && isTransactionOk) {
-                    daoHelper.commit();
+                    daoProvider.commit();
                 } else {
-                    daoHelper.rollback();
+                    daoProvider.rollback();
                 }
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());
-                messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
+                messageService.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
             } catch (SQLException e) {
                 logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-                messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
+                messageService.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
             }
         }
     }
     
     @Override
-    public void makeBet(Bet bet, MessageManager messageManager) {
+    public void makeBet(Bet bet, MessageService messageService) {
         try {
-            daoHelper.beginTransaction();
+            daoProvider.beginTransaction();
             boolean isBetIns = betDAO.insertBet(bet);
             boolean isBalUpd = playerDAO.updateBalance(bet.getPlayerId(), bet.getAmount(), Transaction.TransactionType.WITHDRAW);
             if (isBetIns && isBalUpd) {
-                daoHelper.commit();
+                daoProvider.commit();
             } else {
-                daoHelper.rollback();
+                daoProvider.rollback();
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
-            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
+            messageService.appendErrMessByKey(MESSAGE_ERR_SQL_OPERATION);
         } catch (SQLException e) {
             logger.log(Level.ERROR, MESSAGE_ERR_SQL_TRANSACTION + e);
-            messageManager.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
+            messageService.appendErrMessByKey(MESSAGE_ERR_SQL_TRANSACTION);
         }
     }
     

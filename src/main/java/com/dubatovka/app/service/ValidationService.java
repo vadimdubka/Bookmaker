@@ -4,7 +4,7 @@ import com.dubatovka.app.entity.Event;
 
 import java.time.LocalDateTime;
 
-public interface ValidatorService {
+public interface ValidationService {
     boolean isValidEmail(String email);
     
     boolean isValidPassword(String password);

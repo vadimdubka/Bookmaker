@@ -1,6 +1,6 @@
 package com.dubatovka.app.service;
 
-import com.dubatovka.app.dao.impl.DAOHelper;
+import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Transaction;
 
 import java.math.BigDecimal;
@@ -10,8 +10,8 @@ public abstract class TransactionService extends AbstractService {
     protected TransactionService() {
     }
     
-    protected TransactionService(DAOHelper daoHelper) {
-        super(daoHelper);
+    protected TransactionService(DAOProvider daoProvider) {
+        super(daoProvider);
     }
     
     public abstract List<Transaction> takePlayerTransactions(int id, String month);

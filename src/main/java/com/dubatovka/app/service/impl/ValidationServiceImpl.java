@@ -2,7 +2,7 @@ package com.dubatovka.app.service.impl;
 
 import com.dubatovka.app.entity.Event;
 import com.dubatovka.app.entity.Outcome;
-import com.dubatovka.app.service.ValidatorService;
+import com.dubatovka.app.service.ValidationService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class ValidatorServiceImpl implements ValidatorService {
+class ValidationServiceImpl implements ValidationService {
     private static final int MAX_EMAIL_LENGTH = 320;
     private static final int MAX_EMAIL_NAME_LENGTH = 64;
     private static final int MAX_EMAIL_DOMAIN_LENGTH = 255;
@@ -29,7 +29,7 @@ class ValidatorServiceImpl implements ValidatorService {
     private static final String RESULT_REGEX = "[0-9]{1,3}";
     private static final String PARTICIPANT_REGEX = "^([a-zA-Z_0-9а-яА-Я]+).{0,100}";
     
-    ValidatorServiceImpl() {
+    ValidationServiceImpl() {
     }
     
     @Override
