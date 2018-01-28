@@ -7,7 +7,7 @@ import com.dubatovka.app.entity.Admin;
 import com.dubatovka.app.entity.Analyst;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.User;
-import com.dubatovka.app.service.EncryptorService;
+import com.dubatovka.app.service.EncryptionService;
 import com.dubatovka.app.service.UserService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -36,7 +36,7 @@ class UserServiceImpl extends UserService {
     @Override
     public User authorizeUser(String email, String password) {
         email = email.toLowerCase().trim();
-        password = EncryptorService.encryptMD5(password);
+        password = EncryptionService.encryptMD5(password);
         User user = null;
         try {
             user = userDAO.authorizeUser(email, password);

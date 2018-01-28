@@ -5,7 +5,7 @@ import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.impl.DAOProvider;
 import com.dubatovka.app.entity.Player;
-import com.dubatovka.app.service.EncryptorService;
+import com.dubatovka.app.service.EncryptionService;
 import com.dubatovka.app.service.PlayerService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -38,9 +38,9 @@ class PlayerServiceImpl extends PlayerService {
     }
     
     @Override
-    public boolean registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate) {
+    public int registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate) {
         email = email.trim().toLowerCase();
-        password = EncryptorService.encryptMD5(password);
+        password = EncryptionService.encryptMD5(password);
         if (fName != null) {
             fName = fName.trim().toUpperCase();
         }
@@ -50,12 +50,12 @@ class PlayerServiceImpl extends PlayerService {
         if (lName != null) {
             lName = lName.trim().toUpperCase();
         }
-        boolean result = false;
+        int result =0;
         try {
             int id = userDAO.insertUser(email, password);
             int insertedRows = playerDAO.insertPlayer(id, fName, mName, lName, birthDate);
             if ((id != 0) && (insertedRows == 1)) {
-                result = true;
+                result = id;
             }
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());

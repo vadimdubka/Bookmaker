@@ -13,6 +13,7 @@ import com.dubatovka.app.service.UserService;
 import com.dubatovka.app.service.ValidationService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 public final class ServiceFactory {
     
@@ -49,6 +50,10 @@ public final class ServiceFactory {
     
     public static MessageService getMessageService(String locale) {
         return new MessageServiceImpl(locale);
+    }
+    
+    public static MessageService getMessageService(Locale locale, String pathToBundle) {
+        return new MessageServiceImpl(locale, pathToBundle);
     }
     
     public static MessageService getMessageService(HttpSession session) {

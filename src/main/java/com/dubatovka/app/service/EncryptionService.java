@@ -2,9 +2,9 @@ package com.dubatovka.app.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public final class EncryptorService {
+public final class EncryptionService {
     
-    private EncryptorService() {
+    private EncryptionService() {
     }
     
     public static String encryptMD5(String source) {

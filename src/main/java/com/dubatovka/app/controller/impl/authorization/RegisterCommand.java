@@ -48,8 +48,8 @@ public class RegisterCommand implements Command {
         validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageService, request);
         if (messageService.isErrMessEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
-                boolean isRegPlayer = playerService.registerPlayer(email, password, fName, mName, lName, birthDate);
-                if (isRegPlayer) {
+                int regPlayerId = playerService.registerPlayer(email, password, fName, mName, lName, birthDate);
+                if (regPlayerId > 0) {
                     navigator = PageNavigator.REDIRECT_GOTO_INDEX;
                 }
             }

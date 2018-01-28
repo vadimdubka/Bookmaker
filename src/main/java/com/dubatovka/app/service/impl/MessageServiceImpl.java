@@ -49,6 +49,10 @@ class MessageServiceImpl implements MessageService {
         bundle = ResourceBundle.getBundle(PATH_TO_MESSAGES_BUNDLE, locale);
     }
     
+    MessageServiceImpl(Locale locale, String pathToBundle) {
+        bundle = ResourceBundle.getBundle(pathToBundle, locale);
+    }
+    
     MessageServiceImpl(HttpSession session) {
         this((String) session.getAttribute(ATTR_LOCALE));
     }
@@ -90,7 +94,7 @@ class MessageServiceImpl implements MessageService {
     
     @Override
     public boolean isInfMessEmpty() {
-        return errMess.toString().trim().isEmpty();
+        return infMess.toString().trim().isEmpty();
     }
     
     @Override

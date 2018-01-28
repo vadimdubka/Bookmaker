@@ -15,8 +15,7 @@ public abstract class PlayerService extends AbstractService {
     
     public abstract List<Player> getAllPlayers();
     
-    //TODO возвращать игрока а не булен
-    public abstract boolean registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate);
+    public abstract int registerPlayer(String email, String password, String fName, String mName, String lName, String birthDate);
     
     public abstract void updatePlayerInfo(Player player);
     

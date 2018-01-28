@@ -156,7 +156,7 @@ public class ValidationServiceTest {
         outcomeSet.add(typeX);
         outcomeSet.add(type2);
         event.setOutcomeSet(outcomeSet);
-    
+        
         String outcomeCoeffOnPage = "1.5";
         String outcomeType = "1";
         Assert.assertTrue(validationService.isValidOutcomeCoeffOnPage(outcomeCoeffOnPage, event, outcomeType));
