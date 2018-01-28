@@ -15,6 +15,11 @@ import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_PAY_WIN_BET;
 import static com.dubatovka.app.config.ConfigConstant.MESSAGE_INF_PAY_WIN_BET;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
 
+/**
+ * The class provides command implementation for winning bets payment.
+ *
+ * @author Dubatovka Vadim
+ */
 public class PayWinBetCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

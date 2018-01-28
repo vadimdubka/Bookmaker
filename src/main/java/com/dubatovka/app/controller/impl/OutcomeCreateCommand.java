@@ -23,6 +23,11 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_1;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_2;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_X;
 
+/**
+ * The class provides command implementation for outcome creation.
+ *
+ * @author Dubatovka Vadim
+ */
 public class OutcomeCreateCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

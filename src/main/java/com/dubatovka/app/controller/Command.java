@@ -13,9 +13,21 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_INFO_MESSAGE;
 import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
 import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_REQUEST_PARAMETER;
 
-
+/**
+ * Interface for commands, which are executed by {@link FrontControllerServlet}.
+ *
+ * @author Dubatovka Vadim
+ */
 @FunctionalInterface
 public interface Command {
+    /**
+     * Method executes manipulations with data received from request and returns appropriate {@link
+     * PageNavigator} instance.
+     *
+     * @param request {@link HttpServletRequest} from client with parameters to work with.
+     * @return {@link PageNavigator} with response parameters (contains 'query' and 'response type'
+     * data for {@link FrontControllerServlet}).
+     */
     PageNavigator execute(HttpServletRequest request);
     
     default void validateRequestParams(MessageService messageService, String... params) {

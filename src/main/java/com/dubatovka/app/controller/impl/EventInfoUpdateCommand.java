@@ -22,6 +22,11 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_PARTICIPANT_1;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_PARTICIPANT_2;
 
+/**
+ * The class provides command implementation for event information update.
+ *
+ * @author Dubatovka Vadim
+ */
 public class EventInfoUpdateCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

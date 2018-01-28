@@ -18,6 +18,11 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_RESULT_1;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_RESULT_2;
 
+/**
+ * The class provides command implementation for event result update.
+ *
+ * @author Dubatovka Vadim
+ */
 public class EventResultUpdateCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

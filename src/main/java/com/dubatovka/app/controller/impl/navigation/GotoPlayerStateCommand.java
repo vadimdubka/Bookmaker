@@ -34,6 +34,11 @@ import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_PLAYER_NOT_DEF
 import static com.dubatovka.app.config.ConfigConstant.PARAM_PAGE_NUMBER;
 import static com.dubatovka.app.config.ConfigConstant.PLAYER;
 
+/**
+ * The class provides navigating to player state page.
+ *
+ * @author Dubatovka Vadim
+ */
 public class GotoPlayerStateCommand implements Command {
     private static final int PAGE_LIMIT = 5;
     

@@ -12,14 +12,14 @@ import java.io.IOException;
 
 import static com.dubatovka.app.config.ConfigConstant.ATTR_PREV_QUERY;
 import static com.dubatovka.app.config.ConfigConstant.FORWARD;
-import static com.dubatovka.app.config.ConfigConstant.MAIN_CONTROLLER;
-import static com.dubatovka.app.config.ConfigConstant.MAIN_CONTROLLER_URL;
+import static com.dubatovka.app.config.ConfigConstant.FRONT_CONTROLLER;
+import static com.dubatovka.app.config.ConfigConstant.FRONT_CONTROLLER_URL;
 import static com.dubatovka.app.config.ConfigConstant.PAGE_INDEX;
 import static com.dubatovka.app.config.ConfigConstant.PREV_QUERY;
 import static com.dubatovka.app.config.ConfigConstant.REDIRECT;
 
-@WebServlet(name = MAIN_CONTROLLER, urlPatterns = {MAIN_CONTROLLER_URL})
-public class MainControllerServlet extends HttpServlet {
+@WebServlet(name = FRONT_CONTROLLER, urlPatterns = {FRONT_CONTROLLER_URL})
+public class FrontControllerServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

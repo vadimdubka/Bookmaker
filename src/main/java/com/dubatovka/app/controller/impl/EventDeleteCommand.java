@@ -15,6 +15,11 @@ import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_
 import static com.dubatovka.app.config.ConfigConstant.MESSAGE_INF_EVENT_DELETE;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
 
+/**
+ * The class provides command implementation for event deletion.
+ *
+ * @author Dubatovka Vadim
+ */
 public class EventDeleteCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

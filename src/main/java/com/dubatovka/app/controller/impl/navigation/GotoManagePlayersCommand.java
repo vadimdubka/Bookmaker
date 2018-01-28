@@ -12,6 +12,11 @@ import java.util.List;
 
 import static com.dubatovka.app.config.ConfigConstant.ATTR_PLAYERS;
 
+/**
+ * The class provides navigating to page for players management.
+ *
+ * @author Dubatovka Vadim
+ */
 public class GotoManagePlayersCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

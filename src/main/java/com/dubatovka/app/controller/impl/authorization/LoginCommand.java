@@ -26,7 +26,18 @@ import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_LOGIN_MISMATCH
 import static com.dubatovka.app.config.ConfigConstant.PARAM_EMAIL;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD;
 
+/**
+ * The class provides login command implementation.
+ *
+ * @author Dubatovka Vadim
+ */
 public class LoginCommand implements Command {
+    /**
+     * Method execute ...
+     *
+     * @param request of type HttpServletRequest
+     * @return PageNavigator
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         PageNavigator navigator = PageNavigator.FORWARD_PAGE_INDEX;
@@ -52,6 +63,13 @@ public class LoginCommand implements Command {
         return navigator;
     }
     
+    /**
+     * Method validateCommand ...
+     *
+     * @param email of type String
+     * @param password of type String
+     * @param messageService of type MessageService
+     */
     private void validateCommand(String email, String password, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
@@ -64,6 +82,12 @@ public class LoginCommand implements Command {
         }
     }
     
+    /**
+     * Method setUserToSession ...
+     *
+     * @param user of type User
+     * @param session of type HttpSession
+     */
     private void setUserToSession(User user, HttpSession session) {
         session.setAttribute(ATTR_USER, user);
         session.setAttribute(ATTR_ROLE, user.getRole());

@@ -1,6 +1,5 @@
 package com.dubatovka.app.controller.impl;
 
-
 import com.dubatovka.app.controller.Command;
 import com.dubatovka.app.controller.PageNavigator;
 
@@ -11,6 +10,11 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_LOCALE;
 import static com.dubatovka.app.config.ConfigConstant.LOCALE_DEFAULT;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_LOCALE;
 
+/**
+ * The class provides command for changing locale.
+ *
+ * @author Dubatovka Vadim
+ */
 public class ChangeLocaleCommand implements Command {
     
     @Override

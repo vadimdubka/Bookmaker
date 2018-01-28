@@ -11,6 +11,11 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_QUERY_TYPE;
 import static com.dubatovka.app.config.ConfigConstant.EVENT_GOTO_MANAGE_FAILED;
 import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_FAILED;
 
+/**
+ * The class provides navigation to page for managing failed events.
+ *
+ * @author Dubatovka Vadim
+ */
 public class GotoEventManageFailedCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

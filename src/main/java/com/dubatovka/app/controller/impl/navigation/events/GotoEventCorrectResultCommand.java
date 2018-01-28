@@ -11,6 +11,11 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_EVENT_QUERY_TYPE;
 import static com.dubatovka.app.config.ConfigConstant.EVENT_GOTO_MANAGE_RESULT;
 import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_CLOSED;
 
+/**
+ * The class provides navigation to page for event result correction.
+ *
+ * @author Dubatovka Vadim
+ */
 public class GotoEventCorrectResultCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

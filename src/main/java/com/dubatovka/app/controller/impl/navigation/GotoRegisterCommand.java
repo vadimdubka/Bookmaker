@@ -6,8 +6,13 @@ import com.dubatovka.app.service.QueryService;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The class provides navigating to register page.
+ *
+ * @author Dubatovka Vadim
+ */
 public class GotoRegisterCommand implements Command {
-
+    
     /**
      * Saves current query to session and navigates to register page for guest.
      */

@@ -29,6 +29,11 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_MNAME;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD_AGAIN;
 
+/**
+ * The class provides registration command implementation.
+ *
+ * @author Dubatovka Vadim
+ */
 public class RegisterCommand implements Command {
     @Override
     public PageNavigator execute(HttpServletRequest request) {

@@ -36,6 +36,11 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_COEFFICIENT;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_TYPE;
 import static com.dubatovka.app.config.ConfigConstant.PLAYER;
 
+/**
+ * The class provides command implementation for making bet.
+ *
+ * @author Dubatovka Vadim
+ */
 public class MakeBetCommand implements Command {
     
     @Override

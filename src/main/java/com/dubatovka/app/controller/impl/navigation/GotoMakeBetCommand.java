@@ -20,6 +20,11 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_SPORT_CATEGORY;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
 import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_TYPE;
 
+/**
+ * The class provides navigating to page for making bet.
+ *
+ * @author Dubatovka Vadim
+ */
 public class GotoMakeBetCommand implements Command {
     
     @Override

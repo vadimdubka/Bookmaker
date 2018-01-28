@@ -39,6 +39,11 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_CATEGORY_ID;
 import static com.dubatovka.app.config.ConfigConstant.WIN_BET_INFO_KEY_COUNT;
 import static com.dubatovka.app.config.ConfigConstant.WIN_BET_INFO_KEY_SUM;
 
+/**
+ * The class provides navigating to main page.
+ *
+ * @author Dubatovka Vadim
+ */
 public class GotoMainCommand implements Command {
     
     @Override

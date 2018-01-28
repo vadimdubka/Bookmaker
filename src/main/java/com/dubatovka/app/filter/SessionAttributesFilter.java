@@ -24,7 +24,7 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
  */
 @WebFilter(
         filterName = "SecurityFilter",
-        servletNames = {ConfigConstant.MAIN_CONTROLLER},
+        servletNames = {ConfigConstant.FRONT_CONTROLLER},
         initParams = {@WebInitParam(name = "ATTR_ROLE", value = ATTR_ROLE),
                 @WebInitParam(name = "ATTR_LOCALE", value = ATTR_LOCALE)},
         dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD}

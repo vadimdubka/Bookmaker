@@ -215,8 +215,8 @@ public final class ConfigConstant {
     /**
      * Main controller constants.
      */
-    public static final String MAIN_CONTROLLER = "MainController";
-    public static final String MAIN_CONTROLLER_URL = "/controller";
+    public static final String FRONT_CONTROLLER = "FrontController";
+    public static final String FRONT_CONTROLLER_URL = "/controller";
     
     /**
      * Event query types
