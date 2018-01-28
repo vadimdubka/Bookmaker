@@ -17,13 +17,13 @@ import static com.dubatovka.app.config.ConfigConstant.VALUE_SEPARATOR;
 /**
  * The class provides helper for work with queries.
  */
-public final class QueryManagerService {
+public final class QueryService {
     private static final String STUB = "********";
     
     /**
      * Outer forbidding to create this class instances.
      */
-    private QueryManagerService() {
+    private QueryService() {
     }
     
     /**
@@ -60,6 +60,4 @@ public final class QueryManagerService {
         }
         return result;
     }
-    
-    
 }

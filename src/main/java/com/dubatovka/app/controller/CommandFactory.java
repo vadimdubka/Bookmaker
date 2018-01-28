@@ -1,5 +1,6 @@
 package com.dubatovka.app.controller;
 
+import com.dubatovka.app.config.ConfigConstant;
 import com.dubatovka.app.controller.impl.ChangeLocaleCommand;
 import com.dubatovka.app.controller.impl.EventCreateCommand;
 import com.dubatovka.app.controller.impl.EventDeleteCommand;
@@ -27,7 +28,6 @@ import com.dubatovka.app.controller.impl.navigation.events.GotoEventShowActualCo
 import com.dubatovka.app.controller.impl.navigation.events.GotoEventShowResultCommand;
 import com.dubatovka.app.controller.impl.navigation.events.GotoEventToPayCommand;
 import com.dubatovka.app.entity.User;
-import com.dubatovka.app.config.ConfigConstant;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +38,7 @@ import java.util.Map;
 
 import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
 
-public final class CommandFactory {
+final class CommandFactory {
     private static final Logger logger = LogManager.getLogger(CommandFactory.class);
     private static final String LOG_FOR_COMMAND = "Command implementation is not defined for command type: %s. Check class: %s.";
     private static final String LOG_FOR_COMMAND_TYPE = "Request doesn't have command_type parameter or defined command_type parameter is invalid: %s. Check page after request: %s.";

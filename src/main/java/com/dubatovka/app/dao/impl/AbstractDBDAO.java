@@ -18,9 +18,10 @@ abstract class AbstractDBDAO {
     protected WrappedConnection connection;
     
     /**
-     * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool} collection.
+     * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}
+     * collection.
      */
-    protected AbstractDBDAO() {
+    AbstractDBDAO() {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
         } catch (ConnectionPoolException e) {
@@ -29,17 +30,18 @@ abstract class AbstractDBDAO {
     }
     
     /**
-     * Constructs DAO object by assigning {@link AbstractDAO#connection} field definite
+     * Constructs DAO object by assigning {@link AbstractDBDAO#connection} field definite
      * {@link WrappedConnection} object.
      *
-     * @param connection {@link WrappedConnection} to assign to {@link AbstractDAO#connection} field
+     * @param connection {@link WrappedConnection} to assign to {@link AbstractDBDAO#connection}
+     *                   field
      */
-    protected AbstractDBDAO(WrappedConnection connection) {
+    AbstractDBDAO(WrappedConnection connection) {
         this.connection = connection;
     }
     
     /**
-     * {@link AbstractDAO#connection} field getter.
+     * {@link AbstractDBDAO#connection} field getter.
      *
      * @return {@link #connection}
      */
@@ -48,9 +50,10 @@ abstract class AbstractDBDAO {
     }
     
     /**
-     * {@link AbstractDAO#connection} field setter.
+     * {@link AbstractDBDAO#connection} field setter.
      *
-     * @param connection {@link WrappedConnection} to assign to {@link AbstractDAO#connection} field
+     * @param connection {@link WrappedConnection} to assign to {@link AbstractDBDAO#connection}
+     *                   field
      */
     protected void setConnection(WrappedConnection connection) {
         this.connection = connection;

@@ -36,9 +36,8 @@ class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     
     private static final String SQL_SELECT_BET_BY_PLAYER_ID_LIMIT = "SELECT player_id, event_id, type, date, coefficient, amount, status FROM bet WHERE player_id = ? ORDER BY date DESC LIMIT ? OFFSET ?";
     
-    //TODO сделать общий запрос по типу статуса, а не конкретный
-    private static final String SQL_SELECT_WIN_BET_INFO_GROUP_BY_EVENT_ID =
-            "SELECT event_id, COUNT(event_id) AS count, SUM(amount) AS sum FROM bet WHERE status='win' and event_id IN (SELECT id FROM event WHERE category_id=?) GROUP BY event_id;";
+    private static final String SQL_SELECT_BET_INFO_BY_STATUS_GROUP_BY_EVENT_ID =
+            "SELECT event_id, COUNT(event_id) AS count, SUM(amount) AS sum FROM bet WHERE status=? and event_id IN (SELECT id FROM event WHERE category_id=?) GROUP BY event_id;";
     
     BetDAOImpl() {
     }
@@ -138,8 +137,9 @@ class BetDAOImpl extends AbstractDBDAO implements BetDAO {
     
     @Override
     public Map<String, Map<String, String>> readWinBetInfoMap(int categoryId) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_WIN_BET_INFO_GROUP_BY_EVENT_ID)) {
-            statement.setInt(1, categoryId);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BET_INFO_BY_STATUS_GROUP_BY_EVENT_ID)) {
+            statement.setString(1, Bet.Status.WIN.getStatus());
+            statement.setInt(2, categoryId);
             ResultSet resultSet = statement.executeQuery();
             
             Map<String, String> winBetCount = new HashMap<>();

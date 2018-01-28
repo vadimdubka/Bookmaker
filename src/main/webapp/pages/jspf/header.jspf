@@ -48,26 +48,3 @@
             <fmt:message key="header.topmenu.aboutus"/></a></li>
     </ul>
 </nav>
-
-    <%--TODO удалить если не понадобиться--%>
-<%--
-<c:choose>
-    <c:when test="${sessionScope.user.role.role == 'admin'}">
-        <nav class="employee-nav">
-            <ul class="nav-horizontal">
-                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_players">
-                    <fmt:message key="leftmenu.admin.players"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_verification">
-                    <fmt:message key="leftmenu.admin.verification"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_support">
-                    <fmt:message key="leftmenu.admin.support"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_transactions">
-                    <fmt:message key="leftmenu.admin.transactions"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=goto_stats_report">
-                    <fmt:message key="leftmenu.admin.stats"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_news">
-                    <fmt:message key="leftmenu.admin.news"/></a></li>
-            </ul>
-        </nav>
-    </c:when>
-</c:choose>--%>

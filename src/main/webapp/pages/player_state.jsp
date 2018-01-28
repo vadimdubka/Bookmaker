@@ -7,19 +7,6 @@
             <p><b>${sessionScope.user.role} ${sessionScope.user.email}</b></p>
             <div class="col-s-8 col-4">
                 <table class="user-menu">
-                    <%--TODO удалить или доделать--%>
-                    <%--<tr>
-                        <td class="name">Статус верификации:</td>
-                        <td class="info">${sessionScope.player.verification.verificationStatus.status}</td>
-                    </tr>
-                    <tr>
-                        <td class="name">Лимит на вывод в месяц:</td>
-                        <td class="info">${sessionScope.player.account.status.withdrawalLimit}</td>
-                    </tr>
-                    <tr>
-                        <td class="name">Снято в этом месяце:</td>
-                        <td class="info">${sessionScope.player.account.thisMonthWithdrawal}</td>
-                    </tr>--%>
                     <tr>
                         <td class="name"><fmt:message key="player.status"/></td>
                         <td class="info">${sessionScope.player.account.status.status.status}</td>

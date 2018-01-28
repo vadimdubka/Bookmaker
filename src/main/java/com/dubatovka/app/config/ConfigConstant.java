@@ -1,9 +1,10 @@
 package com.dubatovka.app.config;
 
+/**
+ * Contains configuration constants, that are used throughout the project.
+ */
 @SuppressWarnings("HardCodedStringLiteral")
 public final class ConfigConstant {
-    //TODO удалить лишние
-    //TODO Перенести public static final String в файл с констрантами
     /**
      * User's roles
      */
@@ -28,6 +29,7 @@ public final class ConfigConstant {
     public static final String TYPE_1 = "1";
     public static final String TYPE_X = "X";
     public static final String TYPE_2 = "2";
+    public static final String PREFIX_FOR_OUTCOME_TYPE = "TYPE_";
     
     /**
      * Bet Status
@@ -250,8 +252,9 @@ public final class ConfigConstant {
      */
     public static final String LOCALE_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm";
     
-    public static final String PREFIX_FOR_OUTCOME_TYPE = "TYPE_";
-    
+    /**
+     * Private constructor to forbid creation of class instance.
+     */
     private ConfigConstant() {
     }
 }

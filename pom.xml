@@ -52,7 +52,7 @@
             <version>2.8.2</version>
         </dependency>
 
-        <!--Testing--><!--TODO оптимизировать лишние зависимости-->
+        <!--Testing-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

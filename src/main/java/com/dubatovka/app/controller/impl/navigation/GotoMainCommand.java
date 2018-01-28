@@ -9,7 +9,7 @@ import com.dubatovka.app.service.BetService;
 import com.dubatovka.app.service.CategoryService;
 import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.MessageService;
-import com.dubatovka.app.service.QueryManagerService;
+import com.dubatovka.app.service.QueryService;
 import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
@@ -68,7 +68,7 @@ public class GotoMainCommand implements Command {
             }
         }
         
-        QueryManagerService.saveQueryToSession(request);
+        QueryService.saveQueryToSession(request);
         setMessagesToRequest(messageService, request);
         return navigator;
     }

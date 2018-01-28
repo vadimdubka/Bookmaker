@@ -13,7 +13,7 @@ import com.dubatovka.app.service.EventService;
 import com.dubatovka.app.service.MessageService;
 import com.dubatovka.app.service.PaginationService;
 import com.dubatovka.app.service.PlayerService;
-import com.dubatovka.app.service.QueryManagerService;
+import com.dubatovka.app.service.QueryService;
 import com.dubatovka.app.service.ValidationService;
 import com.dubatovka.app.service.impl.ServiceFactory;
 
@@ -53,7 +53,7 @@ public class GotoPlayerStateCommand implements Command {
             setPlayerInfo(session, player);
             navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
         }
-        QueryManagerService.saveQueryToSession(request);
+        QueryService.saveQueryToSession(request);
         setMessagesToRequest(messageService, request);
         return navigator;
     }

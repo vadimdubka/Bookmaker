@@ -36,6 +36,8 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/controller?command_type=goto_events_to_pay">
                                 <fmt:message key="menu.event.to.pay"/></a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command_type=goto_manage_players">
+                            <fmt:message key="leftmenu.admin.players"/></a></li>
                     </ul>
                 </div>
             </c:when>

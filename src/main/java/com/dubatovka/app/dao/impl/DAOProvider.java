@@ -2,11 +2,9 @@ package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.BetDAO;
 import com.dubatovka.app.dao.CategoryDAO;
-import com.dubatovka.app.dao.DocumentDAO;
 import com.dubatovka.app.dao.EventDAO;
 import com.dubatovka.app.dao.OutcomeDAO;
 import com.dubatovka.app.dao.PlayerDAO;
-import com.dubatovka.app.dao.StandardDAO;
 import com.dubatovka.app.dao.TransactionDAO;
 import com.dubatovka.app.dao.UserDAO;
 import com.dubatovka.app.dao.db.ConnectionPool;
@@ -34,13 +32,11 @@ public final class DAOProvider implements AutoCloseable {
     
     private BetDAO betDAO;
     private CategoryDAO categoryDAO;
-    private DocumentDAO documentDAO;
     private EventDAO eventDAO;
     private OutcomeDAO outcomeDAO;
     private PlayerDAO playerDAO;
     private TransactionDAO transactionDAO;
     private UserDAO userDAO;
-    private StandardDAO standardDAO; //TODO yдалить по окончанию проекта
     
     /**
      * Constructs DAOProvider object by taking {@link WrappedConnection} object from {@link
@@ -80,13 +76,6 @@ public final class DAOProvider implements AutoCloseable {
         return categoryDAO;
     }
     
-    public DocumentDAO getDocumentDAO() {
-        if (documentDAO == null) {
-            documentDAO = new DocumentDAOImpl();
-        }
-        return documentDAO;
-    }
-    
     public EventDAO getEventDAO() {
         if (eventDAO == null) {
             eventDAO = new EventDAOImpl(connection);
@@ -120,13 +109,6 @@ public final class DAOProvider implements AutoCloseable {
             userDAO = new UserDAOImpl(connection);
         }
         return userDAO;
-    }
-    
-    public StandardDAO getStandardDAO() {
-        if (standardDAO == null) {
-            standardDAO = new StandardDAOImpl(connection);
-        }
-        return standardDAO;
     }
     
     /**

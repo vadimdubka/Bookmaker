@@ -1,8 +1,8 @@
 package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.PlayerDAO;
-import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.dao.db.WrappedConnection;
+import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Player;
 import com.dubatovka.app.entity.PlayerAccount;
 import com.dubatovka.app.entity.PlayerProfile;
@@ -20,20 +20,26 @@ import java.util.List;
 
 class PlayerDAOImpl extends AbstractDBDAO implements PlayerDAO {
     private static final String SQL_INSERT_PLAYER = "INSERT INTO player (id, fname, mname, lname, birthday) " +
-            "VALUES (?, ?, ?, ?, ?)";
+                                                            "VALUES (?, ?, ?, ?, ?)";
     
-    private static final String SQL_SELECT_PLAYER_BY_ID = "SELECT fname, mname, lname, birthday, status, balance, bet_limit, withdrawal_limit, " +
-            "IFNULL((SELECT ABS(SUM(amount)) FROM transaction WHERE player.id=player_id AND amount < 0 AND MONTH(date)=MONTH(NOW()) AND YEAR(date)=YEAR(NOW())), 0) AS month_withdrawal, verification_status, passport " +
-            "FROM player LEFT JOIN player_status ON player.player_status=player_status.status WHERE player.id=?;";
+    private static final String SQL_SELECT_PLAYER_BY_ID = "SELECT fname, mname, lname, birthday, status, balance, bet_limit, withdrawal_limit, verification_status, passport," +
+                                                                  "IFNULL((SELECT ABS(SUM(amount)) FROM transaction WHERE player.id=player_id AND amount < 0 AND MONTH(date)=MONTH(NOW()) AND YEAR(date)=YEAR(NOW())), 0) AS month_withdrawal " +
+                                                                  "FROM player " +
+                                                                  "LEFT JOIN player_status ON player.player_status=player_status.status " +
+                                                                  "WHERE player.id=?;";
     
-    private static final String SQL_SELECT_ALL_PLAYERS = "SELECT fname, mname, lname, birthday, player_status, balance, month_withdrawal, verification_status FROM player ORDER BY fname";
+    private static final String SQL_SELECT_ALL_PLAYERS = "SELECT fname, mname, lname, birthday, status, balance, bet_limit, withdrawal_limit, verification_status, passport," +
+                                                                 "IFNULL((SELECT ABS(SUM(amount)) FROM transaction WHERE player.id=player_id AND amount < 0 AND MONTH(date)=MONTH(NOW()) AND YEAR(date)=YEAR(NOW())), 0) AS month_withdrawal " +
+                                                                 "FROM player " +
+                                                                 "LEFT JOIN player_status ON player.player_status=player_status.status " +
+                                                                 "ORDER BY lname";
     
     /**
      * Updates definite player balance by adding definite value to it.
      */
     private static final String SQL_UPDATE_ACCOUNT_BALANCE = "UPDATE player " +
-            "SET balance=balance+? " +
-            "WHERE id=?";
+                                                                     "SET balance=balance+? " +
+                                                                     "WHERE id=?";
     
     PlayerDAOImpl() {
     }
