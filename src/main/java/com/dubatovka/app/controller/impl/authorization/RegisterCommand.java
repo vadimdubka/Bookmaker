@@ -48,26 +48,26 @@ public class RegisterCommand implements Command {
      */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+        HttpSession    session        = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
-        String email = request.getParameter(PARAM_EMAIL);
-        String password = request.getParameter(PARAM_PASSWORD);
+        String email         = request.getParameter(PARAM_EMAIL);
+        String password      = request.getParameter(PARAM_PASSWORD);
         String passwordAgain = request.getParameter(PARAM_PASSWORD_AGAIN);
-        String fName = request.getParameter(PARAM_FNAME);
-        String mName = request.getParameter(PARAM_MNAME);
-        String lName = request.getParameter(PARAM_LNAME);
-        String birthDate = request.getParameter(PARAM_BIRTHDATE);
+        String fName         = request.getParameter(PARAM_FNAME);
+        String mName         = request.getParameter(PARAM_MNAME);
+        String lName         = request.getParameter(PARAM_LNAME);
+        String birthDate     = request.getParameter(PARAM_BIRTHDATE);
         
         validateRequestParams(messageService, email, password, passwordAgain,
-                fName, mName, lName, birthDate);
+                              fName, mName, lName, birthDate);
         validateCommand(email, password, passwordAgain,
-                fName, mName, lName, birthDate, messageService, request);
+                        fName, mName, lName, birthDate, messageService, request);
         PageNavigator navigator = PageNavigator.FORWARD_PAGE_REGISTER;
         if (messageService.isErrMessEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
-                int regPlayerId = playerService.registerPlayer(email, password,
-                        fName, mName, lName, birthDate);
+                int regPlayerId = playerService.registerPlayer(email, password, fName,
+                                                               mName, lName, birthDate);
                 if (regPlayerId > 0) {
                     navigator = PageNavigator.REDIRECT_GOTO_INDEX;
                 }

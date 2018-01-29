@@ -18,8 +18,7 @@ abstract class DBConnectionHolder {
     protected WrappedConnection connection;
     
     /**
-     * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}
-     * collection.
+     * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}.
      */
     protected DBConnectionHolder() {
         try {

@@ -31,7 +31,7 @@ class OutcomeServiceImpl extends OutcomeService {
         if (event != null) {
             try {
                 int id = event.getId();
-                Set<Outcome> outcomeSet = outcomeDAO.getOutcomesByEventId(id);
+                Set<Outcome> outcomeSet = outcomeDAO.readOutcomesByEventId(id);
                 event.setOutcomeSet(outcomeSet);
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e.getMessage());

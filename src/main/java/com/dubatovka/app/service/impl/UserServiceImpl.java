@@ -39,7 +39,7 @@ class UserServiceImpl extends UserService {
         password = EncryptionService.encryptMD5(password);
         User user = null;
         try {
-            user = userDAO.authorizeUser(email, password);
+            user = userDAO.readUser(email, password);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e.getMessage());
         }

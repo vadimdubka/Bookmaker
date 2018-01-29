@@ -1,6 +1,7 @@
 package com.dubatovka.app.dao.impl;
 
 import com.dubatovka.app.dao.TransactionDAO;
+import com.dubatovka.app.dao.db.ConnectionPool;
 import com.dubatovka.app.dao.db.WrappedConnection;
 import com.dubatovka.app.dao.exception.DAOException;
 import com.dubatovka.app.entity.Transaction;
@@ -13,56 +14,64 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * The type Transaction dao.
+ * Class provides {@link TransactionDAO} implementation for MySQL database.
+ *
+ * @author Dubatovka Vadim
  */
 class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
     /**
      * Selects definite player transactions and orders them by date in descending order.
      */
-    private static final String SQL_SELECT_BY_PLAYER_ID = "SELECT id, player_id, date, amount " +
-                                                                  "FROM transaction " +
-                                                                  "WHERE player_id=? " +
-                                                                  "ORDER BY date DESC";
+    private static final String SQL_SELECT_BY_PLAYER_ID      =
+        "SELECT id, player_id, date, amount FROM transaction " +
+            "WHERE player_id=? ORDER BY date DESC";
     /**
      * Selects definite player transactions where date is like definite pattern and orders them by
      * date in descending order.
      */
-    private static final String SQL_SELECT_PLAYER_LIKE_MONTH = "SELECT id, player_id, date, amount " +
-                                                                       "FROM transaction " +
-                                                                       "WHERE player_id=? AND date LIKE ? " +
-                                                                       "ORDER BY date DESC";
+    private static final String SQL_SELECT_PLAYER_LIKE_MONTH =
+        "SELECT id, player_id, date, amount FROM transaction " +
+            "WHERE player_id=? AND date LIKE ? ORDER BY date DESC";
     /**
      * Selects transactions where date is like definite pattern and orders them by date in
      * descending order.
      */
-    private static final String SQL_SELECT_LIKE_MONTH = "SELECT id, player_id, date, amount " +
-                                                                "FROM transaction " +
-                                                                "WHERE date LIKE ? " +
-                                                                "ORDER BY date DESC";
+    private static final String SQL_SELECT_LIKE_MONTH        =
+        "SELECT id, player_id, date, amount FROM transaction " +
+            "WHERE date LIKE ? ORDER BY date DESC";
     /**
      * Inserts transaction to database.
      */
-    private static final String SQL_INSERT_TRANSACTION = "INSERT INTO transaction (player_id, date, amount) " +
-                                                                 "VALUES (?, NOW(), ?)";
+    private static final String SQL_INSERT_TRANSACTION       =
+        "INSERT INTO transaction (player_id, date, amount) VALUES (?, NOW(), ?)";
     
+    
+    /**
+     * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}.
+     */
     TransactionDAOImpl() {
     }
     
+    
+    /**
+     * Constructs DAO object by assigning {@link DBConnectionHolder#connection} field definite
+     * {@link WrappedConnection} object.
+     *
+     * @param connection {@link WrappedConnection} to assign to {@link DBConnectionHolder#connection}
+     *                   field
+     */
     TransactionDAOImpl(WrappedConnection connection) {
         super(connection);
     }
+    
     
     /**
      * Takes {@link List} filled by definite player {@link Transaction} objects.
      *
      * @param playerId id of player whose transactions to take
-     * @return {@link List} filled by definite player {@link Transaction} objects or null
+     * @return {@link List} filled by definite player {@link Transaction} objects
      * @throws DAOException if {@link SQLException} occurred while working with database
-     * @see PreparedStatement
-     * @see ResultSet
-     * @see #buildTransactionList(ResultSet)
      */
     @Override
     public List<Transaction> takePlayerTransactions(int playerId) throws DAOException {
@@ -75,20 +84,19 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
         }
     }
     
+    
     /**
      * Takes {@link List} filled by definite player {@link Transaction} objects due to definite
      * transaction date pattern.
      *
      * @param playerId     id of player whose transactions to take
      * @param monthPattern pattern of transaction date conforming to <code>SQL LIKE</code> operator
-     * @return {@link List} filled by definite player {@link Transaction} objects or null
+     * @return {@link List} filled by definite player {@link Transaction} objects
      * @throws DAOException if {@link SQLException} occurred while working with database
-     * @see PreparedStatement
-     * @see ResultSet
-     * @see #buildTransactionList(ResultSet)
      */
     @Override
-    public List<Transaction> takePlayerTransactions(int playerId, String monthPattern) throws DAOException {
+    public List<Transaction> takePlayerTransactions(int playerId, String monthPattern)
+        throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PLAYER_LIKE_MONTH)) {
             statement.setInt(1, playerId);
             statement.setString(2, monthPattern);
@@ -99,16 +107,14 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
         }
     }
     
+    
     /**
      * Takes {@link List} filled by {@link Transaction} objects due to definite transaction date
      * pattern.
      *
      * @param monthPattern pattern of transaction date conforming to <code>SQL LIKE</code> operator
-     * @return {@link List} filled by {@link Transaction} objects or null
+     * @return {@link List} filled by {@link Transaction} objects
      * @throws DAOException if {@link SQLException} occurred while working with database
-     * @see PreparedStatement
-     * @see ResultSet
-     * @see #buildTransactionList(ResultSet)
      */
     @Override
     public List<Transaction> takeTransactionList(String monthPattern) throws DAOException {
@@ -121,23 +127,24 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
         }
     }
     
+    
     /**
      * Inserts {@link Transaction} to database.
      *
      * @param playerId id of player who does transaction
      * @param amount   amount of money transferred by transaction
      * @param type     {@link Transaction.TransactionType} of inserting transaction
-     * @return int value of inserted transaction generated id or 0
+     * @return int value of inserted transaction generated id
      * @throws DAOException if {@link SQLException} occurred while working with database
-     * @see PreparedStatement
-     * @see ResultSet
      */
     @Override
-    public int insertTransaction(int playerId, BigDecimal amount, Transaction.TransactionType type) throws DAOException {
+    public int insertTransaction(int playerId, BigDecimal amount, Transaction.TransactionType type)
+        throws DAOException {
         if (type == Transaction.TransactionType.WITHDRAW) {
             amount = amount.negate();
         }
-        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_TRANSACTION, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_TRANSACTION,
+                                                                       Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, playerId);
             statement.setBigDecimal(2, amount);
             statement.executeUpdate();
@@ -149,10 +156,10 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
     }
     
     /**
-     * Builds {@link Transaction} object by parsing {@link ResultSet} object.
+     * Method builds {@link Transaction} from given ResultSet
      *
-     * @param resultSet {@link ResultSet} object to parse
-     * @return parsed {@link Transaction} object or null
+     * @param resultSet {@link ResultSet}
+     * @return {@link Transaction}
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
@@ -164,32 +171,32 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
             transaction.setPlayerId(resultSet.getInt(PLAYER_ID));
             transaction.setDate(resultSet.getTimestamp(DATE).toLocalDateTime());
             BigDecimal amount = resultSet.getBigDecimal(AMOUNT);
-            transaction.setType(
-                    (amount.signum() == -1) ? Transaction.TransactionType.WITHDRAW : Transaction.TransactionType.REPLENISH);
+            Transaction.TransactionType transactionType = (amount.signum() == -1)
+                                                              ? Transaction.TransactionType.WITHDRAW
+                                                              : Transaction.TransactionType.REPLENISH;
+            transaction.setType(transactionType);
             transaction.setAmount(amount.abs());
         }
         return transaction;
     }
     
     /**
-     * Builds {@link List} object filled by {@link Transaction} objects by parsing {@link ResultSet}
-     * object.
+     * Builds {@link List} of {@link Transaction} from given {@link ResultSet}.
      *
-     * @param resultSet {@link ResultSet} object to parse
-     * @return parsed {@link List} object or null
-     * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
-     *                      this method is called on a closed result set
-     * @see #buildTransaction(ResultSet)
+     * @param resultSet {@link ResultSet}
+     * @return {@link List} of {@link Transaction}
+     * @throws SQLException if a database access error occurs or this method is called on a closed
+     *                      result set
      */
     private List<Transaction> buildTransactionList(ResultSet resultSet) throws SQLException {
         List<Transaction> transactionList = new ArrayList<>();
-        Transaction transaction;
+        Transaction       transaction;
         do {
             transaction = buildTransaction(resultSet);
             if (transaction != null) {
                 transactionList.add(transaction);
             }
         } while (transaction != null);
-        return !transactionList.isEmpty() ? transactionList : null;
+        return transactionList.isEmpty() ? null : transactionList;
     }
 }
