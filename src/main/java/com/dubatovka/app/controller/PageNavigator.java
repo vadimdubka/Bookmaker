@@ -1,6 +1,19 @@
 package com.dubatovka.app.controller;
 
-import static com.dubatovka.app.config.ConfigConstant.*;
+import static com.dubatovka.app.config.ConfigConstant.FORWARD;
+import static com.dubatovka.app.config.ConfigConstant.GOTO_INDEX;
+import static com.dubatovka.app.config.ConfigConstant.GOTO_MAIN;
+import static com.dubatovka.app.config.ConfigConstant.GOTO_PAGINATION;
+import static com.dubatovka.app.config.ConfigConstant.GOTO_PLAYER_STATE;
+import static com.dubatovka.app.config.ConfigConstant.GOTO_REGISTER;
+import static com.dubatovka.app.config.ConfigConstant.PAGE_INDEX;
+import static com.dubatovka.app.config.ConfigConstant.PAGE_MAIN;
+import static com.dubatovka.app.config.ConfigConstant.PAGE_MAKE_BET;
+import static com.dubatovka.app.config.ConfigConstant.PAGE_MANAGE_PLAYER;
+import static com.dubatovka.app.config.ConfigConstant.PAGE_PLAYER_STATE;
+import static com.dubatovka.app.config.ConfigConstant.PAGE_REGISTER;
+import static com.dubatovka.app.config.ConfigConstant.PREV_QUERY;
+import static com.dubatovka.app.config.ConfigConstant.REDIRECT;
 
 public enum PageNavigator {
     FORWARD_PAGE_MANAGE_PLAYER(PAGE_MANAGE_PLAYER, FORWARD),

@@ -1,6 +1,7 @@
 package com.dubatovka.app.controller.impl.authorization;
 
 import com.dubatovka.app.controller.Command;
+import com.dubatovka.app.controller.FrontControllerServlet;
 import com.dubatovka.app.controller.PageNavigator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,13 @@ import javax.servlet.http.HttpServletRequest;
  * @author Dubatovka Vadim
  */
 public class LogoutCommand implements Command {
+    /**
+     * Method provides logout process for users.
+     *
+     * @param request {@link HttpServletRequest} to get session for invalidation.
+     * @return {@link PageNavigator#REDIRECT_GOTO_INDEX} with response parameters (contains 'query'
+     * and 'response type' data for {@link FrontControllerServlet}).
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         request.getSession().invalidate();

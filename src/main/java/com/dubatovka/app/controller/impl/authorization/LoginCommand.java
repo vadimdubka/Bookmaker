@@ -32,15 +32,22 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD;
  * @author Dubatovka Vadim
  */
 public class LoginCommand implements Command {
+    
     /**
-     * Method execute ...
+     * Method provides login process for users.<p>Takes input parameters from {@link
+     * HttpServletRequest#getParameter(String)} and validates them. If all the parameters are valid
+     * converts them to relevant data types and passes converted parameters further to the Logic
+     * layer.If Logic operation passed successfully sets to {@link HttpSession#setAttribute(String,
+     * Object)} corresponding attribute and navigates to {@link PageNavigator#FORWARD_PAGE_INDEX}</p>
+     * <p>If during execution information for user appears appropriate message is added
+     * to request.</p>
      *
-     * @param request of type HttpServletRequest
-     * @return PageNavigator
+     * @param request {@link HttpServletRequest} from client with parameters for processing.
+     * @return {@link PageNavigator#FORWARD_PAGE_INDEX} with response parameters (contains 'query'
+     * and 'response type' data for {@link com.dubatovka.app.controller.FrontControllerServlet}).
      */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PAGE_INDEX;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -60,15 +67,17 @@ public class LoginCommand implements Command {
             }
         }
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PAGE_INDEX;
     }
     
+    
     /**
-     * Method validateCommand ...
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
      *
-     * @param email of type String
-     * @param password of type String
-     * @param messageService of type MessageService
+     * @param email          {@link String} parameter for validation
+     * @param password       {@link String} parameter for validation
+     * @param messageService {@link MessageService} to hold message about validation result
      */
     private void validateCommand(String email, String password, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
@@ -83,10 +92,10 @@ public class LoginCommand implements Command {
     }
     
     /**
-     * Method setUserToSession ...
+     * Method sets {@link User} to session.
      *
-     * @param user of type User
-     * @param session of type HttpSession
+     * @param user    {@link User}
+     * @param session {@link HttpSession}
      */
     private void setUserToSession(User user, HttpSession session) {
         session.setAttribute(ATTR_USER, user);

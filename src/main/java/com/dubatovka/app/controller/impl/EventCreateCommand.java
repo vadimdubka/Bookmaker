@@ -62,6 +62,16 @@ public class EventCreateCommand implements Command {
         return navigator;
     }
     
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param messageService {@link MessageService} to hold message about validation result
+     * @param categoryIdStr  {@link String} parameter for validation
+     * @param dateTimeStr    {@link String} parameter for validation
+     * @param participant1   {@link String} parameter for validation
+     * @param participant2   {@link String} parameter for validation
+     */
     private void validateCommand(MessageService messageService, String categoryIdStr, String dateTimeStr, String participant1, String participant2) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();

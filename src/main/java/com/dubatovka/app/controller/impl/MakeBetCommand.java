@@ -58,7 +58,7 @@ public class MakeBetCommand implements Command {
         Event event = new Event();
         
         validateRequestParams(messageService, betAmountStr, eventIdStr, outcomeType, outcomeCoeffOnPage);
-        setAndCheckEventNotNull(eventIdStr, event, messageService);
+        checkAndSetEventNotNull(eventIdStr, event, messageService);
         validateUserRole(role, messageService);
         validateCommand(player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, messageService);
         if (messageService.isErrMessEmpty()) {
@@ -93,6 +93,17 @@ public class MakeBetCommand implements Command {
         }
     }
     
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param player             {@link Player} parameter for validation
+     * @param betAmountStr       {@link String} parameter for validation
+     * @param event              {@link Event} parameter for validation
+     * @param outcomeType        {@link String} parameter for validation
+     * @param outcomeCoeffOnPage {@link String} parameter for validation
+     * @param messageService     {@link MessageService} to hold message about validation result
+     */
     private void validateCommand(Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             LocalDateTime betDateTime = LocalDateTime.now();

@@ -24,12 +24,20 @@ public interface Command {
      * Method executes manipulations with data received from request and returns appropriate {@link
      * PageNavigator} instance.
      *
-     * @param request {@link HttpServletRequest} from client with parameters to work with.
+     * @param request {@link HttpServletRequest} from client with parameters for processing.
      * @return {@link PageNavigator} with response parameters (contains 'query' and 'response type'
      * data for {@link FrontControllerServlet}).
      */
     PageNavigator execute(HttpServletRequest request);
     
+    /**
+     * Method validates request parameters from {@link HttpServletRequest#getParameter(String)}
+     * using {@link ValidationService} to confirm that all necessary parameters for command
+     * execution are not null and not empty.
+     *
+     * @param messageService {@link MessageService} to hold message about validation result.
+     * @param params         {@link String} array of request parameters.
+     */
     default void validateRequestParams(MessageService messageService, String... params) {
         ValidationService validationService = ServiceFactory.getValidationService();
         if (!validationService.isValidRequestParam(params)) {
@@ -37,7 +45,15 @@ public interface Command {
         }
     }
     
-    default void setAndCheckEventNotNull(String eventIdStr, Event event, MessageService messageService) {
+    /**
+     * Method checks that event with given id exists in database and, if yes, sets retrieved event
+     * properties to the given event that will be used in the {@link Command#execute} method.
+     *
+     * @param eventIdStr     {@link String} representation of event id number.
+     * @param event          {@link Event} to set properties of retrieved event from database.
+     * @param messageService {@link MessageService} to hold message about result of validation.
+     */
+    default void checkAndSetEventNotNull(String eventIdStr, Event event, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             try (EventService eventService = ServiceFactory.getEventService()) {
                 Event eventDB = eventService.getEvent(eventIdStr);
@@ -57,6 +73,14 @@ public interface Command {
         }
     }
     
+    /**
+     * Method set messages to the {@link HttpServletRequest} request to show users notifications
+     * with results of their requests to the server.
+     *
+     * @param messageService {@link MessageService} that holds messages, formed during execution of
+     *                       {@link Command#execute} method .
+     * @param request        {@link HttpServletRequest}
+     */
     default void setMessagesToRequest(MessageService messageService, HttpServletRequest request) {
         String error = messageService.getErrMessContent();
         String info = messageService.getInfMessContent();

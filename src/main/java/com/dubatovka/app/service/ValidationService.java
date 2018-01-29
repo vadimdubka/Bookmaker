@@ -25,6 +25,13 @@ public interface ValidationService {
     
     boolean isValidBetTime(LocalDateTime betDateTime, LocalDateTime eventDateTime);
     
+    /**
+     * Method validates request parameters to confirm that all received parameters are not null and
+     * not empty.
+     *
+     * @param params {@link String} array of request parameters.
+     * @return boolean result of validation.
+     */
     boolean isValidRequestParam(String... params);
     
     boolean isValidEventDateTime(String dateTimeStr);

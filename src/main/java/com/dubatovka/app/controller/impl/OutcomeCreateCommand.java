@@ -42,7 +42,7 @@ public class OutcomeCreateCommand implements Command {
         Event event = new Event();
         
         validateRequestParams(messageService, outcome1Str, outcomeXStr, outcome2Str);
-        setAndCheckEventNotNull(eventIdStr, event, messageService);
+        checkAndSetEventNotNull(eventIdStr, event, messageService);
         validateCommand(messageService, outcome1Str, outcomeXStr, outcome2Str);
         if (messageService.isErrMessEmpty()) {
             int eventId = event.getId();
@@ -67,6 +67,15 @@ public class OutcomeCreateCommand implements Command {
         return navigator;
     }
     
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param messageService {@link MessageService} to hold message about validation result
+     * @param outcome1Str    {@link String} parameter for validation
+     * @param outcomeXStr    {@link String} parameter for validation
+     * @param outcome2Str    {@link String} parameter for validation
+     */
     private void validateCommand(MessageService messageService, String outcome1Str, String outcomeXStr, String outcome2Str) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();

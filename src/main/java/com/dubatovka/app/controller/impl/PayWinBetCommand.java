@@ -46,7 +46,13 @@ public class PayWinBetCommand implements Command {
         return navigator;
     }
     
-    
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param messageService {@link MessageService} to hold message about validation result
+     * @param eventIdStr     {@link String} parameter for validation
+     */
     private void validateCommand(MessageService messageService, String eventIdStr) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();

@@ -117,6 +117,13 @@ public class GotoMainCommand implements Command {
         request.setAttribute(ATTR_WIN_BET_SUM, winBetSum);
     }
     
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param messageService {@link MessageService} to hold message about result of validation
+     * @param categoryIdStr  {@link String} parameter for validation
+     */
     private void validateCommand(MessageService messageService, String categoryIdStr) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();

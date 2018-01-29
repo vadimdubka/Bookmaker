@@ -35,9 +35,21 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD_AGAIN;
  * @author Dubatovka Vadim
  */
 public class RegisterCommand implements Command {
+    /**
+     * Method provides registration process for users.<p>Takes input parameters from {@link
+     * HttpServletRequest#getParameter(String)} and validates them. If all the parameters are valid
+     * converts them to relevant data types and passes converted parameters further to the Logic
+     * layer.If Logic operation passed successfully navigates to {@link
+     * PageNavigator#REDIRECT_GOTO_INDEX}, else if some navigates to{@link
+     * PageNavigator#FORWARD_PAGE_REGISTER}</p> <p>If during execution information for user appears
+     * appropriate message is added to request.</p>
+     *
+     * @param request {@link HttpServletRequest} from client with parameters for processing.
+     * @return {@link PageNavigator#REDIRECT_GOTO_INDEX} with response parameters (contains 'query'
+     * and 'response type' data for {@link com.dubatovka.app.controller.FrontControllerServlet}).
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PAGE_REGISTER;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -49,11 +61,15 @@ public class RegisterCommand implements Command {
         String lName = request.getParameter(PARAM_LNAME);
         String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
-        validateRequestParams(messageService, email, password, passwordAgain, fName, mName, lName, birthDate);
-        validateCommand(email, password, passwordAgain, fName, mName, lName, birthDate, messageService, request);
+        validateRequestParams(messageService, email, password, passwordAgain,
+                fName, mName, lName, birthDate);
+        validateCommand(email, password, passwordAgain,
+                fName, mName, lName, birthDate, messageService, request);
+        PageNavigator navigator = PageNavigator.FORWARD_PAGE_REGISTER;
         if (messageService.isErrMessEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService()) {
-                int regPlayerId = playerService.registerPlayer(email, password, fName, mName, lName, birthDate);
+                int regPlayerId = playerService.registerPlayer(email, password,
+                        fName, mName, lName, birthDate);
                 if (regPlayerId > 0) {
                     navigator = PageNavigator.REDIRECT_GOTO_INDEX;
                 }
@@ -63,7 +79,24 @@ public class RegisterCommand implements Command {
         return navigator;
     }
     
-    private void validateCommand(String email, String password, String passwordAgain, String fName, String mName, String lName, String birthDate, MessageService messageService, ServletRequest request) {
+    
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param email          {@link String} parameter for validation
+     * @param password       {@link String} parameter for validation
+     * @param passwordAgain  {@link String} parameter for validation
+     * @param fName          {@link String} parameter for validation
+     * @param mName          {@link String} parameter for validation
+     * @param lName          {@link String} parameter for validation
+     * @param birthDate      {@link String} parameter for validation
+     * @param messageService {@link MessageService} to hold message about result of validation
+     * @param request        {@link ServletRequest} to add attributes with valid data
+     */
+    private void validateCommand(String email, String password, String passwordAgain, String fName,
+                                 String mName, String lName, String birthDate,
+                                 MessageService messageService, ServletRequest request) {
         ValidationService validationService = ServiceFactory.getValidationService();
         if (validationService.isValidEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);

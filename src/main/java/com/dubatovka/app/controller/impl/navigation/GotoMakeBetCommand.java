@@ -38,7 +38,7 @@ public class GotoMakeBetCommand implements Command {
         Event event = new Event();
         
         validateRequestParams(messageService, eventIdStr, outcomeType);
-        setAndCheckEventNotNull(eventIdStr, event, messageService);
+        checkAndSetEventNotNull(eventIdStr, event, messageService);
         if (messageService.isErrMessEmpty()) {
             try (CategoryService categoryService = ServiceFactory.getCategoryService()) {
                 Outcome outcome = event.getOutcomeByType(outcomeType);

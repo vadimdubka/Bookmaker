@@ -36,7 +36,7 @@ public class EventResultUpdateCommand implements Command {
         Event event = new Event();
         
         validateRequestParams(messageService, result1Str, result2Str);
-        setAndCheckEventNotNull(eventIdStr, event, messageService);
+        checkAndSetEventNotNull(eventIdStr, event, messageService);
         validateCommand(messageService, result1Str, result2Str);
         if (messageService.isErrMessEmpty()) {
             event.setResult1(result1Str.trim());
@@ -54,6 +54,14 @@ public class EventResultUpdateCommand implements Command {
         return navigator;
     }
     
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param messageService {@link MessageService} to hold message about validation result
+     * @param result1Str     {@link String} parameter for validation
+     * @param result2Str     {@link String} parameter for validation
+     */
     private void validateCommand(MessageService messageService, String result1Str, String result2Str) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
