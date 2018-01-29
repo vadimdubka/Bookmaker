@@ -28,9 +28,15 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_PARTICIPANT_2;
  * @author Dubatovka Vadim
  */
 public class EventCreateCommand implements Command {
+    /**
+     * Method provides process for event creation.<p>Takes input parameters and attributes from
+     * {@link HttpServletRequest} and {@link HttpSession} and based on them create new event.</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PREV_QUERY}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -59,7 +65,7 @@ public class EventCreateCommand implements Command {
             }
         }
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PREV_QUERY;
     }
     
     /**
@@ -72,7 +78,8 @@ public class EventCreateCommand implements Command {
      * @param participant1   {@link String} parameter for validation
      * @param participant2   {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService, String categoryIdStr, String dateTimeStr, String participant1, String participant2) {
+    private void validateCommand(MessageService messageService, String categoryIdStr,
+                                 String dateTimeStr, String participant1, String participant2) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidId(categoryIdStr)) {
@@ -81,7 +88,8 @@ public class EventCreateCommand implements Command {
             if (!validationService.isValidEventDateTime(dateTimeStr)) {
                 messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_DATE);
             }
-            if (!validationService.isValidEventParticipantName(participant1) || !validationService.isValidEventParticipantName(participant2)) {
+            if (!validationService.isValidEventParticipantName(participant1) ||
+                        !validationService.isValidEventParticipantName(participant2)) {
                 messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_PARTICIPANT);
             }
         }

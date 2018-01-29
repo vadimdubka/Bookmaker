@@ -28,9 +28,16 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_PARTICIPANT_2;
  * @author Dubatovka Vadim
  */
 public class EventInfoUpdateCommand implements Command {
+    /**
+     * Method provides process for event information update.<p>Takes input parameters and attributes
+     * from {@link HttpServletRequest} and {@link HttpSession} and based on them update event
+     * information.</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PREV_QUERY}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -57,7 +64,7 @@ public class EventInfoUpdateCommand implements Command {
             }
         }
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PREV_QUERY;
     }
     
     /**
@@ -70,7 +77,8 @@ public class EventInfoUpdateCommand implements Command {
      * @param participant1   {@link String} parameter for validation
      * @param participant2   {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService, String eventIdStr, String dateTimeStr, String participant1, String participant2) {
+    private void validateCommand(MessageService messageService, String eventIdStr,
+                                 String dateTimeStr, String participant1, String participant2) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidId(eventIdStr)) {

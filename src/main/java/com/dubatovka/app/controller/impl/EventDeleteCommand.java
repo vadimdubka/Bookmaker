@@ -21,9 +21,15 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
  * @author Dubatovka Vadim
  */
 public class EventDeleteCommand implements Command {
+    /**
+     * Method provides process for event deletion.<p>Takes input parameters and attributes from
+     * {@link HttpServletRequest} and {@link HttpSession} and based on them delete event.</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PREV_QUERY}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -44,7 +50,7 @@ public class EventDeleteCommand implements Command {
         }
         
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PREV_QUERY;
     }
     
     /**

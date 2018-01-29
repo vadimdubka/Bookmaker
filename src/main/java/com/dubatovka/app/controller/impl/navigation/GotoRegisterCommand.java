@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GotoRegisterCommand implements Command {
     
     /**
-     * Saves current query to session and navigates to register page for guest.
+     * Saves current query to session and navigates to register page.
      */
     @Override
     public PageNavigator execute(HttpServletRequest request) {

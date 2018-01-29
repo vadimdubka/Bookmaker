@@ -29,9 +29,15 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_X;
  * @author Dubatovka Vadim
  */
 public class OutcomeCreateCommand implements Command {
+    /**
+     * Method provides process for outcome creation.<p>Takes input parameters and attributes from
+     * {@link HttpServletRequest} and {@link HttpSession} and based on them create new outcomes.</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PREV_QUERY}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -64,7 +70,7 @@ public class OutcomeCreateCommand implements Command {
         }
         
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PREV_QUERY;
     }
     
     /**
@@ -76,7 +82,8 @@ public class OutcomeCreateCommand implements Command {
      * @param outcomeXStr    {@link String} parameter for validation
      * @param outcome2Str    {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService, String outcome1Str, String outcomeXStr, String outcome2Str) {
+    private void validateCommand(MessageService messageService,
+                                 String outcome1Str, String outcomeXStr, String outcome2Str) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidOutcomeCoeff(outcome1Str)) {

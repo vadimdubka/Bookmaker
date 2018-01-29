@@ -40,11 +40,23 @@ import static com.dubatovka.app.config.ConfigConstant.PLAYER;
  * @author Dubatovka Vadim
  */
 public class GotoPlayerStateCommand implements Command {
+    /**
+     * Limit of bets on page
+     */
     private static final int PAGE_LIMIT = 5;
     
+    /**
+     * Method provides navigation process to player state page.<p>Takes input parameters and
+     * attributes from {@link HttpServletRequest} and {@link HttpSession} and based on them adds
+     * appropriate attributes with data about player and player's bets to {@link
+     * HttpServletRequest}.If process passed successfully navigates to {@link
+     * PageNavigator#FORWARD_PREV_QUERY}, else navigates to{@link PageNavigator#FORWARD_PAGE_REGISTER}</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -52,8 +64,9 @@ public class GotoPlayerStateCommand implements Command {
         String pageNumberStr = request.getParameter(PARAM_PAGE_NUMBER);
         
         validateCommand(player, messageService);
+        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         if (messageService.isErrMessEmpty()) {
-            PaginationService paginationService = setPaginationService(request, player, pageNumberStr);
+            PaginationService paginationService = getPaginationService(request, player, pageNumberStr);
             setBetInfo(request, player, paginationService);
             setPlayerInfo(session, player);
             navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
@@ -63,8 +76,18 @@ public class GotoPlayerStateCommand implements Command {
         return navigator;
     }
     
+    /**
+     * Set attributes with information about bets to {@link
+     * ServletRequest} based on received parameters.
+     *
+     * @param request           {@link ServletRequest}
+     * @param player            {@link User}
+     * @param paginationService {@link PaginationService}
+     */
     private void setBetInfo(ServletRequest request, User player, PaginationService paginationService) {
-        try (BetService betService = ServiceFactory.getBetService(); CategoryService categoryService = ServiceFactory.getCategoryService(); EventService eventService = ServiceFactory.getEventService()) {
+        try (BetService betService = ServiceFactory.getBetService();
+             CategoryService categoryService = ServiceFactory.getCategoryService();
+             EventService eventService = ServiceFactory.getEventService()) {
             int limit = paginationService.getLimitOnPage();
             int offset = paginationService.getOffset();
             List<Bet> betList = betService.getBetListForPlayer(player.getId(), limit, offset);
@@ -86,9 +109,19 @@ public class GotoPlayerStateCommand implements Command {
         }
     }
     
-    private PaginationService setPaginationService(ServletRequest request, User player, String pageNumberStr) {
+    /**
+     * Method builds and return {@link PaginationService}
+     *
+     * @param request       {@link ServletRequest}
+     * @param player        {@link User}
+     * @param pageNumberStr {@link String}
+     * @return {@link PaginationService}
+     */
+    private PaginationService getPaginationService(ServletRequest request,
+                                                   User player, String pageNumberStr) {
         ValidationService validationService = ServiceFactory.getValidationService();
-        int pageNumber = validationService.isValidId(pageNumberStr) ? Integer.parseInt(pageNumberStr) : 1;
+        int pageNumber = (validationService.isValidId(pageNumberStr)) ?
+                                 Integer.parseInt(pageNumberStr) : 1;
         int totalEntityAmount;
         try (BetService betService = ServiceFactory.getBetService()) {
             totalEntityAmount = betService.countBetsForPlayer(player.getId());
@@ -99,6 +132,13 @@ public class GotoPlayerStateCommand implements Command {
         return paginationService;
     }
     
+    /**
+     * Updates information about player and set attribute with player to {@link
+     * HttpSession}.
+     *
+     * @param session {@link HttpSession}
+     * @param player  {@link Player}
+     */
     private void setPlayerInfo(HttpSession session, Player player) {
         try (PlayerService playerService = ServiceFactory.getPlayerService()) {
             playerService.updatePlayerInfo(player);
@@ -106,6 +146,13 @@ public class GotoPlayerStateCommand implements Command {
         session.setAttribute(ATTR_PLAYER, player);
     }
     
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param player         {@link Player} parameter for validation
+     * @param messageService {@link MessageService} to hold message about result of validation
+     */
     private void validateCommand(Player player, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             if (player == null) {

@@ -42,10 +42,19 @@ import static com.dubatovka.app.config.ConfigConstant.PLAYER;
  * @author Dubatovka Vadim
  */
 public class MakeBetCommand implements Command {
-    
+    /**
+     * Method provides process for making bet.<p>Takes input parameters from {@link
+     * HttpServletRequest#getParameter(String)} and validates them. If all the parameters are valid
+     * converts them to relevant data types and passes converted parameters further to the Logic
+     * layer. If process passed successfully navigates to {@link
+     * PageNavigator#FORWARD_GOTO_MAIN}, else navigates to{@link
+     * PageNavigator#FORWARD_PREV_QUERY}</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -61,13 +70,14 @@ public class MakeBetCommand implements Command {
         checkAndSetEventNotNull(eventIdStr, event, messageService);
         validateUserRole(role, messageService);
         validateCommand(player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, messageService);
+        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         if (messageService.isErrMessEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService();
                  BetService betService = ServiceFactory.getBetService()) {
                 BigDecimal coefficient = event.getOutcomeByType(outcomeType).getCoefficient();
                 BigDecimal betAmount = new BigDecimal(betAmountStr);
-                Bet bet = new Bet(player.getId(), event.getId(), outcomeType, LocalDateTime.now(),
-                                         coefficient, betAmount, Bet.Status.NEW);
+                Bet bet = new Bet(player.getId(), event.getId(), outcomeType,
+                                         LocalDateTime.now(), coefficient, betAmount, Bet.Status.NEW);
                 betService.makeBet(bet, messageService);
                 if (messageService.isErrMessEmpty()) {
                     playerService.updatePlayerInfo(player);
@@ -83,6 +93,12 @@ public class MakeBetCommand implements Command {
         return navigator;
     }
     
+    /**
+     * Method validates {@link User.UserRole}.
+     *
+     * @param role           {@link User.UserRole}
+     * @param messageService {@link MessageService} to hold message about validation result
+     */
     private void validateUserRole(User.UserRole role, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             if (role == User.UserRole.GUEST) {
@@ -104,7 +120,8 @@ public class MakeBetCommand implements Command {
      * @param outcomeCoeffOnPage {@link String} parameter for validation
      * @param messageService     {@link MessageService} to hold message about validation result
      */
-    private void validateCommand(Player player, String betAmountStr, Event event, String outcomeType, String outcomeCoeffOnPage, MessageService messageService) {
+    private void validateCommand(Player player, String betAmountStr, Event event, String outcomeType,
+                                 String outcomeCoeffOnPage, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             LocalDateTime betDateTime = LocalDateTime.now();
             ValidationService validationService = ServiceFactory.getValidationService();

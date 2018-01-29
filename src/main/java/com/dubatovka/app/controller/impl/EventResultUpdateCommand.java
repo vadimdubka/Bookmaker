@@ -24,9 +24,16 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_RESULT_2;
  * @author Dubatovka Vadim
  */
 public class EventResultUpdateCommand implements Command {
+    /**
+     * Method provides process for event result update.<p>Takes input parameters and attributes
+     * from {@link HttpServletRequest} and {@link HttpSession} and based on them update event
+     * result.</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PREV_QUERY}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -51,7 +58,7 @@ public class EventResultUpdateCommand implements Command {
             }
         }
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PREV_QUERY;
     }
     
     /**
@@ -62,10 +69,12 @@ public class EventResultUpdateCommand implements Command {
      * @param result1Str     {@link String} parameter for validation
      * @param result2Str     {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService, String result1Str, String result2Str) {
+    private void validateCommand(MessageService messageService,
+                                 String result1Str, String result2Str) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
-            if (!validationService.isValidEventResult(result1Str) || !validationService.isValidEventResult(result2Str)) {
+            if (!validationService.isValidEventResult(result1Str) ||
+                        !validationService.isValidEventResult(result2Str)) {
                 messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_RESULT);
             }
         }

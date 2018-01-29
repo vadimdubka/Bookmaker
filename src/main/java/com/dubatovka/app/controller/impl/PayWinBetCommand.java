@@ -21,9 +21,17 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_EVENT_ID;
  * @author Dubatovka Vadim
  */
 public class PayWinBetCommand implements Command {
+    /**
+     * Method provides process for winning bets payment.<p>Takes input parameters from {@link
+     * HttpServletRequest#getParameter(String)} and validates them. If all the parameters are valid
+     * converts them to relevant data types and passes converted parameters further to the Logic
+     * layer.</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -43,7 +51,7 @@ public class PayWinBetCommand implements Command {
         }
         
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PREV_QUERY;
     }
     
     /**

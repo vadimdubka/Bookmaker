@@ -45,10 +45,17 @@ import static com.dubatovka.app.config.ConfigConstant.WIN_BET_INFO_KEY_SUM;
  * @author Dubatovka Vadim
  */
 public class GotoMainCommand implements Command {
-    
+    /**
+     * Method provides navigation process to main page.<p>Takes input parameters and attributes from
+     * {@link HttpServletRequest} and {@link HttpSession} and based on them adds appropriate
+     * attributes with data about events, events categories and bets to {@link
+     * HttpServletRequest}.
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PAGE_MAIN}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_PAGE_MAIN;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -75,9 +82,16 @@ public class GotoMainCommand implements Command {
         
         QueryService.saveQueryToSession(request);
         setMessagesToRequest(messageService, request);
-        return navigator;
+        return PageNavigator.FORWARD_PAGE_MAIN;
     }
     
+    /**
+     * Set attributes with information about events categories to {@link
+     * ServletRequest} based on received parameter.
+     *
+     * @param request        {@link ServletRequest}
+     * @param eventQueryType {@link String}
+     */
     private void setCategoryInfo(ServletRequest request, String eventQueryType) {
         try (EventService eventService = ServiceFactory.getEventService();
              CategoryService categoryService = ServiceFactory.getCategoryService()) {
@@ -88,6 +102,14 @@ public class GotoMainCommand implements Command {
         }
     }
     
+    /**
+     * Set attributes with information about events to {@link ServletRequest} based on received
+     * parameters.
+     *
+     * @param request        {@link ServletRequest}
+     * @param categoryIdStr  {@link String} representation of {@link Category} id
+     * @param eventQueryType {@link String}
+     */
     private void setEventInfo(ServletRequest request, String categoryIdStr, String eventQueryType) {
         List<Event> events;
         Map<String, Map<String, String>> coeffColumnMaps;
@@ -105,6 +127,13 @@ public class GotoMainCommand implements Command {
         request.setAttribute(ATTR_TYPE_2_MAP, type2Map);
     }
     
+    /**
+     * Set attributes with information about winning bets to {@link ServletRequest} based on
+     * received parameter.
+     *
+     * @param request       {@link ServletRequest}
+     * @param categoryIdStr {@link String} representation of {@link Category} id.
+     */
     private void setWinBetInfo(ServletRequest request, String categoryIdStr) {
         int categoryId = Integer.parseInt(categoryIdStr);
         Map<String, Map<String, String>> winBetInfoMap;

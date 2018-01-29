@@ -39,12 +39,9 @@ public class LoginCommand implements Command {
      * converts them to relevant data types and passes converted parameters further to the Logic
      * layer.If Logic operation passed successfully sets to {@link HttpSession#setAttribute(String,
      * Object)} corresponding attribute and navigates to {@link PageNavigator#FORWARD_PAGE_INDEX}</p>
-     * <p>If during execution information for user appears appropriate message is added
-     * to request.</p>
      *
-     * @param request {@link HttpServletRequest} from client with parameters for processing.
-     * @return {@link PageNavigator#FORWARD_PAGE_INDEX} with response parameters (contains 'query'
-     * and 'response type' data for {@link com.dubatovka.app.controller.FrontControllerServlet}).
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PAGE_INDEX}
      */
     @Override
     public PageNavigator execute(HttpServletRequest request) {

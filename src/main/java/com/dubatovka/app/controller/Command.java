@@ -53,7 +53,8 @@ public interface Command {
      * @param event          {@link Event} to set properties of retrieved event from database.
      * @param messageService {@link MessageService} to hold message about result of validation.
      */
-    default void checkAndSetEventNotNull(String eventIdStr, Event event, MessageService messageService) {
+    default void checkAndSetEventNotNull(String eventIdStr, Event event,
+                                         MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             try (EventService eventService = ServiceFactory.getEventService()) {
                 Event eventDB = eventService.getEvent(eventIdStr);

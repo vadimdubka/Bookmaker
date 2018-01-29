@@ -18,6 +18,12 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_PLAYERS;
  * @author Dubatovka Vadim
  */
 public class GotoManagePlayersCommand implements Command {
+    /**
+     * Method provides navigation process to page for players management.<p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator#FORWARD_PAGE_MANAGE_PLAYER}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         List<Player> players;

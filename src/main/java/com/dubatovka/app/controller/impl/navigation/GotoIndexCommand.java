@@ -12,7 +12,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author Dubatovka Vadim
  */
 public class GotoIndexCommand implements Command {
-    
+    /**
+     * Method provide navigation process to index page.
+     *
+     * @param request {@link HttpServletRequest} from client.
+     * @return {@link PageNavigator#FORWARD_PAGE_INDEX}.
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
         QueryService.saveQueryToSession(request);

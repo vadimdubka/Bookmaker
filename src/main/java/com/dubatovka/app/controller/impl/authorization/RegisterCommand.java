@@ -39,14 +39,12 @@ public class RegisterCommand implements Command {
      * Method provides registration process for users.<p>Takes input parameters from {@link
      * HttpServletRequest#getParameter(String)} and validates them. If all the parameters are valid
      * converts them to relevant data types and passes converted parameters further to the Logic
-     * layer.If Logic operation passed successfully navigates to {@link
-     * PageNavigator#REDIRECT_GOTO_INDEX}, else if some navigates to{@link
-     * PageNavigator#FORWARD_PAGE_REGISTER}</p> <p>If during execution information for user appears
-     * appropriate message is added to request.</p>
+     * layer. If process passed successfully navigates to {@link
+     * PageNavigator#REDIRECT_GOTO_INDEX}, else navigates to{@link
+     * PageNavigator#FORWARD_PAGE_REGISTER}</p>
      *
-     * @param request {@link HttpServletRequest} from client with parameters for processing.
-     * @return {@link PageNavigator#REDIRECT_GOTO_INDEX} with response parameters (contains 'query'
-     * and 'response type' data for {@link com.dubatovka.app.controller.FrontControllerServlet}).
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator}
      */
     @Override
     public PageNavigator execute(HttpServletRequest request) {

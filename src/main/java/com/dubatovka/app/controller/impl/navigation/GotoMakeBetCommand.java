@@ -26,10 +26,19 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_OUTCOME_TYPE;
  * @author Dubatovka Vadim
  */
 public class GotoMakeBetCommand implements Command {
-    
+    /**
+     * Method provides navigation process to page for making bet.<p>Takes input parameters and
+     * attributes from {@link HttpServletRequest} and {@link HttpSession} and based on them adds
+     * appropriate attributes with data about event, event category and event outcome to {@link
+     * HttpServletRequest}. If process passed successfully navigates to {@link
+     * PageNavigator#FORWARD_PAGE_MAKE_BET}, else if some navigates to{@link
+     * PageNavigator#FORWARD_GOTO_MAIN}.</p>
+     *
+     * @param request {@link HttpServletRequest} from client
+     * @return {@link PageNavigator}
+     */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        PageNavigator navigator = PageNavigator.FORWARD_GOTO_MAIN;
         HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
@@ -39,6 +48,7 @@ public class GotoMakeBetCommand implements Command {
         
         validateRequestParams(messageService, eventIdStr, outcomeType);
         checkAndSetEventNotNull(eventIdStr, event, messageService);
+        PageNavigator navigator = PageNavigator.FORWARD_GOTO_MAIN;
         if (messageService.isErrMessEmpty()) {
             try (CategoryService categoryService = ServiceFactory.getCategoryService()) {
                 Outcome outcome = event.getOutcomeByType(outcomeType);
