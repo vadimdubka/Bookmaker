@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-class CategoryDAOImpl extends AbstractDBDAO implements CategoryDAO {
+class CategoryDAOImpl extends DBConnectionHolder implements CategoryDAO {
     private static final String SQL_SELECT_CATEGORY_BY_ID = "SELECT id, name, parent_id " +
             "FROM category " +
             "WHERE id=?";

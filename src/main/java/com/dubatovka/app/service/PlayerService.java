@@ -5,7 +5,7 @@ import com.dubatovka.app.entity.Player;
 
 import java.util.List;
 
-public abstract class PlayerService extends AbstractService {
+public abstract class PlayerService extends DAOProviderHolder {
     protected PlayerService() {
     }
     

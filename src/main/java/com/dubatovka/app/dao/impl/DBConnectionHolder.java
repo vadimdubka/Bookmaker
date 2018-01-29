@@ -7,8 +7,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-abstract class AbstractDBDAO {
-    private static final Logger logger = LogManager.getLogger(AbstractDBDAO.class);
+abstract class DBConnectionHolder {
+    private static final Logger logger = LogManager.getLogger(DBConnectionHolder.class);
     
     /**
      * Field used to connect to database and do queries.
@@ -21,7 +21,7 @@ abstract class AbstractDBDAO {
      * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}
      * collection.
      */
-    AbstractDBDAO() {
+    protected DBConnectionHolder() {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
         } catch (ConnectionPoolException e) {
@@ -30,18 +30,18 @@ abstract class AbstractDBDAO {
     }
     
     /**
-     * Constructs DAO object by assigning {@link AbstractDBDAO#connection} field definite
+     * Constructs DAO object by assigning {@link DBConnectionHolder#connection} field definite
      * {@link WrappedConnection} object.
      *
-     * @param connection {@link WrappedConnection} to assign to {@link AbstractDBDAO#connection}
+     * @param connection {@link WrappedConnection} to assign to {@link DBConnectionHolder#connection}
      *                   field
      */
-    AbstractDBDAO(WrappedConnection connection) {
+    protected DBConnectionHolder(WrappedConnection connection) {
         this.connection = connection;
     }
     
     /**
-     * {@link AbstractDBDAO#connection} field getter.
+     * {@link DBConnectionHolder#connection} field getter.
      *
      * @return {@link #connection}
      */
@@ -50,9 +50,9 @@ abstract class AbstractDBDAO {
     }
     
     /**
-     * {@link AbstractDBDAO#connection} field setter.
+     * {@link DBConnectionHolder#connection} field setter.
      *
-     * @param connection {@link WrappedConnection} to assign to {@link AbstractDBDAO#connection}
+     * @param connection {@link WrappedConnection} to assign to {@link DBConnectionHolder#connection}
      *                   field
      */
     protected void setConnection(WrappedConnection connection) {

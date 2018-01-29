@@ -21,7 +21,7 @@ import java.util.Set;
 import static com.dubatovka.app.config.ConfigConstant.WIN_BET_INFO_KEY_COUNT;
 import static com.dubatovka.app.config.ConfigConstant.WIN_BET_INFO_KEY_SUM;
 
-class BetDAOImpl extends AbstractDBDAO implements BetDAO {
+class BetDAOImpl extends DBConnectionHolder implements BetDAO {
     private static final String SQL_INSERT_BET = "INSERT INTO bet (player_id, event_id, type, date, coefficient, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
     private static final String SQL_UPDATE_BET_STATUS_BY_TYPE = "UPDATE bet SET status=? WHERE event_id=? AND type=? AND status <>'paid'";

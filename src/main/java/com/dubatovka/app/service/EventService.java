@@ -6,7 +6,7 @@ import com.dubatovka.app.entity.Event;
 import java.util.List;
 import java.util.Map;
 
-public abstract class EventService extends AbstractService {
+public abstract class EventService extends DAOProviderHolder {
     
     protected EventService() {
     }

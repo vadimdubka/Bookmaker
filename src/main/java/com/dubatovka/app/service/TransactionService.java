@@ -6,7 +6,7 @@ import com.dubatovka.app.entity.Transaction;
 import java.math.BigDecimal;
 import java.util.List;
 
-public abstract class TransactionService extends AbstractService {
+public abstract class TransactionService extends DAOProviderHolder {
     protected TransactionService() {
     }
     

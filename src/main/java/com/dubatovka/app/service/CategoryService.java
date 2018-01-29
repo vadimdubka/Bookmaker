@@ -5,7 +5,7 @@ import com.dubatovka.app.entity.Category;
 
 import java.util.Set;
 
-public abstract class CategoryService extends AbstractService {
+public abstract class CategoryService extends DAOProviderHolder {
     
     protected CategoryService() {
     }

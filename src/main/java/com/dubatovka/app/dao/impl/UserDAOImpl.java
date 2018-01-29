@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
-class UserDAOImpl extends AbstractDBDAO implements UserDAO {
+class UserDAOImpl extends DBConnectionHolder implements UserDAO {
     private static final String SQL_INSERT_USER = "INSERT INTO user (email, password, role, registration_date) " +
             "VALUES (?, ?, 'player', NOW())";
     

@@ -6,7 +6,7 @@ import com.dubatovka.app.entity.Outcome;
 
 import java.util.Set;
 
-public abstract class OutcomeService extends AbstractService {
+public abstract class OutcomeService extends DAOProviderHolder {
     protected OutcomeService() {
     }
     
