@@ -197,19 +197,17 @@ public final class ConfigConstant {
      */
     public static final String GOTO_INDEX = "/controller?command_type=goto_index";
     public static final String GOTO_MAIN = "/controller?command_type=goto_main";
-    public static final String GOTO_PAGINATION = "/controller?command_type=goto_pagination";
     public static final String GOTO_REGISTER = "/controller?command_type=goto_register";
+    public static final String GOTO_MAKE_BET = "/controller?command_type=goto_make_bet";
     public static final String GOTO_PLAYER_STATE = "/controller?command_type=goto_player_state";
     
     /**
      * Admin JSP pages paths
      */
-    public static final String PAGE_MANAGE_PLAYER = "/pages/manage_player.jsp";
     public static final String PAGE_MANAGE_PLAYERS = "/pages/manage_players.jsp";
     /**
      * Admin navigation queries
      */
-    public static final String GOTO_MANAGE_PLAYER = "/controller?command=goto_manage_player";
     public static final String GOTO_MANAGE_PLAYERS = "/controller?command=goto_manage_players";
     
     /**

@@ -24,9 +24,9 @@ public interface Command {
      * Method executes manipulations with data received from request and returns appropriate {@link
      * PageNavigator} instance.
      *
-     * @param request {@link HttpServletRequest} from client with parameters for processing.
+     * @param request {@link HttpServletRequest} from client with parameters for processing
      * @return {@link PageNavigator} with response parameters (contains 'query' and 'response type'
-     * data for {@link FrontControllerServlet}).
+     * data for {@link FrontControllerServlet})
      */
     PageNavigator execute(HttpServletRequest request);
     

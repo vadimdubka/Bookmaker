@@ -33,21 +33,43 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.EnumMap;
 import java.util.Map;
 
 import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
 
+/**
+ * The factory of Commands for using with {@link FrontControllerServlet}.
+ *
+ * @author Dubatovka Vadim
+ */
 final class CommandFactory {
     private static final Logger logger = LogManager.getLogger(CommandFactory.class);
-    private static final String LOG_FOR_COMMAND = "Command implementation is not defined for command type: %s. Check class: %s.";
-    private static final String LOG_FOR_COMMAND_TYPE = "Request doesn't have command_type parameter or defined command_type parameter is invalid: %s. Check page after request: %s.";
-    private static final String REFERER = "referer";
+    private static final String ERR_COMMAND_TYPE_PARAM =
+            "Request doesn't have command_type parameter or defined command_type parameter is invalid: %s.";
+    private static final String ERR_COMMAND_IMPL =
+            "Command implementation is not defined for command type: %s.";
     
+    /**
+     * {@link EnumMap} collection of common commands for oll user roles.
+     */
     private static final Map<CommandType, Command> commonCommands = new EnumMap<>(CommandType.class);
+    /**
+     * {@link EnumMap} collection of commands available to {@link User.UserRole#GUEST}.
+     */
     private static final Map<CommandType, Command> guestCommands = new EnumMap<>(CommandType.class);
+    /**
+     * {@link EnumMap} collection of commands available to {@link User.UserRole#PLAYER}.
+     */
     private static final Map<CommandType, Command> playerCommands = new EnumMap<>(CommandType.class);
+    /**
+     * {@link EnumMap} collection of commands available to {@link User.UserRole#ADMIN}.
+     */
     private static final Map<CommandType, Command> adminCommands = new EnumMap<>(CommandType.class);
+    /**
+     * {@link EnumMap} collection of commands available to {@link User.UserRole#ANALYST}.
+     */
     private static final Map<CommandType, Command> analystCommands = new EnumMap<>(CommandType.class);
     
     static {
@@ -87,9 +109,20 @@ final class CommandFactory {
         analystCommands.put(CommandType.OUTCOME_CREATE, new OutcomeCreateCommand());
     }
     
+    /**
+     * Private constructor to forbid creation of {@link CommandFactory} instance.
+     */
     private CommandFactory() {
     }
     
+    /**
+     * Defines {@link Command} based on {@link ConfigConstant#PARAM_COMMAND_TYPE} parameter from
+     * {@link HttpServletRequest} and {@link ConfigConstant#ATTR_ROLE} attribute from {@link
+     * HttpSession}.
+     *
+     * @param request {@link HttpServletRequest}
+     * @return {@link Command}
+     */
     static Command defineCommand(HttpServletRequest request) {
         String commandTypeName = request.getParameter(ConfigConstant.PARAM_COMMAND_TYPE);
         User.UserRole role = (User.UserRole) request.getSession().getAttribute(ATTR_ROLE);
@@ -115,24 +148,29 @@ final class CommandFactory {
                 default:
                     command = guestCommands.get(commandType);
             }
-            
             if (command == null) {
-                logger.log(Level.ERROR, String.format(LOG_FOR_COMMAND, commandType, CommandFactory.class.getName()));
+                logger.log(Level.ERROR, String.format(ERR_COMMAND_IMPL, commandType));
                 command = new GotoIndexCommand();
             }
         } else {
-            logger.log(Level.ERROR, String.format(LOG_FOR_COMMAND_TYPE, commandTypeName, request.getHeader(REFERER)));
+            logger.log(Level.ERROR, String.format(ERR_COMMAND_TYPE_PARAM, commandTypeName));
             command = new GotoIndexCommand();
         }
         
         return command;
     }
     
-    private static boolean isCommandTypeNameValid(String commandName) {
-        boolean isExist = !((commandName == null) || commandName.trim().isEmpty());
+    /**
+     * Validates command type name.
+     *
+     * @param commandTypeName {@link String}
+     * @return boolean result of validation
+     */
+    private static boolean isCommandTypeNameValid(String commandTypeName) {
+        boolean isExist = !((commandTypeName == null) || commandTypeName.trim().isEmpty());
         if (isExist) {
             for (CommandType type : CommandType.values()) {
-                if (type.toString().equalsIgnoreCase(commandName)) {
+                if (type.toString().equalsIgnoreCase(commandTypeName)) {
                     return true;
                 }
             }
@@ -140,6 +178,9 @@ final class CommandFactory {
         return false;
     }
     
+    /**
+     * Enumeration of command types.
+     */
     private enum CommandType {
         CHANGE_LOCALE,
         REGISTER,
@@ -157,7 +198,7 @@ final class CommandFactory {
         GOTO_REGISTER,
         GOTO_MANAGE_PLAYERS,
         GOTO_MAKE_BET,
-        GOTO_PLAYER_STATE, GOTO_PAGINATION,
+        GOTO_PLAYER_STATE,
         GOTO_EVENT_SHOW_ACTUAL,
         GOTO_EVENT_MANAGE,
         GOTO_EVENT_SET_OUTCOME,

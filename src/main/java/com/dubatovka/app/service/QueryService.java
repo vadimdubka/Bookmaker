@@ -21,7 +21,7 @@ public final class QueryService {
     private static final String STUB = "********";
     
     /**
-     * Outer forbidding to create this class instances.
+     * Private constructor to forbid create {@link QueryService} instances.
      */
     private QueryService() {
     }
