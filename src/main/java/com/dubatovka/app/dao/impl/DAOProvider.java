@@ -17,9 +17,11 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 
 /**
- * The class provides manager for DAO layer classes.
+ * The class provides access to DAO layer classes implementation and provides methods for SQL transactions
+ * management. Every instance of {@link DAOProvider} has property of {@link WrappedConnection}
+ * instance that is used for initialization of every instance of DAO layer classes.
  *
- * @see AutoCloseable
+ * @author Dubatovka Vadim
  */
 public final class DAOProvider implements AutoCloseable {
     private static final Logger logger = LogManager.getLogger(DAOProvider.class);
@@ -30,19 +32,17 @@ public final class DAOProvider implements AutoCloseable {
      */
     private WrappedConnection connection;
     
-    private BetDAO betDAO;
-    private CategoryDAO categoryDAO;
-    private EventDAO eventDAO;
-    private OutcomeDAO outcomeDAO;
-    private PlayerDAO playerDAO;
+    private BetDAO         betDAO;
+    private CategoryDAO    categoryDAO;
+    private EventDAO       eventDAO;
+    private OutcomeDAO     outcomeDAO;
+    private PlayerDAO      playerDAO;
     private TransactionDAO transactionDAO;
-    private UserDAO userDAO;
+    private UserDAO        userDAO;
     
     /**
      * Constructs DAOProvider object by taking {@link WrappedConnection} object from {@link
      * ConnectionPool} collection.
-     *
-     * @see ConnectionPool
      */
     public DAOProvider() {
         try {
@@ -53,15 +53,21 @@ public final class DAOProvider implements AutoCloseable {
     }
     
     /**
-     * Constructs DAOProvider object by assigning 'connection' field definite {@link
-     * WrappedConnection} object.
+     * Constructs DAOProvider object by assigning {@link DAOProvider#connection} field definite
+     * {@link WrappedConnection} object.
      *
-     * @param connection {@link WrappedConnection} to assign to 'connection' field
+     * @param connection {@link WrappedConnection} to assign to {@link DAOProvider#connection}
+     *                   field
      */
     public DAOProvider(WrappedConnection connection) {
         this.connection = connection;
     }
     
+    /**
+     * Factory method to create {@link BetDAO} object.
+     *
+     * @return {@link BetDAO} object initialized with {@link DAOProvider#connection} field.
+     */
     public BetDAO getBetDAO() {
         if (betDAO == null) {
             betDAO = new BetDAOImpl(connection);
@@ -69,6 +75,11 @@ public final class DAOProvider implements AutoCloseable {
         return betDAO;
     }
     
+    /**
+     * Factory method to create {@link CategoryDAO} object.
+     *
+     * @return {@link CategoryDAO} object initialized with {@link DAOProvider#connection} field.
+     */
     public CategoryDAO getCategoryDAO() {
         if (categoryDAO == null) {
             categoryDAO = new CategoryDAOImpl(connection);
@@ -76,6 +87,11 @@ public final class DAOProvider implements AutoCloseable {
         return categoryDAO;
     }
     
+    /**
+     * Factory method to create {@link EventDAO} object.
+     *
+     * @return {@link EventDAO} object initialized with {@link DAOProvider#connection} field.
+     */
     public EventDAO getEventDAO() {
         if (eventDAO == null) {
             eventDAO = new EventDAOImpl(connection);
@@ -83,6 +99,11 @@ public final class DAOProvider implements AutoCloseable {
         return eventDAO;
     }
     
+    /**
+     * Factory method to create {@link OutcomeDAO} object.
+     *
+     * @return {@link OutcomeDAO} object initialized with {@link DAOProvider#connection} field.
+     */
     public OutcomeDAO getOutcomeDAO() {
         if (outcomeDAO == null) {
             outcomeDAO = new OutcomeDAOImpl(connection);
@@ -90,6 +111,11 @@ public final class DAOProvider implements AutoCloseable {
         return outcomeDAO;
     }
     
+    /**
+     * Factory method to create {@link PlayerDAO} object.
+     *
+     * @return {@link PlayerDAO} object initialized with {@link DAOProvider#connection} field.
+     */
     public PlayerDAO getPlayerDAO() {
         if (playerDAO == null) {
             playerDAO = new PlayerDAOImpl(connection);
@@ -97,6 +123,11 @@ public final class DAOProvider implements AutoCloseable {
         return playerDAO;
     }
     
+    /**
+     * Factory method to create {@link TransactionDAO} object.
+     *
+     * @return {@link TransactionDAO} object initialized with {@link DAOProvider#connection} field.
+     */
     public TransactionDAO getTransactionDAO() {
         if (transactionDAO == null) {
             transactionDAO = new TransactionDAOImpl(connection);
@@ -104,6 +135,11 @@ public final class DAOProvider implements AutoCloseable {
         return transactionDAO;
     }
     
+    /**
+     * Factory method to create {@link UserDAO} object.
+     *
+     * @return {@link UserDAO} object initialized with {@link DAOProvider#connection} field.
+     */
     public UserDAO getUserDAO() {
         if (userDAO == null) {
             userDAO = new UserDAOImpl(connection);
@@ -117,7 +153,6 @@ public final class DAOProvider implements AutoCloseable {
      * @throws SQLException if a database access error occurs, setAutoCommit(true) is called while
      *                      participating in a distributed transaction, or this method is called on
      *                      a closed connection
-     * @see WrappedConnection#setAutoCommit(boolean)
      */
     public void beginTransaction() throws SQLException {
         connection.setAutoCommit(false);
@@ -127,10 +162,8 @@ public final class DAOProvider implements AutoCloseable {
      * Commits database changes made during transaction.
      *
      * @throws SQLException if a database access error occurs, this method is called while
-     *                      participating in a distributed transaction, if this method is called on
-     *                      a closed connection or this <code>Connection</code> object is in
-     *                      auto-commit mode
-     * @see WrappedConnection#commit()
+     *                      participating in a distributed transaction, wrapped connection is closed
+     *                      or wrapped {@code Connection} object is in auto-commit mode
      */
     public void commit() throws SQLException {
         connection.commit();
@@ -141,9 +174,8 @@ public final class DAOProvider implements AutoCloseable {
      *
      * @throws SQLException if a database access error occurs, this method is called while
      *                      participating in a distributed transaction, this method is called on a
-     *                      closed connection or this <code>Connection</code> object is in
-     *                      auto-commit mode
-     * @see WrappedConnection#rollback()
+     *                      closed connection or this {@code Connection} object is in auto-commit
+     *                      mode
      */
     public void rollback() throws SQLException {
         connection.rollback();

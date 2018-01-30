@@ -7,6 +7,12 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The class provides root abstraction for DAO layer classes which use connection to database for
+ * manipulation object data.
+ *
+ * @author Dubatovka Vadim
+ */
 abstract class DBConnectionHolder {
     private static final Logger logger = LogManager.getLogger(DBConnectionHolder.class);
     
@@ -15,12 +21,12 @@ abstract class DBConnectionHolder {
      *
      * @see WrappedConnection
      */
-    protected WrappedConnection connection;
+    WrappedConnection connection;
     
     /**
      * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}.
      */
-    protected DBConnectionHolder() {
+    DBConnectionHolder() {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
         } catch (ConnectionPoolException e) {
@@ -35,7 +41,7 @@ abstract class DBConnectionHolder {
      * @param connection {@link WrappedConnection} to assign to {@link DBConnectionHolder#connection}
      *                   field
      */
-    protected DBConnectionHolder(WrappedConnection connection) {
+    DBConnectionHolder(WrappedConnection connection) {
         this.connection = connection;
     }
     

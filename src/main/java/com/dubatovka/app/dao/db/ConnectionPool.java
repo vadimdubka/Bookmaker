@@ -4,8 +4,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.http.HttpServlet;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,11 +25,11 @@ public final class ConnectionPool {
     /**
      * Database property-file keys.
      */
-    private static final String DB_DRIVER = "driver";
-    private static final String DB_USER = "user";
+    private static final String DB_DRIVER   = "driver";
+    private static final String DB_USER     = "user";
     private static final String DB_PASSWORD = "password";
-    private static final String DB_URL = "url";
-    private static final String POOL_SIZE = "poolsize";
+    private static final String DB_URL      = "url";
+    private static final String POOL_SIZE   = "poolsize";
     
     /**
      * Seconds for checking if connection is valid
@@ -45,7 +43,7 @@ public final class ConnectionPool {
     /**
      * Class lock for {@link #getInstance()} method.
      */
-    private static final Lock lock = new ReentrantLock();
+    private static final Lock          lock    = new ReentrantLock();
     
     /**
      * Class singleton instance.
@@ -67,7 +65,7 @@ public final class ConnectionPool {
     private String poolSizeStr;
     
     /**
-     * Collection of {@link java.sql.Connection} objects.
+     * Collection of {@link WrappedConnection} objects.
      */
     private ArrayBlockingQueue<WrappedConnection> connections;
     
@@ -75,7 +73,6 @@ public final class ConnectionPool {
      * Registers MySQL JDBC driver while constructing {@link #instance}.
      *
      * @throws RuntimeException if {@link SQLException} occurred during registering driver
-     * @see DriverManager#registerDriver(Driver)
      */
     private ConnectionPool() {
         try {
@@ -107,13 +104,11 @@ public final class ConnectionPool {
     }
     
     /**
-     * Initializes pool due to given config data. Calls at {@link HttpServlet#init()} or
-     * {@link javax.servlet.ServletContextListener#contextInitialized(ServletContextEvent)}.
+     * Initializes pool due to given config data.
      *
      * @return number of created connections
-     * @throws ConnectionPoolException if {@link InterruptedException} occurred while putting {@link WrappedConnection}
-     *                                 to {@link #connections}
-     * @see ResourceBundle
+     * @throws ConnectionPoolException if {@link InterruptedException} occurred while putting {@link
+     *                                 WrappedConnection} to {@link #connections}
      */
     public int initPool(String properties) throws ConnectionPoolException {
         ResourceBundle resourceBundle;
@@ -146,21 +141,22 @@ public final class ConnectionPool {
      * Takes {@link WrappedConnection} from {@link #connections} collection.
      *
      * @return taken {@link WrappedConnection}
-     * @throws ConnectionPoolException if {@link InterruptedException} occurred while taking {@link WrappedConnection} from {@link #connections}
+     * @throws ConnectionPoolException if {@link InterruptedException} occurred while taking {@link
+     *                                 WrappedConnection} from {@link #connections}
      */
     public WrappedConnection takeConnection() throws ConnectionPoolException {
         WrappedConnection connection;
         try {
             connection = connections.take();
             for (int i = 0; i < poolSize; i++) {
-                if (connection.isNull() || connection.isClosed() || !connection.isValid(VALIDATION_TIMEOUT)) {
-                    replaceInvalidConnection(connection);
+                if (isDamaged(connection)) {
+                    replaceDamagedConnection(connection);
                     connection = connections.take();
                 } else {
                     return connection;
                 }
             }
-            if (connection.isNull() || connection.isClosed() || !connection.isValid(VALIDATION_TIMEOUT)) {
+            if (isDamaged(connection)) {
                 returnConnection(connection);
                 throw new ConnectionPoolException("No valid connections to take. Database denies access.");
             }
@@ -171,8 +167,8 @@ public final class ConnectionPool {
     }
     
     /**
-     * Returns {@link WrappedConnection} to connections collection. Rollbacks any transaction and sets
-     * auto-commit of connection to true.
+     * Returns {@link WrappedConnection} to connections collection. Rollbacks any transaction and
+     * sets auto-commit of connection to true.
      *
      * @param connection {@link WrappedConnection} to return
      */
@@ -182,8 +178,8 @@ public final class ConnectionPool {
                 logger.log(Level.WARN, "Can't return null connection reference to pool.");
                 return;
             }
-            if (connection.isNull() || connection.isClosed() || !connection.isValid(VALIDATION_TIMEOUT)) {
-                replaceInvalidConnection(connection);
+            if (isDamaged(connection)) {
+                replaceDamagedConnection(connection);
                 return;
             }
             try {
@@ -204,12 +200,9 @@ public final class ConnectionPool {
     }
     
     /**
-     * Destroys pool. Calls at {@link HttpServlet#destroy()} or
-     * {@link javax.servlet.ServletContextListener#contextDestroyed(ServletContextEvent)}.
+     * Destroys pool.
      *
      * @return number of closed connections
-     * @see WrappedConnection
-     * @see DriverManager
      */
     public int destroyPool() {
         int counter = 0;
@@ -246,17 +239,24 @@ public final class ConnectionPool {
      *
      * @see WrappedConnection
      */
-    private void replaceInvalidConnection(WrappedConnection connection) throws InterruptedException {
+    private void replaceDamagedConnection(WrappedConnection connection) throws InterruptedException {
         WrappedConnection createdConnection = createWrappedConnection();
         if (createdConnection != null) {
             connections.put(createdConnection);
-            logger.log(Level.ERROR, "Connection was lost while returning but replaced by a new one.");
+            logger.log(Level.ERROR,
+                       "Connection was damaged and lost while returning but was replaced by a new one.");
         } else {
             connections.put(connection);
-            logger.log(Level.ERROR, "Connection was damaged and can't be replaced by a new one, database denies access.");
+            logger.log(Level.ERROR,
+                       "Connection was damaged and can't be replaced by a new one, database denies access.");
         }
     }
     
+    /**
+     * Tries to creates {@link WrappedConnection}.
+     *
+     * @return {@link WrappedConnection}
+     */
     private WrappedConnection createWrappedConnection() {
         WrappedConnection createdConnection = null;
         try {
@@ -265,5 +265,18 @@ public final class ConnectionPool {
             logger.log(Level.ERROR, e.getMessage());
         }
         return createdConnection;
+    }
+    
+    /**
+     * Validates {@link WrappedConnection}.
+     *
+     * @param connection {@link WrappedConnection} connection for validation
+     * @return {@link true} if connection is null, closed or invalid
+     * @throws SQLException if a database access error occurs; if the value supplied for timeout is
+     *                      less then 0
+     */
+    private boolean isDamaged(WrappedConnection connection) throws SQLException {
+        return connection.isNull() || connection.isClosed()
+                   || !connection.isValid(VALIDATION_TIMEOUT);
     }
 }
