@@ -13,7 +13,6 @@ import java.io.IOException;
 import static com.dubatovka.app.config.ConfigConstant.ATTR_PREV_QUERY;
 import static com.dubatovka.app.config.ConfigConstant.FORWARD;
 import static com.dubatovka.app.config.ConfigConstant.FRONT_CONTROLLER;
-import static com.dubatovka.app.config.ConfigConstant.FRONT_CONTROLLER_URL;
 import static com.dubatovka.app.config.ConfigConstant.PAGE_INDEX;
 import static com.dubatovka.app.config.ConfigConstant.PREV_QUERY;
 import static com.dubatovka.app.config.ConfigConstant.REDIRECT;
@@ -23,7 +22,7 @@ import static com.dubatovka.app.config.ConfigConstant.REDIRECT;
  *
  * @author Dubatovka Vadim
  */
-@WebServlet(name = FRONT_CONTROLLER, urlPatterns = {FRONT_CONTROLLER_URL})
+@WebServlet(name = FRONT_CONTROLLER, urlPatterns = {"/controller"})
 public class FrontControllerServlet extends HttpServlet {
     /**
      * Processes request sent by GET method.
@@ -37,7 +36,7 @@ public class FrontControllerServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         processRequest(req, resp);
     }
     
@@ -53,7 +52,7 @@ public class FrontControllerServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         processRequest(req, resp);
     }
     
@@ -71,8 +70,8 @@ public class FrontControllerServlet extends HttpServlet {
      *                          request
      */
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        Command command = CommandFactory.defineCommand(req);
+        throws ServletException, IOException {
+        Command       command   = CommandFactory.defineCommand(req);
         PageNavigator navigator = command.execute(req);
         if (navigator != null) {
             processNavigator(req, resp, navigator);
@@ -92,8 +91,9 @@ public class FrontControllerServlet extends HttpServlet {
      * @throws ServletException when
      * @throws IOException      when
      */
-    private void processNavigator(HttpServletRequest req, HttpServletResponse resp, PageNavigator navigator)
-            throws ServletException, IOException {
+    private void processNavigator(HttpServletRequest req, HttpServletResponse resp,
+                                  PageNavigator navigator)
+        throws ServletException, IOException {
         String query = navigator.getQuery();
         if (PREV_QUERY.equals(query)) {
             query = takePreviousQuery(req);
@@ -123,7 +123,7 @@ public class FrontControllerServlet extends HttpServlet {
      *                     request
      */
     private static void defaultProcessRequest(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+        throws IOException {
         String contextPath = req.getContextPath();
         resp.sendRedirect(contextPath + PAGE_INDEX);
     }
