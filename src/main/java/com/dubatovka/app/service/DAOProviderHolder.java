@@ -3,6 +3,12 @@ package com.dubatovka.app.service;
 import com.dubatovka.app.dao.db.ConnectionPool;
 import com.dubatovka.app.dao.impl.DAOProvider;
 
+/**
+ * The class provides root abstraction for Service layer classes which use {@link DAOProvider} to
+ * communicate with DAO layer.
+ *
+ * @author Dubatovka Vadim
+ */
 abstract class DAOProviderHolder implements AutoCloseable {
     
     /**
@@ -10,14 +16,17 @@ abstract class DAOProviderHolder implements AutoCloseable {
      */
     protected DAOProvider daoProvider;
     
-    protected DAOProviderHolder() {
+    /**
+     * Default constructor.
+     */
+    DAOProviderHolder() {
         daoProvider = new DAOProvider();
     }
     
     /**
      * Constructs instance using definite {@link DAOProvider} object.
      */
-    protected DAOProviderHolder(DAOProvider daoProvider) {
+    DAOProviderHolder(DAOProvider daoProvider) {
         this.daoProvider = daoProvider;
     }
     

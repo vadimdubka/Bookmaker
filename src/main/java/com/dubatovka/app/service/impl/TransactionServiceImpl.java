@@ -23,14 +23,26 @@ import static com.dubatovka.app.config.ConfigConstant.EMPTY_STRING;
 import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_SQL_TRANSACTION;
 import static com.dubatovka.app.config.ConfigConstant.PERCENT;
 
+/**
+ * The class provides implementation for Service layer actions with Transactions.
+ *
+ * @author Dubatovka Vadim
+ */
 class TransactionServiceImpl extends TransactionService {
     private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
-    private final TransactionDAO transactionDAO = daoProvider.getTransactionDAO();
-    private final PlayerDAO playerDAO = daoProvider.getPlayerDAO();
     
+    private final TransactionDAO transactionDAO = daoProvider.getTransactionDAO();
+    private final PlayerDAO      playerDAO      = daoProvider.getPlayerDAO();
+    
+    /**
+     * Default constructor.
+     */
     TransactionServiceImpl() {
     }
     
+    /**
+     * Constructs instance using definite {@link DAOProvider} object.
+     */
     TransactionServiceImpl(DAOProvider daoProvider) {
         super(daoProvider);
     }
@@ -42,10 +54,9 @@ class TransactionServiceImpl extends TransactionService {
      * @param id    player id
      * @param month string representation of month value in format 'yyyy-mm'
      * @return taken {@link List} collection
-     * @see TransactionDAO#takePlayerTransactions(int, String)
      */
     @Override
-    public List<Transaction> takePlayerTransactions(int id, String month) {
+    public List<Transaction> getPlayerTransactions(int id, String month) {
         List<Transaction> transactionList = null;
         String monthPattern = (month != null ? month.trim() : EMPTY_STRING) + PERCENT;
         try {
@@ -65,12 +76,10 @@ class TransactionServiceImpl extends TransactionService {
      * @param month          string representation of month value in format 'yyyy-mm'
      * @param isSortByAmount is need to sort result collection by {@link Transaction#amount}
      * @return taken {@link List} collection
-     * @see TransactionDAO#takeTransactionList(String)
-     * @see #filterByType(List, Transaction.TransactionType)
-     * @see #sortByAmount(List, boolean)
      */
     @Override
-    public List<Transaction> takeTransactionList(String filterByType, String month, boolean isSortByAmount) {
+    public List<Transaction> getTransactionList(String filterByType, String month,
+                                                boolean isSortByAmount) {
         List<Transaction> transactionList = null;
         String monthPattern = (month != null ? month.trim() : EMPTY_STRING) + PERCENT;
         if ((filterByType == null) || filterByType.trim().isEmpty()) {
@@ -82,7 +91,8 @@ class TransactionServiceImpl extends TransactionService {
             logger.log(Level.ERROR, e.getMessage());
         }
         if (!ALL.equals(filterByType.trim())) {
-            filterByType(transactionList, Transaction.TransactionType.valueOf(filterByType.trim().toUpperCase()));
+            filterByType(transactionList, Transaction.TransactionType
+                                              .valueOf(filterByType.trim().toUpperCase()));
         }
         if (isSortByAmount) {
             sortByAmount(transactionList, false);
@@ -146,7 +156,8 @@ class TransactionServiceImpl extends TransactionService {
             for (Transaction transaction : transactions) {
                 BigDecimal amount = transaction.getAmount();
                 Transaction.TransactionType type = transaction.getType();
-                if ((type == Transaction.TransactionType.WITHDRAW) && (maxWithdrawal.compareTo(amount) < 0)) {
+                if ((type == Transaction.TransactionType.WITHDRAW)
+                        && (maxWithdrawal.compareTo(amount) < 0)) {
                     maxWithdrawal = amount;
                 }
             }
@@ -175,17 +186,9 @@ class TransactionServiceImpl extends TransactionService {
         return totalWithdrawal;
     }
     
-    /**
-     * Calls DAO layer to make an account transaction of definite
-     * {@link Transaction.TransactionType}.
-     *
-     * @param playerId        player's id who processes transaction
-     * @param amount          amount of money player transacts
-     * @param transactionType type of transaction
-     * @return true if transaction proceeded successfully
-     */
     @Override
-    public int makeTransaction(int playerId, BigDecimal amount, Transaction.TransactionType transactionType) {
+    public int makeTransaction(int playerId, BigDecimal amount,
+                               Transaction.TransactionType transactionType) {
         int result = 0;
         try {
             daoProvider.beginTransaction();
@@ -214,7 +217,8 @@ class TransactionServiceImpl extends TransactionService {
      *             which {@link Transaction} objects to keep
      * @see List#removeIf(Predicate)
      */
-    private static void filterByType(List<Transaction> list, Transaction.TransactionType type) {
+    private static void filterByType(List<Transaction> list,
+                                     Transaction.TransactionType type) {
         if ((list == null) || list.isEmpty()) {
             return;
         }
@@ -227,8 +231,6 @@ class TransactionServiceImpl extends TransactionService {
      *
      * @param list      {@link List} collection of {@link Transaction} objects to be sorted
      * @param ascending marker of sort order
-     * @see Collections#sort(List, Comparator)
-     * @see AmountComparator
      */
     private static void sortByAmount(List<Transaction> list, boolean ascending) {
         if ((list == null) || list.isEmpty()) {

@@ -22,12 +22,12 @@ import static com.dubatovka.app.config.ConfigConstant.PREFIX_FOR_OUTCOME_TYPE;
  */
 class OutcomeDAOImpl extends DBConnectionHolder implements OutcomeDAO {
     private static final String SQL_SELECT_OUTCOMES_BY_EVENT_ID =
-    "SELECT event_id, type, coefficient " +
-    "FROM outcome WHERE event_id = ?";
+        "SELECT event_id, type, coefficient " +
+            "FROM outcome WHERE event_id = ?";
     
     private static final String SQL_INSERT_OUTCOME =
-    "INSERT INTO outcome (event_id, type, coefficient) " +
-    "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE coefficient = ?";
+        "INSERT INTO outcome (event_id, type, coefficient) " +
+            "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE coefficient = ?";
     
     
     /**
@@ -48,7 +48,8 @@ class OutcomeDAOImpl extends DBConnectionHolder implements OutcomeDAO {
     }
     
     /**
-     * {@link Set} of {@link Outcome} from database which correspond to given {@link Event} id.
+     * Reads {@link Set} of {@link Outcome} from database which correspond to given {@link Event}
+     * id.
      *
      * @param id {@link Event} id
      * @return {@link Set} of {@link Outcome}

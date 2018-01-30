@@ -58,9 +58,9 @@ public class ValidationServiceTest {
     @Test
     public void isValidBirthdateTest() {
         String validBirthdate = "1991-09-24";
-        Assert.assertTrue(validationService.isValidBirthdate(validBirthdate));
+        Assert.assertTrue(validationService.isValidBirthDate(validBirthdate));
         String invalidBirthdate = LocalDate.now().minusYears(17).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Assert.assertFalse(validationService.isValidBirthdate(invalidBirthdate));
+        Assert.assertFalse(validationService.isValidBirthDate(invalidBirthdate));
     }
     
     @Test
@@ -75,12 +75,6 @@ public class ValidationServiceTest {
     public void isValidIdTest() {
         Assert.assertTrue(validationService.isValidId("1"));
         Assert.assertFalse(validationService.isValidId("0"));
-    }
-    
-    @Test
-    public void isNotNullTest() {
-        Assert.assertTrue(validationService.isNotNull(new Object()));
-        Assert.assertFalse(validationService.isNotNull(null));
     }
     
     @Test

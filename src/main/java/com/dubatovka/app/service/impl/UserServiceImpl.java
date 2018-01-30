@@ -13,9 +13,14 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The class provides implementation for Service layer actions with Users.
+ *
+ * @author Dubatovka Vadim
+ */
 class UserServiceImpl extends UserService {
-    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private final UserDAO userDAO = daoProvider.getUserDAO();
+    private static final Logger  logger  = LogManager.getLogger(UserServiceImpl.class);
+    private final        UserDAO userDAO = daoProvider.getUserDAO();
     
     /**
      * Default instance constructor.
@@ -31,7 +36,12 @@ class UserServiceImpl extends UserService {
     }
     
     /**
-     * Provides authorisation operation for user. Calls DAO layer to init {@link User} object due to given parameters.
+     * Provides authorisation operation service for user. Calls DAO layer to init {@link User}
+     * object due to given parameters.
+     *
+     * @param email    user e-mail
+     * @param password user password
+     * @return initialized {@link User} object
      */
     @Override
     public User authorizeUser(String email, String password) {

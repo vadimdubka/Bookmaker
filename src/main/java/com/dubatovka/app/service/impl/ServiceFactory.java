@@ -15,8 +15,15 @@ import com.dubatovka.app.service.ValidationService;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
 
+/**
+ * The class provides access to Service layer classes implementations.
+ *
+ * @author Dubatovka Vadim
+ */
 public final class ServiceFactory {
-    
+    /**
+     * Private constructor to forbid create {@link ServiceFactory} instances.
+     */
     private ServiceFactory() {
     }
     
@@ -99,6 +106,4 @@ public final class ServiceFactory {
     public static ValidationService getValidationService() {
         return new ValidationServiceImpl();
     }
-    
-    
 }

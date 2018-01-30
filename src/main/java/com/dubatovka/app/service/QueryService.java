@@ -15,7 +15,7 @@ import static com.dubatovka.app.config.ConfigConstant.QUERY_START_SEPARATOR;
 import static com.dubatovka.app.config.ConfigConstant.VALUE_SEPARATOR;
 
 /**
- * The class provides helper for work with queries.
+ * The class provides Service layer actions for managing queries from clients.
  */
 public final class QueryService {
     private static final String STUB = "********";
@@ -31,7 +31,7 @@ public final class QueryService {
      */
     public static void saveQueryToSession(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String query = buildQueryString(request);
+        String      query   = buildQueryString(request);
         session.setAttribute(ATTR_PREV_QUERY, query);
     }
     
@@ -39,18 +39,19 @@ public final class QueryService {
      * Builds query by parsing request parameters.
      */
     private static String buildQueryString(HttpServletRequest request) {
-        String uri = request.getRequestURI();
-        StringBuffer query = new StringBuffer();
+        String              uri    = request.getRequestURI();
+        StringBuffer        query  = new StringBuffer();
         Enumeration<String> params = request.getParameterNames();
         while (params.hasMoreElements()) {
-            String key = params.nextElement();
+            String key   = params.nextElement();
             String value = request.getParameter(key);
             if (key.equalsIgnoreCase(PARAM_PASSWORD) ||
-                        key.equalsIgnoreCase(PARAM_PASSWORD_AGAIN) ||
-                        key.equalsIgnoreCase(PARAM_PASSWORD_OLD)) {
+                    key.equalsIgnoreCase(PARAM_PASSWORD_AGAIN) ||
+                    key.equalsIgnoreCase(PARAM_PASSWORD_OLD)) {
                 value = STUB;
             }
-            query = query.append(PARAMETER_SEPARATOR).append(key).append(VALUE_SEPARATOR).append(value);
+            query = query.append(PARAMETER_SEPARATOR).append(key)
+                        .append(VALUE_SEPARATOR).append(value);
         }
         
         String result = uri;

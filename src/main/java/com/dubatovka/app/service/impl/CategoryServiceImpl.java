@@ -18,20 +18,46 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * The class provides implementation for Service layer actions with Categories.
+ *
+ * @author Dubatovka Vadim
+ */
 class CategoryServiceImpl extends CategoryService {
     private static final Logger logger = LogManager.getLogger(CategoryServiceImpl.class);
-    private static final Lock lock = new ReentrantLock();
+    private static final Lock   lock   = new ReentrantLock();
+    
+    /**
+     * Field is used to define whether any category was modified. If it was then field turns into
+     * true and new call of {@link #getSportCategories()} forwards to database to update {@link
+     * #sportCategories} collection.
+     */
     private static final AtomicBoolean isCategoriesModified = new AtomicBoolean(false);
+    /**
+     * Set of top level categories
+     */
     private static Set<Category> sportCategories;
+    
     private final CategoryDAO categoryDAO = daoProvider.getCategoryDAO();
     
+    /**
+     * Default constructor.
+     */
     CategoryServiceImpl() {
     }
     
+    /**
+     * Constructs instance using definite {@link DAOProvider} object.
+     */
     CategoryServiceImpl(DAOProvider daoProvider) {
         super(daoProvider);
     }
     
+    /**
+     * Calls DAO layer to get {@link Set} of sport {@link Category}.
+     *
+     * @return {@link Set} of {@link Category}
+     */
     @Override
     public Set<Category> getSportCategories() {
         if ((sportCategories == null) || isCategoriesModified.get()) {
@@ -51,6 +77,13 @@ class CategoryServiceImpl extends CategoryService {
         return sportCategories;
     }
     
+    /**
+     * Calls DAO layer to get {@link Category} from database which correspond to given {@link
+     * Category} id.
+     *
+     * @param id {@link Category} id
+     * @return {@link Category}
+     */
     @Override
     public Category getCategoryById(int id) {
         Category categoryResult = null;
@@ -63,6 +96,13 @@ class CategoryServiceImpl extends CategoryService {
         return categoryResult;
     }
     
+    /**
+     * Builds hierarchy of categories by dividing them on parent and child categories and assigning
+     * child categories to parent.
+     *
+     * @param categorySet {@link Iterable<Category>} collection of categories.
+     * @return {@link Set<Category>} if hierarchical order
+     */
     private Set<Category> buildCategoryHierarchy(Iterable<Category> categorySet) {
         Map<Integer, Category> sportCategoriesMap = pickOutSportCategories(categorySet);
         fillSportWithCategories(sportCategoriesMap, categorySet);
@@ -73,7 +113,7 @@ class CategoryServiceImpl extends CategoryService {
     
     private Map<Integer, Category> pickOutSportCategories(Iterable<Category> categorySet) {
         Map<Integer, Category> sportCategoriesMap = new HashMap<>();
-        Iterator<Category> iterator = categorySet.iterator();
+        Iterator<Category>     iterator           = categorySet.iterator();
         while (iterator.hasNext()) {
             Category category = iterator.next();
             if (category.getParentId() == 0) {
@@ -87,8 +127,8 @@ class CategoryServiceImpl extends CategoryService {
     
     private void fillSportWithCategories(Map<Integer, Category> sportCategoriesMap, Iterable<Category> categorySet) {
         categorySet.forEach(category -> {
-            int parentId = category.getParentId();
-            Category sport = sportCategoriesMap.get(parentId);
+            int      parentId = category.getParentId();
+            Category sport    = sportCategoriesMap.get(parentId);
             sport.getChildCategorySet().add(category);
         });
     }

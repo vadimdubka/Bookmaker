@@ -120,7 +120,7 @@ public class RegisterCommand implements Command {
         } else {
             messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_NAME);
         }
-        if (validationService.isValidBirthdate(birthDate)) {
+        if (validationService.isValidBirthDate(birthDate)) {
             request.setAttribute(ATTR_BIRTHDATE_INPUT, birthDate);
         } else {
             messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_BIRTHDATE);
