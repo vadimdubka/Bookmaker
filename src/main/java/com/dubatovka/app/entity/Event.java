@@ -2,18 +2,66 @@ package com.dubatovka.app.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about 'Event' domain object. Every event belong to concrete
+ * {@link Category}.
+ *
+ * @author Dubatovka Vadim
+ */
 public class Event implements Serializable {
     private static final long serialVersionUID = -3491120153605965764L;
-    private int id;
-    private int categoryId;
+    /**
+     * Unique event id
+     */
+    private int           id;
+    /**
+     * Id of category that contains this instance of event
+     */
+    private int           categoryId;
+    /**
+     * Date when event is going to start
+     */
     private LocalDateTime date;
-    private String participant1;
-    private String participant2;
-    private String result1;
-    private String result2;
-    private Set<Outcome> outcomeSet;
+    /**
+     * Name of first or single event participant
+     */
+    private String        participant1;
+    /**
+     * Name of second event participant
+     */
+    private String        participant2;
+    /**
+     * Result of first participant
+     */
+    private String        result1;
+    /**
+     * Result of second participant
+     */
+    private String        result2;
+    /**
+     * Set of outcomes for this event instance
+     */
+    private Set<Outcome>  outcomeSet;
+    
+    /**
+     * Retrieves {@link Outcome} for given outcome type from {@link #outcomeSet}
+     *
+     * @param outcomeType {@link String} outcome type
+     * @return {@link Outcome}
+     */
+    public Outcome getOutcomeByType(String outcomeType) {
+        Outcome result = null;
+        for (Outcome outcome : outcomeSet) {
+            if (outcome.getType().getType().equalsIgnoreCase(outcomeType)) {
+                result = outcome;
+            }
+        }
+        return result;
+    }
     
     public int getId() {
         return id;
@@ -81,56 +129,42 @@ public class Event implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Event)) return false;
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         
-        Event event = (Event) o;
+        Event that = (Event) o;
         
-        if (id != event.id) return false;
-        if (categoryId != event.categoryId) return false;
-        if (date != null ? !date.equals(event.date) : event.date != null) return false;
-        if (participant1 != null ? !participant1.equals(event.participant1) : event.participant1 != null) return false;
-        if (participant2 != null ? !participant2.equals(event.participant2) : event.participant2 != null) return false;
-        if (result1 != null ? !result1.equals(event.result1) : event.result1 != null) return false;
-        if (result2 != null ? !result2.equals(event.result2) : event.result2 != null) return false;
-        return outcomeSet != null ? outcomeSet.equals(event.outcomeSet) : event.outcomeSet == null;
-        
+        return Objects.equals(categoryId, that.categoryId) &&
+                   Objects.equals(date, that.date) &&
+                   Objects.equals(id, that.id) &&
+                   Objects.equals(outcomeSet, that.outcomeSet) &&
+                   Objects.equals(participant1, that.participant1) &&
+                   Objects.equals(participant2, that.participant2) &&
+                   Objects.equals(result1, that.result1) &&
+                   Objects.equals(result2, that.result2);
     }
     
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + categoryId;
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (participant1 != null ? participant1.hashCode() : 0);
-        result = 31 * result + (participant2 != null ? participant2.hashCode() : 0);
-        result = 31 * result + (result1 != null ? result1.hashCode() : 0);
-        result = 31 * result + (result2 != null ? result2.hashCode() : 0);
-        result = 31 * result + (outcomeSet != null ? outcomeSet.hashCode() : 0);
-        return result;
+        return Objects.hash(categoryId, date, id, outcomeSet, participant1, participant2,
+                            result1, result2);
     }
     
     @Override
     public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", categoryId=" + categoryId +
-                ", date=" + date +
-                ", participant1='" + participant1 + '\'' +
-                ", participant2='" + participant2 + '\'' +
-                ", result1='" + result1 + '\'' +
-                ", result2='" + result2 + '\'' +
-                ", outcomeSet=" + outcomeSet +
-                '}';
-    }
-    
-    public Outcome getOutcomeByType(String outcomeType) {
-        Outcome result = null;
-        for (Outcome outcome : outcomeSet) {
-            if (outcome.getType().getType().equalsIgnoreCase(outcomeType)) {
-                result = outcome;
-            }
-        }
-        return result;
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("categoryId = " + categoryId)
+                   .add("date = " + date)
+                   .add("id = " + id)
+                   .add("outcomeSet = " + outcomeSet)
+                   .add("participant1 = " + participant1)
+                   .add("participant2 = " + participant2)
+                   .add("result1 = " + result1)
+                   .add("result2 = " + result2)
+                   .toString();
     }
 }

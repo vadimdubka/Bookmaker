@@ -73,7 +73,7 @@ class TransactionServiceImpl extends TransactionService {
     public List<Transaction> takeTransactionList(String filterByType, String month, boolean isSortByAmount) {
         List<Transaction> transactionList = null;
         String monthPattern = (month != null ? month.trim() : EMPTY_STRING) + PERCENT;
-        if (filterByType == null || filterByType.trim().isEmpty()) {
+        if ((filterByType == null) || filterByType.trim().isEmpty()) {
             filterByType = ALL;
         }
         try {
@@ -103,8 +103,8 @@ class TransactionServiceImpl extends TransactionService {
             for (Transaction transaction : transactions) {
                 BigDecimal amount = transaction.getAmount();
                 Transaction.TransactionType type = transaction.getType();
-                if (type == Transaction.TransactionType.REPLENISH
-                            && maxPayment.compareTo(amount) < 0) {
+                if ((type == Transaction.TransactionType.REPLENISH)
+                        && (maxPayment.compareTo(amount) < 0)) {
                     maxPayment = amount;
                 }
             }

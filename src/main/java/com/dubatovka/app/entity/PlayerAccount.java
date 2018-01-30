@@ -2,7 +2,14 @@ package com.dubatovka.app.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about player 'Account' domain object.
+ *
+ * @author Dubatovka Vadim
+ */
 public class PlayerAccount implements Serializable {
     private static final long serialVersionUID = -3202129806852194136L;
     /**
@@ -12,11 +19,11 @@ public class PlayerAccount implements Serializable {
     /**
      * Player balance value.
      */
-    private BigDecimal balance;
+    private BigDecimal   balance;
     /**
      * Player current month withdrawal value.
      */
-    private BigDecimal thisMonthWithdrawal;
+    private BigDecimal   thisMonthWithdrawal;
     
     public PlayerStatus getStatus() {
         return status;
@@ -44,31 +51,31 @@ public class PlayerAccount implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PlayerAccount)) return false;
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         
         PlayerAccount that = (PlayerAccount) o;
         
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-        if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
-        return thisMonthWithdrawal != null ? thisMonthWithdrawal.equals(that.thisMonthWithdrawal) : that.thisMonthWithdrawal == null;
-        
+        return Objects.equals(balance, that.balance) &&
+                   Objects.equals(status, that.status) &&
+                   Objects.equals(thisMonthWithdrawal, that.thisMonthWithdrawal);
     }
     
     @Override
     public int hashCode() {
-        int result = status != null ? status.hashCode() : 0;
-        result = 31 * result + (balance != null ? balance.hashCode() : 0);
-        result = 31 * result + (thisMonthWithdrawal != null ? thisMonthWithdrawal.hashCode() : 0);
-        return result;
+        return Objects.hash(balance, status, thisMonthWithdrawal);
     }
     
     @Override
     public String toString() {
-        return "PlayerAccount{" +
-                       "status=" + status +
-                       ", balance=" + balance +
-                       ", thisMonthWithdrawal=" + thisMonthWithdrawal +
-                       '}';
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("balance = " + balance)
+                   .add("status = " + status)
+                   .add("thisMonthWithdrawal = " + thisMonthWithdrawal)
+                   .toString();
     }
 }

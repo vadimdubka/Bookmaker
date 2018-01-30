@@ -5,12 +5,30 @@ import com.dubatovka.app.config.ConfigConstant;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about 'User' domain object.
+ *
+ * @author Dubatovka Vadim
+ */
 public class User implements Serializable {
     private static final long serialVersionUID = 10220719251876555L;
-    private int id;
-    private String email;
-    private UserRole role;
+    /**
+     * Unique user id.
+     */
+    private int       id;
+    /**
+     * User email
+     */
+    private String    email;
+    /**
+     * User role
+     */
+    private UserRole  role;
+    /**
+     * User registration date
+     */
     private LocalDate registrationDate;
     
     public int getId() {
@@ -50,31 +68,36 @@ public class User implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof User)) {
+        if ((o == null) || (getClass() != o.getClass())) {
             return false;
         }
-        User user = (User) o;
-        return id == user.id &&
-                       Objects.equals(email, user.email) &&
-                       role == user.role &&
-                       Objects.equals(registrationDate, user.registrationDate);
+        
+        User that = (User) o;
+        
+        return Objects.equals(email, that.email) &&
+                   Objects.equals(id, that.id) &&
+                   Objects.equals(registrationDate, that.registrationDate) &&
+                   Objects.equals(role, that.role);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, role, registrationDate);
+        return Objects.hash(email, id, registrationDate, role);
     }
-    
     
     @Override
     public String toString() {
-        return "User{" + "id=" + id +
-                       ", email='" + email + '\'' +
-                       ", role=" + role +
-                       ", registrationDate=" + registrationDate +
-                       '}';
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("email = " + email)
+                   .add("id = " + id)
+                   .add("registrationDate = " + registrationDate)
+                   .add("role = " + role)
+                   .toString();
     }
     
+    /**
+     * Enumeration of available {@link User#role} value instances.
+     */
     public enum UserRole {
         GUEST(ConfigConstant.GUEST),
         PLAYER(ConfigConstant.PLAYER),
@@ -91,5 +114,4 @@ public class User implements Serializable {
             return role;
         }
     }
-    
 }

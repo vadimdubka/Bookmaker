@@ -3,26 +3,35 @@ package com.dubatovka.app.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about 'Transaction' domain object.
+ *
+ * @author Dubatovka Vadim
+ */
 public class Transaction implements Serializable {
     private static final long serialVersionUID = 494519517782731780L;
     /**
      * Transaction unique id.
      */
-    private int id;
+    private int             id;
     /**
      * Player id who made this transaction.
      */
-    private int playerId;
+    private int             playerId;
     /**
      * Transaction date.
      */
-    private LocalDateTime date;
+    private LocalDateTime   date;
     /**
      * Transaction amount.
      */
-    private BigDecimal amount;
-    
+    private BigDecimal      amount;
+    /**
+     * Transaction type.
+     */
     private TransactionType type;
     
     public int getId() {
@@ -67,40 +76,41 @@ public class Transaction implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Transaction)) return false;
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         
         Transaction that = (Transaction) o;
         
-        if (id != that.id) return false;
-        if (playerId != that.playerId) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
-        return type == that.type;
-    
+        return Objects.equals(amount, that.amount) &&
+                   Objects.equals(date, that.date) &&
+                   Objects.equals(id, that.id) &&
+                   Objects.equals(playerId, that.playerId) &&
+                   Objects.equals(type, that.type);
     }
     
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + playerId;
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (amount != null ? amount.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        return result;
+        return Objects.hash(amount, date, id, playerId, type);
     }
     
     @Override
     public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", playerId=" + playerId +
-                ", date=" + date +
-                ", amount=" + amount +
-                '}';
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("amount = " + amount)
+                   .add("date = " + date)
+                   .add("id = " + id)
+                   .add("playerId = " + playerId)
+                   .add("type = " + type)
+                   .toString();
     }
     
-    
+    /**
+     * Enumeration of available {@link Transaction#type} value instances.
+     */
     public enum TransactionType {
         REPLENISH, WITHDRAW
     }

@@ -2,12 +2,31 @@ package com.dubatovka.app.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about player 'Profile' domain object.
+ *
+ * @author Dubatovka Vadim
+ */
 public class PlayerProfile implements Serializable {
     private static final long serialVersionUID = 4607918367842467031L;
-    private String firstName;
-    private String middleName;
-    private String lastName;
+    /**
+     * Player's first name
+     */
+    private String    firstName;
+    /**
+     * Player's middle name
+     */
+    private String    middleName;
+    /**
+     * Player's last name
+     */
+    private String    lastName;
+    /**
+     * Player's birth date
+     */
     private LocalDate birthDate;
     
     public String getFirstName() {
@@ -44,37 +63,33 @@ public class PlayerProfile implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PlayerProfile)) return false;
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         
         PlayerProfile that = (PlayerProfile) o;
         
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null)
-            return false;
-        if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null)
-            return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null)
-            return false;
-        return birthDate != null ? birthDate.equals(that.birthDate) : that.birthDate == null;
-        
+        return Objects.equals(birthDate, that.birthDate) &&
+                   Objects.equals(firstName, that.firstName) &&
+                   Objects.equals(lastName, that.lastName) &&
+                   Objects.equals(middleName, that.middleName);
     }
     
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
-        return result;
+        return Objects.hash(birthDate, firstName, lastName, middleName);
     }
     
     @Override
     public String toString() {
-        return "PlayerProfile{" +
-                       "firstName='" + firstName + '\'' +
-                       ", middleName='" + middleName + '\'' +
-                       ", lastName='" + lastName + '\'' +
-                       ", birthDate=" + birthDate +
-                       '}';
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("birthDate = " + birthDate)
+                   .add("firstName = " + firstName)
+                   .add("lastName = " + lastName)
+                   .add("middleName = " + middleName)
+                   .toString();
     }
 }

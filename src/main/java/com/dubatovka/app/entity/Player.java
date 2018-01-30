@@ -1,16 +1,40 @@
 package com.dubatovka.app.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about 'Player' domain object.
+ *
+ * @author Dubatovka Vadim
+ */
 public class Player extends User implements Serializable {
     private static final long serialVersionUID = -3724993061188402916L;
-    private PlayerProfile profile;
-    private PlayerAccount account;
+    /**
+     * Object which contains player profile data.
+     */
+    private PlayerProfile      profile;
+    /**
+     * Object which contains player account data.
+     */
+    private PlayerAccount      account;
+    /**
+     * Object which contains player verification data.
+     */
     private PlayerVerification verification;
     
+    /**
+     * Default constructor.
+     */
     public Player() {
     }
     
+    /**
+     * Creates a new instance using given {@link User} object.
+     *
+     * @param user {@link User}
+     */
     public Player(User user) {
         setId(user.getId());
         setEmail(user.getEmail());
@@ -44,35 +68,32 @@ public class Player extends User implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Player)) return false;
-        if (!super.equals(o)) return false;
-        
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Player)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         Player player = (Player) o;
-        
-        if (profile != null ? !profile.equals(player.profile) : player.profile != null)
-            return false;
-        if (account != null ? !account.equals(player.account) : player.account != null)
-            return false;
-        return verification != null ? verification.equals(player.verification) : player.verification == null;
-        
+        return Objects.equals(profile, player.profile) &&
+                   Objects.equals(account, player.account) &&
+                   Objects.equals(verification, player.verification);
     }
     
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (profile != null ? profile.hashCode() : 0);
-        result = 31 * result + (account != null ? account.hashCode() : 0);
-        result = 31 * result + (verification != null ? verification.hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), profile, account, verification);
     }
     
     @Override
     public String toString() {
-        return "Player{" +
-                       "profile=" + profile +
-                       ", account=" + account +
-                       ", verification=" + verification +
-                       '}';
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("account = " + account)
+                   .add("profile = " + profile)
+                   .add("verification = " + verification)
+                   .toString();
     }
 }

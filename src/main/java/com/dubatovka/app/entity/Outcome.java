@@ -4,16 +4,39 @@ import com.dubatovka.app.config.ConfigConstant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about 'Outcome' domain object. Every outcome belong to
+ * concrete {@link Event}.
+ *
+ * @author Dubatovka Vadim
+ */
 public class Outcome implements Serializable {
     private static final long serialVersionUID = 2004092848932695202L;
-    private int eventId;
-    private Type type;
+    /**
+     * Event id that contains this outcome instance
+     */
+    private int        eventId;
+    /**
+     * Outcome type
+     */
+    private Type       type;
+    /**
+     * Coefficient for this outcome instance
+     */
     private BigDecimal coefficient;
     
+    /**
+     * Default constructor.
+     */
     public Outcome() {
     }
     
+    /**
+     * Creates a new instance using given parameters.
+     */
     public Outcome(int eventId, BigDecimal coefficient, Type type) {
         this.eventId = eventId;
         this.coefficient = coefficient;
@@ -46,34 +69,38 @@ public class Outcome implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Outcome)) return false;
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         
-        Outcome outcome = (Outcome) o;
+        Outcome that = (Outcome) o;
         
-        if (eventId != outcome.eventId) return false;
-        if (type != outcome.type) return false;
-        return coefficient != null ? coefficient.equals(outcome.coefficient) : outcome.coefficient == null;
-        
+        return Objects.equals(coefficient, that.coefficient) &&
+                   Objects.equals(eventId, that.eventId) &&
+                   Objects.equals(type, that.type);
     }
     
     @Override
     public int hashCode() {
-        int result = eventId;
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (coefficient != null ? coefficient.hashCode() : 0);
-        return result;
+        return Objects.hash(coefficient, eventId, type);
     }
     
     @Override
     public String toString() {
-        return "Outcome{" +
-                "eventId=" + eventId +
-                ", type=" + type +
-                ", coefficient=" + coefficient +
-                '}';
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("coefficient = " + coefficient)
+                   .add("eventId = " + eventId)
+                   .add("type = " + type)
+                   .toString();
     }
     
+    
+    /**
+     * Enumeration of available {@link Outcome#type} value instances.
+     */
     public enum Type {
         TYPE_1(ConfigConstant.TYPE_1), TYPE_X(ConfigConstant.TYPE_X), TYPE_2(ConfigConstant.TYPE_2);
         

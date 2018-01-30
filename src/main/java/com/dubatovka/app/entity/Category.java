@@ -1,13 +1,32 @@
 package com.dubatovka.app.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 
+/**
+ * The class represents information about 'Category' domain object.
+ *
+ * @author Dubatovka Vadim
+ */
 public class Category implements Serializable {
     private static final long serialVersionUID = 5577191201787646890L;
-    private int id;
-    private String name;
-    private int parentId;
+    /**
+     * Unique category id number
+     */
+    private int           id;
+    /**
+     * Category name
+     */
+    private String        name;
+    /**
+     * Id of parent category for this instance in hierarchical structure
+     */
+    private int           parentId;
+    /**
+     * Set of child categories for this instance in hierarchical structure
+     */
     private Set<Category> childCategorySet;
     
     public int getId() {
@@ -44,34 +63,33 @@ public class Category implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Category)) return false;
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
         
-        Category category = (Category) o;
+        Category that = (Category) o;
         
-        if (id != category.id) return false;
-        if (parentId != category.parentId) return false;
-        if (name != null ? !name.equals(category.name) : category.name != null) return false;
-        return childCategorySet != null ? childCategorySet.equals(category.childCategorySet) : category.childCategorySet == null;
-        
+        return Objects.equals(childCategorySet, that.childCategorySet) &&
+                   Objects.equals(id, that.id) &&
+                   Objects.equals(name, that.name) &&
+                   Objects.equals(parentId, that.parentId);
     }
     
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + parentId;
-        result = 31 * result + (childCategorySet != null ? childCategorySet.hashCode() : 0);
-        return result;
+        return Objects.hash(childCategorySet, id, name, parentId);
     }
     
     @Override
     public String toString() {
-        return "Category{" +
-                       "id=" + id +
-                       ", name='" + name + '\'' +
-                       ", parentId=" + parentId +
-                       ", childCategorySet=" + childCategorySet +
-                       '}';
+        return new StringJoiner(", ", getClass().getSimpleName() + "[", "]")
+                   .add("childCategorySet = " + childCategorySet)
+                   .add("id = " + id)
+                   .add("name = " + name)
+                   .add("parentId = " + parentId)
+                   .toString();
     }
 }
