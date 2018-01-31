@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebInitParam;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.dubatovka.app.config.ConfigConstant.FILTER_PARAM_ENCODING;
+
 /**
  * The class provides filter for servlet container that converts each request and response
  * data to definite encoding.
@@ -18,7 +20,8 @@ import java.util.Objects;
 @WebFilter(
     filterName = "CharsetFilter",
     urlPatterns = {"/*"},
-    initParams = {@WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding param")}
+    initParams = {@WebInitParam(name = FILTER_PARAM_ENCODING, value = "UTF-8",
+        description = "Encoding param")}
 )
 public class CharsetFilter implements Filter {
     /**
@@ -34,7 +37,7 @@ public class CharsetFilter implements Filter {
      */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        encoding = filterConfig.getInitParameter("encoding");
+        encoding = filterConfig.getInitParameter(FILTER_PARAM_ENCODING);
     }
     
     /**

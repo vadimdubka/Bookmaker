@@ -66,10 +66,12 @@ public class MakeBetCommand implements Command {
         String outcomeCoeffOnPage = request.getParameter(PARAM_OUTCOME_COEFFICIENT);
         Event event = new Event();
         
-        validateRequestParams(messageService, betAmountStr, eventIdStr, outcomeType, outcomeCoeffOnPage);
+        validateRequestParams(messageService, betAmountStr, eventIdStr,
+                              outcomeType, outcomeCoeffOnPage);
         checkAndSetEventNotNull(eventIdStr, event, messageService);
         validateUserRole(role, messageService);
-        validateCommand(player, betAmountStr, event, outcomeType, outcomeCoeffOnPage, messageService);
+        validateCommand(player, betAmountStr, event, outcomeType,
+                        outcomeCoeffOnPage, messageService);
         PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         if (messageService.isErrMessEmpty()) {
             try (PlayerService playerService = ServiceFactory.getPlayerService();
@@ -77,7 +79,7 @@ public class MakeBetCommand implements Command {
                 BigDecimal coefficient = event.getOutcomeByType(outcomeType).getCoefficient();
                 BigDecimal betAmount = new BigDecimal(betAmountStr);
                 Bet bet = new Bet(player.getId(), event.getId(), outcomeType,
-                                         LocalDateTime.now(), coefficient, betAmount, Bet.Status.NEW);
+                                  LocalDateTime.now(), coefficient, betAmount, Bet.Status.NEW);
                 betService.makeBet(bet, messageService);
                 if (messageService.isErrMessEmpty()) {
                     playerService.updatePlayerInfo(player);
@@ -99,7 +101,7 @@ public class MakeBetCommand implements Command {
      * @param role           {@link User.UserRole}
      * @param messageService {@link MessageService} to hold message about validation result
      */
-    private void validateUserRole(User.UserRole role, MessageService messageService) {
+    private static void validateUserRole(User.UserRole role, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             if (role == User.UserRole.GUEST) {
                 messageService.appendErrMessByKey(MESSAGE_ERR_BET_GOTO_REGISTRATION);
@@ -120,8 +122,9 @@ public class MakeBetCommand implements Command {
      * @param outcomeCoeffOnPage {@link String} parameter for validation
      * @param messageService     {@link MessageService} to hold message about validation result
      */
-    private void validateCommand(Player player, String betAmountStr, Event event, String outcomeType,
-                                 String outcomeCoeffOnPage, MessageService messageService) {
+    private static void validateCommand(Player player, String betAmountStr, Event event,
+                                        String outcomeType, String outcomeCoeffOnPage,
+                                        MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             LocalDateTime betDateTime = LocalDateTime.now();
             ValidationService validationService = ServiceFactory.getValidationService();

@@ -19,8 +19,9 @@ import org.apache.logging.log4j.Logger;
  * @author Dubatovka Vadim
  */
 class UserServiceImpl extends UserService {
-    private static final Logger  logger  = LogManager.getLogger(UserServiceImpl.class);
-    private final        UserDAO userDAO = daoProvider.getUserDAO();
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+    
+    private final UserDAO userDAO = daoProvider.getUserDAO();
     
     /**
      * Default instance constructor.

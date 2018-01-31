@@ -18,6 +18,8 @@ import java.io.IOException;
 
 import static com.dubatovka.app.config.ConfigConstant.ATTR_LOCALE;
 import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
+import static com.dubatovka.app.config.ConfigConstant.FILTER_PARAM_LOCALE;
+import static com.dubatovka.app.config.ConfigConstant.FILTER_PARAM_ROLE;
 import static com.dubatovka.app.config.ConfigConstant.FRONT_CONTROLLER;
 
 /**
@@ -27,12 +29,11 @@ import static com.dubatovka.app.config.ConfigConstant.FRONT_CONTROLLER;
 @WebFilter(
     filterName = "SecurityFilter",
     servletNames = {FRONT_CONTROLLER},
-    initParams = {@WebInitParam(name = "role", value = ATTR_ROLE),
-                     @WebInitParam(name = "locale", value = ATTR_LOCALE)},
+    initParams = {@WebInitParam(name = FILTER_PARAM_ROLE, value = ATTR_ROLE),
+                     @WebInitParam(name = FILTER_PARAM_LOCALE, value = ATTR_LOCALE)},
     dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD}
 )
 public class SessionAttributesFilter implements Filter {
-    
     /**
      * Role attribute name.
      */
@@ -50,8 +51,8 @@ public class SessionAttributesFilter implements Filter {
      */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        role = filterConfig.getInitParameter("role");
-        locale = filterConfig.getInitParameter("locale");
+        role = filterConfig.getInitParameter(FILTER_PARAM_ROLE);
+        locale = filterConfig.getInitParameter(FILTER_PARAM_LOCALE);
     }
     
     /**
@@ -93,10 +94,10 @@ public class SessionAttributesFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
-        HttpServletRequest req        = (HttpServletRequest) request;
-        HttpSession        session    = req.getSession();
-        Object             userRole   = session.getAttribute(role);
-        Object             userLocale = session.getAttribute(locale);
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+        Object userRole = session.getAttribute(role);
+        Object userLocale = session.getAttribute(locale);
         if (userRole == null) {
             userRole = User.UserRole.GUEST;
             session.setAttribute(role, userRole);

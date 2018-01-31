@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -271,7 +272,7 @@ class BetDAOImpl extends DBConnectionHolder implements BetDAO {
      * @throws SQLException if a database access error occurs or this method is called on a closed
      *                      result set
      */
-    private List<Bet> buildBetList(ResultSet resultSet) throws SQLException {
+    private static List<Bet> buildBetList(ResultSet resultSet) throws SQLException {
         List<Bet> betList = new ArrayList<>();
         while (resultSet.next()) {
             Bet bet = buildBet(resultSet);
@@ -281,14 +282,14 @@ class BetDAOImpl extends DBConnectionHolder implements BetDAO {
     }
     
     /**
-     * Build {@link Set} of {@link Bet} from given {@link ResultSet}.
+     * Builds {@link Set} of {@link Bet} from given {@link ResultSet}.
      *
      * @param resultSet {@link ResultSet}
      * @return {@link Set} of {@link Bet}
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private Set<Bet> buildBetSet(ResultSet resultSet) throws SQLException {
+    private static Set<Bet> buildBetSet(ResultSet resultSet) throws SQLException {
         Set<Bet> betSet = new HashSet<>();
         while (resultSet.next()) {
             Bet bet = buildBet(resultSet);
@@ -298,22 +299,22 @@ class BetDAOImpl extends DBConnectionHolder implements BetDAO {
     }
     
     /**
-     * Method build {@link Bet} from given ResultSet
+     * Method builds {@link Bet} from given ResultSet
      *
      * @param resultSet {@link ResultSet}
      * @return {@link Bet}
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private Bet buildBet(ResultSet resultSet) throws SQLException {
-        Bet bet = new Bet();
-        bet.setPlayerId(resultSet.getInt(PLAYER_ID));
-        bet.setEventId(resultSet.getInt(EVENT_ID));
-        bet.setOutcomeType(resultSet.getString(OUTCOME_TYPE));
-        bet.setDate(resultSet.getTimestamp(DATE).toLocalDateTime());
-        bet.setCoefficient(resultSet.getBigDecimal(COEFFICIENT));
-        bet.setAmount(resultSet.getBigDecimal(AMOUNT));
-        bet.setStatus(Bet.Status.valueOf(resultSet.getString(STATUS).toUpperCase()));
+    private static Bet buildBet(ResultSet resultSet) throws SQLException {
+        int playerId = resultSet.getInt(PLAYER_ID);
+        int eventId = resultSet.getInt(EVENT_ID);
+        String outcomeType = resultSet.getString(OUTCOME_TYPE);
+        LocalDateTime date = resultSet.getTimestamp(DATE).toLocalDateTime();
+        BigDecimal coefficient = resultSet.getBigDecimal(COEFFICIENT);
+        BigDecimal amount = resultSet.getBigDecimal(AMOUNT);
+        Bet.Status status = Bet.Status.valueOf(resultSet.getString(STATUS).toUpperCase());
+        Bet bet = new Bet(playerId, eventId, outcomeType, date, coefficient, amount, status);
         return bet;
     }
 }

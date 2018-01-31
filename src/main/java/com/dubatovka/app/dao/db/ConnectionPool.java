@@ -187,15 +187,18 @@ public final class ConnectionPool {
                     connection.rollback();
                     connection.setAutoCommit(true);
                 }
-                logger.log(Level.DEBUG, "Connection was returned to pool. Current pool size: " + connections.size());
+                logger.log(Level.DEBUG, "Connection was returned to pool. Current pool size: "
+                                            + connections.size());
                 connections.put(connection);
             } catch (SQLException e) {
-                logger.log(Level.ERROR, "Exception while setting autoCommit to connection. " + e.getMessage());
+                logger.log(Level.ERROR, "Exception while setting autoCommit to connection. "
+                                            + e.getMessage());
             }
         } catch (SQLException e) {
             logger.log(Level.ERROR, "Database access error occurred.", e);
         } catch (InterruptedException e) {
-            logger.log(Level.ERROR, "Putting connection back into pool was interrupted. " + e.getMessage());
+            logger.log(Level.ERROR, "Putting connection back into pool was interrupted. "
+                                        + e.getMessage());
         }
     }
     
@@ -216,7 +219,8 @@ public final class ConnectionPool {
             } catch (SQLException e) {
                 logger.log(Level.ERROR, "Database access error occurred.", e);
             } catch (InterruptedException e) {
-                logger.log(Level.ERROR, "Taking connection from deque to close and destroy pool was interrupted.", e);
+                logger.log(Level.ERROR,
+                           "Taking connection from deque to close and destroy pool was interrupted.", e);
             }
         }
         try {
@@ -275,7 +279,7 @@ public final class ConnectionPool {
      * @throws SQLException if a database access error occurs; if the value supplied for timeout is
      *                      less then 0
      */
-    private boolean isDamaged(WrappedConnection connection) throws SQLException {
+    private static boolean isDamaged(WrappedConnection connection) throws SQLException {
         return connection.isNull() || connection.isClosed()
                    || !connection.isValid(VALIDATION_TIMEOUT);
     }

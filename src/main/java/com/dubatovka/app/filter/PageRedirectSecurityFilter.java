@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.dubatovka.app.config.ConfigConstant.FILTER_PARAM_INDEX_PATH;
+
 /**
  * The class provides security filter for servlet container which prevents application users custom
  * site navigation.
@@ -22,9 +24,10 @@ import java.io.IOException;
 @WebFilter(
     filterName = "PageRedirectFilter",
     urlPatterns = {"/pages/*"},
-    initParams = {@WebInitParam(name = "indexPath", value = ConfigConstant.PAGE_INDEX)}
+    initParams = {@WebInitParam(name = FILTER_PARAM_INDEX_PATH, value = ConfigConstant.PAGE_INDEX)}
 )
 public class PageRedirectSecurityFilter implements Filter {
+    
     
     /**
      * Path to index page.
@@ -39,7 +42,7 @@ public class PageRedirectSecurityFilter implements Filter {
      */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        indexPath = filterConfig.getInitParameter("indexPath");
+        indexPath = filterConfig.getInitParameter(FILTER_PARAM_INDEX_PATH);
     }
     
     /**
@@ -48,7 +51,7 @@ public class PageRedirectSecurityFilter implements Filter {
      * chain due to a client request for a resource at the end of the chain.
      * The FilterChain passed in to this method allows the Filter to pass
      * on the request and response to the next entity in the chain.
-     *
+     * <p>
      * <p>A typical implementation of this method would follow the following
      * pattern:
      * <ol>
@@ -81,7 +84,7 @@ public class PageRedirectSecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
-        HttpServletRequest  httpRequest  = (HttpServletRequest) request;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.sendRedirect(httpRequest.getContextPath() + indexPath);
         chain.doFilter(request, response);

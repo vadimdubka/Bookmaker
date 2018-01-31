@@ -97,7 +97,6 @@ public class Outcome implements Serializable {
                    .toString();
     }
     
-    
     /**
      * Enumeration of available {@link Outcome#type} value instances.
      */

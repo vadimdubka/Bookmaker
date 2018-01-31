@@ -32,7 +32,6 @@ import static com.dubatovka.app.config.ConfigConstant.PARAM_PASSWORD;
  * @author Dubatovka Vadim
  */
 public class LoginCommand implements Command {
-    
     /**
      * Method provides login process for users.<p>Takes input parameters from {@link
      * HttpServletRequest#getParameter(String)} and validates them. If all the parameters are valid
@@ -67,7 +66,6 @@ public class LoginCommand implements Command {
         return PageNavigator.FORWARD_PAGE_INDEX;
     }
     
-    
     /**
      * Method validates parameters using {@link ValidationService} to confirm that all necessary
      * parameters for command execution have proper state according to requirements for application.
@@ -76,7 +74,8 @@ public class LoginCommand implements Command {
      * @param password       {@link String} parameter for validation
      * @param messageService {@link MessageService} to hold message about validation result
      */
-    private void validateCommand(String email, String password, MessageService messageService) {
+    private static void validateCommand(String email, String password,
+                                        MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidEmail(email)) {
@@ -94,7 +93,7 @@ public class LoginCommand implements Command {
      * @param user    {@link User}
      * @param session {@link HttpSession}
      */
-    private void setUserToSession(User user, HttpSession session) {
+    private static void setUserToSession(User user, HttpSession session) {
         session.setAttribute(ATTR_USER, user);
         session.setAttribute(ATTR_ROLE, user.getRole());
         Class userClass = user.getClass();

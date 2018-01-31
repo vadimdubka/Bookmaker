@@ -19,10 +19,10 @@ import java.util.Set;
  */
 class CategoryDAOImpl extends DBConnectionHolder implements CategoryDAO {
     private static final String SQL_SELECT_CATEGORY_BY_ID = "SELECT id, name, parent_id " +
-                                                            "FROM category WHERE id=?";
+                                                                "FROM category WHERE id=?";
     
     private static final String SQL_SELECT_ALL_CATEGORIES = "SELECT id, name, parent_id " +
-                                                            "FROM category ORDER BY id";
+                                                                "FROM category ORDER BY id";
     
     /**
      * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}.
@@ -89,7 +89,7 @@ class CategoryDAOImpl extends DBConnectionHolder implements CategoryDAO {
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private Set<Category> buildCategorySet(ResultSet resultSet) throws SQLException {
+    private static Set<Category> buildCategorySet(ResultSet resultSet) throws SQLException {
         Set<Category> categorySet = new HashSet<>();
         while (resultSet.next()) {
             Category category = buildCategory(resultSet);
@@ -106,7 +106,7 @@ class CategoryDAOImpl extends DBConnectionHolder implements CategoryDAO {
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private Category buildCategory(ResultSet resultSet) throws SQLException {
+    private static Category buildCategory(ResultSet resultSet) throws SQLException {
         Category category = new Category();
         category.setId(resultSet.getInt(ID));
         category.setName(resultSet.getString(NAME));

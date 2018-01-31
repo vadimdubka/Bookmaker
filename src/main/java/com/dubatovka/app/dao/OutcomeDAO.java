@@ -21,7 +21,8 @@ public interface OutcomeDAO {
     String COEFFICIENT = "coefficient";
     
     /**
-     * Reads {@link Set} of {@link Outcome} from database which correspond to given {@link Event} id.
+     * Reads {@link Set} of {@link Outcome} from database which correspond to given {@link Event}
+     * id.
      *
      * @param id {@link Event} id
      * @return {@link Set} of {@link Outcome}

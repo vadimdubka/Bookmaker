@@ -36,7 +36,8 @@ public class BookmakerContextListener implements ServletContextListener {
         try {
             pool = ConnectionPool.getInstance();
             int createdConnectionsNumber = pool.initPool(databaseProps);
-            logger.log(Level.INFO, "ConnectionPool was initialized with " + createdConnectionsNumber + " connections.");
+            logger.log(Level.INFO, "ConnectionPool was initialized with "
+                                       + createdConnectionsNumber + " connections.");
         } catch (ConnectionPoolException e) {
             logger.log(Level.FATAL, e);
             throw new RuntimeException(e);
@@ -56,7 +57,8 @@ public class BookmakerContextListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         int closedConnectionsNumber = pool.destroyPool();
-        logger.log(Level.INFO, "ConnectionPool was destroyed. " + closedConnectionsNumber + " connections was closed.");
+        logger.log(Level.INFO, "ConnectionPool was destroyed. "
+                                   + closedConnectionsNumber + " connections was closed.");
         LogManager.shutdown();
     }
 }

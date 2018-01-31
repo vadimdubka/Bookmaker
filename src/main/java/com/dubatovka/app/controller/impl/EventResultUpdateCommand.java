@@ -69,8 +69,8 @@ public class EventResultUpdateCommand implements Command {
      * @param result1Str     {@link String} parameter for validation
      * @param result2Str     {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService,
-                                 String result1Str, String result2Str) {
+    private static void validateCommand(MessageService messageService,
+                                        String result1Str, String result2Str) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidEventResult(result1Str) ||

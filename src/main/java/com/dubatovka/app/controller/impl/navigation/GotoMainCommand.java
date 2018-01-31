@@ -64,11 +64,8 @@ public class GotoMainCommand implements Command {
         String eventCommandType = (String) session.getAttribute(ATTR_EVENT_GOTO_TYPE);
         
         if ((eventQueryType == null) || (eventCommandType == null)) {
-            eventQueryType = EVENT_QUERY_TYPE_ACTUAL;
-            session.setAttribute(ATTR_EVENT_QUERY_TYPE, EVENT_QUERY_TYPE_ACTUAL);
-            session.setAttribute(ATTR_EVENT_GOTO_TYPE, EVENT_GOTO_SHOW_ACTUAL);
+            eventQueryType = setDefaultSessionAttr(session);
         }
-        
         setCategoryInfo(request, eventQueryType);
         if (categoryIdStr != null) {
             validateCommand(messageService, categoryIdStr);
@@ -86,13 +83,25 @@ public class GotoMainCommand implements Command {
     }
     
     /**
+     * Sets default session attributes for main page.
+     *
+     * @param session {@link HttpSession}
+     * @return {@link String} default value for event query type
+     */
+    private static String setDefaultSessionAttr(HttpSession session) {
+        session.setAttribute(ATTR_EVENT_QUERY_TYPE, EVENT_QUERY_TYPE_ACTUAL);
+        session.setAttribute(ATTR_EVENT_GOTO_TYPE, EVENT_GOTO_SHOW_ACTUAL);
+        return EVENT_QUERY_TYPE_ACTUAL;
+    }
+    
+    /**
      * Set attributes with information about events categories to {@link
      * ServletRequest} based on received parameter.
      *
      * @param request        {@link ServletRequest}
      * @param eventQueryType {@link String}
      */
-    private void setCategoryInfo(ServletRequest request, String eventQueryType) {
+    private static void setCategoryInfo(ServletRequest request, String eventQueryType) {
         try (EventService eventService = ServiceFactory.getEventService();
              CategoryService categoryService = ServiceFactory.getCategoryService()) {
             Set<Category> sportSet = categoryService.getSportCategories();
@@ -110,7 +119,8 @@ public class GotoMainCommand implements Command {
      * @param categoryIdStr  {@link String} representation of {@link Category} id
      * @param eventQueryType {@link String}
      */
-    private void setEventInfo(ServletRequest request, String categoryIdStr, String eventQueryType) {
+    private static void setEventInfo(ServletRequest request, String categoryIdStr,
+                                     String eventQueryType) {
         List<Event> events;
         Map<String, Map<String, String>> coeffColumnMaps;
         try (EventService eventService = ServiceFactory.getEventService()) {
@@ -134,7 +144,7 @@ public class GotoMainCommand implements Command {
      * @param request       {@link ServletRequest}
      * @param categoryIdStr {@link String} representation of {@link Category} id.
      */
-    private void setWinBetInfo(ServletRequest request, String categoryIdStr) {
+    private static void setWinBetInfo(ServletRequest request, String categoryIdStr) {
         int categoryId = Integer.parseInt(categoryIdStr);
         Map<String, Map<String, String>> winBetInfoMap;
         try (BetService betService = ServiceFactory.getBetService()) {
@@ -153,7 +163,7 @@ public class GotoMainCommand implements Command {
      * @param messageService {@link MessageService} to hold message about result of validation
      * @param categoryIdStr  {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService, String categoryIdStr) {
+    private static void validateCommand(MessageService messageService, String categoryIdStr) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidId(categoryIdStr)) {

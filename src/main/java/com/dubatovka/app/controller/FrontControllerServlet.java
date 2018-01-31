@@ -71,7 +71,7 @@ public class FrontControllerServlet extends HttpServlet {
      */
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
-        Command       command   = CommandFactory.defineCommand(req);
+        Command command = CommandFactory.defineCommand(req);
         PageNavigator navigator = command.execute(req);
         if (navigator != null) {
             processNavigator(req, resp, navigator);

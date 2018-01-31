@@ -164,7 +164,7 @@ class PlayerDAOImpl extends DBConnectionHolder implements PlayerDAO {
      */
     private static List<Player> createUserList(ResultSet resultSet) throws SQLException {
         List<Player> playerList = new ArrayList<>();
-        Player       player;
+        Player player;
         do {
             player = buildPlayer(resultSet);
             if (player != null) {

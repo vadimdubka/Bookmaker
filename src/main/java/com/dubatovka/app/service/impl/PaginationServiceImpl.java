@@ -101,7 +101,7 @@ class PaginationServiceImpl implements PaginationService {
     private void countAmountOfPages() {
         if (totalEntityAmount > 0) {
             int integerPart = totalEntityAmount / limitOnPage;
-            int remainder   = totalEntityAmount % limitOnPage;
+            int remainder = totalEntityAmount % limitOnPage;
             if (remainder == 0) {
                 amountOfPages = integerPart;
             } else {

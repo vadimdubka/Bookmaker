@@ -48,16 +48,16 @@ public class RegisterCommand implements Command {
      */
     @Override
     public PageNavigator execute(HttpServletRequest request) {
-        HttpSession    session        = request.getSession();
+        HttpSession session = request.getSession();
         MessageService messageService = ServiceFactory.getMessageService(session);
         
-        String email         = request.getParameter(PARAM_EMAIL);
-        String password      = request.getParameter(PARAM_PASSWORD);
+        String email = request.getParameter(PARAM_EMAIL);
+        String password = request.getParameter(PARAM_PASSWORD);
         String passwordAgain = request.getParameter(PARAM_PASSWORD_AGAIN);
-        String fName         = request.getParameter(PARAM_FNAME);
-        String mName         = request.getParameter(PARAM_MNAME);
-        String lName         = request.getParameter(PARAM_LNAME);
-        String birthDate     = request.getParameter(PARAM_BIRTHDATE);
+        String fName = request.getParameter(PARAM_FNAME);
+        String mName = request.getParameter(PARAM_MNAME);
+        String lName = request.getParameter(PARAM_LNAME);
+        String birthDate = request.getParameter(PARAM_BIRTHDATE);
         
         validateRequestParams(messageService, email, password, passwordAgain,
                               fName, mName, lName, birthDate);
@@ -77,7 +77,6 @@ public class RegisterCommand implements Command {
         return navigator;
     }
     
-    
     /**
      * Method validates parameters using {@link ValidationService} to confirm that all necessary
      * parameters for command execution have proper state according to requirements for application.
@@ -92,9 +91,9 @@ public class RegisterCommand implements Command {
      * @param messageService {@link MessageService} to hold message about result of validation
      * @param request        {@link ServletRequest} to add attributes with valid data
      */
-    private void validateCommand(String email, String password, String passwordAgain, String fName,
-                                 String mName, String lName, String birthDate,
-                                 MessageService messageService, ServletRequest request) {
+    private static void validateCommand(String email, String password, String passwordAgain,
+                                        String fName, String mName, String lName, String birthDate,
+                                        MessageService messageService, ServletRequest request) {
         ValidationService validationService = ServiceFactory.getValidationService();
         if (validationService.isValidEmail(email)) {
             request.setAttribute(ATTR_EMAIL_INPUT, email);

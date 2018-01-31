@@ -60,7 +60,7 @@ public class EventDeleteCommand implements Command {
      * @param messageService {@link MessageService} to hold message about validation result
      * @param eventIdStr     {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService, String eventIdStr) {
+    private static void validateCommand(MessageService messageService, String eventIdStr) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidId(eventIdStr)) {

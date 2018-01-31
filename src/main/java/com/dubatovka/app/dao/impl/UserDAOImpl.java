@@ -93,7 +93,7 @@ class UserDAOImpl extends DBConnectionHolder implements UserDAO {
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private User buildUser(ResultSet resultSet) throws SQLException {
+    private static User buildUser(ResultSet resultSet) throws SQLException {
         User user = null;
         if (resultSet.next()) {
             user = new User();

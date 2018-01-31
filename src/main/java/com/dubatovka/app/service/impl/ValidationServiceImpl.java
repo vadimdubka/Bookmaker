@@ -263,7 +263,7 @@ class ValidationServiceImpl implements ValidationService {
      * @param regex string regular expression
      * @return true if string matches pattern is valid
      */
-    private boolean isMatchPattern(String str, String regex) {
+    private static boolean isMatchPattern(String str, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();

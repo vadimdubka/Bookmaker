@@ -50,7 +50,7 @@ public class GotoPlayerStateCommand implements Command {
      * attributes from {@link HttpServletRequest} and {@link HttpSession} and based on them adds
      * appropriate attributes with data about player and player's bets to {@link
      * HttpServletRequest}.If process passed successfully navigates to {@link
-     * PageNavigator#FORWARD_PREV_QUERY}, else navigates to{@link PageNavigator#FORWARD_PAGE_REGISTER}</p>
+     * PageNavigator#FORWARD_PREV_QUERY}, else navigates to {@link PageNavigator#FORWARD_PAGE_REGISTER}</p>
      *
      * @param request {@link HttpServletRequest} from client
      * @return {@link PageNavigator}
@@ -66,7 +66,8 @@ public class GotoPlayerStateCommand implements Command {
         validateCommand(player, messageService);
         PageNavigator navigator = PageNavigator.FORWARD_PREV_QUERY;
         if (messageService.isErrMessEmpty()) {
-            PaginationService paginationService = getPaginationService(request, player, pageNumberStr);
+            PaginationService paginationService = getPaginationService(request, player,
+                                                                       pageNumberStr);
             setBetInfo(request, player, paginationService);
             setPlayerInfo(session, player);
             navigator = PageNavigator.FORWARD_PAGE_PLAYER_STATE;
@@ -84,7 +85,8 @@ public class GotoPlayerStateCommand implements Command {
      * @param player            {@link User}
      * @param paginationService {@link PaginationService}
      */
-    private void setBetInfo(ServletRequest request, User player, PaginationService paginationService) {
+    private static void setBetInfo(ServletRequest request, User player,
+                                   PaginationService paginationService) {
         try (BetService betService = ServiceFactory.getBetService();
              CategoryService categoryService = ServiceFactory.getCategoryService();
              EventService eventService = ServiceFactory.getEventService()) {
@@ -117,11 +119,11 @@ public class GotoPlayerStateCommand implements Command {
      * @param pageNumberStr {@link String}
      * @return {@link PaginationService}
      */
-    private PaginationService getPaginationService(ServletRequest request,
-                                                   User player, String pageNumberStr) {
+    private static PaginationService getPaginationService(ServletRequest request,
+                                                          User player, String pageNumberStr) {
         ValidationService validationService = ServiceFactory.getValidationService();
         int pageNumber = (validationService.isValidId(pageNumberStr)) ?
-                                 Integer.parseInt(pageNumberStr) : 1;
+                         Integer.parseInt(pageNumberStr) : 1;
         int totalEntityAmount;
         try (BetService betService = ServiceFactory.getBetService()) {
             totalEntityAmount = betService.countBetsForPlayer(player.getId());
@@ -139,7 +141,7 @@ public class GotoPlayerStateCommand implements Command {
      * @param session {@link HttpSession}
      * @param player  {@link Player}
      */
-    private void setPlayerInfo(HttpSession session, Player player) {
+    private static void setPlayerInfo(HttpSession session, Player player) {
         try (PlayerService playerService = ServiceFactory.getPlayerService()) {
             playerService.updatePlayerInfo(player);
         }
@@ -153,7 +155,7 @@ public class GotoPlayerStateCommand implements Command {
      * @param player         {@link Player} parameter for validation
      * @param messageService {@link MessageService} to hold message about result of validation
      */
-    private void validateCommand(Player player, MessageService messageService) {
+    private static void validateCommand(Player player, MessageService messageService) {
         if (messageService.isErrMessEmpty()) {
             if (player == null) {
                 messageService.appendErrMessByKey(MESSAGE_ERR_PLAYER_NOT_DEFINED);

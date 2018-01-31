@@ -127,6 +127,22 @@ public class Event implements Serializable {
         this.outcomeSet = outcomeSet;
     }
     
+    /**
+     * Updates this instance fields from given event.
+     *
+     * @param eventSource {@link Event} to update from
+     */
+    public void updateFrom(Event eventSource) {
+        this.id = eventSource.id;
+        this.categoryId = eventSource.categoryId;
+        this.date = eventSource.date;
+        this.participant1 = eventSource.participant1;
+        this.participant2 = eventSource.participant2;
+        this.result1 = eventSource.result1;
+        this.result2 = eventSource.result2;
+        this.outcomeSet = eventSource.outcomeSet;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {

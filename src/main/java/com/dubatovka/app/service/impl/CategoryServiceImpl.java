@@ -111,9 +111,9 @@ class CategoryServiceImpl extends CategoryService {
         return sportCategoriesSet;
     }
     
-    private Map<Integer, Category> pickOutSportCategories(Iterable<Category> categorySet) {
+    private static Map<Integer, Category> pickOutSportCategories(Iterable<Category> categorySet) {
         Map<Integer, Category> sportCategoriesMap = new HashMap<>();
-        Iterator<Category>     iterator           = categorySet.iterator();
+        Iterator<Category> iterator = categorySet.iterator();
         while (iterator.hasNext()) {
             Category category = iterator.next();
             if (category.getParentId() == 0) {
@@ -125,10 +125,11 @@ class CategoryServiceImpl extends CategoryService {
         return sportCategoriesMap;
     }
     
-    private void fillSportWithCategories(Map<Integer, Category> sportCategoriesMap, Iterable<Category> categorySet) {
+    private static void fillSportWithCategories(Map<Integer, Category> sportCategoriesMap,
+                                                Iterable<Category> categorySet) {
         categorySet.forEach(category -> {
-            int      parentId = category.getParentId();
-            Category sport    = sportCategoriesMap.get(parentId);
+            int parentId = category.getParentId();
+            Category sport = sportCategoriesMap.get(parentId);
             sport.getChildCategorySet().add(category);
         });
     }

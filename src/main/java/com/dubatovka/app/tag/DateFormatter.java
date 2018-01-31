@@ -42,8 +42,8 @@ public final class DateFormatter {
         String result;
         try {
             DateFormat formatterFrom = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            Date       date          = formatterFrom.parse(dateTime);
-            DateFormat formatterTo   = new SimpleDateFormat(pattern);
+            Date date = formatterFrom.parse(dateTime);
+            DateFormat formatterTo = new SimpleDateFormat(pattern);
             result = formatterTo.format(date);
         } catch (ParseException e) {
             logger.log(Level.ERROR, e.getMessage());

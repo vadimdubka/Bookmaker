@@ -46,27 +46,28 @@ import static com.dubatovka.app.config.ConfigConstant.ATTR_ROLE;
  */
 final class CommandFactory {
     private static final Logger logger = LogManager.getLogger(CommandFactory.class);
+    
     private static final String ERR_COMMAND_TYPE_PARAM =
-            "Request doesn't have command_type parameter or defined command_type parameter is invalid: %s.";
-    private static final String ERR_COMMAND_IMPL =
-            "Command implementation is not defined for command type: %s.";
+        "Request doesn't have command_type parameter or defined command_type parameter is invalid: %s.";
+    private static final String ERR_COMMAND_IMPL       =
+        "Command implementation is not defined for command type: %s.";
     
     /**
      * {@link EnumMap} collection of common commands for oll user roles.
      */
-    private static final Map<CommandType, Command> commonCommands = new EnumMap<>(CommandType.class);
+    private static final Map<CommandType, Command> commonCommands  = new EnumMap<>(CommandType.class);
     /**
      * {@link EnumMap} collection of commands available to {@link User.UserRole#GUEST}.
      */
-    private static final Map<CommandType, Command> guestCommands = new EnumMap<>(CommandType.class);
+    private static final Map<CommandType, Command> guestCommands   = new EnumMap<>(CommandType.class);
     /**
      * {@link EnumMap} collection of commands available to {@link User.UserRole#PLAYER}.
      */
-    private static final Map<CommandType, Command> playerCommands = new EnumMap<>(CommandType.class);
+    private static final Map<CommandType, Command> playerCommands  = new EnumMap<>(CommandType.class);
     /**
      * {@link EnumMap} collection of commands available to {@link User.UserRole#ADMIN}.
      */
-    private static final Map<CommandType, Command> adminCommands = new EnumMap<>(CommandType.class);
+    private static final Map<CommandType, Command> adminCommands   = new EnumMap<>(CommandType.class);
     /**
      * {@link EnumMap} collection of commands available to {@link User.UserRole#ANALYST}.
      */

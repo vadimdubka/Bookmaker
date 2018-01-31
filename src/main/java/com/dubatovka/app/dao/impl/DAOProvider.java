@@ -17,9 +17,10 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 
 /**
- * The class provides access to DAO layer classes implementations and provides methods for SQL transactions
- * management. Every instance of {@link DAOProvider} has property of {@link WrappedConnection}
- * instance that is used for initialization of every instance of DAO layer classes.
+ * The class provides access to DAO layer classes implementations and provides methods for SQL
+ * transactions management. Every instance of {@link DAOProvider} has property of {@link
+ * WrappedConnection} instance that is used for initialization of every instance of DAO layer
+ * classes.
  *
  * @author Dubatovka Vadim
  */

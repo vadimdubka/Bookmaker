@@ -81,7 +81,7 @@ class PlayerServiceImpl extends PlayerService {
         }
         int result = 0;
         try {
-            int id           = userDAO.insertUser(email, password);
+            int id = userDAO.insertUser(email, password);
             int insertedRows = playerDAO.insertPlayer(id, fName, mName, lName, birthDate);
             if ((id != 0) && (insertedRows == 1)) {
                 result = id;

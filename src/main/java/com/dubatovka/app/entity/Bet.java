@@ -18,8 +18,7 @@ public class Bet implements Serializable {
     /**
      * Player id who made bet
      */
-    private int playerId;
-    
+    private int           playerId;
     /**
      * Event id of outcome on which  bet was done
      */

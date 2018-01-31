@@ -26,9 +26,13 @@ public final class ConfigConstant {
     /**
      * Outcome types
      */
-    public static final String TYPE_1                  = "1";
-    public static final String TYPE_X                  = "X";
-    public static final String TYPE_2                  = "2";
+    public static final String TYPE_1 = "1";
+    public static final String TYPE_X = "X";
+    public static final String TYPE_2 = "2";
+    
+    /**
+     * Prefix to build outcome type from database
+     */
     public static final String PREFIX_FOR_OUTCOME_TYPE = "TYPE_";
     
     /**
@@ -248,6 +252,14 @@ public final class ConfigConstant {
      * Pattern for LocalDateTime
      */
     public static final String LOCALE_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm";
+    
+    /**
+     * Filter parameters names
+     */
+    public static final String FILTER_PARAM_ENCODING   = "encoding";
+    public static final String FILTER_PARAM_INDEX_PATH = "indexPath";
+    public static final String FILTER_PARAM_ROLE       = "role";
+    public static final String FILTER_PARAM_LOCALE     = "locale";
     
     /**
      * Private constructor to forbid creation of class instance.

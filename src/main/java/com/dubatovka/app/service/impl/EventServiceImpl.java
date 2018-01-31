@@ -261,8 +261,8 @@ class EventServiceImpl extends EventService {
      * @param result1 {@link int} result of first event participant
      * @param result2 {@link int} result of second event participant
      */
-    private Map<Outcome.Type, Bet.Status> getBetStatusMapForEventResult(int result1,
-                                                                        int result2) {
+    private static Map<Outcome.Type, Bet.Status> getBetStatusMapForEventResult(int result1,
+                                                                               int result2) {
         Map<Outcome.Type, Bet.Status> betStatusMap = new EnumMap<>(Outcome.Type.class);
         betStatusMap.put(Outcome.Type.TYPE_1, Bet.Status.LOSING);
         betStatusMap.put(Outcome.Type.TYPE_X, Bet.Status.LOSING);
@@ -283,7 +283,7 @@ class EventServiceImpl extends EventService {
     
     private void fillOutcomeColumnMaps(int eventId, Iterable<Outcome> outcomeSet) {
         for (Outcome outcome : outcomeSet) {
-            String              type    = outcome.getType().getType();
+            String type = outcome.getType().getType();
             Map<String, String> typeMap = coeffColumnMaps.get(type);
             if (typeMap != null) {
                 typeMap.put(String.valueOf(eventId), String.valueOf(outcome.getCoefficient()));

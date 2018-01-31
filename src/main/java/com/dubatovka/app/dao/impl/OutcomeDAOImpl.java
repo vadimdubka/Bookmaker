@@ -95,7 +95,7 @@ class OutcomeDAOImpl extends DBConnectionHolder implements OutcomeDAO {
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private Set<Outcome> buildOutcomeSet(ResultSet resultSet) throws SQLException {
+    private static Set<Outcome> buildOutcomeSet(ResultSet resultSet) throws SQLException {
         Set<Outcome> outcomeSet = new HashSet<>();
         while (resultSet.next()) {
             Outcome outcome = new Outcome();

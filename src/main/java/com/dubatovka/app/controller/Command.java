@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.dubatovka.app.config.ConfigConstant.ATTR_ERROR_MESSAGE;
 import static com.dubatovka.app.config.ConfigConstant.ATTR_INFO_MESSAGE;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_DATE;
 import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_EVENT_ID;
+import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_PARTICIPANT;
 import static com.dubatovka.app.config.ConfigConstant.MESSAGE_ERR_INVALID_REQUEST_PARAMETER;
 
 /**
@@ -59,17 +61,38 @@ public interface Command {
             try (EventService eventService = ServiceFactory.getEventService()) {
                 Event eventDB = eventService.getEvent(eventIdStr);
                 if (eventDB != null) {
-                    event.setId(eventDB.getId());
-                    event.setCategoryId(eventDB.getCategoryId());
-                    event.setDate(eventDB.getDate());
-                    event.setParticipant1(eventDB.getParticipant1());
-                    event.setParticipant2(eventDB.getParticipant2());
-                    event.setResult1(eventDB.getResult1());
-                    event.setResult2(eventDB.getResult2());
-                    event.setOutcomeSet(eventDB.getOutcomeSet());
+                    event.updateFrom(eventDB);
                 } else {
                     messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_ID);
                 }
+            }
+        }
+    }
+    
+    /**
+     * Method validates parameters using {@link ValidationService} to confirm that all necessary
+     * parameters for command execution have proper state according to requirements for application.
+     *
+     * @param messageService {@link MessageService} to hold message about validation result
+     * @param eventIdStr     {@link String} parameter for validation
+     * @param dateTimeStr    {@link String} parameter for validation
+     * @param participant1   {@link String} parameter for validation
+     * @param participant2   {@link String} parameter for validation
+     */
+    default void validateEventInfo(MessageService messageService,
+                                   String eventIdStr, String dateTimeStr,
+                                   String participant1, String participant2) {
+        if (messageService.isErrMessEmpty()) {
+            ValidationService validationService = ServiceFactory.getValidationService();
+            if (!validationService.isValidId(eventIdStr)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_EVENT_ID);
+            }
+            if (!validationService.isValidEventDateTime(dateTimeStr)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_DATE);
+            }
+            if (!validationService.isValidEventParticipantName(participant1) ||
+                    !validationService.isValidEventParticipantName(participant2)) {
+                messageService.appendErrMessByKey(MESSAGE_ERR_INVALID_PARTICIPANT);
             }
         }
     }

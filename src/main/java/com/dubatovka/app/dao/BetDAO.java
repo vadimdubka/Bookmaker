@@ -32,17 +32,6 @@ public interface BetDAO {
     String COUNT        = "count";
     String SUM          = "sum";
     
-    
-    /**
-     * Inserts {@link Bet} to database.
-     *
-     * @param bet {@link Bet} for insertion
-     * @return true if operation processed successfully
-     * @throws DAOException when {@link SQLException} occurred while working with database
-     */
-    boolean insertBet(Bet bet) throws DAOException;
-    
-    
     /**
      * Reads list of {@link Bet} for given {@link Player} id from database.
      *
@@ -63,6 +52,15 @@ public interface BetDAO {
      * @throws DAOException when {@link SQLException} occurred while working with database
      */
     List<Bet> readBetListForPlayer(int playerId, int limit, int offset) throws DAOException;
+    
+    /**
+     * Inserts {@link Bet} to database.
+     *
+     * @param bet {@link Bet} for insertion
+     * @return true if operation processed successfully
+     * @throws DAOException when {@link SQLException} occurred while working with database
+     */
+    boolean insertBet(Bet bet) throws DAOException;
     
     /**
      * Updates bet status for bets in database, which correspond to given parameters.

@@ -46,7 +46,6 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
     private static final String SQL_INSERT_TRANSACTION       =
         "INSERT INTO transaction (player_id, date, amount) VALUES (?, NOW(), ?)";
     
-    
     /**
      * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}.
      */
@@ -64,7 +63,6 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
     TransactionDAOImpl(WrappedConnection connection) {
         super(connection);
     }
-    
     
     /**
      * Takes {@link List} filled by definite player {@link Transaction} objects.
@@ -107,7 +105,6 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
         }
     }
     
-    
     /**
      * Takes {@link List} filled by {@link Transaction} objects due to definite transaction date
      * pattern.
@@ -126,7 +123,6 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
             throw new DAOException("Database connection error while taking transactions. " + e);
         }
     }
-    
     
     /**
      * Inserts {@link Transaction} to database.
@@ -163,7 +159,7 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private Transaction buildTransaction(ResultSet resultSet) throws SQLException {
+    private static Transaction buildTransaction(ResultSet resultSet) throws SQLException {
         Transaction transaction = null;
         if (resultSet.next()) {
             transaction = new Transaction();
@@ -172,8 +168,8 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
             transaction.setDate(resultSet.getTimestamp(DATE).toLocalDateTime());
             BigDecimal amount = resultSet.getBigDecimal(AMOUNT);
             Transaction.TransactionType transactionType = (amount.signum() == -1)
-                                                              ? Transaction.TransactionType.WITHDRAW
-                                                              : Transaction.TransactionType.REPLENISH;
+                                                          ? Transaction.TransactionType.WITHDRAW
+                                                          : Transaction.TransactionType.REPLENISH;
             transaction.setType(transactionType);
             transaction.setAmount(amount.abs());
         }
@@ -188,9 +184,10 @@ class TransactionDAOImpl extends DBConnectionHolder implements TransactionDAO {
      * @throws SQLException if a database access error occurs or this method is called on a closed
      *                      result set
      */
-    private List<Transaction> buildTransactionList(ResultSet resultSet) throws SQLException {
+    private static List<Transaction> buildTransactionList(ResultSet resultSet)
+        throws SQLException {
         List<Transaction> transactionList = new ArrayList<>();
-        Transaction       transaction;
+        Transaction transaction;
         do {
             transaction = buildTransaction(resultSet);
             if (transaction != null) {

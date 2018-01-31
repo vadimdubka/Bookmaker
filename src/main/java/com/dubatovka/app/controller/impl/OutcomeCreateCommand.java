@@ -82,8 +82,8 @@ public class OutcomeCreateCommand implements Command {
      * @param outcomeXStr    {@link String} parameter for validation
      * @param outcome2Str    {@link String} parameter for validation
      */
-    private void validateCommand(MessageService messageService,
-                                 String outcome1Str, String outcomeXStr, String outcome2Str) {
+    private static void validateCommand(MessageService messageService,
+                                        String outcome1Str, String outcomeXStr, String outcome2Str) {
         if (messageService.isErrMessEmpty()) {
             ValidationService validationService = ServiceFactory.getValidationService();
             if (!validationService.isValidOutcomeCoeff(outcome1Str)) {

@@ -32,110 +32,110 @@ import static com.dubatovka.app.config.ConfigConstant.EVENT_QUERY_TYPE_TO_PAY;
  */
 class EventDAOImpl extends DBConnectionHolder implements EventDAO {
     private static final String SQL_SELECT_EVENT_BY_EVENT_ID =
-    "SELECT id, date, category_id, participant1, participant2, result1, result2 " +
-    "FROM event WHERE id =?";
+        "SELECT id, date, category_id, participant1, participant2, result1, result2 " +
+            "FROM event WHERE id =?";
     
     private static final String SQL_SELECT_NEW_EVENTS_BY_CATEGORY_ID =
-    "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-    "FROM event WHERE category_id =? " +
-    "AND id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "AND (date - NOW()) > 0 " +
-    "AND result1 IS NULL ORDER BY date";
+        "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+            "FROM event WHERE category_id =? " +
+            "AND id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "AND (date - NOW()) > 0 " +
+            "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_ACTUAL_EVENTS_BY_CATEGORY_ID =
-    "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-    "FROM event WHERE category_id =? " +
-    "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "AND (date - NOW()) > 0 " +
-    "AND result1 IS NULL ORDER BY date";
+        "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+            "FROM event WHERE category_id =? " +
+            "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "AND (date - NOW()) > 0 " +
+            "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_NOT_STARTED_EVENTS_BY_CATEGORY_ID =
-    "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-    "FROM event WHERE category_id =? " +
-    "AND (date - NOW()) > 0 " +
-    "AND result1 IS NULL ORDER BY date";
+        "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+            "FROM event WHERE category_id =? " +
+            "AND (date - NOW()) > 0 " +
+            "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_STARTED_EVENTS_BY_CATEGORY_ID =
-    "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-    "FROM event WHERE category_id =? " +
-    "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "AND (date - NOW()) <= 0 " +
-    "AND result1 IS NULL ORDER BY date";
+        "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+            "FROM event WHERE category_id =? " +
+            "AND id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "AND (date - NOW()) <= 0 " +
+            "AND result1 IS NULL ORDER BY date";
     
     private static final String SQL_SELECT_FAILED_EVENTS_BY_CATEGORY_ID =
-    "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-    "FROM event " +
-    "WHERE category_id =? " +
-    "AND (date - NOW()) <= 0 " +
-    "AND (id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id)) " +
-    "ORDER BY date";
+        "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+            "FROM event " +
+            "WHERE category_id =? " +
+            "AND (date - NOW()) <= 0 " +
+            "AND (id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id)) " +
+            "ORDER BY date";
     
     private static final String SQL_SELECT_CLOSED_EVENTS_BY_CATEGORY_ID =
-    "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-    "FROM event WHERE category_id =? " +
-    "AND result1 IS NOT NULL ORDER BY date";
+        "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+            "FROM event WHERE category_id =? " +
+            "AND result1 IS NOT NULL ORDER BY date";
     
     private static final String SQL_SELECT_EVENTS_TO_PAY_BY_CATEGORY_ID =
-    "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
-    "FROM event " +
-    "WHERE category_id =? AND id IN (SELECT event_id FROM bet WHERE status='win' " +
-    "GROUP BY event_id) ORDER BY date";
+        "SELECT id, category_id, date, participant1, participant2, result1, result2 " +
+            "FROM event " +
+            "WHERE category_id =? AND id IN (SELECT event_id FROM bet WHERE status='win' " +
+            "GROUP BY event_id) ORDER BY date";
     
     private static final String SQL_COUNT_NEW_EVENTS_GROUP_BY_CATEGORY_ID =
-    "SELECT category_id, COUNT(category_id) AS count FROM event " +
-    "WHERE id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "AND (date - NOW()) > 0 " +
-    "AND result1 IS NULL " +
-    "GROUP BY category_id";
+        "SELECT category_id, COUNT(category_id) AS count FROM event " +
+            "WHERE id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "AND (date - NOW()) > 0 " +
+            "AND result1 IS NULL " +
+            "GROUP BY category_id";
     
     private static final String SQL_COUNT_ACTUAL_EVENTS_GROUP_BY_CATEGORY_ID =
-    "SELECT category_id, COUNT(category_id) AS count FROM event " +
-    "WHERE id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "AND (date - NOW()) > 0 " +
-    "AND result1 IS NULL " +
-    "GROUP BY category_id";
+        "SELECT category_id, COUNT(category_id) AS count FROM event " +
+            "WHERE id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "AND (date - NOW()) > 0 " +
+            "AND result1 IS NULL " +
+            "GROUP BY category_id";
     
     private static final String SQL_COUNT_NOT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID =
-    "SELECT category_id, COUNT(category_id) AS count FROM event " +
-    "WHERE (date - NOW()) > 0 " +
-    "AND result1 IS NULL " +
-    "GROUP BY category_id";
+        "SELECT category_id, COUNT(category_id) AS count FROM event " +
+            "WHERE (date - NOW()) > 0 " +
+            "AND result1 IS NULL " +
+            "GROUP BY category_id";
     
     private static final String SQL_COUNT_STARTED_EVENTS_GROUP_BY_CATEGORY_ID =
-    "SELECT category_id, COUNT(category_id) AS count FROM event " +
-    "WHERE id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "AND (date - NOW()) <= 0 " +
-    "AND result1 IS NULL " +
-    "GROUP BY category_id";
+        "SELECT category_id, COUNT(category_id) AS count FROM event " +
+            "WHERE id IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "AND (date - NOW()) <= 0 " +
+            "AND result1 IS NULL " +
+            "GROUP BY category_id";
     
     private static final String SQL_COUNT_FAILED_EVENTS_GROUP_BY_CATEGORY_ID =
-    "SELECT category_id, COUNT(category_id) AS count FROM event " +
-    "WHERE (date - NOW()) <= 0 AND " +
-    "(id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
-    "OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id)) " +
-    "GROUP BY category_id";
+        "SELECT category_id, COUNT(category_id) AS count FROM event " +
+            "WHERE (date - NOW()) <= 0 AND " +
+            "(id NOT IN (SELECT event_id FROM outcome GROUP BY event_id) " +
+            "OR id NOT IN (SELECT event_id FROM bet GROUP BY event_id)) " +
+            "GROUP BY category_id";
     
     private static final String SQL_COUNT_CLOSED_EVENTS_GROUP_BY_CATEGORY_ID =
-    "SELECT category_id, COUNT(category_id) AS count FROM event " +
-    "WHERE result1 IS NOT NULL " +
-    "GROUP BY category_id";
+        "SELECT category_id, COUNT(category_id) AS count FROM event " +
+            "WHERE result1 IS NOT NULL " +
+            "GROUP BY category_id";
     
     private static final String SQL_COUNT_EVENTS_TO_PAY_GROUP_BY_CATEGORY_ID =
-    "SELECT category_id, COUNT(category_id) AS count FROM event " +
-    "WHERE id IN (SELECT event_id FROM bet WHERE status='win' GROUP BY event_id) " +
-    "GROUP BY category_id";
+        "SELECT category_id, COUNT(category_id) AS count FROM event " +
+            "WHERE id IN (SELECT event_id FROM bet WHERE status='win' GROUP BY event_id) " +
+            "GROUP BY category_id";
     
     private static final String SQL_DELETE_EVENT = "DELETE FROM event WHERE id=?";
     
     private static final String SQL_INSERT_EVENT =
-    "INSERT INTO event (category_id, date, participant1, participant2) VALUES (?, ?, ?, ?)";
+        "INSERT INTO event (category_id, date, participant1, participant2) VALUES (?, ?, ?, ?)";
     
     private static final String SQL_UPDATE_EVENT_INFO =
-    "UPDATE event SET date=?, participant1=?, participant2=? WHERE id=?";
+        "UPDATE event SET date=?, participant1=?, participant2=? WHERE id=?";
     
     private static final String SQL_UPDATE_EVENT_RESULT =
-    "UPDATE event SET result1=?, result2=? WHERE id=?";
+        "UPDATE event SET result1=?, result2=? WHERE id=?";
     
     /**
      * Constructs DAO object by taking {@link WrappedConnection} object from {@link ConnectionPool}.
@@ -383,7 +383,7 @@ class EventDAOImpl extends DBConnectionHolder implements EventDAO {
      * @throws SQLException if a database access error occurs or this method is called on a closed
      *                      result set
      */
-    private List<Event> buildEventList(ResultSet resultSet) throws SQLException {
+    private static List<Event> buildEventList(ResultSet resultSet) throws SQLException {
         List<Event> events = new ArrayList<>();
         while (resultSet.next()) {
             Event event = buildEvent(resultSet);
@@ -400,7 +400,7 @@ class EventDAOImpl extends DBConnectionHolder implements EventDAO {
      * @throws SQLException if the columnLabel is not valid; if a database access error occurs or
      *                      this method is called on a closed result set
      */
-    private Event buildEvent(ResultSet resultSet) throws SQLException {
+    private static Event buildEvent(ResultSet resultSet) throws SQLException {
         Event event = new Event();
         event.setId(resultSet.getInt(ID));
         event.setCategoryId(resultSet.getInt(CATEGORY_ID));

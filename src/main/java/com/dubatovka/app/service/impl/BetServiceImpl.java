@@ -125,10 +125,10 @@ class BetServiceImpl extends BetService {
                 daoProvider.beginTransaction();
                 boolean isTransactionOk = true;
                 for (Bet bet : winBetSet) {
-                    int        playerId    = bet.getPlayerId();
-                    BigDecimal amount      = bet.getAmount();
+                    int playerId = bet.getPlayerId();
+                    BigDecimal amount = bet.getAmount();
                     BigDecimal coefficient = bet.getCoefficient();
-                    BigDecimal winning     = amount.multiply(coefficient);
+                    BigDecimal winning = amount.multiply(coefficient);
                     Transaction.TransactionType transactionType
                         = Transaction.TransactionType.REPLENISH;
                     int transactId = transactionDAO.insertTransaction(playerId, winning,
