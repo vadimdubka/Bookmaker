@@ -11,15 +11,15 @@ For starting the web application you should create a database connection and fil
 - Back-end: Java 8, Servlet, WebFilter, WebListener, JSP, JSTL, Custom Tags.
 - Database: JDBC, MySQL, self-written connection-pool, transactions processing using ACID principles.
 - Front-end: HTML5, CSS3, JavaScript, responsive and adaptive web design for devices with small screens without front-end frameworks.
-- Tests: JUnit 4.
+- Tests: JUnit4.
 - Other: Tomcat, Maven, Log4j2, Git, JavaDoc.
 
 ## Application architecture:
-- Client - Server application architecture.
-- Main backend application layers: Single FrontEnd Controller with Commands <-> Service Layer <-> DAO Layer <-> MySQL RDBMS.
+- **Client - Server** application architecture.
+- **Layered architecture** where main backend layers are: Single FrontEnd Controller with Commands <-> Service Layer <-> DAO Layer <-> MySQL RDBMS.
 
 ## Used design patterns:
-- MVC Layered architecture.
+- MVC.
 - Factory.
 - Controller.
 - Command.
@@ -31,7 +31,7 @@ For starting the web application you should create a database connection and fil
 - Other.
 
 ## Application features
-### Common:
+### Common
 - User role control.
 - Custom user navigation prevention.
 - Multi-language user interface (Russian and English languages).
@@ -41,6 +41,9 @@ For starting the web application you should create a database connection and fil
 ### Admin
 - Login/logout.
 - Add/edit/delete sport events.
+- Add/edit events results.
+- Delete invalid events.
+- Pay winning bets.
 - View players data.
 
 ### Analyst
@@ -54,3 +57,4 @@ For starting the web application you should create a database connection and fil
 - Choose outcome and make bet.
 - View player history of bets and bets results.
 - View player account information.
+- View events results.
