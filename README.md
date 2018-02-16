@@ -8,10 +8,10 @@ For starting the web application you should create a database connection and fil
 3. Import the table with data in the schema named "bookmaker" using info/insert_scrypt.sql file.
 
 ## Used technologies
-- Back-end: Java 8, Servlet, WebFilter, WebListener, JSP, JSTL, Custom tags;
-- Database: JDBC, MySQL, self-written connection-pool, transactions processing using ACID principles;
-- Front-end: HTML5, CSS3, JavaScript, responsive and adaptive web design for devices with small screens without front-end frameworks;
-- Tests: JUnit 4;
+- Back-end: Java 8, Servlet, WebFilter, WebListener, JSP, JSTL, Custom Tags.
+- Database: JDBC, MySQL, self-written connection-pool, transactions processing using ACID principles.
+- Front-end: HTML5, CSS3, JavaScript, responsive and adaptive web design for devices with small screens without front-end frameworks.
+- Tests: JUnit 4.
 - Other: Tomcat, Maven, Log4j2, Git, JavaDoc.
 
 ## Application architecture:
@@ -19,38 +19,38 @@ For starting the web application you should create a database connection and fil
 - Main backend application layers: Single FrontEnd Controller with Commands <-> Service Layer <-> DAO Layer <-> MySQL RDBMS.
 
 ## Used design patterns:
-- MVC Layered architecture;
-- Factory;
-- Controller;
-- Command;
-- DAO;
-- Wrapper;
-- Lazy initialization;
-- Singleton;
-- Chain of responsibility;
+- MVC Layered architecture.
+- Factory.
+- Controller.
+- Command.
+- DAO.
+- Wrapper.
+- Lazy initialization.
+- Singleton.
+- Chain of responsibility.
 - Other.
 
 ## Application features
+### Common:
+- User role control.
+- Custom user navigation prevention.
+- Multi-language user interface (Russian and English languages).
+- Limitation of data selection from database and pagination of long lists of request results.
+- Frontend and backend validation of input parameters.
+
 ### Admin
-- Login/logout;
-- Add/edit/delete sport events;
-- View players data;
+- Login/logout.
+- Add/edit/delete sport events.
+- View players data.
 
 ### Analyst
-- Login/logout;
+- Login/logout.
 - Add/edit/delete outcome coefficients for sport events.
 
 ### Player
-- Registration, login/logout;
-- Choose sport categories;
+- Registration, login/logout.
+- Choose sport categories.
 - View sport events and their outcomes with coefficients for chosen sport category.
 - Choose outcome and make bet.
 - View player history of bets and bets results.
-- View player account information;
-
-### Common:
-- User role control;
-- Custom user navigation prevention;
-- Multi-language user interface (Russian and English languages);
-- Limitation of data selection from database and pagination of long lists of request results;
-- Frontend and backend validation of input parameters.
+- View player account information.
