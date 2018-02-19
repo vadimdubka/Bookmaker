@@ -1,5 +1,5 @@
 # Bookmaker Company Wep Application
-This is a training project of the course "Java Web Development" on the "Bookmaker Company" topic.
+This is a training project of the course "Java Web Development" on the topic "Bookmaker Company".
 
 ## Starting the application
 For starting the web application you should create a database connection and fill a database schema with data:
